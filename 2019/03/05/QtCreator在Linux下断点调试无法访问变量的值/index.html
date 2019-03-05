@@ -5,22 +5,27 @@
   
 
   
-  <title>PHP查找不到达梦数据库库路径 | 一个骚年</title>
+  <title>QtCreator在Linux下断点调试无法访问变量的值 | 一个骚年</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
   
   
-  <meta name="description" content="PHP通过odbc连接达梦数据时需要依赖达梦提供的odbc驱动，路径为/opt/dmdbms/bin,但是PHP的用户权限为root，设置了/etc/profile 和~/.bashrc 的LD_LIBRARY_PATH还是无法获取该路径。最后将路径直接添加到/etc/ld.so.conf 路径下然后sudo ldconfig 使命令生效。">
+  <meta name="description" content="bug状态如下：  这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可 1set solib-search-path  /usr/local/Trolltech/Qt-4.8.6-64/lib/ 如下图所示：  添加后成功的状态图如下：">
+<meta name="keywords" content="Qt,GDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP查找不到达梦数据库库路径">
-<meta property="og:url" content="http://yoursite.com/2019/01/17/PHP查找不到达梦数据库库路径/index.html">
+<meta property="og:title" content="QtCreator在Linux下断点调试无法访问变量的值">
+<meta property="og:url" content="http://yoursite.com/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/index.html">
 <meta property="og:site_name" content="一个骚年">
-<meta property="og:description" content="PHP通过odbc连接达梦数据时需要依赖达梦提供的odbc驱动，路径为/opt/dmdbms/bin,但是PHP的用户权限为root，设置了/etc/profile 和~/.bashrc 的LD_LIBRARY_PATH还是无法获取该路径。最后将路径直接添加到/etc/ld.so.conf 路径下然后sudo ldconfig 使命令生效。">
+<meta property="og:description" content="bug状态如下：  这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可 1set solib-search-path  /usr/local/Trolltech/Qt-4.8.6-64/lib/ 如下图所示：  添加后成功的状态图如下：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-17T01:54:07.795Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/img/Qt_GDB.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/img/Qt_GDB1.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/img/Qt_GDB2.png">
+<meta property="og:updated_time" content="2019-03-05T09:26:56.640Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP查找不到达梦数据库库路径">
-<meta name="twitter:description" content="PHP通过odbc连接达梦数据时需要依赖达梦提供的odbc驱动，路径为/opt/dmdbms/bin,但是PHP的用户权限为root，设置了/etc/profile 和~/.bashrc 的LD_LIBRARY_PATH还是无法获取该路径。最后将路径直接添加到/etc/ld.so.conf 路径下然后sudo ldconfig 使命令生效。">
+<meta name="twitter:title" content="QtCreator在Linux下断点调试无法访问变量的值">
+<meta name="twitter:description" content="bug状态如下：  这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可 1set solib-search-path  /usr/local/Trolltech/Qt-4.8.6-64/lib/ 如下图所示：  添加后成功的状态图如下：">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/05/img/Qt_GDB.png">
   
     <link rel="alternate" href="/atom.xml" title="一个骚年" type="application/atom+xml">
   
@@ -53,24 +58,26 @@
   </div>
 </header>
       <div id="middlecontent" title class="global-width sidebar-right">
-        <section id="main"><article id="post-PHP查找不到达梦数据库库路径" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
+        <section id="main"><article id="post-QtCreator在Linux下断点调试无法访问变量的值" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
   
     <header class="article-header">
       
   
     <h1 class="article-title" itemprop="name">
-      PHP查找不到达梦数据库库路径
+      QtCreator在Linux下断点调试无法访问变量的值
     </h1>
   
 
     </header>
   
   <div class="article-meta">
-    <a href="/2019/01/17/PHP查找不到达梦数据库库路径/" class="article-date">
-  <time datetime="2019-01-17T01:37:00.000Z" itemprop="datePublished">2019-01-17</time>
+    <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/" class="article-date">
+  <time datetime="2019-03-05T09:02:22.000Z" itemprop="datePublished">2019-03-05</time>
 </a>
     
     
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Qt-GDB/">Qt,GDB</a></li></ul>
+
   </div>
   
     <span id="busuanzi_container_page_pv">
@@ -82,7 +89,14 @@
     
     <div class="article-content article-content-doorframe" itemprop="articleBody">
       
-        <p>PHP通过odbc连接达梦数据时需要依赖达梦提供的odbc驱动，路径为/opt/dmdbms/bin,但是PHP的用户权限为root，设置了/etc/profile 和~/.bashrc 的LD_LIBRARY_PATH还是无法获取该路径。最后将路径直接添加到/etc/ld.so.conf 路径下然后sudo ldconfig 使命令生效。</p>
+        <p>bug状态如下：</p>
+<p><img src="..\img\Qt_GDB.png" alt="\img\Qt_GDB"></p>
+<p>这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set solib-search-path  /usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span>-<span class="number">64</span>/lib/</span><br></pre></td></tr></table></figure></div>
+<p>如下图所示：</p>
+<p><img src="..\img\Qt_GDB1.png" alt="\img\Qt_GDB1"></p>
+<p>添加后成功的状态图如下：</p>
+<p><img src="..\img\Qt_GDB2.png" alt="\img\Qt_GDB2"></p>
 
       
     </div>
@@ -97,20 +111,11 @@
 <nav id="article-nav">
   <div class="article-nav-block">
     
-      <a href="/2019/01/22/WinScp连接Linux服务器错误：服务器拒绝了SFTP连接/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption"></strong>
-        <div class="article-nav-title">
-          
-            WinScp连接Linux服务器错误：服务器拒绝了SFTP连接
-          
-        </div>
-      </a>
-    
   </div>
   <div class="article-nav-block">
     
-      <a href="/2019/01/16/录播组网服务器装机说明/" id="article-nav-older" class="article-nav-link-wrap">
-        <div class="article-nav-title">录播组网服务器装机说明</div>
+      <a href="/2019/03/04/Qt编码解决思路/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">Qt编码解决思路</div>
         <strong class="article-nav-caption"></strong>
       </a>
     
