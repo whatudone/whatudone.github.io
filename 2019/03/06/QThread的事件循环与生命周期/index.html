@@ -137,8 +137,11 @@
                     
 
                     <!-- Main Post Content -->
-                    <p>想要使用QThread一般就是继承QThread。然后重写（override）run()函数，run函数就是线程启动实际运行的部分。这里顺便说一下Qt创建的实例所处的线程问题，一个实例在哪个线程里面创建，那他就是属于哪个线程。比如一般使用QThread的时候都是在主线程里面创建的。由此引发了一个区别，在QThead的构造函数里面创建的实例属于主线程，因为这个构造函数是在主线程中执行的。在run函数里面创建的实例则属于QThread启动的线程。讲这个主要是因为Qt信号-槽机制的跨线程问题，需要明白sender和receiver分别所处的线程。<br> run()函数就是QThread启动的线程的整个生命周期，一旦run函数结束，那么这个线程也结束了，此时会发送一个finished()的完成信号，告诉我们线程已经执行完毕了。此时我们绑定这个信号，然后销毁QThread实例即可。如果你的线程中有事件循环驱动的过程，那么就需要进入QThread的事件循环，调用exec()，调用这个函数之后会阻塞后续的代码执行。这个函数和QApplication的exec作用一样，都是进入调用对象的事件循环，类似于一个while死循环，只不过提供了退出循环的接口。进入了QThread的事件循环之后，线程就像是进入了一个死循环，如果想要结束线程，那么首先需要退出事件循环，调用quit()即可，此时就会继续执行exec()后面的代码，直到线程结束发出finished（）信号。    </p>
+                    <pre><code>想要使用QThread一般就是继承QThread。然后重写（override）run()函数，run函数就是线程启动实际运行的部分。这里顺便说一下Qt创建的实例所处的线程问题，一个实例在哪个线程里面创建，那他就是属于哪个线程。比如一般使用QThread的时候都是在主线程里面创建的。由此引发了一个区别，在QThead的构造函数里面创建的实例属于主线程，因为这个构造函数是在主线程中执行的。在run函数里面创建的实例则属于QThread启动的线程。讲这个主要是因为Qt信号-槽机制的跨线程问题，需要明白sender和receiver分别所处的线程。
 
+
+run()函数就是QThread启动的线程的整个生命周期，一旦run函数结束，那么这个线程也结束了，此时会发送一个finished()的完成信号，告诉我们线程已经执行完毕了。此时我们绑定这个信号，然后销毁QThread实例即可。如果你的线程中有事件循环驱动的过程，那么就需要进入QThread的事件循环，调用exec()，调用这个函数之后会阻塞后续的代码执行。这个函数和QApplication的exec作用一样，都是进入调用对象的事件循环，类似于一个while死循环，只不过提供了退出循环的接口。进入了QThread的事件循环之后，线程就像是进入了一个死循环，如果想要结束线程，那么首先需要退出事件循环，调用quit()即可，此时就会继续执行exec()后面的代码，直到线程结束发出finished（）信号。    
+</code></pre>
                     
                     <!-- Tags Bottom -->
                     
@@ -164,7 +167,7 @@
             <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
         </div>
         <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
-            My name is Jonathan Klughertz and this is my blog.<br>I am a full stack software engineer with a strong front-end focus.<br> I currently live and work in Singapore, hit me up if you are in the region.
+            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
         </div>
     </article>
 </div>
@@ -172,6 +175,18 @@
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/学习笔记/">学习笔记</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->
@@ -212,7 +227,7 @@
             <div class="center tc">
                 
                     <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=en" target="_blank">
+                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
                             <i class="fa fa-twitter"></i>
                         </a>
                     </div>
