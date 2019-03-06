@@ -51,6 +51,70 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-银河麒麟64bit编译32bit-Qt4-8-6" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/">银河麒麟64bit编译32bit-Qt4.8.6</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/" class="article-date">
+  <time datetime="2019-01-15T08:18:13.000Z" itemprop="datePublished">2019-01-15</time>
+</a>
+    
+    
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-doorframe" itemprop="articleBody">
+      
+        <h1 id="配置32bit的编译环境"><a href="#配置32bit的编译环境" class="headerlink" title="配置32bit的编译环境"></a>配置32bit的编译环境</h1><p>这个配置在前面的博客里面提到过，所以此处不再叙述。</p>
+<h1 id="安装libX-32bit库"><a href="#安装libX-32bit库" class="headerlink" title="安装libX* 32bit库"></a>安装libX* 32bit库</h1><p>编译错误信息</p>
+<p>Basic XLib functionality test failed!</p>
+<p>You might need to modify the include and library search paths by editing</p>
+<p>QMAKE_INCDIR_X11 and QMAKE_LIBDIR_X11 in /home/zhu/Qt/qt-x11-opensource-src-4.5.2/mkspecs/Linux-g++</p>
+<p>解决这个问题只需要几个库就可以了，实际上只要安装两个库：</p>
+<p>sudo yum install libXau-dev:i386</p>
+<p>sudo yum install ibX11-dev:i386 （打印信息显示，该package已经安装）</p>
+<p>sudo yum install libXext-dev:i386</p>
+<p>sudo yum install libXtst-dev:i386  (无法安装就不装)</p>
+<p>运行qt程序报错,缺少libX库</p>
+<p>X Error: BadDrawable (invalid Pixmap or Window parameter) 9</p>
+<p>  Major opcode: 62 (X_CopyArea)</p>
+<p>  Resource id:  0x0</p>
+<p>Sudo yum install libXrandr-dev:i386</p>
+<h1 id="编译Qt4-8-6-32bit"><a href="#编译Qt4-8-6-32bit" class="headerlink" title="编译Qt4.8.6-32bit"></a>编译Qt4.8.6-32bit</h1><ol>
+<li><p>下载源码</p>
+</li>
+<li><p>解压缩</p>
+</li>
+<li><p>cd 源码目录</p>
+</li>
+<li><p>配置qt</p>
+</li>
+<li><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure -platform linux-g++-<span class="number">32</span> -nomake examples -nomake demos -no-webkit -qt-zlib -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -qt-freetype -fontconfig</span><br><span class="line">gmake -j4  <span class="comment">#多线程编译</span></span><br><span class="line">sudo gmake install</span><br></pre></td></tr></table></figure></div>
+</li>
+</ol>
+<p>fontconfig参数是为了支持加载外部字体文件</p>
+<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export QTDIR=/usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span></span><br><span class="line">export PATH=<span class="variable">$QTDIR</span>/bin:<span class="variable">$PATH</span></span><br><span class="line">export MANPATH=<span class="variable">$QTDIR</span>/man:<span class="variable">$MANPAT</span></span><br><span class="line">export LD_LIBRARY_PATH=<span class="variable">$QTDIR</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure></div>
+
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-银河麒麟64bit配置64bit达梦和qt4-8-6-32bit" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
   
     <header class="article-header">
@@ -166,7 +230,7 @@
   <div class="widget-box">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt-GDB/">Qt,GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QtCreator-中文输入/">QtCreator 中文输入</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/QThread/">QThread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt-GDB/">Qt,GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QtCreator-中文输入/">QtCreator 中文输入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinScp/">WinScp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文编码/">中文编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库连接池/">数据库连接池</a></li></ul>
     </div>
   </div>
 
@@ -176,7 +240,7 @@
   <div class="widget-box">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Qt-GDB/" style="font-size: 10px;">Qt,GDB</a> <a href="/tags/QtCreator-中文输入/" style="font-size: 10px;">QtCreator 中文输入</a>
+      <a href="/tags/QThread/" style="font-size: 10px;">QThread</a> <a href="/tags/Qt-GDB/" style="font-size: 10px;">Qt,GDB</a> <a href="/tags/QtCreator-中文输入/" style="font-size: 10px;">QtCreator 中文输入</a> <a href="/tags/WinScp/" style="font-size: 10px;">WinScp</a> <a href="/tags/中文编码/" style="font-size: 10px;">中文编码</a> <a href="/tags/数据库连接池/" style="font-size: 10px;">数据库连接池</a>
     </div>
   </div>
 
@@ -197,6 +261,10 @@
       <ul>
         
           <li>
+            <a href="/2019/03/06/QThread的事件循环与生命周期/">QThread的事件循环与生命周期</a>
+          </li>
+        
+          <li>
             <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">QtCreator在Linux下断点调试无法访问变量的值</a>
           </li>
         
@@ -210,10 +278,6 @@
         
           <li>
             <a href="/2019/01/29/qtcreator无法输入中文/">qtcreator无法输入中文</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/28/Linux打包QT程序时提示找不到QMYSQL驱动/">Linux打包QT程序时提示找不到QMYSQL驱动</a>
           </li>
         
       </ul>

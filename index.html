@@ -51,6 +51,46 @@
       <div id="middlecontent" title class="global-width sidebar-right">
         <section id="main">
   
+    <article id="post-QThread的事件循环与生命周期" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/06/QThread的事件循环与生命周期/">QThread的事件循环与生命周期</a>
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2019/03/06/QThread的事件循环与生命周期/" class="article-date">
+  <time datetime="2019-03-06T00:12:14.000Z" itemprop="datePublished">2019-03-06</time>
+</a>
+    
+    
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QThread/">QThread</a></li></ul>
+
+  </div>
+  
+
+  <div class="article-inner">
+    
+    <div class="article-content article-content-doorframe" itemprop="articleBody">
+      
+        <pre><code>想要使用QThread一般就是继承QThread。然后重写（override）run()函数，run函数就是线程启动实际运行的部分。这里顺便说一下Qt创建的实例所处的线程问题，一个实例在哪个线程里面创建，那他就是属于哪个线程。比如一般使用QThread的时候都是在主线程里面创建的。由此引发了一个区别，在QThead的构造函数里面创建的实例属于主线程，因为这个构造函数是在主线程中执行的。在run函数里面创建的实例则属于QThread启动的线程。讲这个主要是因为Qt信号-槽机制的跨线程问题，需要明白sender和receiver分别所处的线程。
+
+run()函数就是QThread启动的线程的整个生命周期，一旦run函数结束，那么这个线程也结束了，此时会发送一个finished()的完成信号，告诉我们线程已经执行完毕了。此时我们绑定这个信号，然后销毁QThread实例即可。如果你的线程中有事件循环驱动的过程，那么就需要进入QThread的事件循环，调用exec()，调用这个函数之后会阻塞后续的代码执行。这个函数和QApplication的exec作用一样，都是进入调用对象的事件循环，类似于一个while死循环，只不过提供了退出循环的接口。进入了QThread的事件循环之后，线程就像是进入了一个死循环，如果想要结束线程，那么首先需要退出事件循环，调用quit()即可，此时就会继续执行exec()后面的代码，直到线程结束发出finished（）信号。
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+  
+</article>
+
+  
     <article id="post-QtCreator在Linux下断点调试无法访问变量的值" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
   
     <header class="article-header">
@@ -114,6 +154,8 @@
 </a>
     
     
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中文编码/">中文编码</a></li></ul>
+
   </div>
   
 
@@ -173,53 +215,15 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
     
     <div class="article-content article-content-doorframe" itemprop="articleBody">
       
-        <ol>
-<li><p>新建一个shell脚本，内容如下</p>
-</li>
-<li><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure></div>
-<p>#!/bin/bash</p>
-<h3 id="BEGIN-INIT-INFO"><a href="#BEGIN-INIT-INFO" class="headerlink" title="BEGIN INIT INFO"></a>BEGIN INIT INFO</h3><h1 id="Provides-protected-shell"><a href="#Provides-protected-shell" class="headerlink" title="Provides:  protected_shell"></a>Provides:  protected_shell</h1><h1 id="Required-Start-local-fs-remote-fs-network-syslog-named"><a href="#Required-Start-local-fs-remote-fs-network-syslog-named" class="headerlink" title="Required-Start:  $local_fs $remote_fs $network $syslog $named"></a>Required-Start:  $local_fs $remote_fs $network $syslog $named</h1><h1 id="Required-Stop-local-fs-remote-fs-network-syslog-named"><a href="#Required-Stop-local-fs-remote-fs-network-syslog-named" class="headerlink" title="Required-Stop:  $local_fs $remote_fs $network $syslog $named"></a>Required-Stop:  $local_fs $remote_fs $network $syslog $named</h1><h1 id="Default-Start-2-3-4-5"><a href="#Default-Start-2-3-4-5" class="headerlink" title="Default-Start: 2 3 4 5"></a>Default-Start: 2 3 4 5</h1><h1 id="Default-Stop-0-1-6"><a href="#Default-Stop-0-1-6" class="headerlink" title="Default-Stop:  0 1 6"></a>Default-Stop:  0 1 6</h1><h1 id="Short-Description-protect-the-gdwy-device-server"><a href="#Short-Description-protect-the-gdwy-device-server" class="headerlink" title="Short-Description: protect the gdwy_device_server"></a>Short-Description: protect the gdwy_device_server</h1><h3 id="END-INIT-INFO"><a href="#END-INIT-INFO" class="headerlink" title="END INIT INFO"></a>END INIT INFO</h3><h1 id="chkconfig-60-50"><a href="#chkconfig-60-50" class="headerlink" title="chkconfig: - 60 50"></a>chkconfig: - 60 50</h1><h1 id="description-service-demo-script"><a href="#description-service-demo-script" class="headerlink" title="description: service demo script"></a>description: service demo script</h1><h1 id="processname-service-demo"><a href="#processname-service-demo" class="headerlink" title="processname: service_demo"></a>processname: service_demo</h1><h1 id="Source-function-library"><a href="#Source-function-library" class="headerlink" title="Source function library."></a>Source function library.</h1><p>#./etc/init.d/functions</p>
-<h1 id="Source-networking-configuration"><a href="#Source-networking-configuration" class="headerlink" title="Source networking configuration."></a>Source networking configuration.</h1><p>#./etc/sysconfig/network</p>
-<h1 id="Check-that-networking-is-up"><a href="#Check-that-networking-is-up" class="headerlink" title="Check that networking is up."></a>Check that networking is up.</h1><p>[ ${NETWORKING}=”no” ] &amp;&amp; exit 0</p>
-<p>#进程名字可修改</p>
-<p>PRO_NAME=/home/liurui/test1/build-test1-64bit-Debug/test1</p>
-<p>CMD=”$PRO_NAME “</p>
-<p>#exec permission</p>
-<p>[ -x $PRO_NAME ] || exit 0</p>
-<p>while true ; do</p>
-<pre><code> #用ps获取$PRO_NAME进程数量
- NUM=`ps aux | grep -w ${PRO_NAME} | grep -v grep |wc -l`
- echo $NUM
- #少于1，重启进程
- if [ &quot;${NUM}&quot; -lt &quot;1&quot; ];then
-     echo &quot;${PRO_NAME} was killed&quot;
-     $CMD
-#大于1，杀掉所有进程，重启
-elif [ &quot;${NUM}&quot; -gt &quot;1&quot; ];then
-    echo &quot;more than 1 ${PRO_NAME},killall ${PRO_NAME}&quot;
-    killall -9  $PRO_NAME
-    $CMD
- fi
- #kill僵尸进程
- NUM_STAT=`ps aux | grep -w ${PRO_NAME} | grep T | grep -v grep | wc -l`
- if [ &quot;${NUM_STAT}&quot; -gt &quot;0&quot; ];then
-     killall -9 ${PRO_NAME}
-     echo &quot;zombie was killed&quot;
-     $CMD
-fi
- sleep 5s
-</code></pre><p>done<br>echo “shell was killed”<br>exit 0</p>
-</li>
-</ol>
-<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. 如果不添加前面的启动信息（BEGIN INIT INFO）会报错,如下：</span><br><span class="line"></span><br><span class="line">   insserv: warning: script &apos;protected_shell&apos; missing LSB tags and overrides</span><br><span class="line"></span><br><span class="line">   insserv: There is a loop between service watchdog and protected_shell if stopped</span><br><span class="line"></span><br><span class="line">   insserv:  loop involving service protected_shell at depth 2</span><br><span class="line">   insserv:  loop involving service watchdog at depth 1</span><br><span class="line"></span><br><span class="line">   insserv: Stopping protected_shell depends on watchdog and therefore on system facility `$all&apos; which can not be true!</span><br><span class="line"></span><br><span class="line">   insserv: exiting now without changing boot order!</span><br><span class="line"></span><br><span class="line">   update-rc.d: error: insserv rejected the script header</span><br><span class="line"></span><br><span class="line">   主要是因为脚本的启动顺序和其它服务冲突导致，同时没有配置脚本启动的级别</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   赋予执行权限 </span><br><span class="line"></span><br><span class="line">4. ```powershell</span><br><span class="line">   chmod +x test.sh</span><br><span class="line">   sudo mv test.sh /etc/init.d/</span><br></pre></td></tr></table></figure></div>
-<ol start="5">
-<li><p>添加开机启动</p>
-</li>
-<li><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d test.sh defaults</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>取消开机启动</p>
-</li>
-</ol>
+        <p>新建一个shell脚本，内容如下</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### BEGIN INIT INFO</span></span><br><span class="line"><span class="comment"># Provides:  protected_shell</span></span><br><span class="line"><span class="comment"># Required-Start:  $local_fs $remote_fs $network $syslog $named</span></span><br><span class="line"><span class="comment"># Required-Stop:  $local_fs $remote_fs $network $syslog $named</span></span><br><span class="line"><span class="comment"># Default-Start: 2 3 4 5</span></span><br><span class="line"><span class="comment"># Default-Stop:  0 1 6</span></span><br><span class="line"><span class="comment"># Short-Description: protect the gdwy_device_server</span></span><br><span class="line"><span class="comment">### END INIT INFO</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># chkconfig: - 60 50</span></span><br><span class="line"><span class="comment"># description: service demo script</span></span><br><span class="line"><span class="comment"># processname: service_demo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source function library.</span></span><br><span class="line"><span class="comment">#./etc/init.d/functions</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source networking configuration.</span></span><br><span class="line"><span class="comment">#./etc/sysconfig/network</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Check that networking is up.</span></span><br><span class="line"><span class="comment">#[ $&#123;NETWORKING&#125;="no" ] &amp;&amp; exit 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进程名字可修改</span></span><br><span class="line">PRO_NAME=/home/liurui/test1/build-test1-<span class="number">64</span>bit-Debug/test1</span><br><span class="line">CMD=<span class="string">"<span class="variable">$PRO_NAME</span> "</span></span><br><span class="line"><span class="comment">#exec permission</span></span><br><span class="line">[ -x <span class="variable">$PRO_NAME</span> ] || <span class="keyword">exit</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> true ; <span class="keyword">do</span></span><br><span class="line">     <span class="comment">#用ps获取$PRO_NAME进程数量</span></span><br><span class="line">     NUM=`ps aux | grep -w $&#123;PRO_NAME&#125; | grep -v grep |wc -l`</span><br><span class="line">     echo <span class="variable">$NUM</span></span><br><span class="line">     <span class="comment">#少于1，重启进程</span></span><br><span class="line">     <span class="keyword">if</span> [ <span class="string">"$&#123;NUM&#125;"</span> <span class="nomarkup">-lt</span> <span class="string">"1"</span> ];then</span><br><span class="line">         echo <span class="string">"$&#123;PRO_NAME&#125; was killed"</span></span><br><span class="line">         <span class="variable">$CMD</span></span><br><span class="line">    <span class="comment">#大于1，杀掉所有进程，重启</span></span><br><span class="line">    elif [ <span class="string">"$&#123;NUM&#125;"</span> <span class="nomarkup">-gt</span> <span class="string">"1"</span> ];then</span><br><span class="line">        echo <span class="string">"more than 1 $&#123;PRO_NAME&#125;,killall $&#123;PRO_NAME&#125;"</span></span><br><span class="line">        killall -<span class="number">9</span>  <span class="variable">$PRO_NAME</span></span><br><span class="line">        <span class="variable">$CMD</span></span><br><span class="line">     fi</span><br><span class="line">     <span class="comment">#kill僵尸进程</span></span><br><span class="line">     NUM_STAT=`ps aux | grep -w $&#123;PRO_NAME&#125; | grep T | grep -v grep | wc -l`</span><br><span class="line">     <span class="keyword">if</span> [ <span class="string">"$&#123;NUM_STAT&#125;"</span> <span class="nomarkup">-gt</span> <span class="string">"0"</span> ];then</span><br><span class="line">         killall -<span class="number">9</span> $&#123;PRO_NAME&#125;</span><br><span class="line">         echo <span class="string">"zombie was killed"</span></span><br><span class="line">         <span class="variable">$CMD</span></span><br><span class="line">    fi</span><br><span class="line">     sleep <span class="number">5</span>s</span><br><span class="line">done</span><br><span class="line">echo <span class="string">"shell was killed"</span></span><br><span class="line"><span class="keyword">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></div>
+<p>如果不添加前面的启动信息（BEGIN INIT INFO）会报错,如下：</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">insserv: warning: script <span class="string">'protected_shell'</span> missing LSB tags and overrides</span><br><span class="line"></span><br><span class="line">insserv: There is a loop between service watchdog and protected_shell <span class="keyword">if</span> stopped</span><br><span class="line"></span><br><span class="line">insserv:  loop involving service protected_shell at depth <span class="number">2</span></span><br><span class="line">insserv:  loop involving service watchdog at depth <span class="number">1</span></span><br><span class="line"></span><br><span class="line">insserv: Stopping protected_shell depends on watchdog and therefore on system facility `$all<span class="string">' which can not be true!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">insserv: exiting now without changing boot order!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">update-rc.d: error: insserv rejected the script header</span></span><br></pre></td></tr></table></figure></div>
+<p>主要是因为脚本的启动顺序和其它服务冲突导致，同时没有配置脚本启动的级别<br> 赋予执行权限</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x test.sh</span><br><span class="line"></span><br><span class="line">sudo mv test.sh /etc/init.d/</span><br></pre></td></tr></table></figure></div>
+<p>添加开机启动</p>
+<div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d test.sh defaults</span><br></pre></td></tr></table></figure></div>
+<p>取消开机启动</p>
 <div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d -f test.sh remove</span><br></pre></td></tr></table></figure></div>
 
       
@@ -328,6 +332,8 @@ fi
 </a>
     
     
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WinScp/">WinScp</a></li></ul>
+
   </div>
   
 
@@ -492,6 +498,8 @@ fi
 </a>
     
     
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库连接池/">数据库连接池</a></li></ul>
+
   </div>
   
 
@@ -504,70 +512,6 @@ fi
 <p>.h</p>
 <div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="CPP"><figure class="iseeu highlight /cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CONNECTIONPOOL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONNECTIONPOOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtSql&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QQueue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QString&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutexLocker&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span></span>; <span class="comment">// 关闭所有的数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> QSqlDatabase <span class="title">openConnection</span><span class="params">()</span></span>;                 <span class="comment">// 获取数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeConnection</span><span class="params">(QSqlDatabase connection)</span></span>; <span class="comment">// 释放数据库连接回连接池</span></span><br><span class="line"></span><br><span class="line">    ~ConnectionPool();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> ConnectionPool&amp; <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    ConnectionPool();</span><br><span class="line">    ConnectionPool(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    ConnectionPool&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    <span class="function">QSqlDatabase <span class="title">createConnection</span><span class="params">(<span class="keyword">const</span> QString &amp;connectionName)</span></span>; <span class="comment">// 创建数据库连接</span></span><br><span class="line"></span><br><span class="line">    QQueue&lt;QString&gt; usedConnectionNames;   <span class="comment">// 已使用的数据库连接名</span></span><br><span class="line">    QQueue&lt;QString&gt; unusedConnectionNames; <span class="comment">// 未使用的数据库连接名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据库信息</span></span><br><span class="line">    QString hostName;</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line">    QString databaseName;</span><br><span class="line">    QString username;</span><br><span class="line">    QString password;</span><br><span class="line">    QString databaseType;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span>    testOnBorrow;    <span class="comment">// 取得连接的时候验证连接是否有效</span></span><br><span class="line">    QString testOnBorrowSql; <span class="comment">// 测试访问数据库的 SQL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> maxWaitTime;  <span class="comment">// 获取连接最大等待时间</span></span><br><span class="line">    <span class="keyword">int</span> waitInterval; <span class="comment">// 尝试获取连接时等待间隔时间</span></span><br><span class="line">    <span class="keyword">int</span> maxConnectionCount; <span class="comment">// 最大连接数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> QMutex mutex;</span><br><span class="line">    <span class="keyword">static</span> QWaitCondition waitConnection;</span><br><span class="line">    <span class="keyword">static</span> ConnectionPool *instance;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// CONNECTIONPOOL_H</span></span></span><br></pre></td></tr></table></figure></div>
 <p>QSqldatabase：：addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
-
-      
-    </div>
-    
-  </div>
-  
-  
-</article>
-
-  
-    <article id="post-银河麒麟64bit编译32bit-Qt4-8-6" class="article global-container article-type-post" itemscope="" itemprop="blogPost">
-  
-    <header class="article-header">
-      
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/">银河麒麟64bit编译32bit-Qt4.8.6</a>
-    </h1>
-  
-
-    </header>
-  
-  <div class="article-meta">
-    <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/" class="article-date">
-  <time datetime="2019-01-15T08:18:13.000Z" itemprop="datePublished">2019-01-15</time>
-</a>
-    
-    
-  </div>
-  
-
-  <div class="article-inner">
-    
-    <div class="article-content article-content-doorframe" itemprop="articleBody">
-      
-        <h1 id="配置32bit的编译环境"><a href="#配置32bit的编译环境" class="headerlink" title="配置32bit的编译环境"></a>配置32bit的编译环境</h1><p>这个配置在前面的博客里面提到过，所以此处不再叙述。</p>
-<h1 id="安装libX-32bit库"><a href="#安装libX-32bit库" class="headerlink" title="安装libX* 32bit库"></a>安装libX* 32bit库</h1><p>编译错误信息</p>
-<p>Basic XLib functionality test failed!</p>
-<p>You might need to modify the include and library search paths by editing</p>
-<p>QMAKE_INCDIR_X11 and QMAKE_LIBDIR_X11 in /home/zhu/Qt/qt-x11-opensource-src-4.5.2/mkspecs/Linux-g++</p>
-<p>解决这个问题只需要几个库就可以了，实际上只要安装两个库：</p>
-<p>sudo yum install libXau-dev:i386</p>
-<p>sudo yum install ibX11-dev:i386 （打印信息显示，该package已经安装）</p>
-<p>sudo yum install libXext-dev:i386</p>
-<p>sudo yum install libXtst-dev:i386  (无法安装就不装)</p>
-<p>运行qt程序报错,缺少libX库</p>
-<p>X Error: BadDrawable (invalid Pixmap or Window parameter) 9</p>
-<p>  Major opcode: 62 (X_CopyArea)</p>
-<p>  Resource id:  0x0</p>
-<p>Sudo yum install libXrandr-dev:i386</p>
-<h1 id="编译Qt4-8-6-32bit"><a href="#编译Qt4-8-6-32bit" class="headerlink" title="编译Qt4.8.6-32bit"></a>编译Qt4.8.6-32bit</h1><ol>
-<li><p>下载源码</p>
-</li>
-<li><p>解压缩</p>
-</li>
-<li><p>cd 源码目录</p>
-</li>
-<li><p>配置qt</p>
-</li>
-<li><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure -platform linux-g++-<span class="number">32</span> -nomake examples -nomake demos -no-webkit -qt-zlib -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -qt-freetype -fontconfig</span><br><span class="line">gmake -j4  <span class="comment">#多线程编译</span></span><br><span class="line">sudo gmake install</span><br></pre></td></tr></table></figure></div>
-</li>
-</ol>
-<p>fontconfig参数是为了支持加载外部字体文件</p>
-<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><div class="highlight-box" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true" data-rel="POWERSHELL"><figure class="iseeu highlight /powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export QTDIR=/usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span></span><br><span class="line">export PATH=<span class="variable">$QTDIR</span>/bin:<span class="variable">$PATH</span></span><br><span class="line">export MANPATH=<span class="variable">$QTDIR</span>/man:<span class="variable">$MANPAT</span></span><br><span class="line">export LD_LIBRARY_PATH=<span class="variable">$QTDIR</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure></div>
 
       
     </div>
@@ -612,7 +556,7 @@ fi
   <div class="widget-box">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt-GDB/">Qt,GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QtCreator-中文输入/">QtCreator 中文输入</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/QThread/">QThread</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt-GDB/">Qt,GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QtCreator-中文输入/">QtCreator 中文输入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WinScp/">WinScp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/中文编码/">中文编码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库连接池/">数据库连接池</a></li></ul>
     </div>
   </div>
 
@@ -622,7 +566,7 @@ fi
   <div class="widget-box">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Qt-GDB/" style="font-size: 10px;">Qt,GDB</a> <a href="/tags/QtCreator-中文输入/" style="font-size: 10px;">QtCreator 中文输入</a>
+      <a href="/tags/QThread/" style="font-size: 10px;">QThread</a> <a href="/tags/Qt-GDB/" style="font-size: 10px;">Qt,GDB</a> <a href="/tags/QtCreator-中文输入/" style="font-size: 10px;">QtCreator 中文输入</a> <a href="/tags/WinScp/" style="font-size: 10px;">WinScp</a> <a href="/tags/中文编码/" style="font-size: 10px;">中文编码</a> <a href="/tags/数据库连接池/" style="font-size: 10px;">数据库连接池</a>
     </div>
   </div>
 
@@ -643,6 +587,10 @@ fi
       <ul>
         
           <li>
+            <a href="/2019/03/06/QThread的事件循环与生命周期/">QThread的事件循环与生命周期</a>
+          </li>
+        
+          <li>
             <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">QtCreator在Linux下断点调试无法访问变量的值</a>
           </li>
         
@@ -656,10 +604,6 @@ fi
         
           <li>
             <a href="/2019/01/29/qtcreator无法输入中文/">qtcreator无法输入中文</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/28/Linux打包QT程序时提示找不到QMYSQL驱动/">Linux打包QT程序时提示找不到QMYSQL驱动</a>
           </li>
         
       </ul>
