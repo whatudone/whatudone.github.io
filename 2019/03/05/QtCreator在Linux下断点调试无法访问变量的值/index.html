@@ -141,13 +141,13 @@
 
                     <!-- Main Post Content -->
                     <p>bug状态如下：</p>
-<p><img src="QThread的事件循环与生命周期\Qt_GDB.png" alt="QThread的事件循环与生命周期\Qt_GDB"></p>
+<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB"></p>
 <p>这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set solib-search-path  /usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span>-<span class="number">64</span>/lib/</span><br></pre></td></tr></table></figure>
 <p>如下图所示：</p>
-<p><img src="QThread的事件循环与生命周期\Qt_GDB1.png" alt="QThread的事件循环与生命周期\Qt_GDB1"></p>
+<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB1.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB1"></p>
 <p>添加后成功的状态图如下：</p>
-<p><img src="QThread的事件循环与生命周期\Qt_GDB2.png" alt="QThread的事件循环与生命周期\Qt_GDB2"></p>
+<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/" alt="QThread的事件循环与生命周期\Qt_GDB2"></p>
 
                     
                     <!-- Tags Bottom -->
