@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库连接池,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content=".cpp 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101">
+<meta name="keywords" content="数据库连接池">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qt数据库连接池">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/Qt数据库连接池/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content=".cpp 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-06T00:58:08.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Qt数据库连接池">
+<meta name="twitter:description" content=".cpp 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/15/Qt数据库连接池/">
+
+
+
+
+
+  <title>Qt数据库连接池 | 一个骚年</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一个骚年</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">说点啥好呢</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/15/Qt数据库连接池/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Qt数据库连接池</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-15T16:43:39+08:00">
+                2019-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"connectionpool.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSettings&gt;</span></span></span><br><span class="line">QMutex ConnectionPool::mutex;</span><br><span class="line">QWaitCondition ConnectionPool::waitConnection;</span><br><span class="line">ConnectionPool* ConnectionPool::instance = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">ConnectionPool::ConnectionPool() &#123;</span><br><span class="line">    <span class="comment">// 创建数据库连接的这些信息在实际开发的时都需要通过读取配置文件得到，</span></span><br><span class="line">    <span class="comment">// 这里为了演示方便所以写死在了代码里。</span></span><br><span class="line"><span class="comment">//    hostName     = "192.168.16.200";</span></span><br><span class="line"><span class="comment">//    port=3306;</span></span><br><span class="line"><span class="comment">//    databaseName = "web";</span></span><br><span class="line"><span class="comment">//    username     = "root";</span></span><br><span class="line"><span class="comment">//    password     = "zz191025ZZ";</span></span><br><span class="line">    QString apppath=QCoreApplication::applicationDirPath();</span><br><span class="line">    QString mysqlconfig=apppath+<span class="string">"/CFG/mysqlconfig.ini"</span>;</span><br><span class="line">    QSettings*  m_IniFile = <span class="keyword">new</span> QSettings(mysqlconfig, QSettings::IniFormat);</span><br><span class="line">    m_IniFile -&gt;beginGroup(<span class="string">"mysqlserver"</span>);     <span class="comment">// 设置当前节名，代表以下的操作都是在这个节中</span></span><br><span class="line">    hostName= m_IniFile-&gt;value(<span class="string">"ip"</span>).toString();</span><br><span class="line">    port=m_IniFile-&gt;value(<span class="string">"port"</span>).toInt();</span><br><span class="line">    databaseName=m_IniFile-&gt;value(<span class="string">"database"</span>).toString();</span><br><span class="line">    username=m_IniFile-&gt;value(<span class="string">"username"</span>).toString();</span><br><span class="line">    password=m_IniFile-&gt;value(<span class="string">"password"</span>).toString();</span><br><span class="line">    m_IniFile-&gt;endGroup();</span><br><span class="line">    m_IniFile-&gt;deleteLater();</span><br><span class="line">    databaseType = <span class="string">"QMYSQL"</span>;</span><br><span class="line">    testOnBorrow = <span class="literal">true</span>;</span><br><span class="line">    testOnBorrowSql = <span class="string">"SELECT 1"</span>;</span><br><span class="line">    waitInterval = <span class="number">1000</span>;</span><br><span class="line">    maxConnectionCount  = <span class="number">10</span>;</span><br><span class="line">    maxWaitTime  = waitInterval*maxConnectionCount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ConnectionPool::~ConnectionPool() &#123;</span><br><span class="line">    <span class="comment">// 销毁连接池的时候删除所有的连接</span></span><br><span class="line">    foreach(QString connectionName, usedConnectionNames) &#123;</span><br><span class="line">        QSqlDatabase::removeDatabase(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    foreach(QString connectionName, unusedConnectionNames) &#123;</span><br><span class="line">        QSqlDatabase::removeDatabase(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ConnectionPool&amp; ConnectionPool::getInstance() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">NULL</span> == instance) &#123;</span><br><span class="line">        <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">NULL</span> == instance) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> ConnectionPool();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConnectionPool::release() &#123;</span><br><span class="line">    <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">    <span class="keyword">delete</span> instance;</span><br><span class="line">    instance = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QSqlDatabase ConnectionPool::openConnection() &#123;</span><br><span class="line">    ConnectionPool&amp; pool = ConnectionPool::getInstance();</span><br><span class="line">    QString connectionName;</span><br><span class="line"></span><br><span class="line">    <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 已创建连接数</span></span><br><span class="line">    <span class="keyword">int</span> connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果连接已经用完，等待 waitInterval 毫秒看看是否有可用连接，最长等待 maxWaitTime 毫秒</span></span><br><span class="line"><span class="comment">//    for (int i = 0;</span></span><br><span class="line"><span class="comment">//         i &lt; pool.maxWaitTime</span></span><br><span class="line"><span class="comment">//         &amp;&amp; pool.unusedConnectionNames.size() == 0 &amp;&amp; connectionCount == pool.maxConnectionCount;</span></span><br><span class="line"><span class="comment">//         i += pool.waitInterval) &#123;</span></span><br><span class="line"><span class="comment">//        waitConnection.wait(&amp;mutex, pool.waitInterval);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        // 重新计算已创建连接数</span></span><br><span class="line"><span class="comment">//        connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">    <span class="comment">//此处修改为当没有可用连接并且连接数超出最大连接数，则一直循环等待，直到别的线程释放</span></span><br><span class="line">    <span class="keyword">while</span>(pool.unusedConnectionNames.size() == <span class="number">0</span> &amp;&amp; connectionCount == pool.maxConnectionCount)&#123;</span><br><span class="line">        waitConnection.wait(&amp;mutex, pool.waitInterval);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 重新计算已创建连接数</span></span><br><span class="line">        connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pool.unusedConnectionNames.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 有已经回收的连接，复用它们</span></span><br><span class="line">        connectionName = pool.unusedConnectionNames.dequeue();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (connectionCount &lt; pool.maxConnectionCount) &#123;</span><br><span class="line">        <span class="comment">// 没有已经回收的连接，但是没有达到最大连接数，则创建新的连接</span></span><br><span class="line">        connectionName = QString(<span class="string">"Connection-%1"</span>).arg(connectionCount + <span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 已经达到最大连接数</span></span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"Cannot create more connections."</span>;</span><br><span class="line">        <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    QSqlDatabase db = pool.createConnection(connectionName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有效的连接才放入 usedConnectionNames</span></span><br><span class="line">    <span class="keyword">if</span> (db.isOpen()) &#123;</span><br><span class="line">        pool.usedConnectionNames.enqueue(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConnectionPool::closeConnection(QSqlDatabase connection) &#123;</span><br><span class="line">    ConnectionPool&amp; pool = ConnectionPool::getInstance();</span><br><span class="line">    QString connectionName = connection.connectionName();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果是我们创建的连接，从 used 里删除，放入 unused 里</span></span><br><span class="line">    <span class="keyword">if</span> (pool.usedConnectionNames.contains(connectionName)) &#123;</span><br><span class="line">        <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">        pool.usedConnectionNames.removeOne(connectionName);</span><br><span class="line">        pool.unusedConnectionNames.enqueue(connectionName);</span><br><span class="line">        waitConnection.wakeOne();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QSqlDatabase ConnectionPool::createConnection(<span class="keyword">const</span> QString &amp;connectionName) &#123;</span><br><span class="line">    <span class="comment">// 连接已经创建过了，复用它，而不是重新创建</span></span><br><span class="line">    <span class="keyword">if</span> (QSqlDatabase::contains(connectionName)) &#123;</span><br><span class="line">        QSqlDatabase db1 = QSqlDatabase::database(connectionName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (testOnBorrow) &#123;</span><br><span class="line">            <span class="comment">// 返回连接前访问数据库，如果连接断开，重新建立连接</span></span><br><span class="line"><span class="comment">//            qDebug() &lt;&lt; "Test connection on borrow, execute:" &lt;&lt; testOnBorrowSql &lt;&lt; ", for" &lt;&lt; connectionName;</span></span><br><span class="line">            <span class="function">QSqlQuery <span class="title">query</span><span class="params">(testOnBorrowSql, db1)</span></span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (query.lastError().type() != QSqlError::NoError &amp;&amp; !db1.open()) &#123;</span><br><span class="line">                qDebug() &lt;&lt; <span class="string">"Open datatabase error:"</span> &lt;&lt; db1.lastError().text();</span><br><span class="line">                <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> db1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个新的连接</span></span><br><span class="line">    QSqlDatabase db = QSqlDatabase::addDatabase(databaseType, connectionName);</span><br><span class="line">    db.setHostName(hostName);</span><br><span class="line">    db.setPort(port);</span><br><span class="line">    db.setDatabaseName(databaseName);</span><br><span class="line">    db.setUserName(username);</span><br><span class="line">    db.setPassword(password);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!db.open()) &#123;</span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"Open datatabase error:"</span> &lt;&lt; db.lastError().text();</span><br><span class="line">        <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CONNECTIONPOOL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONNECTIONPOOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtSql&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QQueue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QString&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutexLocker&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span></span>; <span class="comment">// 关闭所有的数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> QSqlDatabase <span class="title">openConnection</span><span class="params">()</span></span>;                 <span class="comment">// 获取数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeConnection</span><span class="params">(QSqlDatabase connection)</span></span>; <span class="comment">// 释放数据库连接回连接池</span></span><br><span class="line"></span><br><span class="line">    ~ConnectionPool();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> ConnectionPool&amp; <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    ConnectionPool();</span><br><span class="line">    ConnectionPool(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    ConnectionPool&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    <span class="function">QSqlDatabase <span class="title">createConnection</span><span class="params">(<span class="keyword">const</span> QString &amp;connectionName)</span></span>; <span class="comment">// 创建数据库连接</span></span><br><span class="line"></span><br><span class="line">    QQueue&lt;QString&gt; usedConnectionNames;   <span class="comment">// 已使用的数据库连接名</span></span><br><span class="line">    QQueue&lt;QString&gt; unusedConnectionNames; <span class="comment">// 未使用的数据库连接名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据库信息</span></span><br><span class="line">    QString hostName;</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line">    QString databaseName;</span><br><span class="line">    QString username;</span><br><span class="line">    QString password;</span><br><span class="line">    QString databaseType;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span>    testOnBorrow;    <span class="comment">// 取得连接的时候验证连接是否有效</span></span><br><span class="line">    QString testOnBorrowSql; <span class="comment">// 测试访问数据库的 SQL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> maxWaitTime;  <span class="comment">// 获取连接最大等待时间</span></span><br><span class="line">    <span class="keyword">int</span> waitInterval; <span class="comment">// 尝试获取连接时等待间隔时间</span></span><br><span class="line">    <span class="keyword">int</span> maxConnectionCount; <span class="comment">// 最大连接数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> QMutex mutex;</span><br><span class="line">    <span class="keyword">static</span> QWaitCondition waitConnection;</span><br><span class="line">    <span class="keyword">static</span> ConnectionPool *instance;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// CONNECTIONPOOL_H</span></span></span><br></pre></td></tr></table></figure>
+<p>QSqldatabase：：addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库连接池/" rel="tag"># 数据库连接池</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/" rel="next" title="银河麒麟64bit编译32bit-Qt4.8.6">
+                <i class="fa fa-chevron-left"></i> 银河麒麟64bit编译32bit-Qt4.8.6
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/16/录播组网服务器装机说明/" rel="prev" title="录播组网服务器装机说明">
+                录播组网服务器装机说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">还在输入</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">还在输入</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
