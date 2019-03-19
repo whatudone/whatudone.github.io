@@ -17,10 +17,7 @@
 编译需要的库文件
 
 
-开发扩展
-##创建扩展项目
-
-进入php源码的ext目录,生成一">
+开发扩展1.创建扩展项目进入php源码的ext目录,生成一个名为">
     
 
     <!--Author-->
@@ -155,15 +152,30 @@
 <li><p>编译需要的库文件</p>
 </li>
 </ol>
-<h1 id="开发扩展"><a href="#开发扩展" class="headerlink" title="开发扩展"></a>开发扩展</h1><ol>
-<li>##创建扩展项目</li>
-</ol>
-<p>进入php源码的ext目录,生成一个名为test的扩展项目</p>
+<h1 id="开发扩展"><a href="#开发扩展" class="headerlink" title="开发扩展"></a>开发扩展</h1><h2 id="1-创建扩展项目"><a href="#1-创建扩展项目" class="headerlink" title="1.创建扩展项目"></a>1.创建扩展项目</h2><p>进入php源码的ext目录,生成一个名为test的扩展项目</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ext_skel --extname=test</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>##编辑配置文件</li>
-</ol>
-<p>进入test目录，里面存在一个config.m4和test.c。config.m4文件是扩展项目的编译配置文件，类似于Qt的pro文件。打开config.m4文件。</p>
+<h2 id="2-编辑配置文件"><a href="#2-编辑配置文件" class="headerlink" title="2.编辑配置文件"></a>2.编辑配置文件</h2><p>进入test目录，里面存在一个config.m4和test.c。config.m4文件是扩展项目的编译配置文件，类似于Qt的pro文件。打开config.m4文件。打开其中三行的注释，dnl就是改行的注释删除即可：</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config1.png" alt="PHP扩展开发之c与c-两种模式\config1"></p>
+<p>这三句话的意思就是在编译安装php的时候可以开启test扩展的支持。然后配置扩展依赖的的动态库或者静态库。示例如下：</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config2.png" alt="PHP扩展开发之c与c-两种模式\config2"></p>
+<p>PHP_ADD_INCLUDE添加编译的头文件搜索路径。PHP_ADD_LIBRARY按照我的理解就是添加系统库路径下的库文件，比如/usr/lib路径。PHP_ADD_LIBRARY_PATH就是添加指定路径的第三方库。PHP_REQUIRE_CXX()指定c++编译,没有的话就是按照c编译。PHP_NEW_EXTENSION就是配置文件的关键，创建指定的扩展。第一个参数是扩展名，第二个参数是扩展用到的实现源码（不包含.h，可以包含多个，中间用空格隔开，例如 test1.cpp test2.cpp）。此处默认生成应该是wy_analyze.c，由于我的项目需要使用c++，所以我改成了.cpp，对应的文件的名称也应该改为.cpp。</p>
+<h2 id="3-编写wy-analyze-cpp"><a href="#3-编写wy-analyze-cpp" class="headerlink" title="3.编写wy_analyze.cpp"></a>3.编写wy_analyze.cpp</h2><p>首先使用extern “C” {}包含该文件自动添加的.h头文件，如下：</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config3.png" alt="PHP扩展开发之c与c-两种模式\config3"></p>
+<p>添加函数定义，参考自动生成的例子</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config4.png" alt="PHP扩展开发之c与c-两种模式\config4"></p>
+<p>confirm_wy_analyze_compiled是php自动生成的测试函数（后续完成之后可以去掉），我们可以参照这个例子编写我们自己的函数，后面两个就是我定义的函数，类似于头文件的定义。</p>
+<p>完成函数实现</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config5.png" alt="PHP扩展开发之c与c-两种模式\config5"></p>
+<p>我们以测试参考例子来简单说明。arg是函数的传入参数，arg_len是参数长度，zend_parse_parameters是php校验函数参数的一个方法，第一个参数 ZEND_NUM_ARGS()表示参数的个数，第三个参数”s”表示只有一个字符串参数，如果是函数是两个字符串变量，那么这个参数声明和校验如下：</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config6.png" alt="PHP扩展开发之c与c-两种模式\config6"></p>
+<p>其他类型的参数的格式请参考其他资料，这里就不详细说明了。</p>
+<h2 id="4-编译安装扩展"><a href="#4-编译安装扩展" class="headerlink" title="4.编译安装扩展"></a>4.编译安装扩展</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd php/ext/your_extdir</span><br><span class="line">phpize</span><br><span class="line">./configure --with-php-config=php-config</span><br><span class="line">make </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>编译链接生成完的.so会自动拷贝到php的扩展目录里面。如果修改了源码需要重新编译，可以清除。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">phpize --clean <span class="comment">#清除所有配置和编译产生的文件</span></span><br><span class="line">make clean <span class="comment">#清除编译产生的文件，不需要重新configure</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-修改php-ini添加扩展信息"><a href="#5-修改php-ini添加扩展信息" class="headerlink" title="5.修改php.ini添加扩展信息"></a>5.修改php.ini添加扩展信息</h2><p>如果找不到php.ini的路径可以php-config 查看。在php.ini里面添加如下信息</p>
+<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config7.png" alt="PHP扩展开发之c与c-两种模式\config7"></p>
+<p>同理添加php的自带扩展，只需要取消该扩展的注释即可。然后重启php就会生效。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br><span class="line">sudo service php-fpm restart</span><br></pre></td></tr></table></figure>
 
                     
                     <!-- Tags Bottom -->
