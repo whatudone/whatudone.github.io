@@ -10,7 +10,9 @@
 
     <!--Description-->
     
-        <meta name="description" content="Qt设置全局的编码格式1234QTextCodec *codec = QTextCodec::codecForName(&#34;UTF-8&#34;);QTextCodec::setCodecForTr(codec);QTextCodec::setCodecForLocale(codec);QTextCodec:">
+        <meta name="description" content="g++编译源码一般g++的编译选项常用两种-c 和-o 。-c是源码编译但不链接，生成.o文件，-o是编译同时链接，生成可行性文件，如果不指定-o会生成默认的a.out可执行程序。假设以及存在一个main.cpp的源文件,示例如下：
+1g++ -c main.cpp
+1g++ main.cpp -o">
     
 
     <!--Author-->
@@ -20,7 +22,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Qt编码解决思路">
+        <meta property="og:title" content="g++编译方法以及合并静态库">
     
 
     <!--Open Graph Description-->
@@ -42,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Qt编码解决思路 - 一个骚年</title>
+    <title>g++编译方法以及合并静态库 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -110,8 +112,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Qt编码解决思路</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-04</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">g++编译方法以及合并静态库</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-19</p>
         </div>
     </div>
 
@@ -131,35 +133,31 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
+                                <a class="fw3 ph1 dib" href="/tags/g-编译/">#g++编译</a> <a class="fw3 ph1 dib" href="/tags/合并静态库/">#合并静态库</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <h1 id="Qt设置全局的编码格式"><a href="#Qt设置全局的编码格式" class="headerlink" title="Qt设置全局的编码格式"></a>Qt设置全局的编码格式</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *codec = QTextCodec::codecForName(<span class="string">"UTF-8"</span>);</span><br><span class="line">QTextCodec::setCodecForTr(codec);</span><br><span class="line">QTextCodec::setCodecForLocale(codec);</span><br><span class="line">QTextCodec::setCodecForCStrings(codec);</span><br></pre></td></tr></table></figure>
-<p>说明：setCodecForLocale是设置程序运行的本地编码格式 ，例如QString data=”测试”，根据上述代码，此处将data处理为UTF-8。setCodecForTr是设置tr（data）要处理的编码格式，例如上述代码tr(data)会处理utf8编码，此处显示则是正常的中文，因为local的编码也是UTF-8,两者一致。而如果此处data是gbk编码，那么会显示中文乱码。setCodecForCStrings(codec) 是给QString 设置对应的编码，同理tr函数。</p>
-<h1 id="Qt解析GB2312编码xml转换GB2312-gt-UTF-8"><a href="#Qt解析GB2312编码xml转换GB2312-gt-UTF-8" class="headerlink" title="Qt解析GB2312编码xml转换GB2312-&gt;UTF-8"></a>Qt解析GB2312编码xml转换GB2312-&gt;UTF-8</h1><pre><code>QFile file(filename);
-if(!file.open(QFile::ReadOnly | QFile::Text)){
-
-  return;  
-}
-QTextCodec *gbk=QTextCodec::codecForName(&quot;GBK&quot;);
-QTextStream stream(&amp;file);
-stream.setCodec(gbk);   //此处为重点
-QString data=stream.readAll();
-qDebug()&lt;&lt;data;
-QDomDocument document;
-QString error;
-int row = 0, column = 0;
-document.setContent(data, false, &amp;error, &amp;row, &amp;column);
-</code></pre><p>此处使用QtextStream读取QFile,因为它可以设置源文件的编码格式，然后read之后会自动将gbk编码转化成utf的QString。所以此处给我们一个思路，只要我们知道源数据的编码格式，读取的时候设置对应的编码即可，QT会自动转换成utf-8（前提是已经设置了上述全局）。</p>
+                    <hr>
+<h1 id="g-编译源码"><a href="#g-编译源码" class="headerlink" title="g++编译源码"></a>g++编译源码</h1><p>一般g++的编译选项常用两种-c 和-o 。-c是源码编译但不链接，生成.o文件，-o是编译同时链接，生成可行性文件，如果不指定-o会生成默认的a.out可执行程序。假设以及存在一个main.cpp的源文件,示例如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.cpp</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp -o test</span><br></pre></td></tr></table></figure>
+<h1 id="生成和合并静态库"><a href="#生成和合并静态库" class="headerlink" title="生成和合并静态库"></a>生成和合并静态库</h1><p>生成静态库是将.o文件压缩为一个.a文件，方法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar crv libtest.a test.o</span><br></pre></td></tr></table></figure>
+<p>g++使用静态库的方法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp libtest.a -o output</span><br></pre></td></tr></table></figure>
+<p>说明:此处main.cpp引用libtest.a 静态库直接接在main.cpp之后就行了</p>
+<p>生成动态库：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ test.cpp -fPIC -shared -o libtest.so</span><br></pre></td></tr></table></figure>
+<p>接下来讲解合并多个单独编译生成的.a静态库，思路就是先将.a拆分为.o，然后合并.o成为一个.o。假设已经存在a1.a(包含a1.o),a2.a(包含a2.o)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ar x a1.a</span><br><span class="line">ar x a2.a</span><br><span class="line">ar rc a3.a *.o</span><br></pre></td></tr></table></figure>
 
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/g-编译/">#g++编译</a> <a class="fw3 ph1 dib" href="/tags/合并静态库/">#合并静态库</a>
                         </div>
                     
 
@@ -188,6 +186,18 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/学习笔记/">学习笔记</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->

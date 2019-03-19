@@ -10,8 +10,6 @@
 
     <!--Description-->
     
-        <meta name="description" content="Qt设置全局的编码格式1234QTextCodec *codec = QTextCodec::codecForName(&#34;UTF-8&#34;);QTextCodec::setCodecForTr(codec);QTextCodec::setCodecForLocale(codec);QTextCodec:">
-    
 
     <!--Author-->
     
@@ -20,7 +18,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Qt编码解决思路">
+        <meta property="og:title" content="一个骚年">
     
 
     <!--Open Graph Description-->
@@ -31,7 +29,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="article">
+        <meta property="og:type" content="website">
     
 
     <!--Page Cover-->
@@ -42,7 +40,7 @@
 
     <!-- Title -->
     
-    <title>Qt编码解决思路 - 一个骚年</title>
+    <title>PHP扩展 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -70,6 +68,8 @@
 <body>
 
 <!-- Main Content -->
+
+
 <!-- Banner -->
 <!-- Banner -->
 <div class="w-100 bg-1 ph5-ns ph3 text-light">
@@ -110,117 +110,37 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Qt编码解决思路</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-04</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns"># PHP扩展</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns"></p>
         </div>
     </div>
 
     <!-- Icon -->
     <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa-file-text-o"></i>
+        <i class="header-icon fa fa-folder-open"></i>
     </div>
 </div>
 
-<!-- Content -->
 <div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
     <div class="content">
         <div class="mw8 center">
-            <div class="cf">
-                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
-                    <!-- Tags Vertical -->
-                    
-                        <div class="tags-container-vertical">
-                            <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
-                            </div>
-                        </div>
-                    
-
-                    <!-- Main Post Content -->
-                    <h1 id="Qt设置全局的编码格式"><a href="#Qt设置全局的编码格式" class="headerlink" title="Qt设置全局的编码格式"></a>Qt设置全局的编码格式</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *codec = QTextCodec::codecForName(<span class="string">"UTF-8"</span>);</span><br><span class="line">QTextCodec::setCodecForTr(codec);</span><br><span class="line">QTextCodec::setCodecForLocale(codec);</span><br><span class="line">QTextCodec::setCodecForCStrings(codec);</span><br></pre></td></tr></table></figure>
-<p>说明：setCodecForLocale是设置程序运行的本地编码格式 ，例如QString data=”测试”，根据上述代码，此处将data处理为UTF-8。setCodecForTr是设置tr（data）要处理的编码格式，例如上述代码tr(data)会处理utf8编码，此处显示则是正常的中文，因为local的编码也是UTF-8,两者一致。而如果此处data是gbk编码，那么会显示中文乱码。setCodecForCStrings(codec) 是给QString 设置对应的编码，同理tr函数。</p>
-<h1 id="Qt解析GB2312编码xml转换GB2312-gt-UTF-8"><a href="#Qt解析GB2312编码xml转换GB2312-gt-UTF-8" class="headerlink" title="Qt解析GB2312编码xml转换GB2312-&gt;UTF-8"></a>Qt解析GB2312编码xml转换GB2312-&gt;UTF-8</h1><pre><code>QFile file(filename);
-if(!file.open(QFile::ReadOnly | QFile::Text)){
-
-  return;  
-}
-QTextCodec *gbk=QTextCodec::codecForName(&quot;GBK&quot;);
-QTextStream stream(&amp;file);
-stream.setCodec(gbk);   //此处为重点
-QString data=stream.readAll();
-qDebug()&lt;&lt;data;
-QDomDocument document;
-QString error;
-int row = 0, column = 0;
-document.setContent(data, false, &amp;error, &amp;row, &amp;column);
-</code></pre><p>此处使用QtextStream读取QFile,因为它可以设置源文件的编码格式，然后read之后会自动将gbk编码转化成utf的QString。所以此处给我们一个思路，只要我们知道源数据的编码格式，读取的时候设置对应的编码即可，QT会自动转换成utf-8（前提是已经设置了上述全局）。</p>
-
-                    
-                    <!-- Tags Bottom -->
-                    
-                        <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
-                        </div>
-                    
-
-                    <!-- Comments -->
-                    
-
-
-
-                </div>
-                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
-                    
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 1: About -->
-                    <div class="mt5 mt0-l">
-    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
-        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
-            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
+            
+                <a href="/2019/03/19/PHP扩展开发之c与c-两种模式/">
+    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
+        <div class="dtc v-mid w-20 black-50">
+            
+                <span class="f4 fw3 lh-copy">Mar 2019</span> 
+            
         </div>
-        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
-            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
-        </div>
-    </article>
-</div>
-
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 2: Categories -->
-                    
-
-                    <!-- Widget 3: Recent Posts -->
-                    <div class="mt5 tc tl-l">
-    <h3>近期文章</h3>
-    
-        <p>
-            <a href="/2019/03/19/PHP扩展开发之c与c-两种模式/">PHP扩展开发之c与c++两种模式</a>
-        </p>
-    
-        <p>
-            <a href="/2019/03/19/g++编译方法以及合并静态库/">g++编译方法以及合并静态库</a>
-        </p>
-    
-        <p>
-            <a href="/2019/03/06/QThread的事件循环与生命周期/">QThread的事件循环与生命周期</a>
-        </p>
-    
-        <p>
-            <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">QtCreator在Linux下断点调试无法访问变量的值</a>
-        </p>
-    
-        <p>
-            <a href="/2019/03/04/Qt编码解决思路/">Qt编码解决思路</a>
-        </p>
-    
-</div>
-                </div>
-            </div>
+        <div class="dtc v-mid w-80 black-70">
+            <span class="f4 fw3 lh-copy">PHP扩展开发之c与c++两种模式<span>
+        </span></span></div>
+    </div>
+</a>
+            
         </div>
     </div>
 </div>
-
 
 <!-- Footer -->
 <div class="bg-1 ph2 ph5-ns pv5">

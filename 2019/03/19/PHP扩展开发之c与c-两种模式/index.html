@@ -10,7 +10,17 @@
 
     <!--Description-->
     
-        <meta name="description" content="Qt设置全局的编码格式1234QTextCodec *codec = QTextCodec::codecForName(&#34;UTF-8&#34;);QTextCodec::setCodecForTr(codec);QTextCodec::setCodecForLocale(codec);QTextCodec:">
+        <meta name="description" content="使用c或者c++开发php扩展的目的在于，利用c和c++的高效性提高性能，毕竟php只是一个脚本语言。php的msyqli等扩展就是一个例子，可以从其中了解php扩展的大概框架。
+准备工作
+下载相应的php源码
+
+编译需要的库文件
+
+
+开发扩展
+##创建扩展项目
+
+进入php源码的ext目录,生成一">
     
 
     <!--Author-->
@@ -20,7 +30,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Qt编码解决思路">
+        <meta property="og:title" content="PHP扩展开发之c与c++两种模式">
     
 
     <!--Open Graph Description-->
@@ -42,7 +52,7 @@
 
     <!-- Title -->
     
-    <title>Qt编码解决思路 - 一个骚年</title>
+    <title>PHP扩展开发之c与c++两种模式 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -110,8 +120,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Qt编码解决思路</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-04</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">PHP扩展开发之c与c++两种模式</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-19</p>
         </div>
     </div>
 
@@ -131,35 +141,35 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
+                                <a class="fw3 ph1 dib" href="/tags/PHP扩展/">#PHP扩展</a> <a class="fw3 ph1 dib" href="/tags/c/">#c</a> <a class="fw3 ph1 dib" href="/tags/c/">#c++</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <h1 id="Qt设置全局的编码格式"><a href="#Qt设置全局的编码格式" class="headerlink" title="Qt设置全局的编码格式"></a>Qt设置全局的编码格式</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *codec = QTextCodec::codecForName(<span class="string">"UTF-8"</span>);</span><br><span class="line">QTextCodec::setCodecForTr(codec);</span><br><span class="line">QTextCodec::setCodecForLocale(codec);</span><br><span class="line">QTextCodec::setCodecForCStrings(codec);</span><br></pre></td></tr></table></figure>
-<p>说明：setCodecForLocale是设置程序运行的本地编码格式 ，例如QString data=”测试”，根据上述代码，此处将data处理为UTF-8。setCodecForTr是设置tr（data）要处理的编码格式，例如上述代码tr(data)会处理utf8编码，此处显示则是正常的中文，因为local的编码也是UTF-8,两者一致。而如果此处data是gbk编码，那么会显示中文乱码。setCodecForCStrings(codec) 是给QString 设置对应的编码，同理tr函数。</p>
-<h1 id="Qt解析GB2312编码xml转换GB2312-gt-UTF-8"><a href="#Qt解析GB2312编码xml转换GB2312-gt-UTF-8" class="headerlink" title="Qt解析GB2312编码xml转换GB2312-&gt;UTF-8"></a>Qt解析GB2312编码xml转换GB2312-&gt;UTF-8</h1><pre><code>QFile file(filename);
-if(!file.open(QFile::ReadOnly | QFile::Text)){
-
-  return;  
-}
-QTextCodec *gbk=QTextCodec::codecForName(&quot;GBK&quot;);
-QTextStream stream(&amp;file);
-stream.setCodec(gbk);   //此处为重点
-QString data=stream.readAll();
-qDebug()&lt;&lt;data;
-QDomDocument document;
-QString error;
-int row = 0, column = 0;
-document.setContent(data, false, &amp;error, &amp;row, &amp;column);
-</code></pre><p>此处使用QtextStream读取QFile,因为它可以设置源文件的编码格式，然后read之后会自动将gbk编码转化成utf的QString。所以此处给我们一个思路，只要我们知道源数据的编码格式，读取的时候设置对应的编码即可，QT会自动转换成utf-8（前提是已经设置了上述全局）。</p>
+                    <hr>
+<p>使用c或者c++开发php扩展的目的在于，利用c和c++的高效性提高性能，毕竟php只是一个脚本语言。php的msyqli等扩展就是一个例子，可以从其中了解php扩展的大概框架。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
+<li><p>下载相应的php源码</p>
+</li>
+<li><p>编译需要的库文件</p>
+</li>
+</ol>
+<h1 id="开发扩展"><a href="#开发扩展" class="headerlink" title="开发扩展"></a>开发扩展</h1><ol>
+<li>##创建扩展项目</li>
+</ol>
+<p>进入php源码的ext目录,生成一个名为test的扩展项目</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ext_skel --extname=test</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>##编辑配置文件</li>
+</ol>
+<p>进入test目录，里面存在一个config.m4和test.c。config.m4文件是扩展项目的编译配置文件，类似于Qt的pro文件。打开config.m4文件。</p>
 
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/中文编码/">#中文编码</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/PHP扩展/">#PHP扩展</a> <a class="fw3 ph1 dib" href="/tags/c/">#c</a> <a class="fw3 ph1 dib" href="/tags/c/">#c++</a>
                         </div>
                     
 
@@ -188,6 +198,18 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/学习笔记/">学习笔记</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->
