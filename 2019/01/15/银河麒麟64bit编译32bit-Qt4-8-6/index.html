@@ -161,7 +161,7 @@ You might need to modify the include and library sear">
 <li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure -platform linux-g++-<span class="number">32</span> -nomake examples -nomake demos -no-webkit -qt-zlib -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -qt-freetype -fontconfig</span><br><span class="line">gmake -j4  <span class="comment">#多线程编译</span></span><br><span class="line">sudo gmake install</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>fontconfig参数是为了支持加载外部字体文件</p>
+<p>fontconfig参数是为了更好的支持系统的字体，不然会出现中文显示不全或者不显示的问题。</p>
 <h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export QTDIR=/usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span></span><br><span class="line">export PATH=<span class="variable">$QTDIR</span>/bin:<span class="variable">$PATH</span></span><br><span class="line">export MANPATH=<span class="variable">$QTDIR</span>/man:<span class="variable">$MANPAT</span></span><br><span class="line">export LD_LIBRARY_PATH=<span class="variable">$QTDIR</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
 
                     
@@ -200,6 +200,10 @@ You might need to modify the include and library sear">
     <h3>近期文章</h3>
     
         <p>
+            <a href="/2019/03/21/读写文件时字符串存在多个文件终止符解决方法/">读写文件时字符串存在多个文件终止符解决方法</a>
+        </p>
+    
+        <p>
             <a href="/2019/03/19/PHP扩展开发之c与c-两种模式/">PHP扩展开发之c与c++两种模式</a>
         </p>
     
@@ -213,10 +217,6 @@ You might need to modify the include and library sear">
     
         <p>
             <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">QtCreator在Linux下断点调试无法访问变量的值</a>
-        </p>
-    
-        <p>
-            <a href="/2019/03/04/Qt编码解决思路/">Qt编码解决思路</a>
         </p>
     
 </div>

@@ -10,8 +10,7 @@
 
     <!--Description-->
     
-        <meta name="description" content="Linux如果使用搜狗输入法，那么QtCreator将无法输入中文，因为Qt没有自带的fcitx扩展支持，但是存在ibus的扩展支持，所以安装ibus。然后切换输入法为ibus即可。
-12sudo apt-get install ibus-pinyin ibus-qt4im-config">
+        <meta name="description" content="写文件我在Linux使用openssl库的DES算法进行文件的加解密时遇到一个问题。我从文件读取明文，然后加密为密文，最后将密文写入文件时发现文件写入的字节数量小于加密完的密文字节数，经过一番验证，发现是加密完的字符串中间包含文件终止符（-1），导致写入的时候遇到文件终止符提前结束了，所以只写入了部">
     
 
     <!--Author-->
@@ -21,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="qtcreator无法输入中文">
+        <meta property="og:title" content="读写文件时字符串存在多个文件终止符解决方法">
     
 
     <!--Open Graph Description-->
@@ -43,7 +42,7 @@
 
     <!-- Title -->
     
-    <title>qtcreator无法输入中文 - 一个骚年</title>
+    <title>读写文件时字符串存在多个文件终止符解决方法 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -111,8 +110,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">qtcreator无法输入中文</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-01-29</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">读写文件时字符串存在多个文件终止符解决方法</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-03-21</p>
         </div>
     </div>
 
@@ -132,20 +131,33 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/QtCreator-中文输入/">#QtCreator 中文输入</a>
+                                <a class="fw3 ph1 dib" href="/tags/c/">#c++</a> <a class="fw3 ph1 dib" href="/tags/文件读写/">#文件读写</a> <a class="fw3 ph1 dib" href="/tags/多文件终止符/">#多文件终止符</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <p>Linux如果使用搜狗输入法，那么QtCreator将无法输入中文，因为Qt没有自带的fcitx扩展支持，但是存在ibus的扩展支持，所以安装ibus。然后切换输入法为ibus即可。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ibus-pinyin ibus-qt4</span><br><span class="line">im-config</span><br></pre></td></tr></table></figure>
+                    <hr>
+<h1 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h1><p>我在Linux使用openssl库的DES算法进行文件的加解密时遇到一个问题。我从文件读取明文，然后加密为密文，最后将密文写入文件时发现文件写入的字节数量小于加密完的密文字节数，经过一番验证，发现是加密完的字符串中间包含文件终止符（-1），导致写入的时候遇到文件终止符提前结束了，所以只写入了部分内容。</p>
+<p>错误写法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> outText;<span class="comment">//outText为输出的加密字符串 </span></span><br><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(filename)</span></span>;</span><br><span class="line">file.open(QFile::WriteOnly|QFile::Truncate);</span><br><span class="line">file.write(outText.data());</span><br><span class="line">file.close();</span><br></pre></td></tr></table></figure>
+<p>正确写法:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> outText;<span class="comment">//outText为输出的加密字符串</span></span><br><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(filename)</span></span>;</span><br><span class="line">file.open(QFile::WriteOnly|QFile::Truncate);</span><br><span class="line">file.write(outText.data(),outText.size());</span><br><span class="line">file.close();</span><br></pre></td></tr></table></figure>
+<p>此处唯一的区别在于写入的指定写入的大小，这样就能将全部字符串写入文件。</p>
+<h1 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h1><p>将加密字符串存入文件之后，读取文件的内容也会遇到同样的问题，即文件读的时候遇到文件终止符会结束，导致读取的加密字符串不完整。这里我以c++的<ifsteam>操作说明如何解决该问题。ifstream的 &gt;&gt;buf和getLine(buf)都会遇见文件终止符结束，所以我才有get（）读取每一个字节，然后使用peek来判断是否结束，peek会预读文件指针下一个的内容。代码如下：</ifsteam></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> srcText = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">char</span> temp;</span><br><span class="line">QList&lt;<span class="keyword">char</span>&gt; <span class="built_in">list</span>;</span><br><span class="line"><span class="keyword">while</span>( in.peek()!=EOF)&#123;</span><br><span class="line"></span><br><span class="line">    in.get(temp);</span><br><span class="line">    <span class="built_in">list</span>.push_back(temp);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">srcText.assign(<span class="built_in">list</span>.begin(),<span class="built_in">list</span>.end());</span><br></pre></td></tr></table></figure>
+<p>最后还有一个关于“\0”的问题，我解密出来的字符串除了下列情况 “泰安\0\0\0”，于是我想将去掉‘\0’，我使用的是Qt的QString。</p>
+<p>错误用法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QString out=<span class="string">"泰安\0\0\0"</span>;</span><br><span class="line">out.replace(<span class="string">"\0"</span>,<span class="string">""</span>); <span class="comment">//错误用法一，这种用法会将“\0”转化成一个QString</span></span><br><span class="line">out.replace(<span class="string">'\0'</span>,<span class="string">""</span>); <span class="comment">//错误用法二，这个会导致重载函数的调用出现歧义，出现编译错误</span></span><br></pre></td></tr></table></figure>
+<p>现象如下：<img src="/2019/03/21/读写文件时字符串存在多个文件终止符解决方法/img1.png" alt="读写文件时字符串存在多个文件终止符解决方法\img1"></p>
+<p>正确用法:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QString out=<span class="string">"泰安\0\0\0"</span>;</span><br><span class="line">out.replace(QChar(<span class="string">'\0'</span>),<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
 
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/QtCreator-中文输入/">#QtCreator 中文输入</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/c/">#c++</a> <a class="fw3 ph1 dib" href="/tags/文件读写/">#文件读写</a> <a class="fw3 ph1 dib" href="/tags/多文件终止符/">#多文件终止符</a>
                         </div>
                     
 
@@ -174,6 +186,18 @@
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/学习笔记/">学习笔记</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->
