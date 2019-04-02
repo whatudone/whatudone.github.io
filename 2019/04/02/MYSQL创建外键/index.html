@@ -10,7 +10,9 @@
 
     <!--Description-->
     
-        <meta name="description" content="Linux Qt发布打包的程序到另外一个没有安装Qt环境的Linux系统，首先要将所有依赖的动态链接库全部找到，例如libQtCore.so和本次的重点libqsqlmysql.so。将上述文件全部拷贝到目标机器上以后，先要ldd libqsqlmysql.so看看是否依赖齐全，如果提示libmys">
+        <meta name="description" content="今天将sqlite的表迁移到mysql中，有一张表的存在外键。外键约束的成立条件首先就是子表（定义外键的表）的引用的父表的那一列有唯一性约束，也就是UNIQUE,当一列是主键（PRIMARY KEY ）他已经是默认的唯一性，所以可以不用考虑这个问题。另外还需要注意的问题如下：
+
+找不到父表中引用的列">
     
 
     <!--Author-->
@@ -20,7 +22,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Linux打包QT程序时提示找不到QMYSQL驱动">
+        <meta property="og:title" content="MYSQL创建外键">
     
 
     <!--Open Graph Description-->
@@ -42,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Linux打包QT程序时提示找不到QMYSQL驱动 - 一个骚年</title>
+    <title>MYSQL创建外键 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -110,8 +112,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Linux打包QT程序时提示找不到QMYSQL驱动</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-01-28</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">MYSQL创建外键</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-04-02</p>
         </div>
     </div>
 
@@ -129,16 +131,46 @@
                 <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
                     <!-- Tags Vertical -->
                     
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/MYSQL/">#MYSQL</a> <a class="fw3 ph1 dib" href="/tags/外键/">#外键</a>
+                            </div>
+                        </div>
+                    
 
                     <!-- Main Post Content -->
-                    <p>Linux Qt发布打包的程序到另外一个没有安装Qt环境的Linux系统，首先要将所有依赖的动态链接库全部找到，例如libQtCore.so和本次的重点libqsqlmysql.so。将上述文件全部拷贝到目标机器上以后，先要ldd libqsqlmysql.so看看是否依赖齐全，如果提示libmysqlclient.so找不到，那就安装libmysqlclient18或libmysqlclient.so（取决于提示）。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient18</span><br></pre></td></tr></table></figure>
-<p>因为启动Qt程序的时候，需要指定环境变量，解决办法1：将环境变量直接写进 /etc/profile里面，2，使用shell脚本启动，将环境变量写在脚本里面，本例采取这种方式（影响最小，环境变量是临时的）。run.sh脚本如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">bindir=`dirname <span class="string">"<span class="variable">$0</span>"</span>` <span class="comment">#获取当前shell脚本目录</span></span><br><span class="line"></span><br><span class="line">libdir=`cd <span class="string">"<span class="variable">$bindir</span>/lib"</span>;pwd`</span><br><span class="line"></span><br><span class="line">QTDIR=$&#123;bindir&#125;       <span class="comment">#指定QT的目录和可执行程序一个目录</span></span><br><span class="line"></span><br><span class="line">QT_PLUGIN_PATH=`cd <span class="string">"<span class="variable">$bindir</span>/lib/plugins"</span>;pwd` <span class="comment">#指定QT查找plugins的目录，关键</span></span><br><span class="line"></span><br><span class="line">LD_LIBRARY_PATH=$&#123;libdir&#125;:$&#123;LD_LIBRARY_PATH&#125;  <span class="comment">#指定QT依赖库的路径（eg libQtCore.so）</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$bindir:</span>$&#123;PATH&#125;  <span class="comment">#给当前路径程序添加到PATH环境变量中</span></span><br><span class="line"></span><br><span class="line">export PATH LD_LIBRARY_PATH QTDIR  QT_PLUGIN_PATH</span><br><span class="line"></span><br><span class="line">exec <span class="string">"<span class="variable">$bindir</span>/test"</span>   <span class="comment">#启动程序</span></span><br></pre></td></tr></table></figure>
-<p>值得注意的是目录结构，根据上述脚本，我们将qt的依赖库拷贝到lib下，然后在lib下新建文件夹plugins，在plugins下新建sqldrivers文件夹，然后将libqsqlmysql.so文件放在sqldrivers下，qt程序启动之后就会去该目录下查找可用的数据库驱动，同理libqsqlite.so。</p>
+                    <p>今天将sqlite的表迁移到mysql中，有一张表的存在外键。外键约束的成立条件首先就是子表（定义外键的表）的引用的父表的那一列有唯一性约束，也就是UNIQUE,当一列是主键（PRIMARY KEY ）他已经是默认的唯一性，所以可以不用考虑这个问题。另外还需要注意的问题如下：</p>
+<ol>
+<li><p>找不到父表中引用的列</p>
+</li>
+<li><p>主键和外键的字符编码不一致</p>
+</li>
+<li><p>外键字段与要做外键校验的字段类型不匹配 </p>
+</li>
+<li><p>MySQL支持外键约束，并提供与其它DB相同的功能，但表类型必须为 InnoDB，非InnoDB 存储引擎会导致报错</p>
+</li>
+<li><p>多个子表的外键引用同一个父表的列时，每个外键的名称不能一样</p>
+</li>
+</ol>
+<p>外键的用法一般作为一种关联性校验，如下：</p>
+<ol>
+<li><p>父表更新时子表也更新，父表删除时如果子表有匹配的项删除失败 (ON UPDATE CASCADE ON DELETE RESTRICT)</p>
+</li>
+<li><p>父表更新时子表也更新，父表删除时子表匹配的项也删除（ON UPDATE CASCADE ON DELETE CASCADE）</p>
+</li>
+</ol>
+<p>下面给出一个简单的例子分别创建父表和子表。</p>
+<p>父表sql语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`线路表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
+<p>子表sql语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`节点表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`节点名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`位置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`版本`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`设置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`FK`</span> (<span class="string">`线路ID`</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> <span class="string">`FK`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`线路ID`</span>) <span class="keyword">REFERENCES</span> <span class="string">`线路表`</span> (<span class="string">`ID`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
 
                     
                     <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/MYSQL/">#MYSQL</a> <a class="fw3 ph1 dib" href="/tags/外键/">#外键</a>
+                        </div>
                     
 
                     <!-- Comments -->
@@ -166,6 +198,18 @@
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/数据库/">数据库</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->
