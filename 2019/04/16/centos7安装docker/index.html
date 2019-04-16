@@ -10,9 +10,13 @@
 
     <!--Description-->
     
-        <meta name="description" content="今天将sqlite的表迁移到mysql中，有一张表的存在外键。外键约束的成立条件首先就是子表（定义外键的表）的引用的父表的那一列有唯一性约束，也就是UNIQUE,当一列是主键（PRIMARY KEY ）他已经是默认的唯一性，所以可以不用考虑这个问题。另外还需要注意的问题如下：
-
-找不到父表中引用的列">
+        <meta name="description" content="前提docker运行要求
+centos 7 （64-bit）
+centos 6.5（64-bit）或更高版本
+内核要求高于3.10，使用如下命令查看
+1uname -r
+安装dockerdocker分为社区版（ce）和企业按(ee),安装之前先卸载旧版本
+1sudo yum remove docke">
     
 
     <!--Author-->
@@ -22,7 +26,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="MYSQL创建外键">
+        <meta property="og:title" content="centos7安装docker">
     
 
     <!--Open Graph Description-->
@@ -44,7 +48,7 @@
 
     <!-- Title -->
     
-    <title>MYSQL创建外键 - 一个骚年</title>
+    <title>centos7安装docker - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -112,8 +116,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">MYSQL创建外键</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-04-02</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">centos7安装docker</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-04-16</p>
         </div>
     </div>
 
@@ -133,43 +137,47 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/MYSQL/">#MYSQL</a> <a class="fw3 ph1 dib" href="/tags/外键/">#外键</a>
+                                <a class="fw3 ph1 dib" href="/tags/centos7/">#centos7</a> <a class="fw3 ph1 dib" href="/tags/docker安装/">#docker安装</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <p>今天将sqlite的表迁移到mysql中，有一张表的存在外键。外键约束的成立条件首先就是子表（定义外键的表）的引用的父表的那一列有唯一性约束，也就是UNIQUE,当一列是主键（PRIMARY KEY ）他已经是默认的唯一性，所以可以不用考虑这个问题。另外还需要注意的问题如下：</p>
-<ol>
-<li><p>找不到父表中引用的列</p>
-</li>
-<li><p>主键和外键的字符编码不一致</p>
-</li>
-<li><p>外键字段与要做外键校验的字段类型不匹配 </p>
-</li>
-<li><p>MySQL支持外键约束，并提供与其它DB相同的功能，但表类型必须为 InnoDB，非InnoDB 存储引擎会导致报错</p>
-</li>
-<li><p>多个子表的外键引用同一个父表的列时，每个外键的名称不能一样</p>
-</li>
-</ol>
-<p>外键的用法一般作为一种关联性校验，如下：</p>
-<ol>
-<li><p>父表更新时子表也更新，父表删除时如果子表有匹配的项删除失败 (ON UPDATE CASCADE ON DELETE RESTRICT)</p>
-</li>
-<li><p>父表更新时子表也更新，父表删除时子表匹配的项也删除（ON UPDATE CASCADE ON DELETE CASCADE）</p>
-</li>
-</ol>
-<p>下面给出一个简单的例子分别创建父表和子表。</p>
-<p>父表sql语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`线路表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
-<p>子表sql语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`节点表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`节点名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`位置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`版本`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`设置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`FK`</span> (<span class="string">`线路ID`</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> <span class="string">`FK`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`线路ID`</span>) <span class="keyword">REFERENCES</span> <span class="string">`线路表`</span> (<span class="string">`ID`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
+                    <h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><p>docker运行要求</p>
+<p>centos 7 （64-bit）</p>
+<p>centos 6.5（64-bit）或更高版本</p>
+<p>内核要求高于3.10，使用如下命令查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p>docker分为社区版（ce）和企业按(ee),安装之前先卸载旧版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker*</span><br></pre></td></tr></table></figure>
+<h2 id="安装必要的系统工具"><a href="#安装必要的系统工具" class="headerlink" title="安装必要的系统工具"></a>安装必要的系统工具</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
+<h2 id="添加软件源"><a href="#添加软件源" class="headerlink" title="添加软件源"></a>添加软件源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<h2 id="更新yum缓存"><a href="#更新yum缓存" class="headerlink" title="更新yum缓存"></a>更新yum缓存</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum makecache fast</span><br></pre></td></tr></table></figure>
+<h2 id="安装docker-1"><a href="#安装docker-1" class="headerlink" title="安装docker"></a>安装docker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install docker-ce</span><br></pre></td></tr></table></figure>
+<h2 id="启动docker服务"><a href="#启动docker服务" class="headerlink" title="启动docker服务"></a>启动docker服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+<h2 id="测试安装成功"><a href="#测试安装成功" class="headerlink" title="测试安装成功"></a>测试安装成功</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker version</span><br></pre></td></tr></table></figure>
+<p>提示client和server端表示成功。</p>
+<h1 id="安装nginx-镜像"><a href="#安装nginx-镜像" class="headerlink" title="安装nginx 镜像"></a>安装nginx 镜像</h1><h2 id="搜索镜像"><a href="#搜索镜像" class="headerlink" title="搜索镜像"></a>搜索镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search nginx</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/04/16/centos7安装docker/search.png" alt="centos7安装docker\search"></p>
+<p>第一nginx没有组名，表示是官方的，其他带有组名</p>
+<h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull  nginx</span><br></pre></td></tr></table></figure>
+<h2 id="运行nginx"><a href="#运行nginx" class="headerlink" title="运行nginx"></a>运行nginx</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 8080:80 -d docker.io/nginx</span><br></pre></td></tr></table></figure>
+<h2 id="查看docker运行的容器"><a href="#查看docker运行的容器" class="headerlink" title="查看docker运行的容器"></a>查看docker运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/04/16/centos7安装docker/docker_ps.png" alt="centos7安装docker\search"></p>
+<p>一个docker容器相当于一个完整的Linux系统，只不过这个系统里面只存在nginx。同理可以运行多个nginx的容器，只要映射到不同的端口即可。</p>
+<h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker stop container_ID</span><br></pre></td></tr></table></figure>
+<h2 id="修改镜像的内容"><a href="#修改镜像的内容" class="headerlink" title="修改镜像的内容"></a>修改镜像的内容</h2><p>例如我需要将我的项目发布到nginx的目录下。有如下两种方法：</p>
+<h3 id="1、拷贝项目到容器"><a href="#1、拷贝项目到容器" class="headerlink" title="1、拷贝项目到容器"></a>1、拷贝项目到容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp hello.html container_ID://usr/share/nginx/html</span><br><span class="line">sudo docker <span class="built_in">exec</span> -it container_ID bash</span><br></pre></td></tr></table></figure>
+<p>/usr/share/nginx/html是容器里nginx的默认静态网页的路径。exec表示进入容器。</p>
+<h3 id="2、映射宿主机的目录到容器目录"><a href="#2、映射宿主机的目录到容器目录" class="headerlink" title="2、映射宿主机的目录到容器目录"></a>2、映射宿主机的目录到容器目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 80:80 -d -v yourdir:usr/share/nginx/html docker.io/nginx</span><br></pre></td></tr></table></figure>
+<p>-v表示映射目录,进入容器之后退出容器命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
 
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/MYSQL/">#MYSQL</a> <a class="fw3 ph1 dib" href="/tags/外键/">#外键</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/centos7/">#centos7</a> <a class="fw3 ph1 dib" href="/tags/docker安装/">#docker安装</a>
                         </div>
                     
 
@@ -203,7 +211,7 @@
     <h3>分类</h3>
     
         <p>
-            <a href="/categories/数据库/">数据库</a>
+            <a href="/categories/学习笔记/">学习笔记</a>
         </p>
     
 </div>
