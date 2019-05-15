@@ -10,8 +10,9 @@
 
     <!--Description-->
     
-        <meta name="description" content="前言这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式
-1、QQmlApplicationEngine123456789QCoreApplication::setAttribute(Qt::AA">
+        <meta name="description" content="前言这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。
+1、资源文件1.1、路径在添加资源文件时，先添加前缀，一般使用“/”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。
+2、">
     
 
     <!--Author-->
@@ -21,7 +22,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="QML编写自定义组件">
+        <meta property="og:title" content="Qt注意事项">
     
 
     <!--Open Graph Description-->
@@ -43,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>QML编写自定义组件 - 一个骚年</title>
+    <title>Qt注意事项 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -111,8 +112,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">QML编写自定义组件</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-04-24</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">Qt注意事项</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-05-05</p>
         </div>
     </div>
 
@@ -132,23 +133,21 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/QML自定义组件/">#QML自定义组件</a>
+                                <a class="fw3 ph1 dib" href="/tags/Qt/">#Qt</a> <a class="fw3 ph1 dib" href="/tags/BUG/">#BUG</a>
                             </div>
                         </div>
                     
 
                     <!-- Main Post Content -->
-                    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式</p>
-<h3 id="1、QQmlApplicationEngine"><a href="#1、QQmlApplicationEngine" class="headerlink" title="1、QQmlApplicationEngine"></a>1、QQmlApplicationEngine</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQmlApplicationEngine engine;</span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br><span class="line"><span class="keyword">if</span> (engine.rootObjects().isEmpty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
-<p>这种启动方式是必须qml顶层元素为window或者ApplicationWindow</p>
-<h3 id="2、QQuickView"><a href="#2、QQuickView" class="headerlink" title="2、QQuickView"></a>2、QQuickView</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQuickView viwer;</span><br><span class="line">viwer.setSource(QUrl(<span class="string">"qrc:/RListView.qml"</span>));</span><br><span class="line">viwer.setVisible(<span class="literal">true</span>);</span><br><span class="line">QQuickItem *rootItem = viwer.rootObject();</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
-<p>这种启动方式，qml顶层可以是Item、Rectangle等，不需要是window。</p>
+                    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p>
+<h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“/”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p>
+<h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p>
 
                     
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/QML自定义组件/">#QML自定义组件</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/Qt/">#Qt</a> <a class="fw3 ph1 dib" href="/tags/BUG/">#BUG</a>
                         </div>
                     
 
@@ -182,7 +181,7 @@
     <h3>分类</h3>
     
         <p>
-            <a href="/categories/QML学习笔记/">QML学习笔记</a>
+            <a href="/categories/学习笔记/">学习笔记</a>
         </p>
     
 </div>
@@ -196,23 +195,23 @@
     <h3>近期文章</h3>
     
         <p>
+            <a href="/2019/05/15/Qt的pro配置详解/">Qt的pro配置详解</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/10/QML编写自定义组件/">QML编写自定义组件</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/08/QML-ListView视图模型/">QML-ListView视图模型</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/05/Qt注意事项/">Qt注意事项</a>
+        </p>
+    
+        <p>
             <a href="/2019/04/28/QML-CPP混合编程/">QML/C++混合编程</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/28/Qt配置多项目解决方案/">Qt配置多项目解决方案</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/26/Qt资源文件加载大文件/">Qt资源文件加载大文件</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/24/QML动画插值模型/">QML动画插值模型</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/24/QML编写自定义组件/">QML编写自定义组件</a>
         </p>
     
 </div>

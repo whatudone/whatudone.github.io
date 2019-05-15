@@ -164,7 +164,7 @@ robject.h
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">RObject&#123;</span><br><span class="line"></span><br><span class="line">    id:robejct</span><br><span class="line">    color: Qt.rgba(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line">MouseArea&#123;</span><br><span class="line">    anchors.fill: parent</span><br><span class="line">    onClicked: &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(robejct.color);</span><br><span class="line">        robejct.color=Qt.rgba(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">var</span> result=robejct.add(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">        robejct.print(<span class="string">"测试"</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(result);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Connections&#123;</span><br><span class="line">    target: robejct</span><br><span class="line">    onColorChanged:&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(robejct.color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此处连接RObject的colorChanged()信号时，要写成onColorChanged,不然无法识别该信号。</p>
 <h3 id="注册属性"><a href="#注册属性" class="headerlink" title="注册属性"></a>注册属性</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">QQmlApplicationEngine engine;</span><br><span class="line"></span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (engine.rootObjects().isEmpty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        QScopedPointer&lt;RObject&gt; object(<span class="keyword">new</span> RObject);</span><br><span class="line"></span><br><span class="line">        engine.rootContext()-&gt;setContextProperty(<span class="string">"robject"</span>,object.data());</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>这是将一个RObject的实例注册为main.qml根元素的一个属性。此处采用智能指针是因为qml不会帮助这个实例释放，所以采取智能指针自动释放。QMl的用法就当做普通的属性使用即可。</p>
+<p>这是将一个RObject的实例注册为main.qml根元素的一个属性。此处采用智能指针是因为qml不会帮助这个实例释放，所以采取智能指针自动释放。QMl的用法就当做普通的属性使用即可。这里使用C++仅仅只是传递了一个简单的数据类型int，转换到js之后会自动转换为js的int类型。但是如果你想传递一个数组类型，可以使用QVariantList,QVariant又是一个模板类，可以包含任何数据类型，包括map，QObject,int等等。QVariantList传递到js里面之后会转换成js的数组（array）类型，这时候遍历解析也要使用js的方法，记住此时数据已经是一个js的对象，不能再使用原来的c++的方法，要转换这个思维。</p>
 
                     
                     <!-- Tags Bottom -->
@@ -218,23 +218,23 @@ robject.h
     <h3>近期文章</h3>
     
         <p>
+            <a href="/2019/05/15/Qt的pro配置详解/">Qt的pro配置详解</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/10/QML编写自定义组件/">QML编写自定义组件</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/08/QML-ListView视图模型/">QML-ListView视图模型</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/05/Qt注意事项/">Qt注意事项</a>
+        </p>
+    
+        <p>
             <a href="/2019/04/28/QML-CPP混合编程/">QML/C++混合编程</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/28/Qt配置多项目解决方案/">Qt配置多项目解决方案</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/26/Qt资源文件加载大文件/">Qt资源文件加载大文件</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/24/QML动画插值模型/">QML动画插值模型</a>
-        </p>
-    
-        <p>
-            <a href="/2019/04/24/QML编写自定义组件/">QML编写自定义组件</a>
         </p>
     
 </div>
