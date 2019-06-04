@@ -10,7 +10,8 @@
 
     <!--Description-->
     
-        <meta name="description" content="Linux Qt发布打包的程序到另外一个没有安装Qt环境的Linux系统，首先要将所有依赖的动态链接库全部找到，例如libQtCore.so和本次的重点libqsqlmysql.so。将上述文件全部拷贝到目标机器上以后，先要ldd libqsqlmysql.so看看是否依赖齐全，如果提示libmys">
+        <meta name="description" content="今天在做一个读取mp3文件的metadata信息的时候遇到两个很简单的问题，由于长时间没有使用标准c++，导致花了一点时间才解决，看来c++基础基本荒废了啊。
+struct.h1234567891011struct MetaData&amp;#123;    char Header[3]; /*标签头必须是">
     
 
     <!--Author-->
@@ -20,7 +21,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Linux打包QT程序时提示找不到QMYSQL驱动">
+        <meta property="og:title" content="char数组的数据显示">
     
 
     <!--Open Graph Description-->
@@ -42,7 +43,7 @@
 
     <!-- Title -->
     
-    <title>Linux打包QT程序时提示找不到QMYSQL驱动 - 一个骚年</title>
+    <title>char数组的数据显示 - 一个骚年</title>
 
     <!-- Tachyons Core CSS -->
     <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
@@ -110,8 +111,8 @@
     <!-- Title -->
     <div class="w-100 mw8 center vh-40 dt">
         <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">Linux打包QT程序时提示找不到QMYSQL驱动</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-01-28</p>
+            <h1 class="f1-l f2-m tc tc-m tl-ns">char数组的数据显示</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-05-24</p>
         </div>
     </div>
 
@@ -129,16 +130,29 @@
                 <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
                     <!-- Tags Vertical -->
                     
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/char数组/">#char数组</a>
+                            </div>
+                        </div>
+                    
 
                     <!-- Main Post Content -->
-                    <p>Linux Qt发布打包的程序到另外一个没有安装Qt环境的Linux系统，首先要将所有依赖的动态链接库全部找到，例如libQtCore.so和本次的重点libqsqlmysql.so。将上述文件全部拷贝到目标机器上以后，先要ldd libqsqlmysql.so看看是否依赖齐全，如果提示libmysqlclient.so找不到，那就安装libmysqlclient18或libmysqlclient.so（取决于提示）。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient18</span><br></pre></td></tr></table></figure>
-<p>因为启动Qt程序的时候，需要指定环境变量，解决办法1：将环境变量直接写进 /etc/profile里面，2，使用shell脚本启动，将环境变量写在脚本里面，本例采取这种方式（影响最小，环境变量是临时的）。run.sh脚本如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">bindir=`dirname <span class="string">"<span class="variable">$0</span>"</span>` <span class="comment">#获取当前shell脚本目录</span></span><br><span class="line"></span><br><span class="line">libdir=`cd <span class="string">"<span class="variable">$bindir</span>/lib"</span>;pwd`</span><br><span class="line"></span><br><span class="line">QTDIR=$&#123;bindir&#125;       <span class="comment">#指定QT的目录和可执行程序一个目录</span></span><br><span class="line"></span><br><span class="line">QT_PLUGIN_PATH=`cd <span class="string">"<span class="variable">$bindir</span>/lib/plugins"</span>;pwd` <span class="comment">#指定QT查找plugins的目录，关键</span></span><br><span class="line"></span><br><span class="line">LD_LIBRARY_PATH=$&#123;libdir&#125;:$&#123;LD_LIBRARY_PATH&#125;  <span class="comment">#指定QT依赖库的路径（eg libQtCore.so）</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$bindir:</span>$&#123;PATH&#125;  <span class="comment">#给当前路径程序添加到PATH环境变量中</span></span><br><span class="line"></span><br><span class="line">export PATH LD_LIBRARY_PATH QTDIR  QT_PLUGIN_PATH</span><br><span class="line"></span><br><span class="line">exec <span class="string">"<span class="variable">$bindir</span>/test"</span>   <span class="comment">#启动程序</span></span><br></pre></td></tr></table></figure>
-<p>值得注意的是目录结构，根据上述脚本，我们将qt的依赖库拷贝到lib下，然后在lib下新建文件夹plugins，在plugins下新建sqldrivers文件夹，然后将libqsqlmysql.so文件放在sqldrivers下，qt程序启动之后就会去该目录下查找可用的数据库驱动，同理libqsqlite.so。</p>
+                    <p>今天在做一个读取mp3文件的metadata信息的时候遇到两个很简单的问题，由于长时间没有使用标准c++，导致花了一点时间才解决，看来c++基础基本荒废了啊。</p>
+<h3 id="struct-h"><a href="#struct-h" class="headerlink" title="struct.h"></a>struct.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MetaData</span>&#123;</span></span><br><span class="line">    <span class="keyword">char</span> Header[<span class="number">3</span>]; <span class="comment">/*标签头必须是"TAG"否则认为没有标签*/</span></span><br><span class="line">    <span class="keyword">char</span> Title[<span class="number">30</span>]; <span class="comment">/*标题*/</span></span><br><span class="line">    <span class="keyword">char</span> Artist[<span class="number">30</span>]; <span class="comment">/*作者*/</span></span><br><span class="line">    <span class="keyword">char</span> Album[<span class="number">30</span>]; <span class="comment">/*专集*/</span></span><br><span class="line">    <span class="keyword">char</span> Year[<span class="number">4</span>]; <span class="comment">/*出品年代*/</span></span><br><span class="line">    <span class="keyword">char</span> Comment[<span class="number">28</span>]; <span class="comment">/*备注*/</span></span><br><span class="line">    <span class="keyword">char</span> Reserver;    <span class="comment">/*保留*/</span></span><br><span class="line">    <span class="keyword">char</span> Channel;     <span class="comment">/*音轨*/</span></span><br><span class="line">    <span class="keyword">char</span> Genre; <span class="comment">/*类型*/</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是mp3的ID3V1的标签格式，128数据在文件的最末尾，起始是三个字节的“TAG”</p>
+</blockquote>
+<h3 id="main-cpp"><a href="#main-cpp" class="headerlink" title="main.cpp"></a>main.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">in</span><span class="params">(filename,ios::in)</span></span>;</span><br><span class="line"><span class="keyword">if</span>(!in.is_open())&#123;</span><br><span class="line">    <span class="keyword">return</span>;    </span><br><span class="line">&#125;</span><br><span class="line">in.seekg(<span class="number">128</span>,ios::end);<span class="comment">//wrong ,正确写法:in.seekg(-128,ios::end);</span></span><br><span class="line"><span class="keyword">char</span> data[<span class="number">128</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">in.read(data,<span class="number">128</span>);</span><br><span class="line">MetaData tagData;</span><br><span class="line"><span class="built_in">memset</span>(&amp;tagData,<span class="number">0</span>,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;tagData,data,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;tagData.Header&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//错误，正确 string header(tagData.Header,3);cout&lt;&lt;header&lt;&lt;endl;</span></span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
+<p>错误1，ifstream::seekg的作用是移动当前读取文件指针的位置，第一个参数是offset偏移（向后），我已经使用ios::end，也就是说参考位置到了文件末尾，我又向后移动了128,这样读取的信息肯定是空的，应该此处是-128，即向前偏移128位，这样才能获取到最后的128字节信息。</p>
+<p>错误2，我直接cout&lt;&lt;tagData.Header,以为只会输出“TAG”这三个字符，但是实际结果是后面还输出了Title的信息。因为Header此时是一个字符串指针，指向的是第一个字节，而不是我以为的字符串（string)，输出的时候结果是输出指针后面的所有字节，直到遇到第一个字符串结束符（\0）。所以正确的用法是将Header转化为std::string，然后显示。</p>
 
                     
                     <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/char数组/">#char数组</a>
+                        </div>
                     
 
                     <!-- Comments -->
@@ -166,6 +180,18 @@
                     <hr class="dn-l mw4 black-50 mt5">
                     
                     <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/学习笔记/">学习笔记</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
                     
 
                     <!-- Widget 3: Recent Posts -->
