@@ -131,7 +131,7 @@
                     
                         <div class="tags-container-vertical">
                             <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/OSG，OsgEarth/">#OSG，OsgEarth</a>
+                                <a class="fw3 ph1 dib" href="/tags/OSG，OsgEarth/">#OSG，OsgEarth</a> <a class="fw3 ph1 dib" href="/tags/vcpkg/">#vcpkg</a>
                             </div>
                         </div>
                     
@@ -147,6 +147,8 @@
 <p>3、安装包</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcpkg install lib</span><br><span class="line">vcpkg install lib:x64-windows</span><br></pre></td></tr></table></figure>
 <p>默认不指定编译器位数的话编译32位，想要编译64位需要后面指定:x64-windows。这里我们编译64位osg，整个时间大概2个小时。</p>
+<p>4、下载缓慢解决方法</p>
+<p>使用vcpkg自动下载源码的时候经常会比较缓慢，所以我们可以把自动下载的地址复制出来，然后自己去网页上下载，下载完之后拷贝到downloads目录，这是他的文件下载目录。然后在自动下载的时候进入downloads/temp文件夹看一下，他下载的文件名称。有可能下载的同一个源码，但是文件名称不一致，导致vcpkg识别不了，需要将你下载的文件名称改成和temp里面的缓存文件名称一致，然后重新安装，这个时候他就会启用你下载的版本，不会自动下载了。</p>
 <h1 id="OSG环境配置"><a href="#OSG环境配置" class="headerlink" title="OSG环境配置"></a>OSG环境配置</h1><p>vcpkg编译的结果是debug和release分开了，后缀使用d区分。但是实际使用的话很麻烦，所以我将两个版本合并。新建一个osg目录，将include目录拷贝进去，然后将两个版本的lib和bin目录拷贝进去，然后把tools/osg目录里面的东西直接剪切到bin目录里面，然后在osg根目录新建一个data目录，用来存放数据，数据直接从官网下载即可，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">datal链接</a>。将数据解压后拷贝到data目录即可。然后添加环境变量，在用户环境变量里面将新的osg/bin目录添加到path，然后新建一个环境变量OSG_FILE_PATH,值是osg/data目录,这样后续代码里面直接加载测试文件的时候可以不用带路径。</p>
 <blockquote>
 <p>这个tools/osg目录里面存在许多编译好的工具，后续会使用到，然后目录下有个osgPlugins-3.6.3,这里面有osgDB的插件，不把它放在bin目录里面会导致后续使用osgDB库时，无法读写osg或者其他格式文件。</p>
@@ -156,7 +158,7 @@
                     <!-- Tags Bottom -->
                     
                         <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/OSG，OsgEarth/">#OSG，OsgEarth</a>
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/OSG，OsgEarth/">#OSG，OsgEarth</a> <a class="fw3 ph1 dib" href="/tags/vcpkg/">#vcpkg</a>
                         </div>
                     
 
@@ -204,6 +206,10 @@
     <h3>近期文章</h3>
     
         <p>
+            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+        </p>
+    
+        <p>
             <a href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
         </p>
     
@@ -217,10 +223,6 @@
     
         <p>
             <a href="/2019/05/15/Qt的pro配置详解/">Qt的pro配置详解</a>
-        </p>
-    
-        <p>
-            <a href="/2019/05/10/QML编写自定义组件/">QML编写自定义组件</a>
         </p>
     
 </div>

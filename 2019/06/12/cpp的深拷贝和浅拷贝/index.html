@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="默认拷贝构造代码如下：
+123456789101112131415161718192021222324252627class Test&amp;#123;public:    Test(int k,int v):key(k),value(v)    &amp;#123;    &amp;#125;    void show">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="还在输入">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="cpp的深拷贝和浅拷贝">
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="一个骚年">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+
+    <meta name="twitter:card" content="summary">
+    
+
+    <!-- Title -->
+    
+    <title>cpp的深拷贝和浅拷贝 - 一个骚年</title>
+
+    <!-- Tachyons Core CSS -->
+    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Google Analytics -->
+    
+
+
+</head>
+
+
+<body>
+
+<!-- Main Content -->
+<!-- Banner -->
+<!-- Banner -->
+<div class="w-100 bg-1 ph5-ns ph3 text-light">
+    
+    <nav class="db dt-l w-100 mw8 center border-box pv3">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
+            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
+                    首页
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
+                    文章
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
+                    标签
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
+                    分类
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
+                    关于
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
+                    联系方式
+                </a>
+            
+        </div>
+    </nav>
+
+    <!-- Title -->
+    <div class="w-100 mw8 center vh-40 dt">
+        <div class="dtc v-mid white">
+            <h1 class="f1-l f2-m tc tc-m tl-ns">cpp的深拷贝和浅拷贝</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-06-12</p>
+        </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="relative w-100 mw8 center white dn dn-m db-ns">
+        <i class="header-icon fa fa-file-text-o"></i>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
+    <div class="content">
+        <div class="mw8 center">
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/cpp/">#cpp</a> <a class="fw3 ph1 dib" href="/tags/深拷贝和浅拷贝/">#深拷贝和浅拷贝</a>
+                            </div>
+                        </div>
+                    
+
+                    <!-- Main Post Content -->
+                    <h1 id="默认拷贝构造"><a href="#默认拷贝构造" class="headerlink" title="默认拷贝构造"></a>默认拷贝构造</h1><p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>; <span class="comment">//Test b=a; //效果一样</span></span><br><span class="line"></span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在这个Test类中我并没有实现拷贝构造，但是编译器自动实现了一份拷贝构造,并且也重载了=操作符。但是这个默认的拷贝构造函数仅仅只是实现了一个浅拷贝，当类的成员中存在指针对象时这种默认拷贝构造就会出现未知的错误。下面是一份错误的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/2.png" alt="cpp的深拷贝和浅拷贝\2"></p>
+<p>Test新增了一个int型指针，构造函数里面分配内存空间，析构函数里面释放内存，咋一看没有问题，但是运行结束结束之前会出现一个错误，导致程序无法正常结束。那是因为这个默认拷贝构造在处理int指针时，只是单纯的将b的指针p指向了a的指针p指向的相同内存空间。也就是说这两个指针指向了同一个内存空间，当两个Test对象析构的时候就会释放两次这个内存，导致报错。</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>针对上述出现的错误，所以需要自己实现一份深拷贝构造函数。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Test(<span class="keyword">const</span> Test&amp; val)</span><br><span class="line">    &#123;</span><br><span class="line">        key=val.key;</span><br><span class="line">        value=val.value;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">        *p=*(val.p);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在上述的拷贝构造的构造中，为对象b的指针p重新分配了新的内存空间，然后把对象a的指针p的指向的内容赋值给b.p指向的内存空间。这样就实现了每个对象的指针指向独立的内存空间，并且内容一样。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h2 id="1、拷贝构造的参数传递"><a href="#1、拷贝构造的参数传递" class="headerlink" title="1、拷贝构造的参数传递"></a>1、拷贝构造的参数传递</h2><p>上述代码采用了常量引用方式（const &amp;）。为什么不采用传值要采用传引用？第一，传值会需要拷贝a对象的副本，导致额外的开销，影响效率。第二，也是最严重的问题，会导致递归无限调用拷贝构造函数。const是为了在传引用的时候，参数既可以使用左值（变量），又可以使用右值（常量），而且可以保证参数不被修改。当没有const的时候，参数只能使用左值，无法使用右值。</p>
+<h2 id="2、避免默认的拷贝构造函数"><a href="#2、避免默认的拷贝构造函数" class="headerlink" title="2、避免默认的拷贝构造函数"></a>2、避免默认的拷贝构造函数</h2><p>在类的定义中定义一个私有的拷贝构造函数如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>:</span><br><span class="line">Test(<span class="keyword">const</span> Test&amp;);</span><br></pre></td></tr></table></figure>
+<p>这样在不要拷贝的环境中，如果用户错误的调用了拷贝构造，会触发编译器错误。</p>
+<h2 id="3、析构函数"><a href="#3、析构函数" class="headerlink" title="3、析构函数"></a>3、析构函数</h2><p>析构函数前面加一个virtual使其变为一个虚函数。这是利用了cpp的多态。假设Test是一个基类，后续的继承类又定义了新的指针成员变量，这个时候继承类就需要自己重写析构函数。如果没有Test类的析构函数没有定义成虚函数，那么在继承类释放的时候，不会调用自己的析构函数，而是调用父类的析构函数，这样就会导致内存泄漏。</p>
+
+                    
+                    <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/cpp/">#cpp</a> <a class="fw3 ph1 dib" href="/tags/深拷贝和浅拷贝/">#深拷贝和浅拷贝</a>
+                        </div>
+                    
+
+                    <!-- Comments -->
+                    
+
+
+
+                </div>
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 2: Categories -->
+                    
+                        <div class="mt5 tc tl-l">
+    <h3>分类</h3>
+    
+        <p>
+            <a href="/categories/cpp基础/">cpp基础</a>
+        </p>
+    
+</div>
+
+
+                        <hr class="dn-l mw4 black-50 mt5">
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>近期文章</h3>
+    
+        <p>
+            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+        </p>
+    
+        <p>
+            <a href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/24/char数组的数据显示/">char数组的数据显示</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/21/HDF5-CPP使用教程/">HDF5_CPP使用教程</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/15/Qt的pro配置详解/">Qt的pro配置详解</a>
+        </p>
+    
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="bg-1 ph2 ph5-ns pv5">
+        <div class="mv8">
+            <div class="center tc">
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
+                            <i class="fa fa-behance"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
+                            <i class="fa fa-500px"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="f6 f5-ns center tc white pt5 fw3">
+                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            </div>
+        </div>
+    </div>
+
+<!-- After Footer -->
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
