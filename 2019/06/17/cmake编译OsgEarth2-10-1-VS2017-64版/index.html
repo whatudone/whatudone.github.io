@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="前言为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="还在输入">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="cmake编译OsgEarth2.10.1-VS2017-64版">
+    
+
+    <!--Open Graph Description-->
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="一个骚年">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+
+    <meta name="twitter:card" content="summary">
+    
+
+    <!-- Title -->
+    
+    <title>cmake编译OsgEarth2.10.1-VS2017-64版 - 一个骚年</title>
+
+    <!-- Tachyons Core CSS -->
+    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Google Analytics -->
+    
+
+
+</head>
+
+
+<body>
+
+<!-- Main Content -->
+<!-- Banner -->
+<!-- Banner -->
+<div class="w-100 bg-1 ph5-ns ph3 text-light">
+    
+    <nav class="db dt-l w-100 mw8 center border-box pv3">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
+            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
+                    首页
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
+                    文章
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
+                    标签
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
+                    分类
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
+                    关于
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
+                    联系方式
+                </a>
+            
+        </div>
+    </nav>
+
+    <!-- Title -->
+    <div class="w-100 mw8 center vh-40 dt">
+        <div class="dtc v-mid white">
+            <h1 class="f1-l f2-m tc tc-m tl-ns">cmake编译OsgEarth2.10.1-VS2017-64版</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-06-17</p>
+        </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="relative w-100 mw8 center white dn dn-m db-ns">
+        <i class="header-icon fa fa-file-text-o"></i>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
+    <div class="content">
+        <div class="mw8 center">
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+                        <div class="tags-container-vertical">
+                            <div class="tags-sub-container">
+                                <a class="fw3 ph1 dib" href="/tags/cmake/">#cmake</a> <a class="fw3 ph1 dib" href="/tags/osgearth/">#osgearth</a> <a class="fw3 ph1 dib" href="/tags/osg/">#osg</a>
+                            </div>
+                        </div>
+                    
+
+                    <!-- Main Post Content -->
+                    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a href="[https://objexx.com/OpenSceneGraph.html](https://objexx.com/OpenSceneGraph.html">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a href="[http://www.openscenegraph.org/index.php/download-section/dependencies](http://www.openscenegraph.org/index.php/download-section/dependencies">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
+<h1 id="编译其他依赖"><a href="#编译其他依赖" class="headerlink" title="编译其他依赖"></a>编译其他依赖</h1><p>官网提供的第三方库包含了gdal等，但是osgearth还需要geos，protobuf,sqlite3，poco，rocksdb等。由于我刚开始初学，暂时用不到后面的扩展，这里我们只编译geos，sqlite3，poco,protobuf。这里统一使用cmake创建sln工程，这是为了更好的控制编译的参数。tool选择vs2017 x64(默认是选择win32，一定要修改)。</p>
+<blockquote>
+<p>这里要注意cmake的时候，build目录（生成的vs工程和后续编译的二进制的目录）一定要和install（自动安装的目录）分开，不能选择同一个目录。这个install目录由CMAKE_INSTALL_PREFIX参数控制，默认在c:/Program Files(x86)</p>
+<p>目录，一定要选在其他目录，不然安装的时候由于没有权限导致无法安装。</p>
+</blockquote>
+<h2 id="编译geos-3-7-2"><a href="#编译geos-3-7-2" class="headerlink" title="编译geos-3.7.2"></a>编译geos-3.7.2</h2><p>这个过程没有什么曲折，cmake生成工程，vs编译安装即可。将安装完的bin，include，lib三个目录直接拷贝到第三方库的目录下即可，后续编译的依赖都需要拷贝到第三方库目录，方便统一设置环境变量。</p>
+<blockquote>
+<p>cmake的时候注意是不是编译的dll版（shared），osgearth貌似需要dll版的依赖库。后续编译的protobuf就遇到这个问题，最开始编译的是静态版，导致编译osgearth出现大量错误，将它编译成动态版之后sogearth就完美编译成功了。同时编译的时候注意是否有参数区分了debug和release编译的库名称，一般用d来表示debug版。这个参数是CMAKE_DEBUG_POSTFIX，可能Cmakelist.txt并没有配置这个参数，那么就需要手动添加，但是有可能配置了其他参数来替代它，比如protobuf就是使用PROTOBUF_DEBUG_POSTFIX，这两者作用是一致的，这时候就不要再添加了。在cmake-gui的上方有一个按钮名称为Add Entry ,操作如下图所示：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0046.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0046"></p>
+<h2 id="编译poco"><a href="#编译poco" class="headerlink" title="编译poco"></a>编译poco</h2><p>poco版本选择poco-1.9.0-all，记得选择all这个版本。其他和geos操作一致。</p>
+<blockquote>
+<p>在用vs编译的时候，选择<strong><em>生成-批生成</em></strong>。然后勾选ALL_BUILD的debug和release版，点击生成即可，这样就会编译debug和release两个版本，编译完成之后同样选择<strong><em>生成-批生成</em></strong>，去掉ALL_BUILD的勾选项，将INTSALL的debug和release勾选，点击生成，这样就会将编译好的库和头文件都拷贝到camke设置的安装目录，操作如下图：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0047.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047"></p>
+<h2 id="编译sqlite3"><a href="#编译sqlite3" class="headerlink" title="编译sqlite3"></a>编译sqlite3</h2><p>其实这已经不是编译了，官网上已经提供了编译好的二进制，这个dll可以同时在debug和release两个环境使用。我下载的是sqlite-amalgamation-3280000和sqlite-dll-win64-x64-3280000。解压，将sqlite3.h和sqlit3ext.h拷贝到第三方库的include目录。然后将解压出来的dll转化为lib。操作如下，先打开vs2017的x64 Native cmd窗口，然后cd进入到dll存在的目录，里面包含两个文件，sqlite3.dll和sqlite3.def。调用如下命令即可,就会生成sqlite3.lib和sqlite3.exp。</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0044.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0044"></p>
+<h2 id="编译protobuf"><a href="#编译protobuf" class="headerlink" title="编译protobuf"></a>编译protobuf</h2><p>版本一定要选择3.8.0，这是osgearth的依赖要求，cmake的时候去掉protobuf-BUILD_TESTS的勾选，不然会报错，然后勾上protobuf_BUILD_SHARED_LIBS，编译动态版。然后在zlib的依赖文件在第三方库中已经有，选择即可。如下图所示：</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0045.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0045"></p>
+<blockquote>
+<p>protobuf默认是编译静态版，后续osgearth编译的时候需要动态版，导致编译失败。编译这个的同时也解决了我一个问题，由于我总是使用gcc编译动态库，动态版就是.so，静态版就是.a。但是msvc的很多库就是编译要链接.lib文件，运行的时候需要.dll支持，不然无法运行。我搞不懂这个库到底是静态版还是动态版，通过这次百度才知道，这其实是一个动态版的库，那个.lib里面只是导出的定义，实现还是在.dll里面。msvc编译的库可以分为四种：1、MT(多线程静态release版)；2、MTd(多线程静态debug版)；3、MD(多线程动态release版)；4、MDd(多线程动态debug版)。这个可以在vs里面修改。右键工程–选择属性–c/c++–代码生成-运行库。</p>
+</blockquote>
+<h1 id="编译osgEarth"><a href="#编译osgEarth" class="headerlink" title="编译osgEarth"></a>编译osgEarth</h1><p>osgearth选用2.10.1版本，前面配置完环境变量之后，configure的时候大部分依赖都会自动找到。这里需要修改一下未能正确配置的地方。1、PROTOBUF_USE_DLLS勾选上；2、THIRD_PARTY_DIR目录选择第三方库目录。3；libcurl库的debug版未找到，手动去第三方库目录添加。再检查一下，有没有漏下的地方。将生成的osgearth库拷贝到OSG目录，环境变量PATH添加该库的bin目录。</p>
+<h1 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h1><p>下载最新的osg数据，<a href="[http://www.openscenegraph.org/index.php/download-section/data](http://www.openscenegraph.org/index.php/download-section/data">下载地址</a>下载最新的3.4.0即可，解压到OSG目录。然后将该目录重命名为data，将osgearth源码里面的data和tests拷贝到OSG目录下，添加环境变量OSG_FILE_PATH，值为OSG/data目录。</p>
+
+                    
+                    <!-- Tags Bottom -->
+                    
+                        <div class="tags-container-bottom">
+                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/cmake/">#cmake</a> <a class="fw3 ph1 dib" href="/tags/osgearth/">#osgearth</a> <a class="fw3 ph1 dib" href="/tags/osg/">#osg</a>
+                        </div>
+                    
+
+                    <!-- Comments -->
+                    
+
+
+
+                </div>
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 2: Categories -->
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>近期文章</h3>
+    
+        <p>
+            <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2017-64版</a>
+        </p>
+    
+        <p>
+            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+        </p>
+    
+        <p>
+            <a href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/24/char数组的数据显示/">char数组的数据显示</a>
+        </p>
+    
+        <p>
+            <a href="/2019/05/21/HDF5-CPP使用教程/">HDF5_CPP使用教程</a>
+        </p>
+    
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="bg-1 ph2 ph5-ns pv5">
+        <div class="mv8">
+            <div class="center tc">
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
+                            <i class="fa fa-behance"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
+                            <i class="fa fa-500px"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="f6 f5-ns center tc white pt5 fw3">
+                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            </div>
+        </div>
+    </div>
+
+<!-- After Footer -->
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
