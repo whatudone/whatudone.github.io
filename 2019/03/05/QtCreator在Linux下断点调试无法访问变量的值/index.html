@@ -10,10 +10,10 @@
 
     <!--Description-->
     
-        <meta name="description" content="bug状态如下：
+        <meta name="description" content="QtCreator调试无法获取当前变量值bug状态如下：
 
 这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可
-1set solib-search-path  /usr/local/Trolltech">
+1set solib-search-path  ">
     
 
     <!--Author-->
@@ -140,7 +140,7 @@
                     
 
                     <!-- Main Post Content -->
-                    <p>bug状态如下：</p>
+                    <h1 id="QtCreator调试无法获取当前变量值"><a href="#QtCreator调试无法获取当前变量值" class="headerlink" title="QtCreator调试无法获取当前变量值"></a>QtCreator调试无法获取当前变量值</h1><p>bug状态如下：</p>
 <p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB"></p>
 <p>这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set solib-search-path  /usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span>-<span class="number">64</span>/lib/</span><br></pre></td></tr></table></figure>
@@ -148,6 +148,7 @@
 <p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB1.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB1"></p>
 <p>添加后成功的状态图如下：</p>
 <p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB2.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB2"></p>
+<h1 id="QtCreator无法调试"><a href="#QtCreator无法调试" class="headerlink" title="QtCreator无法调试"></a>QtCreator无法调试</h1><p>有一种情况，当调试的时候gdb提示GDB:Failed to set controlling terminal。解决办法是在项目-&gt;Run 勾选 Run in terminal。</p>
 
                     
                     <!-- Tags Bottom -->
