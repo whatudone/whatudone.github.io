@@ -42,11 +42,11 @@
     
     <title>一个骚年</title>
 
-    <!-- Tachyons Core CSS -->
-    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,6 +54,9 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -67,337 +70,697 @@
 
 <body>
 
-<!-- Main Content -->
-<!-- Banner -->
-<!-- Banner -->
-<div class="w-100 bg-1 ph5-ns ph3 text-light">
-    
-    <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
-            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
-        </a>
-        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
-                    首页
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
-                    文章
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
-                    标签
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
-                    分类
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
-                    关于
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
-                    联系方式
-                </a>
-            
-        </div>
-    </nav>
+<div class="bg-gradient"></div>
+<div class="bg-pattern"></div>
 
-    <!-- Title -->
-    <div class="w-100 mw8 center vh-40 dt">
-        <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">欢迎来到我的博客，虽然没啥好看的。。。。。。</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">成就未来，抓住梦想。</p>
-        </div>
-    </div>
-
-    <!-- Icon -->
-    <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa fa-magic"></i>
+<!-- Menu -->
+<!--Menu Links and Overlay-->
+<div class="menu-bg">
+    <div class="menu-container">
+        <ul>
+            
+            <li class="menu-item">
+                <a href="/">
+                    Home
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/archives">
+                    Archives
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/about.html">
+                    About
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/tags">
+                    Tags
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/categories">
+                    Categories
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/contact.html">
+                    Contact
+                </a>
+            </li>
+            
+        </ul>
     </div>
 </div>
 
-<!-- Content -->
-<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
-    <div class="content">
-        <div class="mw8 center">
-            
-                <a href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-07-23</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/QCoreApplication/'; return false;">#QCoreApplication</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">QCoreApplication::quit()无法退出程序解决方法<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
+<!--Hamburger Icon-->
+<nav>
+    <a href="#menu"></a>
+</nav>
+
+<div class="container">
+
+    <!-- Main Content -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!--Title and Logo-->
+        <header>
+    <div class="logo">
+        <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
+        
+            <h1 id="main-title" class="title">一个骚年</h1>
+        
     </div>
-</a>
+</header>
+
+        <section class="main">
             
-                <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
                 
-                    <span class="f5 fw3 lh-copy pr4">2019-06-17</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/cmake/'; return false;">#cmake</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/osgearth/'; return false;">#osgearth</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/osg/'; return false;">#osg</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">cmake编译OsgEarth2.10.1-VS2017-64版<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">
+                QCoreApplication::quit()无法退出程序解决方法
+            </a>
+        </h1>
+        <div class="post-info">
             
-                <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-06-12</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/cpp/'; return false;">#cpp</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/深拷贝和浅拷贝/'; return false;">#深拷贝和浅拷贝</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">cpp的深拷贝和浅拷贝<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
+                <span class="date">2019-07-23</span>
             
-                <a href="/2019/06/04/OSG环境配置/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-06-04</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/OSG，OsgEarth/'; return false;">#OSG，OsgEarth</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/vcpkg/'; return false;">#vcpkg</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">OSG环境配置<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
             
-                <a href="/2019/05/24/char数组的数据显示/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-24</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/char数组/'; return false;">#char数组</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">char数组的数据显示<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
             
-                <a href="/2019/05/21/HDF5-CPP使用教程/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-21</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/C/'; return false;">#C++</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/Qt/'; return false;">#Qt</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/HDF5/'; return false;">#HDF5</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">HDF5_CPP使用教程<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/05/15/Qt的pro配置详解/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-15</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/pro/'; return false;">#pro</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/qmake/'; return false;">#qmake</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Qt的pro配置详解<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/05/10/QML编写自定义组件/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-10</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/QML/'; return false;">#QML</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/自定义组件/'; return false;">#自定义组件</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">QML编写自定义组件<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/05/08/QML-ListView视图模型/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-08</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/QML/'; return false;">#QML</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/ListView/'; return false;">#ListView</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">QML-ListView视图模型<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/05/05/Qt注意事项/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-05-05</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/Qt/'; return false;">#Qt</span> <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/BUG/'; return false;">#BUG</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Qt注意事项<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
             
         </div>
     </div>
+
     
-    <div class="flex items-center justify-center pa4">
-        <a href="/" class="f5 no-underline inline-flex items-center pa3 ba border-box mr4 light-gray cursor-default">
-            <i class="w1 pr2 fa fa-chevron-left" aria-hidden="true"></i>
-            <span class="pl1">上一页</span>
-        </a>
-        <a href="/page/2/" class="f5 no-underline inline-flex items-center pa3 ba border-box gray hover-border-main-color hover-text-main-color">
-            <span class="pr1">下一页</span>
-            <i class="w1 pl2 fa fa-chevron-right" aria-hidden="true"></i>
-        </a>
-    </div>
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用Qt一般是做带界面的桌面软件，然而我在使用Qt写后台服务程序的时候遇到一个问题，程序调用QCoreApplication::quit()无法正常退出程序，程序一直出于挂起状态。以下是我的错误代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">//.h</span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line">class Test : public QObject</span><br><span class="line">&#123;</span><br><span class="line"> Q_OBJECT</span><br><span class="line">public:</span><br><span class="line"> explicit Test(QObject *parent = nullptr);</span><br><span class="line"> virtual ~Test();</span><br><span class="line">public slots:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//cpp</span><br><span class="line"></span><br><span class="line">#include &quot;test.h&quot;</span><br><span class="line"></span><br><span class="line">#include &lt;QDebug&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;QCoreApplication&gt;</span><br><span class="line"></span><br><span class="line">Test::Test(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"> //do something</span><br><span class="line"> if(something is wrong)</span><br><span class="line">    qApp-&gt;quit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Test::~Test()</span><br><span class="line">&#123;</span><br><span class="line"> //释放内存</span><br><span class="line"> qDebug()&lt;&lt;&quot;delete&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    QCoreApplication a(argc, argv);</span><br><span class="line">    Test test;</span><br><span class="line"></span><br><span class="line">    return a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码导致程序无法退出，一直导致程序在挂起状态。错误原因是quit()函数是用于退出Qt程序主线程的事件循环，进而结束程序。但是此处是在执行a.exec()之前就执行了quit(),也就是说此时还没有进入主线程的事件循环，所以此处调用quit()是无效的。正确代码如下:</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line"> Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"> <span class="function"><span class="keyword">explicit</span> <span class="title">Test</span><span class="params">(QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"> <span class="keyword">virtual</span> ~Test();</span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"test.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QCoreApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTimer&gt;</span></span></span><br><span class="line">Test::Test(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"> <span class="comment">//do something</span></span><br><span class="line"> <span class="keyword">if</span>(something is wrong)</span><br><span class="line">    QTimer::singleShot(<span class="number">1000</span>,qApp,SLOT(quit()));</span><br><span class="line">&#125;</span><br><span class="line">Test::~Test()</span><br><span class="line">&#123;</span><br><span class="line"> <span class="comment">//释放内存</span></span><br><span class="line"> qDebug()&lt;&lt;<span class="string">"delete"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="function">QCoreApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"> Test test;</span><br><span class="line"> <span class="keyword">return</span> a.exec();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>此处采用QTimer定时器，将quit()操作放在1秒之后，然后程序继续执行，就会进入主线程的事件循环，QTimer的timeout之后调用quit()这时就可以正确退出程序了。</p>
+
+        </div>
+    
 
 </div>
+            
+                
+<div class="post">
 
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">
+                cmake编译OsgEarth2.10.1-VS2017-64版
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-06-17</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a href="https://objexx.com/OpenSceneGraph.html" target="_blank" rel="noopener">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a href="http://www.openscenegraph.org/index.php/download-section/dependencies" target="_blank" rel="noopener">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
+<h1 id="编译其他依赖"><a href="#编译其他依赖" class="headerlink" title="编译其他依赖"></a>编译其他依赖</h1><p>官网提供的第三方库包含了gdal等，但是osgearth还需要geos，protobuf,sqlite3，poco，rocksdb等。由于我刚开始初学，暂时用不到后面的扩展，这里我们只编译geos，sqlite3，poco,protobuf。这里统一使用cmake创建sln工程，这是为了更好的控制编译的参数。tool选择vs2017 x64(默认是选择win32，一定要修改)。</p>
+<blockquote>
+<p>这里要注意cmake的时候，build目录（生成的vs工程和后续编译的二进制的目录）一定要和install（自动安装的目录）分开，不能选择同一个目录。这个install目录由CMAKE_INSTALL_PREFIX参数控制，默认在c:/Program Files(x86)</p>
+<p>目录，一定要选在其他目录，不然安装的时候由于没有权限导致无法安装。</p>
+</blockquote>
+<h2 id="编译geos-3-7-2"><a href="#编译geos-3-7-2" class="headerlink" title="编译geos-3.7.2"></a>编译geos-3.7.2</h2><p>这个过程没有什么曲折，cmake生成工程，vs编译安装即可。将安装完的bin，include，lib三个目录直接拷贝到第三方库的目录下即可，后续编译的依赖都需要拷贝到第三方库目录，方便统一设置环境变量。</p>
+<blockquote>
+<p>cmake的时候注意是不是编译的dll版（shared），osgearth貌似需要dll版的依赖库。后续编译的protobuf就遇到这个问题，最开始编译的是静态版，导致编译osgearth出现大量错误，将它编译成动态版之后sogearth就完美编译成功了。同时编译的时候注意是否有参数区分了debug和release编译的库名称，一般用d来表示debug版。这个参数是CMAKE_DEBUG_POSTFIX，可能Cmakelist.txt并没有配置这个参数，那么就需要手动添加，但是有可能配置了其他参数来替代它，比如protobuf就是使用PROTOBUF_DEBUG_POSTFIX，这两者作用是一致的，这时候就不要再添加了。在cmake-gui的上方有一个按钮名称为Add Entry ,操作如下图所示：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0046.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0046"></p>
+<h2 id="编译poco"><a href="#编译poco" class="headerlink" title="编译poco"></a>编译poco</h2><p>poco版本选择poco-1.9.0-all，记得选择all这个版本。其他和geos操作一致。</p>
+<blockquote>
+<p>在用vs编译的时候，选择<strong><em>生成-批生成</em></strong>。然后勾选ALL_BUILD的debug和release版，点击生成即可，这样就会编译debug和release两个版本，编译完成之后同样选择<strong><em>生成-批生成</em></strong>，去掉ALL_BUILD的勾选项，将INTSALL的debug和release勾选，点击生成，这样就会将编译好的库和头文件都拷贝到camke设置的安装目录，操作如下图：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0047.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047"></p>
+<h2 id="编译sqlite3"><a href="#编译sqlite3" class="headerlink" title="编译sqlite3"></a>编译sqlite3</h2><p>其实这已经不是编译了，官网上已经提供了编译好的二进制，这个dll可以同时在debug和release两个环境使用。我下载的是sqlite-amalgamation-3280000和sqlite-dll-win64-x64-3280000。解压，将sqlite3.h和sqlit3ext.h拷贝到第三方库的include目录。然后将解压出来的dll转化为lib。操作如下，先打开vs2017的x64 Native cmd窗口，然后cd进入到dll存在的目录，里面包含两个文件，sqlite3.dll和sqlite3.def。调用如下命令即可,就会生成sqlite3.lib和sqlite3.exp。</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0044.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0044"></p>
+<h2 id="编译protobuf"><a href="#编译protobuf" class="headerlink" title="编译protobuf"></a>编译protobuf</h2><p>版本一定要选择3.8.0，这是osgearth的依赖要求，cmake的时候去掉protobuf-BUILD_TESTS的勾选，不然会报错，然后勾上protobuf_BUILD_SHARED_LIBS，编译动态版。然后在zlib的依赖文件在第三方库中已经有，选择即可。如下图所示：</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0045.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0045"></p>
+<blockquote>
+<p>protobuf默认是编译静态版，后续osgearth编译的时候需要动态版，导致编译失败。编译这个的同时也解决了我一个问题，由于我总是使用gcc编译动态库，动态版就是.so，静态版就是.a。但是msvc的很多库就是编译要链接.lib文件，运行的时候需要.dll支持，不然无法运行。我搞不懂这个库到底是静态版还是动态版，通过这次百度才知道，这其实是一个动态版的库，那个.lib里面只是导出的定义，实现还是在.dll里面。msvc编译的库可以分为四种：1、MT(多线程静态release版)；2、MTd(多线程静态debug版)；3、MD(多线程动态release版)；4、MDd(多线程动态debug版)。这个可以在vs里面修改。右键工程–选择属性–c/c++–代码生成-运行库。</p>
+</blockquote>
+<h1 id="编译osgEarth"><a href="#编译osgEarth" class="headerlink" title="编译osgEarth"></a>编译osgEarth</h1><p>osgearth选用2.10.1版本，前面配置完环境变量之后，configure的时候大部分依赖都会自动找到。这里需要修改一下未能正确配置的地方。1、PROTOBUF_USE_DLLS勾选上；2、THIRD_PARTY_DIR目录选择第三方库目录。3；libcurl库的debug版未找到，手动去第三方库目录添加。再检查一下，有没有漏下的地方。将生成的osgearth库拷贝到OSG目录，环境变量PATH添加该库的bin目录。</p>
+<h1 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h1><p>下载最新的osg数据，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">下载地址</a>下载最新的3.4.0即可，解压到OSG目录。然后将该目录重命名为data，将osgearth源码里面的data和tests拷贝到OSG目录下，添加环境变量OSG_FILE_PATH，值为OSG/data目录。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">
+                cpp的深拷贝和浅拷贝
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-06-12</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/cpp基础/">cpp基础</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="默认拷贝构造"><a href="#默认拷贝构造" class="headerlink" title="默认拷贝构造"></a>默认拷贝构造</h1><p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>; <span class="comment">//Test b=a; //效果一样</span></span><br><span class="line"></span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在这个Test类中我并没有实现拷贝构造，但是编译器自动实现了一份拷贝构造,并且也重载了=操作符。但是这个默认的拷贝构造函数仅仅只是实现了一个浅拷贝，当类的成员中存在指针对象时这种默认拷贝构造就会出现未知的错误。下面是一份错误的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/2.png" alt="cpp的深拷贝和浅拷贝\2"></p>
+<p>Test新增了一个int型指针，构造函数里面分配内存空间，析构函数里面释放内存，咋一看没有问题，但是运行结束结束之前会出现一个错误，导致程序无法正常结束。那是因为这个默认拷贝构造在处理int指针时，只是单纯的将b的指针p指向了a的指针p指向的相同内存空间。也就是说这两个指针指向了同一个内存空间，当两个Test对象析构的时候就会释放两次这个内存，导致报错。</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>针对上述出现的错误，所以需要自己实现一份深拷贝构造函数。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Test(<span class="keyword">const</span> Test&amp; val)</span><br><span class="line">    &#123;</span><br><span class="line">        key=val.key;</span><br><span class="line">        value=val.value;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">        *p=*(val.p);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在上述的拷贝构造的构造中，为对象b的指针p重新分配了新的内存空间，然后把对象a的指针p的指向的内容赋值给b.p指向的内存空间。这样就实现了每个对象的指针指向独立的内存空间，并且内容一样。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h2 id="1、拷贝构造的参数传递"><a href="#1、拷贝构造的参数传递" class="headerlink" title="1、拷贝构造的参数传递"></a>1、拷贝构造的参数传递</h2><p>上述代码采用了常量引用方式（const &amp;）。为什么不采用传值要采用传引用？第一，传值会需要拷贝a对象的副本，导致额外的开销，影响效率。第二，也是最严重的问题，会导致递归无限调用拷贝构造函数。const是为了在传引用的时候，参数既可以使用左值（变量），又可以使用右值（常量），而且可以保证参数不被修改。当没有const的时候，参数只能使用左值，无法使用右值。</p>
+<h2 id="2、避免默认的拷贝构造函数"><a href="#2、避免默认的拷贝构造函数" class="headerlink" title="2、避免默认的拷贝构造函数"></a>2、避免默认的拷贝构造函数</h2><p>在类的定义中定义一个私有的拷贝构造函数如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>:</span><br><span class="line">Test(<span class="keyword">const</span> Test&amp;);</span><br></pre></td></tr></table></figure>
+<p>这样在不要拷贝的环境中，如果用户错误的调用了拷贝构造，会触发编译器错误。</p>
+<h2 id="3、析构函数"><a href="#3、析构函数" class="headerlink" title="3、析构函数"></a>3、析构函数</h2><p>析构函数前面加一个virtual使其变为一个虚函数。这是利用了cpp的多态。假设Test是一个基类，后续的继承类又定义了新的指针成员变量，这个时候继承类就需要自己重写析构函数。如果没有Test类的析构函数没有定义成虚函数，那么在继承类释放的时候，不会调用自己的析构函数，而是调用父类的析构函数，这样就会导致内存泄漏。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/06/04/OSG环境配置/">
+                OSG环境配置
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-06-04</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/学习笔记/">学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近开始学习osg，免不了涉及到编译osg的开源库，如果不想编译的话可以直接去官网下载编译好的msvc版本。但是osgearth暂时没有找到直接编译好的。对于Windows编译开源库最近的心得是不要使用mingw进行编译，很多开源库都无法编译过去，还是使用msvc编译。编译开源库，发现一款微软的神器vcpkg，相当于是windows上的包管理器，他会自动下载源码然后进行编译，默认使用vs2017，没有的话使用vs2015。目前只支持这两款。</p>
+<h1 id="VCPKG"><a href="#VCPKG" class="headerlink" title="VCPKG"></a>VCPKG</h1><h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p><a href="https://github.com/microsoft/vcpkg" target="_blank" rel="noopener">github地址</a></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>1、先将项目克隆到本地，然后打开vs的命令行工具运行项目下的脚本bootstrap-vcpkg.bat,结束之后会在项目底下生成一个vcpkg.exe。将当前exe目录添加到环境变量中方便使用。</p>
+<p>2、搜索包</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcpkg search lib</span><br></pre></td></tr></table></figure>
+<p>lib是你需要搜索的包名，我们搜索一下osg，结果如下：</p>
+<p><img src="/2019/06/04/OSG环境配置/" alt=".."></p>
+<p>3、安装包</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcpkg install lib</span><br><span class="line">vcpkg install lib:x64-windows</span><br></pre></td></tr></table></figure>
+<p>默认不指定编译器位数的话编译32位，想要编译64位需要后面指定:x64-windows。这里我们编译64位osg，整个时间大概2个小时。</p>
+<p>4、下载缓慢解决方法</p>
+<p>使用vcpkg自动下载源码的时候经常会比较缓慢，所以我们可以把自动下载的地址复制出来，然后自己去网页上下载，下载完之后拷贝到downloads目录，这是他的文件下载目录。然后在自动下载的时候进入downloads/temp文件夹看一下，他下载的文件名称。有可能下载的同一个源码，但是文件名称不一致，导致vcpkg识别不了，需要将你下载的文件名称改成和temp里面的缓存文件名称一致，然后重新安装，这个时候他就会启用你下载的版本，不会自动下载了。</p>
+<h1 id="OSG环境配置"><a href="#OSG环境配置" class="headerlink" title="OSG环境配置"></a>OSG环境配置</h1><p>vcpkg编译的结果是debug和release分开了，后缀使用d区分。但是实际使用的话很麻烦，所以我将两个版本合并。新建一个osg目录，将include目录拷贝进去，然后将两个版本的lib和bin目录拷贝进去，然后把tools/osg目录里面的东西直接剪切到bin目录里面，然后在osg根目录新建一个data目录，用来存放数据，数据直接从官网下载即可，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">datal链接</a>。将数据解压后拷贝到data目录即可。然后添加环境变量，在用户环境变量里面将新的osg/bin目录添加到path，然后新建一个环境变量OSG_FILE_PATH,值是osg/data目录,这样后续代码里面直接加载测试文件的时候可以不用带路径。</p>
+<blockquote>
+<p>这个tools/osg目录里面存在许多编译好的工具，后续会使用到，然后目录下有个osgPlugins-3.6.3,这里面有osgDB的插件，不把它放在bin目录里面会导致后续使用osgDB库时，无法读写osg或者其他格式文件。</p>
+</blockquote>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/24/char数组的数据显示/">
+                char数组的数据显示
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-24</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/学习笔记/">学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>今天在做一个读取mp3文件的metadata信息的时候遇到两个很简单的问题，由于长时间没有使用标准c++，导致花了一点时间才解决，看来c++基础基本荒废了啊。</p>
+<h3 id="struct-h"><a href="#struct-h" class="headerlink" title="struct.h"></a>struct.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MetaData</span>&#123;</span></span><br><span class="line">    <span class="keyword">char</span> Header[<span class="number">3</span>]; <span class="comment">/*标签头必须是"TAG"否则认为没有标签*/</span></span><br><span class="line">    <span class="keyword">char</span> Title[<span class="number">30</span>]; <span class="comment">/*标题*/</span></span><br><span class="line">    <span class="keyword">char</span> Artist[<span class="number">30</span>]; <span class="comment">/*作者*/</span></span><br><span class="line">    <span class="keyword">char</span> Album[<span class="number">30</span>]; <span class="comment">/*专集*/</span></span><br><span class="line">    <span class="keyword">char</span> Year[<span class="number">4</span>]; <span class="comment">/*出品年代*/</span></span><br><span class="line">    <span class="keyword">char</span> Comment[<span class="number">28</span>]; <span class="comment">/*备注*/</span></span><br><span class="line">    <span class="keyword">char</span> Reserver;    <span class="comment">/*保留*/</span></span><br><span class="line">    <span class="keyword">char</span> Channel;     <span class="comment">/*音轨*/</span></span><br><span class="line">    <span class="keyword">char</span> Genre; <span class="comment">/*类型*/</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是mp3的ID3V1的标签格式，128数据在文件的最末尾，起始是三个字节的“TAG”</p>
+</blockquote>
+<h3 id="main-cpp"><a href="#main-cpp" class="headerlink" title="main.cpp"></a>main.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">in</span><span class="params">(filename,ios::in)</span></span>;</span><br><span class="line"><span class="keyword">if</span>(!in.is_open())&#123;</span><br><span class="line">    <span class="keyword">return</span>;    </span><br><span class="line">&#125;</span><br><span class="line">in.seekg(<span class="number">128</span>,ios::end);<span class="comment">//wrong ,正确写法:in.seekg(-128,ios::end);</span></span><br><span class="line"><span class="keyword">char</span> data[<span class="number">128</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">in.read(data,<span class="number">128</span>);</span><br><span class="line">MetaData tagData;</span><br><span class="line"><span class="built_in">memset</span>(&amp;tagData,<span class="number">0</span>,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;tagData,data,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;tagData.Header&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//错误，正确 string header(tagData.Header,3);cout&lt;&lt;header&lt;&lt;endl;</span></span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
+<p>错误1，ifstream::seekg的作用是移动当前读取文件指针的位置，第一个参数是offset偏移（向后），我已经使用ios::end，也就是说参考位置到了文件末尾，我又向后移动了128,这样读取的信息肯定是空的，应该此处是-128，即向前偏移128位，这样才能获取到最后的128字节信息。</p>
+<p>错误2，我直接cout&lt;&lt;tagData.Header,以为只会输出“TAG”这三个字符，但是实际结果是后面还输出了Title的信息。因为Header此时是一个字符串指针，指向的是第一个字节，而不是我以为的字符串（string)，输出的时候结果是输出指针后面的所有字节，直到遇到第一个字符串结束符（\0）。所以正确的用法是将Header转化为std::string，然后显示。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/21/HDF5-CPP使用教程/">
+                HDF5_CPP使用教程
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-21</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”/“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（DataSpace）存储数据，数据类型可以是整形，浮点型，字符等。通过以上介绍大概就能知道这种文件的可扩展性很强。库文件可以从官网上直接下载对应的版本，但是只要vs的vc++编译的版本，如果使用mingw编译器需要编译源码，但是我尝试了一下，bug太多，最后放弃了，也没有必要浪费时间在库的编译上。从官网上下载的安装包安装之后，根目录下include目录是头文件，lib目录是静态链接库目录，其中hdf5.lib是c的，hdf5_cpp.lib是c++的库。</p>
+<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h1><p>根据工作需要，我使用HDF5文件创建一个树形结构，然后显示到界面上，然后做一些简单的交互。</p>
+<h2 id="Pro文件配置"><a href="#Pro文件配置" class="headerlink" title="Pro文件配置"></a>Pro文件配置</h2><p><img src="/2019/05/21/HDF5-CPP使用教程/pro.png" alt="HDF5-CPP使用教程\pro"></p>
+<p>H5_BUILD_AS_DYNAMIC_LIB是HDF5的一个预编译宏，不添加这个使用HDF5库会提示未定义的方法等错误。这个库在debug模式下也是经常崩溃，应该是这个库是release模式，所以在pro文件里面只配置了release模式。链接库我使用了c++的和c的，这是因为在后续的实践中发现，c的库函数有很多没有移植到c++中，只能采取c的函数进行替代。</p>
+<h2 id="创建HDF5文件"><a href="#创建HDF5文件" class="headerlink" title="创建HDF5文件"></a>创建HDF5文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> RANK = <span class="number">2</span>; <span class="comment">//定义数组的维度</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> M = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//准备要存储的数据</span></span><br><span class="line"><span class="keyword">char</span> *data = <span class="keyword">new</span> <span class="keyword">char</span>[M*N];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;M; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;N; ++j)&#123;</span><br><span class="line">        tmp = data + i*N +j;</span><br><span class="line">        *tmp = <span class="number">80</span>+i+j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Turn off the auto-printing when failure occurs so that we can</span></span><br><span class="line">    <span class="comment">// handle the errors appropriately</span></span><br><span class="line"></span><br><span class="line">    Exception::dontPrint();</span><br><span class="line">    <span class="comment">//创建文件</span></span><br><span class="line">    <span class="function">H5File <span class="title">file</span><span class="params">(filename, H5F_ACC_TRUNC)</span></span>;</span><br><span class="line">    <span class="comment">//创建第一层 group section</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Section0</span><span class="params">(file.createGroup(<span class="string">"Section0"</span>))</span></span>;</span><br><span class="line">    group_Section0.setComment(QString::fromLocal8Bit(<span class="string">"区域1"</span>).toStdString()); <span class="comment">//用来作为显示的名称</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Group <span class="title">group_Section1</span><span class="params">(file.createGroup(<span class="string">"Section1"</span>))</span></span>;</span><br><span class="line">    group_Section1.setComment(QString::fromLocal8Bit(<span class="string">"区域2"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第二层group run</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Run0</span><span class="params">(group_Section0.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run0.setComment(QString::fromLocal8Bit(<span class="string">"测试1"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run1</span><span class="params">(group_Section0.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run1.setComment(QString::fromLocal8Bit(<span class="string">"测试2"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run2</span><span class="params">(group_Section1.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run2.setComment(QString::fromLocal8Bit(<span class="string">"测试3"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run3</span><span class="params">(group_Section1.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run3.setComment(QString::fromLocal8Bit(<span class="string">"测试4"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第三层group timedata和spectrum</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Time0</span><span class="params">(group_Run0.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time0.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec0</span><span class="params">(group_Run0.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec0.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time1</span><span class="params">(group_Run1.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time1.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec1</span><span class="params">(group_Run1.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec1.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time2</span><span class="params">(group_Run2.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time2.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec2</span><span class="params">(group_Run2.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec2.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time3</span><span class="params">(group_Run3.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time3.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec3</span><span class="params">(group_Run3.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec3.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据空间</span></span><br><span class="line">    <span class="keyword">hsize_t</span> dims[RANK];               <span class="comment">// dataset dimensions</span></span><br><span class="line">    dims[<span class="number">0</span>] = M;</span><br><span class="line">    dims[<span class="number">1</span>] = N;</span><br><span class="line">    DataSpace *dataspace = <span class="keyword">new</span> DataSpace (RANK, dims);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据集，通道数据</span></span><br><span class="line">    DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>, PredType::NATIVE_CHAR, *dataspace));</span><br><span class="line">    dataset_Time-&gt;setComment(QString::fromLocal8Bit(<span class="string">"通道1"</span>).toStdString());</span><br><span class="line">    dataset_Time-&gt;write(data, PredType::NATIVE_CHAR);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集属性空间.</span></span><br><span class="line">    <span class="keyword">int</span> attr_data[<span class="number">2</span>] = &#123; <span class="number">100</span>, <span class="number">200</span>&#125;;</span><br><span class="line">    <span class="keyword">hsize_t</span> attr_dims[<span class="number">1</span>] = &#123; <span class="number">2</span> &#125;;</span><br><span class="line">    DataSpace attr_dataspace = DataSpace (<span class="number">1</span>,attr_dims );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集的属性.</span></span><br><span class="line">    Attribute attribute = group_Time0.createAttribute( <span class="string">"ATTR_NAME"</span>, PredType::STD_I32BE, attr_dataspace);</span><br><span class="line">    <span class="comment">// 写属性.</span></span><br><span class="line">    attribute.write( PredType::NATIVE_INT, attr_data);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭数据空间、数据集、group对象.</span></span><br><span class="line">    <span class="keyword">delete</span> dataspace;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Time;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Spec;</span><br><span class="line">    file.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// catch failure caused by the H5File operations</span></span><br><span class="line"><span class="keyword">catch</span>(FileIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSpace operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSpaceIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the Group operations</span></span><br><span class="line"><span class="keyword">catch</span>(GroupIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSet operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSetIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：<img src="/2019/05/21/HDF5-CPP使用教程/first.png" alt="HDF5-CPP使用教程\first"></p>
+<blockquote>
+<p>这是安装包里面的bin目录的h5dump程序，可以查看h5文件</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_RDWR    (H5CHECK H5OPEN 0x0001u)    <span class="comment">/*open for read and write    */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_TRUNC    (H5CHECK H5OPEN 0x0002u)    <span class="comment">/*overwrite existing files   */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_EXCL    (H5CHECK H5OPEN 0x0004u)    <span class="comment">/*fail if file already exists*/</span></span></span><br><span class="line"><span class="comment">/* <span class="doctag">NOTE:</span> 0x0008u was H5F_ACC_DEBUG, now deprecated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_CREAT    (H5CHECK H5OPEN 0x0010u)    <span class="comment">/*create non-existing files  */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_WRITE    (H5CHECK 0x0020u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for writing in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for reading must open the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * with RDONLY access, and use</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * the special "SWMR_READ" access</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag. */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_READ    (H5CHECK 0x0040u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for reading in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for SWMR reading must also</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open the file with the RDONLY</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag.  */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Value passed to H5Pset_elink_acc_flags to cause flags to be taken from the</span></span><br><span class="line"><span class="comment"> * parent file. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_DEFAULT (H5CHECK H5OPEN 0xffffu)    <span class="comment">/*ignore setting on lapl     */</span></span></span><br></pre></td></tr></table></figure>
+<p>创建文件之后，文件默认会生成一个根目录，类型是Group，路径是“/”。文件类可以创建Group，DataSet，Attribute，还可以设置comment用来存储一些简单信息。Group，DataSet也可以继续创建上述三种对象，而Attitude只能创建DataSet和Group。file.createGroup(“Section0”)这是使用的相对路径，相当于在根目录下创建Section0目录，所以其绝对路径为/Section0，后续访问的时候也可以通过父目录使用相对目录访问它，也可以在任意目录使用绝对路径访问它，如果在非父目录使用相对路径访问，会引发异常。访问方法是openGroup,其他类型的对象创建和访问的规则也是如此。DataSpace是在创建DataSet和Attribute的时候事先创建的一个数据空间，用来告诉HDF5在存储数据时分配多大的内存空间。它有两个参数，第一个RANK代表维度，第二个参数代表每一个维度的长度。上述例子中就是创建一个二维的三行四列的空间。在创建DataSet和Attribute时还需要指定存储的数据类型，在写入数据（write）的时候也要指定一致的数据类型。数据类型的定义在头文件中有定义，请自行查看。file.close()就是关闭文件句柄，将缓存写入到硬盘中。如果此处不关闭文件句柄，可以调用flush将缓存写入到硬盘。</p>
+<h2 id="读取DataSet数据"><a href="#读取DataSet数据" class="headerlink" title="读取DataSet数据"></a>读取DataSet数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!m_h5FileHandle.exist(objname))  <span class="comment">//判断是否存在</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">DataSet channelDataSet=m_h5FileHandle.openDataSet(objName);<span class="comment">//打开数据集</span></span><br><span class="line">DataType datatype= channelDataSet.getDataType();<span class="comment">//获取数据类型</span></span><br><span class="line"></span><br><span class="line">DataSpace dataSpace=  channelDataSet.getSpace();<span class="comment">//获取数据空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> rank=dataSpace.getSimpleExtentNdims();<span class="comment">//获取维度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> *dims;</span><br><span class="line"></span><br><span class="line">dataSpace.getSimpleExtentDims(dims);<span class="comment">//获取每个维度对应的长度</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*dims&lt;&lt;<span class="string">"   "</span>&lt;&lt;*(dims+<span class="number">1</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//假设此处rank=2，那么*dim就是行数，*（dim+1）就是列数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hssize_t</span> sum= dataSpace.getSimpleExtentNpoints();<span class="comment">//获取数据总大小 sum=（*dim）x *（dim+1）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(datatype==PredType::NATIVE_CHAR)&#123;</span><br><span class="line"></span><br><span class="line">     QByteArray dataBuffer;</span><br><span class="line"></span><br><span class="line">     dataBuffer.resize(sum);   <span class="comment">//创建对应大小的缓存空间</span></span><br><span class="line"></span><br><span class="line">     <span class="built_in">memset</span>(dataBuffer.data(),<span class="number">0</span>,sum);</span><br><span class="line"></span><br><span class="line">     channelDataSet.read(dataBuffer.data(),datatype,dataSpace);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">channelDataSet.close();<span class="comment">//关闭数据集</span></span><br></pre></td></tr></table></figure>
+<p>此处是通过绝对路径来访问，访问之前使用exist来判断一下是否存在这个对象，如果访问不存在的对象，也会抛出异常。读取数据集的数据，首先需要获取数据的维度，以及每个维度对应的长度，然后动态创建数组，此处我为了简单，直接将数据全部存入到一个一维字符串数组里面（QByteArray），如果你获取了维度和维度对应的长度也可以根据这个来分割这个一维字符串数组。此处需要注意的是不管打开了Group还是其他对象，使用完了之后一定要close关闭，虽然局部变量释放的时候会自动关闭。</p>
+<h2 id="读写DataSet的子集"><a href="#读写DataSet的子集" class="headerlink" title="读写DataSet的子集"></a>读写DataSet的子集</h2><p>有时候可能需要向数据集的局部写入数据，或者读取数据集的部分。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Specify size and shape of subset to write.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> offset[<span class="number">2</span>], count[<span class="number">2</span>], stride[<span class="number">2</span>], block[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">hsize_t</span> dimsm[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> RANK=<span class="number">2</span>;         <span class="comment">//子集维度</span></span><br><span class="line"><span class="keyword">int</span> DIM0_SUB=<span class="number">3</span>;     <span class="comment">//子集维度1长度</span></span><br><span class="line"><span class="keyword">int</span> DIM1_SUB=<span class="number">4</span>;     <span class="comment">//子集维度2长度</span></span><br><span class="line">offset[<span class="number">0</span>] = <span class="number">1</span>;      <span class="comment">//子集维度1偏移量</span></span><br><span class="line">offset[<span class="number">1</span>] = <span class="number">2</span>;      <span class="comment">//维度2偏移量</span></span><br><span class="line"></span><br><span class="line">count[<span class="number">0</span>]  = DIM0_SUB;<span class="comment">//维度1长度</span></span><br><span class="line">count[<span class="number">1</span>]  = DIM1_SUB;<span class="comment">//维度2长度</span></span><br><span class="line"><span class="comment">//维度间隙，默认为1数据之间无间隙，=2的时候,写入的子集数据之间间隔为1，以此类推。当子集的数据下标超过总的维度长度，此设置就会无效</span></span><br><span class="line"></span><br><span class="line">stride[<span class="number">0</span>] = <span class="number">2</span>;        </span><br><span class="line">stride[<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">block[<span class="number">0</span>] = <span class="number">1</span>;        <span class="comment">//维度1块大小，暂时未发现这个设置的作用</span></span><br><span class="line"></span><br><span class="line">block[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">dimsm[<span class="number">0</span>] = DIM0_SUB;</span><br><span class="line">dimsm[<span class="number">1</span>] = DIM1_SUB;</span><br><span class="line"><span class="comment">//写入子集的数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *wdata = <span class="keyword">new</span> <span class="keyword">char</span>[DIM0_SUB*DIM1_SUB];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;DIM0_SUB; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;DIM1_SUB; ++j)&#123;</span><br><span class="line">        tmp = wdata + i*DIM1_SUB +j;</span><br><span class="line">        *tmp = <span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> rdata[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="function">H5File <span class="title">file</span><span class="params">(filename,H5F_ACC_RDWR)</span></span>;</span><br><span class="line"><span class="comment">//根据绝对路径打开数据集</span></span><br><span class="line"></span><br><span class="line">DataSet dataset =file.openDataSet(<span class="string">"/Section0/Run0/TimeData/Channel0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//子集数据空间</span></span><br><span class="line"><span class="function">DataSpace <span class="title">memSpace</span><span class="params">(RANK, dimsm, <span class="literal">NULL</span>)</span></span>;</span><br><span class="line"><span class="comment">//原数据集空间</span></span><br><span class="line">DataSpace dataSpace= dataset.getSpace();</span><br><span class="line"><span class="comment">//H5S_SELECT_SET是用子集覆盖原来相同坐标的数据，还有其他选项，OR XOR AND 等选项，可以进入源码自行阅读</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置超实验室</span></span><br><span class="line">dataSpace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);</span><br><span class="line"><span class="comment">//写入子集</span></span><br><span class="line"></span><br><span class="line">dataset.write(wdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line"><span class="comment">//读取子集</span></span><br><span class="line"></span><br><span class="line">dataset.read(rdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line">file.close();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;DIM0_SUB;i++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;DIM1_SUB;j++)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;(rdata[i][j]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不设置间隙stride[[0]]=1;stride[[1]]=1;结果如下：</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/second.png" alt="HDF5-CPP使用教程\second"></p>
+<p>设置间隙stride[[0]]=2;stride[[1]]=2;结果如下：</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/fourth.png" alt="HDF5-CPP使用教程\fourth"></p>
+<p>读取出来的子集结果:</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/third.png" alt="HDF5-CPP使用教程\third"></p>
+<blockquote>
+<p>char字符’d‘转化为int就是100</p>
+</blockquote>
+<h2 id="写入数据时压缩处理"><a href="#写入数据时压缩处理" class="headerlink" title="写入数据时压缩处理"></a>写入数据时压缩处理</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建压缩空间</span></span><br><span class="line"><span class="keyword">hsize_t</span> chunk_dims[<span class="number">2</span>]=&#123;<span class="number">5</span>,<span class="number">10</span>&#125;;</span><br><span class="line">DSetCreatPropList  *plist = <span class="keyword">new</span>  DSetCreatPropList;</span><br><span class="line">plist-&gt;setChunk(<span class="number">2</span>, chunk_dims);</span><br><span class="line"><span class="comment">//设置Deflate=6使用zlib压缩，注释掉则使用下列的szip</span></span><br><span class="line">plist-&gt;setDeflate(<span class="number">6</span>);</span><br><span class="line"><span class="comment">//        unsigned szip_options_mask = H5_SZIP_NN_OPTION_MASK;</span></span><br><span class="line"><span class="comment">//        unsigned szip_pixels_per_block = 16;</span></span><br><span class="line"><span class="comment">//        plist-&gt;setSzip(szip_options_mask, szip_pixels_per_block);</span></span><br><span class="line"><span class="comment">//创建数据集，通道数据</span></span><br><span class="line">DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>,       PredType::NATIVE_CHAR, *dataspace,*plist));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个代码是替换创建HDF5文件里面创建数据集的过程，这个代码添加了压缩属性设置，支持zlib个szip两种压缩模式。读取数据集的时候和没有压缩一样即可。但是在使用过程中，发现压缩前和压缩后的文件大小并没有区别，这个问题后续再来研究。</p>
+</blockquote>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/15/Qt的pro配置详解/">
+                Qt的pro配置详解
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-15</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Qt使用qmake构建工具来构建工程，作用和cmake一样，生成Makefile。Qt的pro文件则对应cmake的CMakeLists.txt。下面讲解一下pro文件各个参数的意义和用法。</p>
+<h1 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h1><p>我们在使用第三方库的时候经常会遇到需要导入同一路径下的多个库文件，添加一个自定义变量来表示路径，可以简化pro文件。</p>
+<p><img src="/2019/05/15/Qt的pro配置详解/1.png" alt="Qt的pro配置详解\1"></p>
+<p>这里我们以opencv为例，OPENCV_HOME为opencv的根目录，$$quote()用来去除路径中的空格，不然无法识别。INCLUDEPATH用来指定头文件搜索目录。LIBS用来添加依赖库，-L后面跟库的路径，-l后面接库的名字（去掉前面的lib和后面的.a或.dll等后缀)。同一个路径后面添加多个库，只需要空格后面继续使用-l就行。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/10/QML编写自定义组件/">
+                QML编写自定义组件
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-10</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/QML学习笔记/">QML学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们在使用qml的过程中经常会根据自己的特殊需求定制各种控件，为了方便使用和代码复用，会考虑将控件抽象出来写在一个新的qml文件中，这样就形成了一个控件。注意文件名开头大写，不然无法识别。</p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.12</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Item &#123;</span><br><span class="line">   id:root</span><br><span class="line">   width: <span class="number">200</span></span><br><span class="line">   height: <span class="number">20</span></span><br><span class="line">   property alias backgroundColor: searchBox.color</span><br><span class="line">   property alias radius: searchBox.radius</span><br><span class="line">   property alias textColor: searchText.color</span><br><span class="line">   property alias text: searchText.text</span><br><span class="line"></span><br><span class="line">   signal searched()</span><br><span class="line">   Rectangle&#123;</span><br><span class="line">       id : searchBox</span><br><span class="line">       anchors.fill: parent</span><br><span class="line">       radius: <span class="number">10</span></span><br><span class="line">       color: <span class="string">"darkGrey"</span></span><br><span class="line"></span><br><span class="line">       TextInput&#123;</span><br><span class="line">           id : searchText</span><br><span class="line">           text: qsTr(<span class="string">"输入关键字"</span>)</span><br><span class="line">           color: <span class="string">"white"</span></span><br><span class="line">           selectByMouse: <span class="literal">true</span></span><br><span class="line">           width: parent.width</span><br><span class="line">           height: parent.height</span><br><span class="line">           anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       Image &#123;</span><br><span class="line">           id: searchIcon</span><br><span class="line">           source: <span class="string">"qrc:/Images/search.png"</span></span><br><span class="line">           anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">           anchors.right: parent.right</span><br><span class="line">           width: parent.width</span><br><span class="line">           height: parent.height</span><br><span class="line">           MouseArea&#123;</span><br><span class="line">               anchors.fill: parent</span><br><span class="line">               onClicked: &#123;</span><br><span class="line">                   searched();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>导出的控件顶层元素最好使用Item，在其他地方使用这个控件的时候，无法直接访问Item的子控件的属性，所以为了方便可以将这些需要的属性的暴露给使用者，用法property alias name : subItem.property。signal 是定义信号，开头小写，括号里面可以传递参数。使用者使用这个信号时，使用onSearched: {}。注意先添加一个on，然后首字母大写。为了代码方便管理，可能将新的qml组件放在另外一个目录,这样就无法直接使用。那么使用的时候需要导入该文件夹，用法</p>
+<p> import “<directorypath>“ [as <qualifier>]</qualifier></directorypath></p>
+<p>这个目录可以使用相对目录，例如“./Component”</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/08/QML-ListView视图模型/">
+                QML-ListView视图模型
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-08</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/QML学习笔记/">QML学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>这篇主要是介绍如何使用ListView的自定义高亮委托和自定义元素委托，以及section属性的分类和section的自定义委托。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.7</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Rectangle &#123;</span><br><span class="line">    id:root</span><br><span class="line">    ScrollView&#123;</span><br><span class="line">        id:scroll</span><br><span class="line">        anchors.fill: parent</span><br><span class="line">        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff</span><br><span class="line">        ScrollBar.vertical.policy: ScrollBar.AlwaysOn</span><br><span class="line">        ListModel&#123;</span><br><span class="line">            id:listModel</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"发现音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/music.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"私人FM"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/FM.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"视频"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/video.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"朋友"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/friends.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"本地音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/localmusic.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"下载管理"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/download.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的音乐云盘"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/cloud.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的收藏"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/collection.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Component &#123;</span><br><span class="line">            id: sectionHeading</span><br><span class="line">            Rectangle &#123;</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: childrenRect.height</span><br><span class="line"></span><br><span class="line">                Text &#123;</span><br><span class="line">                    text: section</span><br><span class="line">                    font.italic: <span class="literal">true</span></span><br><span class="line">                    font.pixelSize: <span class="number">15</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ListView &#123;</span><br><span class="line">            id:listView</span><br><span class="line">            clip: <span class="literal">true</span></span><br><span class="line">            model: listModel</span><br><span class="line">            anchors.fill: parent</span><br><span class="line">            focus: <span class="literal">true</span></span><br><span class="line">            highlight: Rectangle &#123;</span><br><span class="line">                color: <span class="string">"lightsteelblue"</span></span><br><span class="line">                width:listView.width</span><br><span class="line">                height:<span class="number">30</span></span><br><span class="line">                Behavior on y&#123;</span><br><span class="line">                    NumberAnimation &#123; <span class="attr">duration</span>: <span class="number">10000</span> &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            highlightFollowsCurrentItem :<span class="literal">true</span></span><br><span class="line">            delegate: Item &#123;</span><br><span class="line">                id:delegateitem</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: <span class="number">30</span></span><br><span class="line">                Image &#123;</span><br><span class="line">                    id: icon</span><br><span class="line">                    source: image</span><br><span class="line">                    anchors.left: parent.left</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                    width: <span class="number">16</span></span><br><span class="line">                    height: <span class="number">16</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                Text &#123;</span><br><span class="line">                    id: text</span><br><span class="line">                    text: title</span><br><span class="line">                    anchors.left: icon.right</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                &#125;</span><br><span class="line">                MouseArea&#123;</span><br><span class="line">                    anchors.fill: parent</span><br><span class="line">                    onClicked: &#123;</span><br><span class="line">                        listView.currentIndex = index;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            section.property: <span class="string">"section"</span></span><br><span class="line">            section.criteria: ViewSection.FullString</span><br><span class="line">            section.delegate: sectionHeading</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ListView的clip属性是裁剪，避免item在拖动的过程中超出边界，highlight就是高亮item，可以自定义。默认高亮item的高度和宽度会自动适应Item的高和宽。highlightFollowsCurrentItem属性是控制高亮item是否根据currentItem的切换自动改变坐标和高宽和item一致。delegate就是item的委托，这个委托的最上层不能使用Rectangle，这样会和高亮的Item冲突，导致高亮无法显示。使用Item作为最顶层的元素就没有这个问题。Item的委托在点击的过程中不会自动更新视图的currentIndex索引，需要手动处理。section作为对item的分类，property是关联modelData中分类的属性，delegate指定代理。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/05/05/Qt注意事项/">
+                Qt注意事项
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-05-05</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p>
+<h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“/”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p>
+<h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p>
+
+        </div>
+    
+
+</div>
+            
+        </section>
+    </div>
+</div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrap-pagination">
+                <a class="disabled" href="/">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </a>
+                <a class="" href="/page/2/">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
 
 <!-- Footer -->
-<div class="bg-1 ph2 ph5-ns pv5">
-        <div class="mv8">
-            <div class="center tc">
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
-                            <i class="fa fa-500px"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </div>
-                
+<div class="push"></div>
+
+<footer class="footer-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
+                <h2>About</h2>
+                <p>
+                    This theme was developed by <a href="https://github.com/klugjo">Jonathan Klughertz</a>. The source code is available on Github. Create Websites. Make Magic.
+                </p>
             </div>
-            <div class="f6 f5-ns center tc white pt5 fw3">
-                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
+        <h2>Recent Posts</h2>
+        <ul>
+            
+            <li>
+                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+
+            
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
+    <h2>Categories</h2>
+    <ul>
+        
+        <li>
+            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/数据库/">数据库</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-inline footer-social-icons">
+                    
+                    <li class="list-inline-item">
+                        <a href="https://github.com/klugjo/hexo-theme-alpha-dust">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/?lang=en">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://dribbble.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-dribbble"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-google-plus"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.behance.net/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-behance"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://500px.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-500px"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="mailto:test@example.com">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="\#">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-rss"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="footer-copyright">
+                    @Untitled. All right reserved | Design & Hexo <a href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                </div>
             </div>
         </div>
     </div>
+</footer>
 
-<!-- After Footer -->
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Tween Max -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="/js/main.js"></script>
+
 <!-- Disqus Comments -->
 
 

@@ -44,11 +44,11 @@
     
     <title>cmake编译OsgEarth2.10.1-VS2017-64版 - 一个骚年</title>
 
-    <!-- Tachyons Core CSS -->
-    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,6 +56,9 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -69,75 +72,100 @@
 
 <body>
 
-<!-- Main Content -->
-<!-- Banner -->
-<!-- Banner -->
-<div class="w-100 bg-1 ph5-ns ph3 text-light">
-    
-    <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
-            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
-        </a>
-        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
-                    首页
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
-                    文章
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
-                    标签
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
-                    分类
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
-                    关于
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
-                    联系方式
-                </a>
-            
-        </div>
-    </nav>
+<div class="bg-gradient"></div>
+<div class="bg-pattern"></div>
 
-    <!-- Title -->
-    <div class="w-100 mw8 center vh-40 dt">
-        <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">cmake编译OsgEarth2.10.1-VS2017-64版</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-06-17</p>
-        </div>
-    </div>
-
-    <!-- Icon -->
-    <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa-file-text-o"></i>
+<!-- Menu -->
+<!--Menu Links and Overlay-->
+<div class="menu-bg">
+    <div class="menu-container">
+        <ul>
+            
+            <li class="menu-item">
+                <a href="/">
+                    Home
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/archives">
+                    Archives
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/about.html">
+                    About
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/tags">
+                    Tags
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/categories">
+                    Categories
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/contact.html">
+                    Contact
+                </a>
+            </li>
+            
+        </ul>
     </div>
 </div>
 
-<!-- Content -->
-<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
-    <div class="content">
-        <div class="mw8 center">
-            <div class="cf">
-                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
-                    <!-- Tags Vertical -->
-                    
-                        <div class="tags-container-vertical">
-                            <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/cmake/">#cmake</a> <a class="fw3 ph1 dib" href="/tags/osgearth/">#osgearth</a> <a class="fw3 ph1 dib" href="/tags/osg/">#osg</a>
-                            </div>
-                        </div>
-                    
+<!--Hamburger Icon-->
+<nav>
+    <a href="#menu"></a>
+</nav>
 
-                    <!-- Main Post Content -->
-                    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a href="https://objexx.com/OpenSceneGraph.html" target="_blank" rel="noopener">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a href="http://www.openscenegraph.org/index.php/download-section/dependencies" target="_blank" rel="noopener">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
+<div class="container">
+
+    <!-- Main Content -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!--Title and Logo-->
+        <header>
+    <div class="logo">
+        <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
+        
+    </div>
+</header>
+
+        <section class="main">
+            
+<div class="post">
+
+    <div class="post-header">
+        <h1 class="title">
+            <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">
+                cmake编译OsgEarth2.10.1-VS2017-64版
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-06-17</span>
+            
+            
+            
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Gallery -->
+        
+
+        <!-- Post Content -->
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a href="https://objexx.com/OpenSceneGraph.html" target="_blank" rel="noopener">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a href="http://www.openscenegraph.org/index.php/download-section/dependencies" target="_blank" rel="noopener">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
 <h1 id="编译其他依赖"><a href="#编译其他依赖" class="headerlink" title="编译其他依赖"></a>编译其他依赖</h1><p>官网提供的第三方库包含了gdal等，但是osgearth还需要geos，protobuf,sqlite3，poco，rocksdb等。由于我刚开始初学，暂时用不到后面的扩展，这里我们只编译geos，sqlite3，poco,protobuf。这里统一使用cmake创建sln工程，这是为了更好的控制编译的参数。tool选择vs2017 x64(默认是选择win32，一定要修改)。</p>
 <blockquote>
 <p>这里要注意cmake的时候，build目录（生成的vs工程和后续编译的二进制的目录）一定要和install（自动安装的目录）分开，不能选择同一个目录。这个install目录由CMAKE_INSTALL_PREFIX参数控制，默认在c:/Program Files(x86)</p>
@@ -163,140 +191,212 @@
 <h1 id="编译osgEarth"><a href="#编译osgEarth" class="headerlink" title="编译osgEarth"></a>编译osgEarth</h1><p>osgearth选用2.10.1版本，前面配置完环境变量之后，configure的时候大部分依赖都会自动找到。这里需要修改一下未能正确配置的地方。1、PROTOBUF_USE_DLLS勾选上；2、THIRD_PARTY_DIR目录选择第三方库目录。3；libcurl库的debug版未找到，手动去第三方库目录添加。再检查一下，有没有漏下的地方。将生成的osgearth库拷贝到OSG目录，环境变量PATH添加该库的bin目录。</p>
 <h1 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h1><p>下载最新的osg数据，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">下载地址</a>下载最新的3.4.0即可，解压到OSG目录。然后将该目录重命名为data，将osgearth源码里面的data和tests拷贝到OSG目录下，添加环境变量OSG_FILE_PATH，值为OSG/data目录。</p>
 
-                    
-                    <!-- Tags Bottom -->
-                    
-                        <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/cmake/">#cmake</a> <a class="fw3 ph1 dib" href="/tags/osgearth/">#osgearth</a> <a class="fw3 ph1 dib" href="/tags/osg/">#osg</a>
-                        </div>
-                    
+    </div>
 
-                    <!-- Comments -->
-                    
+    
 
-
-
-                </div>
-                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
-                    
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 1: About -->
-                    <div class="mt5 mt0-l">
-    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
-        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
-            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
+    
+        <div class="post-tags">
+            <i class="fa fa-tags" aria-hidden="true"></i>
+            <a href="/tags/cmake/">#cmake</a> <a href="/tags/osgearth/">#osgearth</a> <a href="/tags/osg/">#osg</a>
         </div>
-        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
-            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
-        </div>
-    </article>
+    
+
+    <!-- Comments -->
+    
+
 </div>
+        </section>
 
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 2: Categories -->
-                    
-
-                    <!-- Widget 3: Recent Posts -->
-                    <div class="mt5 tc tl-l">
-    <h3>近期文章</h3>
-    
-        <p>
-            <a href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无法退出程序解决方法</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2017-64版</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
-        </p>
-    
-        <p>
-            <a href="/2019/05/24/char数组的数据显示/">char数组的数据显示</a>
-        </p>
-    
-</div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
+
+</div>
 
 <!-- Footer -->
-<div class="bg-1 ph2 ph5-ns pv5">
-        <div class="mv8">
-            <div class="center tc">
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
-                            <i class="fa fa-500px"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </div>
-                
+<div class="push"></div>
+
+<footer class="footer-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
+                <h2>About</h2>
+                <p>
+                    This theme was developed by <a href="https://github.com/klugjo">Jonathan Klughertz</a>. The source code is available on Github. Create Websites. Make Magic.
+                </p>
             </div>
-            <div class="f6 f5-ns center tc white pt5 fw3">
-                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
+        <h2>Recent Posts</h2>
+        <ul>
+            
+            <li>
+                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+
+            
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
+    <h2>Categories</h2>
+    <ul>
+        
+        <li>
+            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/数据库/">数据库</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-inline footer-social-icons">
+                    
+                    <li class="list-inline-item">
+                        <a href="https://github.com/klugjo/hexo-theme-alpha-dust">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/?lang=en">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://dribbble.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-dribbble"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-google-plus"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.behance.net/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-behance"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://500px.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-500px"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="mailto:test@example.com">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="\#">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-rss"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="footer-copyright">
+                    @Untitled. All right reserved | Design & Hexo <a href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                </div>
             </div>
         </div>
     </div>
+</footer>
 
-<!-- After Footer -->
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Tween Max -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="/js/main.js"></script>
+
 <!-- Disqus Comments -->
 
 

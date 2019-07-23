@@ -42,11 +42,11 @@
     
     <title>标签 - 一个骚年</title>
 
-    <!-- Tachyons Core CSS -->
-    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,6 +54,9 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -67,557 +70,581 @@
 
 <body>
 
-<!-- Main Content -->
-<!-- Check if it is a root tag or category page -->
+<div class="bg-gradient"></div>
+<div class="bg-pattern"></div>
 
-
-<!-- Banner -->
-<!-- Banner -->
-<div class="w-100 bg-1 ph5-ns ph3 text-light">
-    
-    <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
-            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
-        </a>
-        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+<!-- Menu -->
+<!--Menu Links and Overlay-->
+<div class="menu-bg">
+    <div class="menu-container">
+        <ul>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
-                    首页
+            <li class="menu-item">
+                <a href="/">
+                    Home
                 </a>
+            </li>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
-                    文章
+            <li class="menu-item">
+                <a href="/archives">
+                    Archives
                 </a>
+            </li>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
-                    标签
+            <li class="menu-item">
+                <a href="/about.html">
+                    About
                 </a>
+            </li>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
-                    分类
+            <li class="menu-item">
+                <a href="/tags">
+                    Tags
                 </a>
+            </li>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
-                    关于
+            <li class="menu-item">
+                <a href="/categories">
+                    Categories
                 </a>
+            </li>
             
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
-                    联系方式
+            <li class="menu-item">
+                <a href="/contact.html">
+                    Contact
                 </a>
+            </li>
             
-        </div>
-    </nav>
-
-    <!-- Title -->
-    <div class="w-100 mw8 center vh-40 dt">
-        <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">标签</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns"></p>
-        </div>
+        </ul>
     </div>
+</div>
 
-    <!-- Icon -->
-    <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa-file-text-o"></i>
+<!--Hamburger Icon-->
+<nav>
+    <a href="#menu"></a>
+</nav>
+
+<div class="container">
+
+    <!-- Main Content -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!--Title and Logo-->
+        
+            <header>
+    <div class="logo">
+        <a href="/"><i class="logo-icon fa fa-tags" aria-hidden="true"></i></a>
+        
+            <h1 id="main-title" class="title">标签</h1>
+        
+    </div>
+</header>
+            <section class="main archive-container">
+                
+                        <div class="archive-post">
+    <a href="/tags/Git/">
+        #Git
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/Linux命令/">
+        #Linux命令
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/OSG，OsgEarth/">
+        #OSG，OsgEarth
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/vcpkg/">
+        #vcpkg
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/PHP扩展/">
+        #PHP扩展
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/c/">
+        #c
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/c/">
+        #c++
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QCoreApplication/">
+        #QCoreApplication
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/MYSQL/">
+        #MYSQL
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/外键/">
+        #外键
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QML动画插值/">
+        #QML动画插值
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QML/">
+        #QML
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/ListView/">
+        #ListView
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/C/">
+        #C++
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QML启动方式/">
+        #QML启动方式
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/自定义组件/">
+        #自定义组件
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QSqlDatabase/">
+        #QSqlDatabase
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QThread/">
+        #QThread
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/Qt-GDB/">
+        #Qt,GDB
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/数据库连接池/">
+        #数据库连接池
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/Qt/">
+        #Qt
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/BUG/">
+        #BUG
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/pro/">
+        #pro
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/qmake/">
+        #qmake
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/模板/">
+        #模板
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/可变长参数/">
+        #可变长参数
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/Qt资源文件/">
+        #Qt资源文件
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/线程池/">
+        #线程池
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/事件循环/">
+        #事件循环
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/中文编码/">
+        #中文编码
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/WinScp/">
+        #WinScp
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/centos7/">
+        #centos7
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/docker安装/">
+        #docker安装
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/char数组/">
+        #char数组
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/cmake/">
+        #cmake
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/osgearth/">
+        #osgearth
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/osg/">
+        #osg
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QtCreator-中文输入/">
+        #QtCreator 中文输入
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QGIS/">
+        #QGIS
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/MINGW/">
+        #MINGW
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/MSYS/">
+        #MSYS
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/g-编译/">
+        #g++编译
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/合并静态库/">
+        #合并静态库
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/文件读写/">
+        #文件读写
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/多文件终止符/">
+        #多文件终止符
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/cpp/">
+        #cpp
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/深拷贝和浅拷贝/">
+        #深拷贝和浅拷贝
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/HDF5/">
+        #HDF5
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QTcpSocket/">
+        #QTcpSocket
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/QTcpServer/">
+        #QTcpServer
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/心跳包/">
+        #心跳包
+    </a>
+</div>
+                
+                        <div class="archive-post">
+    <a href="/tags/序列化/">
+        #序列化
+    </a>
+</div>
+                
+            </section>
+        
     </div>
 </div>
 
 
-    <!-- Content -->
-    <div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
-        <div class="content">
-            <div class="mw8 center">
-                
-                    
-                       <a href="/tags/Linux命令/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#Linux命令<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/Git/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#Git<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QCoreApplication/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QCoreApplication<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/MYSQL/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#MYSQL<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/外键/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#外键<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QML/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QML<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/ListView/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#ListView<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/OSG，OsgEarth/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#OSG，OsgEarth<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/vcpkg/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#vcpkg<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/C/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#C++<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QML动画插值/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QML动画插值<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QSqlDatabase/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QSqlDatabase<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/PHP扩展/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#PHP扩展<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/c/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#c<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/c/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#c++<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QThread/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QThread<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/模板/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#模板<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/可变长参数/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#可变长参数<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QML启动方式/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QML启动方式<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/数据库连接池/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#数据库连接池<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/Qt/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#Qt<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/BUG/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#BUG<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/Qt-GDB/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#Qt,GDB<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/Qt资源文件/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#Qt资源文件<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/pro/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#pro<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/qmake/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#qmake<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/自定义组件/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#自定义组件<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/线程池/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#线程池<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/事件循环/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#事件循环<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/中文编码/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#中文编码<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/WinScp/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#WinScp<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/centos7/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#centos7<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/docker安装/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#docker安装<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/cmake/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#cmake<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/osgearth/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#osgearth<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/osg/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#osg<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QtCreator-中文输入/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QtCreator 中文输入<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/char数组/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#char数组<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QGIS/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QGIS<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/MINGW/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#MINGW<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/MSYS/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#MSYS<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/g-编译/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#g++编译<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/合并静态库/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#合并静态库<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/文件读写/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#文件读写<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/多文件终止符/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#多文件终止符<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/cpp/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#cpp<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/深拷贝和浅拷贝/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#深拷贝和浅拷贝<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/HDF5/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#HDF5<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QTcpSocket/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QTcpSocket<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/QTcpServer/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#QTcpServer<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/心跳包/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#心跳包<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                       <a href="/tags/序列化/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv3">
-        <div class="dtc v-mid w-80 black-70">
-            <span class="f4 fw3 lh-copy mh4">#序列化<span>
-        </span></span></div>
-    </div>
-</a>
-                   
-                
-            </div>
-        </div>
-    </div>
-
+</div>
 
 <!-- Footer -->
-<div class="bg-1 ph2 ph5-ns pv5">
-        <div class="mv8">
-            <div class="center tc">
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
-                            <i class="fa fa-500px"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </div>
-                
+<div class="push"></div>
+
+<footer class="footer-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
+                <h2>About</h2>
+                <p>
+                    This theme was developed by <a href="https://github.com/klugjo">Jonathan Klughertz</a>. The source code is available on Github. Create Websites. Make Magic.
+                </p>
             </div>
-            <div class="f6 f5-ns center tc white pt5 fw3">
-                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
+        <h2>Recent Posts</h2>
+        <ul>
+            
+            <li>
+                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+
+            
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
+    <h2>Categories</h2>
+    <ul>
+        
+        <li>
+            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/数据库/">数据库</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-inline footer-social-icons">
+                    
+                    <li class="list-inline-item">
+                        <a href="https://github.com/klugjo/hexo-theme-alpha-dust">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/?lang=en">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://dribbble.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-dribbble"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-google-plus"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.behance.net/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-behance"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://500px.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-500px"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="mailto:test@example.com">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="\#">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-rss"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="footer-copyright">
+                    @Untitled. All right reserved | Design & Hexo <a href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                </div>
             </div>
         </div>
     </div>
+</footer>
 
-<!-- After Footer -->
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Tween Max -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="/js/main.js"></script>
+
 <!-- Disqus Comments -->
 
 

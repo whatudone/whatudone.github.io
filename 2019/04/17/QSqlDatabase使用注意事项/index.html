@@ -44,11 +44,11 @@
     
     <title>QSqlDatabase使用注意事项 - 一个骚年</title>
 
-    <!-- Tachyons Core CSS -->
-    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -56,6 +56,9 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -69,226 +72,315 @@
 
 <body>
 
-<!-- Main Content -->
-<!-- Banner -->
-<!-- Banner -->
-<div class="w-100 bg-1 ph5-ns ph3 text-light">
-    
-    <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
-            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
-        </a>
-        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
-                    首页
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
-                    文章
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
-                    标签
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
-                    分类
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
-                    关于
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
-                    联系方式
-                </a>
-            
-        </div>
-    </nav>
+<div class="bg-gradient"></div>
+<div class="bg-pattern"></div>
 
-    <!-- Title -->
-    <div class="w-100 mw8 center vh-40 dt">
-        <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">QSqlDatabase使用注意事项</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-04-17</p>
-        </div>
-    </div>
-
-    <!-- Icon -->
-    <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa-file-text-o"></i>
+<!-- Menu -->
+<!--Menu Links and Overlay-->
+<div class="menu-bg">
+    <div class="menu-container">
+        <ul>
+            
+            <li class="menu-item">
+                <a href="/">
+                    Home
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/archives">
+                    Archives
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/about.html">
+                    About
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/tags">
+                    Tags
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/categories">
+                    Categories
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/contact.html">
+                    Contact
+                </a>
+            </li>
+            
+        </ul>
     </div>
 </div>
 
-<!-- Content -->
-<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
-    <div class="content">
-        <div class="mw8 center">
-            <div class="cf">
-                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
-                    <!-- Tags Vertical -->
-                    
-                        <div class="tags-container-vertical">
-                            <div class="tags-sub-container">
-                                <a class="fw3 ph1 dib" href="/tags/QSqlDatabase/">#QSqlDatabase</a>
-                            </div>
-                        </div>
-                    
+<!--Hamburger Icon-->
+<nav>
+    <a href="#menu"></a>
+</nav>
 
-                    <!-- Main Post Content -->
-                    <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>QSqldatabase::addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
+<div class="container">
+
+    <!-- Main Content -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!--Title and Logo-->
+        <header>
+    <div class="logo">
+        <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
+        
+    </div>
+</header>
+
+        <section class="main">
+            
+<div class="post">
+
+    <div class="post-header">
+        <h1 class="title">
+            <a href="/2019/04/17/QSqlDatabase使用注意事项/">
+                QSqlDatabase使用注意事项
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-04-17</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Gallery -->
+        
+
+        <!-- Post Content -->
+        <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>QSqldatabase::addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
 <h1 id="删除连接"><a href="#删除连接" class="headerlink" title="删除连接"></a>删除连接</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase db = QSqlDatabase::database(<span class="string">"sales"</span>);</span><br><span class="line"><span class="function">QSqlQuery <span class="title">query</span><span class="params">(<span class="string">"SELECT NAME, DOB FROM EMPLOYEES"</span>, db)</span></span>;</span><br><span class="line">QSqlDatabase::removeDatabase(<span class="string">"sales"</span>);</span><br></pre></td></tr></table></figure>
 <p>上述代码在运行时会报警告：QSqlDatabasePrivate::removeDatabase: connection ‘sales’ is still in use, all queries will cease to work。这个警告会导致内存泄漏，意味着这个db并没有被释放。上述代码在同一个函数中，之所以会出现这个警告，是因为在调用remove的时候db这个对象还没有销毁，db是QSqlDatabase创建的数据库全局实例的一个引用，remove就导致销毁全局实例的时候，它还有一个引用没有销毁。</p>
 <h2 id="正确写法"><a href="#正确写法" class="headerlink" title="正确写法"></a>正确写法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   QSqlDatabase db = QSqlDatabase::database(<span class="string">"sales"</span>);</span><br><span class="line">   QSqlQuery query(<span class="string">"SELECT NAME, DOB FROM EMPLOYEES"</span>, db); </span><br><span class="line">&#125;</span><br><span class="line">QSqlDatabase::removeDatabase(<span class="string">"sales"</span>);</span><br></pre></td></tr></table></figure>
 <p>这样写db在调用remove的时候已经销毁了。</p>
 
-                    
-                    <!-- Tags Bottom -->
-                    
-                        <div class="tags-container-bottom">
-                            <i class="fa fa-tag pr3 text-main-color"></i><a class="fw3 ph1 dib" href="/tags/QSqlDatabase/">#QSqlDatabase</a>
-                        </div>
-                    
+    </div>
 
-                    <!-- Comments -->
-                    
+    
 
-
-
-                </div>
-                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
-                    
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 1: About -->
-                    <div class="mt5 mt0-l">
-    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
-        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
-            <img src="http://tachyons.io/img/avatar_1.jpg" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="还在输入">
+    
+        <div class="post-tags">
+            <i class="fa fa-tags" aria-hidden="true"></i>
+            <a href="/tags/QSqlDatabase/">#QSqlDatabase</a>
         </div>
-        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
-            我是一个没得感情的菜鸡，希望大家多喷我。当然喷多了，我就要骂人了。
-        </div>
-    </article>
+    
+
+    <!-- Comments -->
+    
+
 </div>
+        </section>
 
-                    <hr class="dn-l mw4 black-50 mt5">
-                    
-                    <!-- Widget 2: Categories -->
-                    
-                        <div class="mt5 tc tl-l">
-    <h3>分类</h3>
-    
-        <p>
-            <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
-        </p>
-    
-</div>
-
-
-                        <hr class="dn-l mw4 black-50 mt5">
-                    
-
-                    <!-- Widget 3: Recent Posts -->
-                    <div class="mt5 tc tl-l">
-    <h3>近期文章</h3>
-    
-        <p>
-            <a href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无法退出程序解决方法</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2017-64版</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
-        </p>
-    
-        <p>
-            <a href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
-        </p>
-    
-        <p>
-            <a href="/2019/05/24/char数组的数据显示/">char数组的数据显示</a>
-        </p>
-    
-</div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
+
+</div>
 
 <!-- Footer -->
-<div class="bg-1 ph2 ph5-ns pv5">
-        <div class="mv8">
-            <div class="center tc">
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
-                            <i class="fa fa-500px"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </div>
-                
+<div class="push"></div>
+
+<footer class="footer-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
+                <h2>About</h2>
+                <p>
+                    This theme was developed by <a href="https://github.com/klugjo">Jonathan Klughertz</a>. The source code is available on Github. Create Websites. Make Magic.
+                </p>
             </div>
-            <div class="f6 f5-ns center tc white pt5 fw3">
-                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
+        <h2>Recent Posts</h2>
+        <ul>
+            
+            <li>
+                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+
+            
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
+    <h2>Categories</h2>
+    <ul>
+        
+        <li>
+            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/数据库/">数据库</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-inline footer-social-icons">
+                    
+                    <li class="list-inline-item">
+                        <a href="https://github.com/klugjo/hexo-theme-alpha-dust">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/?lang=en">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://dribbble.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-dribbble"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-google-plus"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.behance.net/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-behance"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://500px.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-500px"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="mailto:test@example.com">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="\#">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-rss"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="footer-copyright">
+                    @Untitled. All right reserved | Design & Hexo <a href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                </div>
             </div>
         </div>
     </div>
+</footer>
 
-<!-- After Footer -->
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Tween Max -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="/js/main.js"></script>
+
 <!-- Disqus Comments -->
 
 

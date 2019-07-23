@@ -42,11 +42,11 @@
     
     <title>page - 一个骚年</title>
 
-    <!-- Tachyons Core CSS -->
-    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 
     <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,6 +54,9 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -67,289 +70,604 @@
 
 <body>
 
-<!-- Main Content -->
-<!-- Banner -->
-<!-- Banner -->
-<div class="w-100 bg-1 ph5-ns ph3 text-light">
-    
-    <nav class="db dt-l w-100 mw8 center border-box pv3">
-        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/" title="一个骚年">
-            <img src="./images/home.svg" class="dib h3" alt="一个骚年">
-        </a>
-        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/" title="首页">
-                    首页
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/archives" title="文章">
-                    文章
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/tags" title="标签">
-                    标签
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/categories" title="分类">
-                    分类
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/about.html" title="关于">
-                    关于
-                </a>
-            
-                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/contact.html" title="联系方式">
-                    联系方式
-                </a>
-            
-        </div>
-    </nav>
+<div class="bg-gradient"></div>
+<div class="bg-pattern"></div>
 
-    <!-- Title -->
-    <div class="w-100 mw8 center vh-40 dt">
-        <div class="dtc v-mid white">
-            <h1 class="f1-l f2-m tc tc-m tl-ns">欢迎来到我的博客，虽然没啥好看的。。。。。。</h1>
-            <p class="f4 fw3 pab-100px tc tc-m tl-ns">成就未来，抓住梦想。</p>
-        </div>
-    </div>
-
-    <!-- Icon -->
-    <div class="relative w-100 mw8 center white dn dn-m db-ns">
-        <i class="header-icon fa fa fa-magic"></i>
+<!-- Menu -->
+<!--Menu Links and Overlay-->
+<div class="menu-bg">
+    <div class="menu-container">
+        <ul>
+            
+            <li class="menu-item">
+                <a href="/">
+                    Home
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/archives">
+                    Archives
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/about.html">
+                    About
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/tags">
+                    Tags
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/categories">
+                    Categories
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="/contact.html">
+                    Contact
+                </a>
+            </li>
+            
+        </ul>
     </div>
 </div>
 
-<!-- Content -->
-<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
-    <div class="content">
-        <div class="mw8 center">
-            
-                <a href="/2019/01/31/Ubuntu添加开机启动脚本/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-31</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Ubuntu添加开机启动脚本<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
+<!--Hamburger Icon-->
+<nav>
+    <a href="#menu"></a>
+</nav>
+
+<div class="container">
+
+    <!-- Main Content -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!--Title and Logo-->
+        <header>
+    <div class="logo">
+        <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
+        
+            <h1 id="main-title" class="title">一个骚年</h1>
+        
     </div>
-</a>
+</header>
+
+        <section class="main">
             
-                <a href="/2019/01/29/qtcreator无法输入中文/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
                 
-                    <span class="f5 fw3 lh-copy pr4">2019-01-29</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/QtCreator-中文输入/'; return false;">#QtCreator 中文输入</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">qtcreator无法输入中文<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/31/Ubuntu添加开机启动脚本/">
+                Ubuntu添加开机启动脚本
+            </a>
+        </h1>
+        <div class="post-info">
             
-                <a href="/2019/01/28/Linux打包QT程序时提示找不到QMYSQL驱动/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-28</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Linux打包QT程序时提示找不到QMYSQL驱动<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
+                <span class="date">2019-01-31</span>
             
-                <a href="/2019/01/22/WinScp连接Linux服务器错误：服务器拒绝了SFTP连接/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-22</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/WinScp/'; return false;">#WinScp</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">WinScp连接Linux服务器错误：服务器拒绝了SFTP连接<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
             
-                <a href="/2019/01/17/PHP查找不到达梦数据库库路径/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-17</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">PHP查找不到达梦数据库库路径<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/01/15/Qt数据库连接池/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-15</span> 
-                
-                
-                <span class="fake-link fw3 ph1 dib" onclick="location.href = '/tags/数据库连接池/'; return false;">#数据库连接池</span>
-                
-            </div>
-            <span class="f3 fw3 lh-copy">Qt数据库连接池<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-15</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">银河麒麟64bit编译32bit-Qt4.8.6<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
-            
-                <a href="/2019/01/15/银河麒麟64bit配置64bit达梦和qt4-8-6-32bit/">
-    <div class="dt w-100 hover-border-main-color pointer pa3 border-color bl mv4">
-        <div class="dtc v-mid w-90 black-70">
-            <div>
-                
-                    <span class="f5 fw3 lh-copy pr4">2019-01-15</span> 
-                
-                
-            </div>
-            <span class="f3 fw3 lh-copy">银河麒麟64bit配置64bit达梦和qt4.8.6-32bit<span>
-        </span></span></div>
-        <div class="dtc v-mid w-10 f1 black-50 tr">
-            <i class="fa fa-file-text-o"></i>
-        </div>
-    </div>
-</a>
             
         </div>
     </div>
+
     
-    <div class="flex items-center justify-center pa4">
-        <a href="/page/3/" class="f5 no-underline inline-flex items-center pa3 ba border-box mr4 gray hover-border-main-color hover-text-main-color">
-            <i class="w1 pr2 fa fa-chevron-left" aria-hidden="true"></i>
-            <span class="pl1">上一页</span>
-        </a>
-        <a href="/" class="f5 no-underline inline-flex items-center pa3 ba border-box light-gray cursor-default">
-            <span class="pr1">下一页</span>
-            <i class="w1 pl2 fa fa-chevron-right" aria-hidden="true"></i>
-        </a>
-    </div>
+        <div class="content">
+            <p>新建一个shell脚本，内容如下</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### BEGIN INIT INFO</span></span><br><span class="line"><span class="comment"># Provides:  protected_shell</span></span><br><span class="line"><span class="comment"># Required-Start:  $local_fs $remote_fs $network $syslog $named</span></span><br><span class="line"><span class="comment"># Required-Stop:  $local_fs $remote_fs $network $syslog $named</span></span><br><span class="line"><span class="comment"># Default-Start: 2 3 4 5</span></span><br><span class="line"><span class="comment"># Default-Stop:  0 1 6</span></span><br><span class="line"><span class="comment"># Short-Description: protect the gdwy_device_server</span></span><br><span class="line"><span class="comment">### END INIT INFO</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># chkconfig: - 60 50</span></span><br><span class="line"><span class="comment"># description: service demo script</span></span><br><span class="line"><span class="comment"># processname: service_demo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source function library.</span></span><br><span class="line"><span class="comment">#./etc/init.d/functions</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Source networking configuration.</span></span><br><span class="line"><span class="comment">#./etc/sysconfig/network</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Check that networking is up.</span></span><br><span class="line"><span class="comment">#[ $&#123;NETWORKING&#125;="no" ] &amp;&amp; exit 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进程名字可修改</span></span><br><span class="line">PRO_NAME=/home/liurui/test1/build-test1-<span class="number">64</span>bit-Debug/test1</span><br><span class="line">CMD=<span class="string">"<span class="variable">$PRO_NAME</span> "</span></span><br><span class="line"><span class="comment">#exec permission</span></span><br><span class="line">[ -x <span class="variable">$PRO_NAME</span> ] || <span class="keyword">exit</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> true ; <span class="keyword">do</span></span><br><span class="line">     <span class="comment">#用ps获取$PRO_NAME进程数量</span></span><br><span class="line">     NUM=`ps aux | grep -w $&#123;PRO_NAME&#125; | grep -v grep |wc -l`</span><br><span class="line">     echo <span class="variable">$NUM</span></span><br><span class="line">     <span class="comment">#少于1，重启进程</span></span><br><span class="line">     <span class="keyword">if</span> [ <span class="string">"$&#123;NUM&#125;"</span> <span class="nomarkup">-lt</span> <span class="string">"1"</span> ];then</span><br><span class="line">         echo <span class="string">"$&#123;PRO_NAME&#125; was killed"</span></span><br><span class="line">         <span class="variable">$CMD</span></span><br><span class="line">    <span class="comment">#大于1，杀掉所有进程，重启</span></span><br><span class="line">    elif [ <span class="string">"$&#123;NUM&#125;"</span> <span class="nomarkup">-gt</span> <span class="string">"1"</span> ];then</span><br><span class="line">        echo <span class="string">"more than 1 $&#123;PRO_NAME&#125;,killall $&#123;PRO_NAME&#125;"</span></span><br><span class="line">        killall -<span class="number">9</span>  <span class="variable">$PRO_NAME</span></span><br><span class="line">        <span class="variable">$CMD</span></span><br><span class="line">     fi</span><br><span class="line">     <span class="comment">#kill僵尸进程</span></span><br><span class="line">     NUM_STAT=`ps aux | grep -w $&#123;PRO_NAME&#125; | grep T | grep -v grep | wc -l`</span><br><span class="line">     <span class="keyword">if</span> [ <span class="string">"$&#123;NUM_STAT&#125;"</span> <span class="nomarkup">-gt</span> <span class="string">"0"</span> ];then</span><br><span class="line">         killall -<span class="number">9</span> $&#123;PRO_NAME&#125;</span><br><span class="line">         echo <span class="string">"zombie was killed"</span></span><br><span class="line">         <span class="variable">$CMD</span></span><br><span class="line">    fi</span><br><span class="line">     sleep <span class="number">5</span>s</span><br><span class="line">done</span><br><span class="line">echo <span class="string">"shell was killed"</span></span><br><span class="line"><span class="keyword">exit</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>如果不添加前面的启动信息（BEGIN INIT INFO）会报错,如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">insserv: warning: script <span class="string">'protected_shell'</span> missing LSB tags and overrides</span><br><span class="line"></span><br><span class="line">insserv: There is a loop between service watchdog and protected_shell <span class="keyword">if</span> stopped</span><br><span class="line"></span><br><span class="line">insserv:  loop involving service protected_shell at depth <span class="number">2</span></span><br><span class="line">insserv:  loop involving service watchdog at depth <span class="number">1</span></span><br><span class="line"></span><br><span class="line">insserv: Stopping protected_shell depends on watchdog and therefore on system facility `$all<span class="string">' which can not be true!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">insserv: exiting now without changing boot order!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">update-rc.d: error: insserv rejected the script header</span></span><br></pre></td></tr></table></figure>
+<p>主要是因为脚本的启动顺序和其它服务冲突导致，同时没有配置脚本启动的级别<br> 赋予执行权限</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod +x test.sh</span><br><span class="line"></span><br><span class="line">sudo mv test.sh /etc/init.d/</span><br></pre></td></tr></table></figure>
+<p>添加开机启动</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d test.sh defaults</span><br></pre></td></tr></table></figure>
+<p>取消开机启动</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-rc.d -f test.sh remove</span><br></pre></td></tr></table></figure>
+
+        </div>
+    
 
 </div>
+            
+                
+<div class="post">
 
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/29/qtcreator无法输入中文/">
+                qtcreator无法输入中文
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-29</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>Linux如果使用搜狗输入法，那么QtCreator将无法输入中文，因为Qt没有自带的fcitx扩展支持，但是存在ibus的扩展支持，所以安装ibus。然后切换输入法为ibus即可。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ibus-pinyin ibus-qt4</span><br><span class="line">im-config</span><br></pre></td></tr></table></figure>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/28/Linux打包QT程序时提示找不到QMYSQL驱动/">
+                Linux打包QT程序时提示找不到QMYSQL驱动
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-28</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>Linux Qt发布打包的程序到另外一个没有安装Qt环境的Linux系统，首先要将所有依赖的动态链接库全部找到，例如libQtCore.so和本次的重点libqsqlmysql.so。将上述文件全部拷贝到目标机器上以后，先要ldd libqsqlmysql.so看看是否依赖齐全，如果提示libmysqlclient.so找不到，那就安装libmysqlclient18或libmysqlclient.so（取决于提示）。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient18</span><br></pre></td></tr></table></figure>
+<p>因为启动Qt程序的时候，需要指定环境变量，解决办法1：将环境变量直接写进 /etc/profile里面，2，使用shell脚本启动，将环境变量写在脚本里面，本例采取这种方式（影响最小，环境变量是临时的）。run.sh脚本如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">bindir=`dirname <span class="string">"<span class="variable">$0</span>"</span>` <span class="comment">#获取当前shell脚本目录</span></span><br><span class="line"></span><br><span class="line">libdir=`cd <span class="string">"<span class="variable">$bindir</span>/lib"</span>;pwd`</span><br><span class="line"></span><br><span class="line">QTDIR=$&#123;bindir&#125;       <span class="comment">#指定QT的目录和可执行程序一个目录</span></span><br><span class="line"></span><br><span class="line">QT_PLUGIN_PATH=`cd <span class="string">"<span class="variable">$bindir</span>/lib/plugins"</span>;pwd` <span class="comment">#指定QT查找plugins的目录，关键</span></span><br><span class="line"></span><br><span class="line">LD_LIBRARY_PATH=$&#123;libdir&#125;:$&#123;LD_LIBRARY_PATH&#125;  <span class="comment">#指定QT依赖库的路径（eg libQtCore.so）</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$bindir:</span>$&#123;PATH&#125;  <span class="comment">#给当前路径程序添加到PATH环境变量中</span></span><br><span class="line"></span><br><span class="line">export PATH LD_LIBRARY_PATH QTDIR  QT_PLUGIN_PATH</span><br><span class="line"></span><br><span class="line">exec <span class="string">"<span class="variable">$bindir</span>/test"</span>   <span class="comment">#启动程序</span></span><br></pre></td></tr></table></figure>
+<p>值得注意的是目录结构，根据上述脚本，我们将qt的依赖库拷贝到lib下，然后在lib下新建文件夹plugins，在plugins下新建sqldrivers文件夹，然后将libqsqlmysql.so文件放在sqldrivers下，qt程序启动之后就会去该目录下查找可用的数据库驱动，同理libqsqlite.so。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/22/WinScp连接Linux服务器错误：服务器拒绝了SFTP连接/">
+                WinScp连接Linux服务器错误：服务器拒绝了SFTP连接
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-22</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>检查Linux系统是否安装了sshd服务</p>
+<p>service ssh status</p>
+<p>如果没有安装</p>
+<p>sudo apt-get install openssh-server</p>
+<p>sudo service ssh start </p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/17/PHP查找不到达梦数据库库路径/">
+                PHP查找不到达梦数据库库路径
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-17</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>PHP通过odbc连接达梦数据时需要依赖达梦提供的odbc驱动，路径为/opt/dmdbms/bin,但是PHP的用户权限为root，设置了/etc/profile 和~/.bashrc 的LD_LIBRARY_PATH还是无法获取该路径。最后将路径直接添加到/etc/ld.so.conf 路径下然后sudo ldconfig 使命令生效。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/15/Qt数据库连接池/">
+                Qt数据库连接池
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-15</span>
+            
+            
+            
+                <span class="category">
+                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+                </span>
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"connectionpool.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSettings&gt;</span></span></span><br><span class="line">QMutex ConnectionPool::mutex;</span><br><span class="line">QWaitCondition ConnectionPool::waitConnection;</span><br><span class="line">ConnectionPool* ConnectionPool::instance = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">ConnectionPool::ConnectionPool() &#123;</span><br><span class="line">    <span class="comment">// 创建数据库连接的这些信息在实际开发的时都需要通过读取配置文件得到，</span></span><br><span class="line">    <span class="comment">// 这里为了演示方便所以写死在了代码里。</span></span><br><span class="line"><span class="comment">//    hostName     = "192.168.16.200";</span></span><br><span class="line"><span class="comment">//    port=3306;</span></span><br><span class="line"><span class="comment">//    databaseName = "web";</span></span><br><span class="line"><span class="comment">//    username     = "root";</span></span><br><span class="line"><span class="comment">//    password     = "zz191025ZZ";</span></span><br><span class="line">    QString apppath=QCoreApplication::applicationDirPath();</span><br><span class="line">    QString mysqlconfig=apppath+<span class="string">"/CFG/mysqlconfig.ini"</span>;</span><br><span class="line">    QSettings*  m_IniFile = <span class="keyword">new</span> QSettings(mysqlconfig, QSettings::IniFormat);</span><br><span class="line">    m_IniFile -&gt;beginGroup(<span class="string">"mysqlserver"</span>);     <span class="comment">// 设置当前节名，代表以下的操作都是在这个节中</span></span><br><span class="line">    hostName= m_IniFile-&gt;value(<span class="string">"ip"</span>).toString();</span><br><span class="line">    port=m_IniFile-&gt;value(<span class="string">"port"</span>).toInt();</span><br><span class="line">    databaseName=m_IniFile-&gt;value(<span class="string">"database"</span>).toString();</span><br><span class="line">    username=m_IniFile-&gt;value(<span class="string">"username"</span>).toString();</span><br><span class="line">    password=m_IniFile-&gt;value(<span class="string">"password"</span>).toString();</span><br><span class="line">    m_IniFile-&gt;endGroup();</span><br><span class="line">    m_IniFile-&gt;deleteLater();</span><br><span class="line">    databaseType = <span class="string">"QMYSQL"</span>;</span><br><span class="line">    testOnBorrow = <span class="literal">true</span>;</span><br><span class="line">    testOnBorrowSql = <span class="string">"SELECT 1"</span>;</span><br><span class="line">    waitInterval = <span class="number">1000</span>;</span><br><span class="line">    maxConnectionCount  = <span class="number">10</span>;</span><br><span class="line">    maxWaitTime  = waitInterval*maxConnectionCount;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ConnectionPool::~ConnectionPool() &#123;</span><br><span class="line">    <span class="comment">// 销毁连接池的时候删除所有的连接</span></span><br><span class="line">    foreach(QString connectionName, usedConnectionNames) &#123;</span><br><span class="line">        QSqlDatabase::removeDatabase(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    foreach(QString connectionName, unusedConnectionNames) &#123;</span><br><span class="line">        QSqlDatabase::removeDatabase(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ConnectionPool&amp; ConnectionPool::getInstance() &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">NULL</span> == instance) &#123;</span><br><span class="line">        <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">NULL</span> == instance) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> ConnectionPool();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConnectionPool::release() &#123;</span><br><span class="line">    <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">    <span class="keyword">delete</span> instance;</span><br><span class="line">    instance = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QSqlDatabase ConnectionPool::openConnection() &#123;</span><br><span class="line">    ConnectionPool&amp; pool = ConnectionPool::getInstance();</span><br><span class="line">    QString connectionName;</span><br><span class="line"></span><br><span class="line">    <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 已创建连接数</span></span><br><span class="line">    <span class="keyword">int</span> connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果连接已经用完，等待 waitInterval 毫秒看看是否有可用连接，最长等待 maxWaitTime 毫秒</span></span><br><span class="line"><span class="comment">//    for (int i = 0;</span></span><br><span class="line"><span class="comment">//         i &lt; pool.maxWaitTime</span></span><br><span class="line"><span class="comment">//         &amp;&amp; pool.unusedConnectionNames.size() == 0 &amp;&amp; connectionCount == pool.maxConnectionCount;</span></span><br><span class="line"><span class="comment">//         i += pool.waitInterval) &#123;</span></span><br><span class="line"><span class="comment">//        waitConnection.wait(&amp;mutex, pool.waitInterval);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//        // 重新计算已创建连接数</span></span><br><span class="line"><span class="comment">//        connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">    <span class="comment">//此处修改为当没有可用连接并且连接数超出最大连接数，则一直循环等待，直到别的线程释放</span></span><br><span class="line">    <span class="keyword">while</span>(pool.unusedConnectionNames.size() == <span class="number">0</span> &amp;&amp; connectionCount == pool.maxConnectionCount)&#123;</span><br><span class="line">        waitConnection.wait(&amp;mutex, pool.waitInterval);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 重新计算已创建连接数</span></span><br><span class="line">        connectionCount = pool.unusedConnectionNames.size() + pool.usedConnectionNames.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pool.unusedConnectionNames.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 有已经回收的连接，复用它们</span></span><br><span class="line">        connectionName = pool.unusedConnectionNames.dequeue();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (connectionCount &lt; pool.maxConnectionCount) &#123;</span><br><span class="line">        <span class="comment">// 没有已经回收的连接，但是没有达到最大连接数，则创建新的连接</span></span><br><span class="line">        connectionName = QString(<span class="string">"Connection-%1"</span>).arg(connectionCount + <span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 已经达到最大连接数</span></span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"Cannot create more connections."</span>;</span><br><span class="line">        <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    QSqlDatabase db = pool.createConnection(connectionName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有效的连接才放入 usedConnectionNames</span></span><br><span class="line">    <span class="keyword">if</span> (db.isOpen()) &#123;</span><br><span class="line">        pool.usedConnectionNames.enqueue(connectionName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> ConnectionPool::closeConnection(QSqlDatabase connection) &#123;</span><br><span class="line">    ConnectionPool&amp; pool = ConnectionPool::getInstance();</span><br><span class="line">    QString connectionName = connection.connectionName();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果是我们创建的连接，从 used 里删除，放入 unused 里</span></span><br><span class="line">    <span class="keyword">if</span> (pool.usedConnectionNames.contains(connectionName)) &#123;</span><br><span class="line">        <span class="function">QMutexLocker <span class="title">locker</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">        pool.usedConnectionNames.removeOne(connectionName);</span><br><span class="line">        pool.unusedConnectionNames.enqueue(connectionName);</span><br><span class="line">        waitConnection.wakeOne();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QSqlDatabase ConnectionPool::createConnection(<span class="keyword">const</span> QString &amp;connectionName) &#123;</span><br><span class="line">    <span class="comment">// 连接已经创建过了，复用它，而不是重新创建</span></span><br><span class="line">    <span class="keyword">if</span> (QSqlDatabase::contains(connectionName)) &#123;</span><br><span class="line">        QSqlDatabase db1 = QSqlDatabase::database(connectionName);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (testOnBorrow) &#123;</span><br><span class="line">            <span class="comment">// 返回连接前访问数据库，如果连接断开，重新建立连接</span></span><br><span class="line"><span class="comment">//            qDebug() &lt;&lt; "Test connection on borrow, execute:" &lt;&lt; testOnBorrowSql &lt;&lt; ", for" &lt;&lt; connectionName;</span></span><br><span class="line">            <span class="function">QSqlQuery <span class="title">query</span><span class="params">(testOnBorrowSql, db1)</span></span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (query.lastError().type() != QSqlError::NoError &amp;&amp; !db1.open()) &#123;</span><br><span class="line">                qDebug() &lt;&lt; <span class="string">"Open datatabase error:"</span> &lt;&lt; db1.lastError().text();</span><br><span class="line">                <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> db1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个新的连接</span></span><br><span class="line">    QSqlDatabase db = QSqlDatabase::addDatabase(databaseType, connectionName);</span><br><span class="line">    db.setHostName(hostName);</span><br><span class="line">    db.setPort(port);</span><br><span class="line">    db.setDatabaseName(databaseName);</span><br><span class="line">    db.setUserName(username);</span><br><span class="line">    db.setPassword(password);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!db.open()) &#123;</span><br><span class="line">        qDebug() &lt;&lt; <span class="string">"Open datatabase error:"</span> &lt;&lt; db.lastError().text();</span><br><span class="line">        <span class="keyword">return</span> QSqlDatabase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> db;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CONNECTIONPOOL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONNECTIONPOOL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtSql&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QQueue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QString&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QMutexLocker&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span></span>; <span class="comment">// 关闭所有的数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> QSqlDatabase <span class="title">openConnection</span><span class="params">()</span></span>;                 <span class="comment">// 获取数据库连接</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeConnection</span><span class="params">(QSqlDatabase connection)</span></span>; <span class="comment">// 释放数据库连接回连接池</span></span><br><span class="line"></span><br><span class="line">    ~ConnectionPool();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> ConnectionPool&amp; <span class="title">getInstance</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    ConnectionPool();</span><br><span class="line">    ConnectionPool(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    ConnectionPool&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> ConnectionPool &amp;other);</span><br><span class="line">    <span class="function">QSqlDatabase <span class="title">createConnection</span><span class="params">(<span class="keyword">const</span> QString &amp;connectionName)</span></span>; <span class="comment">// 创建数据库连接</span></span><br><span class="line"></span><br><span class="line">    QQueue&lt;QString&gt; usedConnectionNames;   <span class="comment">// 已使用的数据库连接名</span></span><br><span class="line">    QQueue&lt;QString&gt; unusedConnectionNames; <span class="comment">// 未使用的数据库连接名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 数据库信息</span></span><br><span class="line">    QString hostName;</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line">    QString databaseName;</span><br><span class="line">    QString username;</span><br><span class="line">    QString password;</span><br><span class="line">    QString databaseType;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bool</span>    testOnBorrow;    <span class="comment">// 取得连接的时候验证连接是否有效</span></span><br><span class="line">    QString testOnBorrowSql; <span class="comment">// 测试访问数据库的 SQL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> maxWaitTime;  <span class="comment">// 获取连接最大等待时间</span></span><br><span class="line">    <span class="keyword">int</span> waitInterval; <span class="comment">// 尝试获取连接时等待间隔时间</span></span><br><span class="line">    <span class="keyword">int</span> maxConnectionCount; <span class="comment">// 最大连接数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> QMutex mutex;</span><br><span class="line">    <span class="keyword">static</span> QWaitCondition waitConnection;</span><br><span class="line">    <span class="keyword">static</span> ConnectionPool *instance;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// CONNECTIONPOOL_H</span></span></span><br></pre></td></tr></table></figure>
+<p>QSqldatabase：：addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/">
+                银河麒麟64bit编译32bit-Qt4.8.6
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-15</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h1 id="配置32bit的编译环境"><a href="#配置32bit的编译环境" class="headerlink" title="配置32bit的编译环境"></a>配置32bit的编译环境</h1><p>这个配置在前面的博客里面提到过，所以此处不再叙述。</p>
+<h1 id="安装libX-32bit库"><a href="#安装libX-32bit库" class="headerlink" title="安装libX* 32bit库"></a>安装libX* 32bit库</h1><p>编译错误信息</p>
+<p>Basic XLib functionality test failed!</p>
+<p>You might need to modify the include and library search paths by editing</p>
+<p>QMAKE_INCDIR_X11 and QMAKE_LIBDIR_X11 in /home/zhu/Qt/qt-x11-opensource-src-4.5.2/mkspecs/Linux-g++</p>
+<p>解决这个问题只需要几个库就可以了，实际上只要安装两个库：</p>
+<p>sudo yum install libXau-dev:i386</p>
+<p>sudo yum install ibX11-dev:i386 （打印信息显示，该package已经安装）</p>
+<p>sudo yum install libXext-dev:i386</p>
+<p>sudo yum install libXtst-dev:i386  (无法安装就不装)</p>
+<p>运行qt程序报错,缺少libX库</p>
+<p>X Error: BadDrawable (invalid Pixmap or Window parameter) 9</p>
+<p>  Major opcode: 62 (X_CopyArea)</p>
+<p>  Resource id:  0x0</p>
+<p>Sudo yum install libXrandr-dev:i386</p>
+<h1 id="编译Qt4-8-6-32bit"><a href="#编译Qt4-8-6-32bit" class="headerlink" title="编译Qt4.8.6-32bit"></a>编译Qt4.8.6-32bit</h1><ol>
+<li><p>下载源码</p>
+</li>
+<li><p>解压缩</p>
+</li>
+<li><p>cd 源码目录</p>
+</li>
+<li><p>配置qt</p>
+</li>
+<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure -platform linux-g++-<span class="number">32</span> -nomake examples -nomake demos -no-webkit -qt-zlib -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -qt-freetype -fontconfig</span><br><span class="line">gmake -j4  <span class="comment">#多线程编译</span></span><br><span class="line">sudo gmake install</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>fontconfig参数是为了更好的支持系统的字体，不然会出现中文显示不全或者不显示的问题。</p>
+<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export QTDIR=/usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span></span><br><span class="line">export PATH=<span class="variable">$QTDIR</span>/bin:<span class="variable">$PATH</span></span><br><span class="line">export MANPATH=<span class="variable">$QTDIR</span>/man:<span class="variable">$MANPAT</span></span><br><span class="line">export LD_LIBRARY_PATH=<span class="variable">$QTDIR</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
+            <a href="/2019/01/15/银河麒麟64bit配置64bit达梦和qt4-8-6-32bit/">
+                银河麒麟64bit配置64bit达梦和qt4.8.6-32bit
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-01-15</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>本次使用银河麒麟64操作系统以及64位达梦数据库，但是由于Qt程序依赖32位的库，所以需要配置32位unixodbc连接达梦数据库。</p>
+<h1 id="安装达梦数据库64bit"><a href="#安装达梦数据库64bit" class="headerlink" title="安装达梦数据库64bit"></a>安装达梦数据库64bit</h1><p>达梦数据库使用Java开发，所以依赖jdk，系统自带的是openjdk64bit，所以下载64bit的达梦镜像iso文件，直接解压缩。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd 解压缩文件夹</span><br><span class="line">chmod <span class="number">777</span> DMINSTALL</span><br><span class="line">./DMINSTALL</span><br></pre></td></tr></table></figure>
+<p>这里推荐使用普通用户安装，默认安装在/home/user/dmdbms/,如果采用root用户安装，那么安装路径会在/opt/dmdbms下，安装完成之后配置环境变量LD_LIBRARY_PATH，达梦数据库会自动创建一个dmdba的系统用户，密码默认和用户名一样，这个用户是用来管理达梦数据库的，达梦数据库安装是user和group都是使用它自己的，所以在你的账户是无法使用他的管理工具，但是对后续的配置没有影响。</p>
+<h1 id="安装达梦数据库32bit"><a href="#安装达梦数据库32bit" class="headerlink" title="安装达梦数据库32bit"></a>安装达梦数据库32bit</h1><h2 id="安装32bit的jdk"><a href="#安装32bit的jdk" class="headerlink" title="安装32bit的jdk"></a>安装32bit的jdk</h2><ol>
+<li><p>去官网下载32bit的jdk安装包</p>
+</li>
+<li><p>解压</p>
+</li>
+<li><p>配置环境变量 sudo vi /etc/profile</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/lib/jvm/jdk7</span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<p>4.source /etc/profile生效</p>
+</li>
+</ol>
+<h2 id="配置默认jdk"><a href="#配置默认jdk" class="headerlink" title="配置默认jdk"></a>配置默认jdk</h2><p>一些linux环境可能存在默认的jdk配置，这时候需要我们进行默认jdk的配置（相当于同时保留32bit和64bit的jdk方便切换）。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config java  <span class="comment">#查看当前java配置并选择</span></span><br><span class="line">sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk7/bin/java <span class="number">300</span></span><br><span class="line">sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk7/bin/javac <span class="number">300</span></span><br><span class="line">sudo update-alternatives --config java <span class="comment">#查看当前java配置并选择</span></span><br><span class="line">java -version                    <span class="comment">#测试是否成功</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装32bit的达梦数据库"><a href="#安装32bit的达梦数据库" class="headerlink" title="安装32bit的达梦数据库"></a>安装32bit的达梦数据库</h2><p>类似于安装64bit，只不过在运行安装程序时虽然前面已经配置了32bit的jdk，但是还缺少32bit的libXtst.so.6</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libxtst-dev:i386 <span class="comment">#x小写</span></span><br></pre></td></tr></table></figure>
+<p>此时会提示libxi:i386依赖没有安装，所以强行安装libxi-dev:i386(会破坏系统某些库的依赖，导致系统的home按钮无法使用，但是有终端就ok了，不影响)。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libxi-dev:i386</span><br><span class="line">sudo apt-get install libxtst-dev:i386</span><br></pre></td></tr></table></figure>
+<p>然后运行32bit的达梦数据库安装包，只安装驱动即可。安装完配置驱动库的环境变量。</p>
+<h1 id="安装系统32bit编译环境"><a href="#安装系统32bit编译环境" class="headerlink" title="安装系统32bit编译环境"></a>安装系统32bit编译环境</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --add-architecture i386</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get dist-upgrade </span><br><span class="line">sudo apt-get install gcc-multilib g++multilib</span><br></pre></td></tr></table></figure>
+<h1 id="安装unixodbc-32bit"><a href="#安装unixodbc-32bit" class="headerlink" title="安装unixodbc-32bit"></a>安装unixodbc-32bit</h1><ol>
+<li><p>去官网下载unixodbc 32bit的包</p>
+</li>
+<li><p>tar -zxvf unixodbc.tar.gz</p>
+</li>
+<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd </span><br><span class="line">CFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS=-m32 ./configure --prefix==/usr/local/unixODBC-<span class="number">32</span>bit --includedir=/usr/include --libdir=/usr/lib -bindir=/usr/bin --sysconfdir=/etc</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置odbc环境变量以及达梦数据库数据源"><a href="#配置odbc环境变量以及达梦数据库数据源" class="headerlink" title="配置odbc环境变量以及达梦数据库数据源"></a>配置odbc环境变量以及达梦数据库数据源</h2><p>这里的-m32是指使用32bit的编译器，所以以后编译32bit的软件都可以参考此思路，本质就是使用gcc main.c -m32，但是这种集成化安装方式只能在configure 里面设置编译参数。因为前面的配置参数里面把odbc的安装路径都设置到了系统的环境变量里面了，所以odbc的环境变量就不需要设置了。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">odbcinst -j <span class="comment">#查看odbc的ini配置路径</span></span><br></pre></td></tr></table></figure>
+<p>配置达梦驱动</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/odbcinst.ini</span><br></pre></td></tr></table></figure>
+<p>内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[DM7]</span>   </span><br><span class="line"></span><br><span class="line"><span class="attr">Description</span> = dm odbc</span><br><span class="line"><span class="attr">Driver</span> = /opt/dmdbms/bin/libdodbc.so  #此处是<span class="number">32</span>bit的达梦驱动</span><br></pre></td></tr></table></figure>
+<p>配置达梦数据源</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/odbc.ini</span><br></pre></td></tr></table></figure>
+<p>内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[DM7]</span><br><span class="line"></span><br><span class="line">Description = dm7 dsn</span><br><span class="line">Driver = DM7</span><br><span class="line">SERVER =127.0.0.1</span><br><span class="line">UID = SYSDBA</span><br><span class="line">PWD = SYSDBA</span><br><span class="line">TCP_PORT = 5236</span><br></pre></td></tr></table></figure>
+<p>测试是否成功</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isql DM7 -v      <span class="comment">#如果失败-v会提示错误信息</span></span><br></pre></td></tr></table></figure>
+<h1 id="编译32bit的libqsqlodbc-so驱动"><a href="#编译32bit的libqsqlodbc-so驱动" class="headerlink" title="编译32bit的libqsqlodbc.so驱动"></a>编译32bit的libqsqlodbc.so驱动</h1><p>32位qt的编译此处略过不谈。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd qt-everywhere-qt4.<span class="number">8.6</span>/src/plugins/sqldrivers/odbc</span><br><span class="line">qmake    <span class="comment">#本来此处是依赖odbc的include和lib的，但是前面已经将odbc安装到系统路径，所以不需要添加INCLUDEPATH 和LIBS</span></span><br><span class="line">make </span><br><span class="line">sudo make install <span class="comment">#此处会自动将libqsqlodbc.so 拷贝到QTDIR的数据库驱动文件夹</span></span><br></pre></td></tr></table></figure>
+<p>##使用Qt代码测试连接</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase db=QSqlDatabase::addDatabase(<span class="string">"QODBC"</span>);</span><br><span class="line">db.setDatabaseName(<span class="string">"DM7"</span>);  #DM7就是前面配置的odbc数据源名称</span><br><span class="line">db.setHostName(<span class="string">"localhost"</span>);</span><br><span class="line">db.setPort(<span class="number">5236</span>);</span><br><span class="line">db.setUserName(<span class="string">"SYSDBA"</span>);</span><br><span class="line">db.setPassword(<span class="string">"123456789"</span>);</span><br><span class="line"><span class="keyword">if</span>(!db.open())&#123;</span><br><span class="line">    qDebug()&lt;&lt;db.lastError();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+    
+
+</div>
+            
+        </section>
+    </div>
+</div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrap-pagination">
+                <a class="" href="/page/3/">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </a>
+                <a class="disabled" href="/">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
 
 <!-- Footer -->
-<div class="bg-1 ph2 ph5-ns pv5">
-        <div class="mv8">
-            <div class="center tc">
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://twitter.com/?lang=zh-CN" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.facebook.com/" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://dribbble.com/" target="_blank">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://github.com/klugjo/hexo-theme-anodyne" target="_blank">
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://plus.google.com/" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://www.behance.net/" target="_blank">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="https://500px.com/" target="_blank">
-                            <i class="fa fa-500px"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="mailto:test@example.com" target="_blank">
-                            <i class="fa fa-envelope"></i>
-                        </a>
-                    </div>
-                
-                    <div class="dib mh3">
-                        <a class="f3 f2-ns white dim" href="/#" target="_blank">
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </div>
-                
+<div class="push"></div>
+
+<footer class="footer-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
+                <h2>About</h2>
+                <p>
+                    This theme was developed by <a href="https://github.com/klugjo">Jonathan Klughertz</a>. The source code is available on Github. Create Websites. Make Magic.
+                </p>
             </div>
-            <div class="f6 f5-ns center tc white pt5 fw3">
-                @Untitled. All right reserved | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+            
+    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
+        <h2>Recent Posts</h2>
+        <ul>
+            
+            <li>
+                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
+            </li>
+            
+        </ul>
+    </div>
+
+
+
+            
+<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
+    <h2>Categories</h2>
+    <ul>
+        
+        <li>
+            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/数据库/">数据库</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
+        </li>
+        
+        <li>
+            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="list-inline footer-social-icons">
+                    
+                    <li class="list-inline-item">
+                        <a href="https://github.com/klugjo/hexo-theme-alpha-dust">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-github"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/?lang=en">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.instagram.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://dribbble.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-dribbble"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://plus.google.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-google-plus"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://www.behance.net/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-behance"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="https://500px.com/">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-500px"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="mailto:test@example.com">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="list-inline-item">
+                        <a href="\#">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-rss"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="footer-copyright">
+                    @Untitled. All right reserved | Design & Hexo <a href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                </div>
             </div>
         </div>
     </div>
+</footer>
 
-<!-- After Footer -->
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Tween Max -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Custom JavaScript -->
+<script src="/js/main.js"></script>
+
 <!-- Disqus Comments -->
 
 
