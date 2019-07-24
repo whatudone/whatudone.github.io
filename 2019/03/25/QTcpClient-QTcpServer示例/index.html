@@ -1,138 +1,468 @@
 <!DOCTYPE html>
-<html lang="en">
 
-<!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--Description-->
-    
-        <meta name="description" content="前言:Qt的tcp模块基于事件驱动已经比较成熟，但是QTcpScoket的状态检测有一些bug，无法检测到非正常掉线的情况，例如网线拔掉，此时状态仍然是连接，会导致不确定的逻辑错误。所以我们采用心跳包来避免这个问题，心跳包机制：客户端定时发送给服务器，然后服务器返回消息的包，超出心跳限制则判断断开了">
-    
 
-    <!--Author-->
-    
-        <meta name="author" content="还在输入">
-    
 
-    <!--Open Graph Title-->
-    
-        <meta property="og:title" content="QTcpClient/QTcpServer示例">
-    
 
-    <!--Open Graph Description-->
-    
 
-    <!--Open Graph Site Name-->
-    <meta property="og:site_name" content="一个骚年">
 
-    <!--Type page-->
-    
-        <meta property="og:type" content="article">
-    
 
-    <!--Page Cover-->
-    
 
-    <meta name="twitter:card" content="summary">
-    
 
-    <!-- Title -->
-    
-    <title>QTcpClient/QTcpServer示例 - 一个骚年</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+  
 
-    <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 
-    <!-- Gallery -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
 
-    <!-- Google Analytics -->
-    
 
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="前言:Qt的tcp模块基于事件驱动已经比较成熟，但是QTcpScoket的状态检测有一些bug，无法检测到非正常掉线的情况，例如网线拔掉，此时状态仍然是连接，会导致不确定的逻辑错误。所以我们采用心跳包来避免这个问题，心跳包机制：客户端定时发送给服务器，然后服务器返回消息的包，超出心跳限制则判断断开了连接。网络传输数据有时候数据可能很大，所以我们需要序列化数据，然后传输，这样减少数据的大小。只需要两">
+<meta name="keywords" content="QTcpSocket,QTcpServer,心跳包,序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QTcpClient&#x2F;QTcpServer示例">
+<meta property="og:url" content="http://yoursite.com/2019/03/25/QTcpClient-QTcpServer示例/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="前言:Qt的tcp模块基于事件驱动已经比较成熟，但是QTcpScoket的状态检测有一些bug，无法检测到非正常掉线的情况，例如网线拔掉，此时状态仍然是连接，会导致不确定的逻辑错误。所以我们采用心跳包来避免这个问题，心跳包机制：客户端定时发送给服务器，然后服务器返回消息的包，超出心跳限制则判断断开了连接。网络传输数据有时候数据可能很大，所以我们需要序列化数据，然后传输，这样减少数据的大小。只需要两">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-23T03:04:24.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QTcpClient&#x2F;QTcpServer示例">
+<meta name="twitter:description" content="前言:Qt的tcp模块基于事件驱动已经比较成熟，但是QTcpScoket的状态检测有一些bug，无法检测到非正常掉线的情况，例如网线拔掉，此时状态仍然是连接，会导致不确定的逻辑错误。所以我们采用心跳包来避免这个问题，心跳包机制：客户端定时发送给服务器，然后服务器返回消息的包，超出心跳限制则判断断开了连接。网络传输数据有时候数据可能很大，所以我们需要序列化数据，然后传输，这样减少数据的大小。只需要两">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/03/25/QTcpClient-QTcpServer示例/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>QTcpClient/QTcpServer示例 | 一个骚年</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
-<body>
+  
+  
+    
+  
 
-<div class="bg-gradient"></div>
-<div class="bg-pattern"></div>
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
 
-<!-- Menu -->
-<!--Menu Links and Overlay-->
-<div class="menu-bg">
-    <div class="menu-container">
-        <ul>
-            
-        </ul>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一个骚年</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+    
+      
+        <p class="site-subtitle">说点啥好呢</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<!--Hamburger Icon-->
-<nav>
-    <a href="#menu"></a>
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
 </nav>
 
-<div class="container">
 
-    <!-- Main Content -->
-    <div class="row">
-    <div class="col-sm-12">
 
-        <!--Title and Logo-->
-        <header>
-    <div class="logo">
-        <a href="/"><i class="logo-icon fa " aria-hidden="true"></i></a>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/QTcpClient-QTcpServer示例/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
         
-    </div>
-</header>
+        
+          <h1 class="post-title" itemprop="name headline">QTcpClient/QTcpServer示例
 
-        <section class="main">
+              
             
-<div class="post">
+          </h1>
+        
 
-    <div class="post-header">
-        <h1 class="title">
-            <a href="/2019/03/25/QTcpClient-QTcpServer示例/">
-                QTcpClient/QTcpServer示例
-            </a>
-        </h1>
-        <div class="post-info">
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-25 07:57:29" itemprop="dateCreated datePublished" datetime="2019-03-25T07:57:29+08:00">2019-03-25</time>
+            </span>
+          
+
+          
             
-                <span class="date">2019-03-25</span>
+
             
-            
-            
-                <span class="category">
-                    <a href="/categories/Qt学习笔记/">Qt学习笔记</a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
                 </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:04:24" itemprop="dateModified" datetime="2019-07-23T11:04:24+08:00">2019-07-23</time>
+              </span>
             
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
         </div>
-    </div>
+      </header>
+    
 
-    <div class="content">
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-        <!-- Gallery -->
-        
+      
+      
 
-        <!-- Post Content -->
+      
         <p>前言:Qt的tcp模块基于事件驱动已经比较成熟，但是QTcpScoket的状态检测有一些bug，无法检测到非正常掉线的情况，例如网线拔掉，此时状态仍然是连接，会导致不确定的逻辑错误。所以我们采用心跳包来避免这个问题，心跳包机制：客户端定时发送给服务器，然后服务器返回消息的包，超出心跳限制则判断断开了连接。网络传输数据有时候数据可能很大，所以我们需要序列化数据，然后传输，这样减少数据的大小。只需要两端按照同样的规则发送和接收即可。</p>
 <h1 id="数据结构体"><a href="#数据结构体" class="headerlink" title="数据结构体"></a>数据结构体</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> SENDSTRUCT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SENDSTRUCT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QString&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QByteArray&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDataStream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sendStruct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">sendStruct</span><span class="params">(<span class="keyword">int</span> Type,QString Description,QByteArray ByteData=QByteArray(<span class="number">0</span>))</span></span>;</span><br><span class="line">    <span class="keyword">int</span>  Type;<span class="comment">//用于区分发送的不同内容的数据，对应不同的解析方法   本例聊天 1 =文本 2=图片</span></span><br><span class="line">    QString Description;<span class="comment">//发送内容的描述</span></span><br><span class="line">    QByteArray ByteData;<span class="comment">//具体发送或者接受的内容，可以将所有基本类型int，char，vector，map等或者自定义的结构体通过</span></span><br><span class="line">    <span class="comment">//QDataStream序列化到ByteData中，接收端同样的方法从QDataStream中解析出来原数据</span></span><br><span class="line">    sendStruct()&#123; Type=<span class="number">0</span>; Description=<span class="string">""</span>; ByteData=QByteArray(<span class="number">0</span>);&#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> size=<span class="number">0</span>;</span><br><span class="line">        size=<span class="keyword">sizeof</span>(<span class="keyword">int</span>)+Description.size()*<span class="number">2</span>+<span class="number">4</span>+ByteData.size()+<span class="number">4</span>;</span><br><span class="line">        <span class="comment">//序列化后QString大小为原有大小乘以2加4，QByteArry序列化后大小为原始大小加4，QString为Unicode编码每个字符占两个字节,</span></span><br><span class="line">        <span class="comment">//QString和QByteArry序列化过程中，首先序列化了本身大小的整形数据(qint32)到序列中，然后才是具体数据。</span></span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> size=<span class="number">0</span>;</span><br><span class="line">        size=<span class="keyword">sizeof</span>(<span class="keyword">int</span>)+Description.size()*<span class="number">2</span>+<span class="number">4</span>+ByteData.size()+<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line">    sendStruct &amp;<span class="keyword">operator</span>=(<span class="keyword">const</span> sendStruct &amp;other)</span><br><span class="line">    &#123;</span><br><span class="line">        Type=other.Type;</span><br><span class="line">        Description=other.Description;</span><br><span class="line">        ByteData=QByteArray(other.ByteData);</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> QT_NO_DATASTREAM</span></span><br><span class="line">    <span class="keyword">friend</span> QDataStream&amp; <span class="keyword">operator</span> &lt;&lt;(QDataStream&amp; out,<span class="keyword">const</span> sendStruct&amp; senstruct)</span><br><span class="line">    &#123;</span><br><span class="line">        out&lt;&lt;senstruct.Type</span><br><span class="line">          &lt;&lt;senstruct.Description</span><br><span class="line">         &lt;&lt;senstruct.ByteData;</span><br><span class="line">        <span class="keyword">return</span> out;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">friend</span> QDataStream&amp; <span class="keyword">operator</span> &gt;&gt;(QDataStream&amp; in,sendStruct&amp; senstruct)</span><br><span class="line">    &#123;</span><br><span class="line">        in&gt;&gt;senstruct.Type</span><br><span class="line">                &gt;&gt;senstruct.Description</span><br><span class="line">                &gt;&gt;senstruct.ByteData;</span><br><span class="line">        <span class="keyword">return</span> in;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// SENDSTRUCT_H</span></span></span><br></pre></td></tr></table></figure>
 <h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="tcpserverconnection-h"><a href="#tcpserverconnection-h" class="headerlink" title="tcpserverconnection.h"></a>tcpserverconnection.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> TCPSERVERCONNECT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TCPSERVERCONNECT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtNetwork/QTcpServer&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtNetwork/QTcpSocket&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QList&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sendStruct</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TcpServerConnect</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">TcpServerConnect</span><span class="params">(QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QTcpServer *m_server;</span><br><span class="line"><span class="comment">//    QTcpSocket *m_tcpsocket;</span></span><br><span class="line">    QList&lt;QTcpSocket*&gt; m_clientlist;</span><br><span class="line">    <span class="keyword">bool</span> m_isGetPartData;</span><br><span class="line">    <span class="keyword">int</span> m_requestDataSize;</span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleSendOutData</span><span class="params">(qintptr describe,<span class="keyword">const</span> sendStruct&amp;)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleGetRecieveData</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleNewConnection</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleDisconnection</span><span class="params">()</span></span>;</span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">CurStatusChanged</span><span class="params">(QString status)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">UpdateText</span><span class="params">(QString address,<span class="keyword">int</span> msgtype,QByteArray data)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// TCPSERVERCONNECT_H</span></span></span><br></pre></td></tr></table></figure>
@@ -140,136 +470,553 @@
 <h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="tcpclientconnection-h"><a href="#tcpclientconnection-h" class="headerlink" title="tcpclientconnection.h"></a>tcpclientconnection.h</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> TCPCLIENTCONNECT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TCPCLIENTCONNECT_H</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtNetwork/QTcpSocket&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sendstruct.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QImage&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDateTime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTimer&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX_HEARTBEAT_COUNT=<span class="number">100</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sendStruct</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TcpClientConnect</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">TcpClientConnect</span><span class="params">(QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QTimer *m_pHeartBeat;  <span class="comment">//心跳定时器</span></span><br><span class="line">    qint32 m_heartBeatCount; <span class="comment">//心跳次数</span></span><br><span class="line"></span><br><span class="line">    QTcpSocket *m_tcpsocket;</span><br><span class="line">    <span class="keyword">bool</span> m_isGetPartData;</span><br><span class="line">    qint32 m_requestDataSize;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sendText</span><span class="params">(QString msg)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sendImage</span><span class="params">(<span class="keyword">const</span> QImage&amp; img)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sendVideoImage</span><span class="params">(<span class="keyword">const</span> QImage&amp; img)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">connectToServer</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">disconnectFromServer</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleSendOutData</span><span class="params">(<span class="keyword">const</span> sendStruct&amp;)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleGetRecieveData</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleSocketConnected</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleSocketDisconnected</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleSendHeartbeatMsg</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetStrMsg</span><span class="params">(QString str)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetImageMsg</span><span class="params">(QImage image)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetVideoImageMsg</span><span class="params">(QImage image)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// TCPCLIENTCONNECT_H</span></span></span><br></pre></td></tr></table></figure>
 <h2 id="tcpclientconnection-cpp"><a href="#tcpclientconnection-cpp" class="headerlink" title="tcpclientconnection.cpp"></a>tcpclientconnection.cpp</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"tcpclientconnect.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QHostAddress&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDataStream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QSize&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QBuffer&gt;</span></span></span><br><span class="line">TcpClientConnect::TcpClientConnect(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line">    m_tcpsocket=<span class="keyword">new</span> QTcpSocket(<span class="keyword">this</span>);</span><br><span class="line">    m_tcpsocket-&gt;setSocketOption(QTcpSocket::LowDelayOption,<span class="number">0</span>); <span class="comment">//0关闭低延时</span></span><br><span class="line">    m_tcpsocket-&gt;setSocketOption(QTcpSocket::KeepAliveOption,<span class="number">0</span>);<span class="comment">//0关闭自带的心跳机制，然后实现自己的心跳机制</span></span><br><span class="line">    m_isGetPartData=<span class="literal">false</span>;</span><br><span class="line">    m_requestDataSize=<span class="number">0</span>;</span><br><span class="line">    connect(m_tcpsocket,&amp;QTcpSocket::readyRead,<span class="keyword">this</span>,&amp;TcpClientConnect::handleGetRecieveData);</span><br><span class="line">    connect(m_tcpsocket,&amp;QTcpSocket::connected,<span class="keyword">this</span>,&amp;TcpClientConnect::handleSocketConnected);</span><br><span class="line">    connect(m_tcpsocket,&amp;QTcpSocket::disconnected,<span class="keyword">this</span>,&amp;TcpClientConnect::handleSocketDisconnected);</span><br><span class="line"></span><br><span class="line">    m_pHeartBeat=<span class="keyword">new</span> QTimer;</span><br><span class="line">    connect(m_pHeartBeat,&amp;QTimer::timeout,<span class="keyword">this</span>,&amp;TcpClientConnect::handleSendHeartbeatMsg);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::handleSendOutData(<span class="keyword">const</span> sendStruct &amp;data)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>((!m_tcpsocket)||m_tcpsocket-&gt;state()!=QAbstractSocket::ConnectedState)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="function">QDataStream <span class="title">out</span><span class="params">(m_tcpsocket)</span></span>;</span><br><span class="line">    out&lt;&lt;qint32(data.size())&lt;&lt;data;<span class="comment">//先发送数据大小，在发送数据本身</span></span><br><span class="line">    m_tcpsocket-&gt;flush();</span><br><span class="line">    <span class="comment">/*把需要发送的数据封装在结构体里面发送*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::handleGetRecieveData()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>((!m_tcpsocket)||m_tcpsocket-&gt;state()!=QAbstractSocket::ConnectedState)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(m_isGetPartData==<span class="literal">false</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(m_tcpsocket-&gt;bytesAvailable()&lt;<span class="keyword">sizeof</span>(<span class="keyword">int</span>))<span class="comment">//先接收数据的大小</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            QDataStream in(m_tcpsocket);</span><br><span class="line">            in&gt;&gt;m_requestDataSize;<span class="comment">//数据大小写入变量</span></span><br><span class="line">            m_isGetPartData=<span class="literal">true</span>;<span class="comment">//设置标志，只接收到了数据大小，没接收到数据全部</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(m_isGetPartData==<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(m_tcpsocket-&gt;bytesAvailable()&lt;m_requestDataSize)<span class="comment">//判断是否接收到了完整的数据</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            QDataStream in(m_tcpsocket);</span><br><span class="line">            sendStruct receiveData;</span><br><span class="line">            in&gt;&gt;receiveData;<span class="comment">//接收到了数据</span></span><br><span class="line">            m_requestDataSize=<span class="number">0</span>;<span class="comment">//清空大小</span></span><br><span class="line">            m_isGetPartData=<span class="literal">false</span>;<span class="comment">//清空标志</span></span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                        数据接收成功，放置在receiveData中，可以做其他处理</span></span><br><span class="line"><span class="comment">                        doSomething(receiveData);</span></span><br><span class="line"><span class="comment">                        */</span></span><br><span class="line">            <span class="comment">//            qDebug()&lt;&lt;"receiveData type"&lt;&lt;receiveData.Type;</span></span><br><span class="line">            <span class="comment">//            qDebug()&lt;&lt;"receiveData Description"&lt;&lt;receiveData.Description;</span></span><br><span class="line">            <span class="comment">//            qDebug()&lt;&lt;"receiveData ByteData"&lt;&lt;receiveData.ByteData;</span></span><br><span class="line">            <span class="keyword">if</span>(receiveData.Type==<span class="number">1</span>)&#123;</span><br><span class="line">                QString msg;</span><br><span class="line">                <span class="function">QDataStream <span class="title">textStream</span><span class="params">(&amp;(receiveData.ByteData),QIODevice::ReadOnly)</span></span>;</span><br><span class="line">                textStream&gt;&gt;msg;</span><br><span class="line">                <span class="function">emit <span class="title">GetStrMsg</span><span class="params">(msg)</span></span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(receiveData.Type==<span class="number">2</span>)&#123;</span><br><span class="line">                QImage image;</span><br><span class="line">                <span class="function">QBuffer <span class="title">buffer</span><span class="params">(&amp;(receiveData.ByteData))</span></span>;</span><br><span class="line">                buffer.open(QIODevice::ReadOnly);</span><br><span class="line">                image.load(&amp;buffer,<span class="string">"JPG"</span>);</span><br><span class="line"><span class="comment">//                qDebug()&lt;&lt;image;</span></span><br><span class="line">                <span class="function">emit <span class="title">GetImageMsg</span><span class="params">(image)</span></span>;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(receiveData.Type==<span class="number">3</span>)&#123;</span><br><span class="line">                QImage image;</span><br><span class="line">                <span class="function">QBuffer <span class="title">buffer</span><span class="params">(&amp;(receiveData.ByteData))</span></span>;</span><br><span class="line">                buffer.open(QIODevice::ReadOnly);</span><br><span class="line">                image.load(&amp;buffer,<span class="string">"JPG"</span>);</span><br><span class="line"><span class="comment">//                qDebug()&lt;&lt;image;</span></span><br><span class="line">                <span class="function">emit <span class="title">GetVideoImageMsg</span><span class="params">(image)</span></span>;</span><br><span class="line"></span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(receiveData.Type==<span class="number">100</span>)&#123;  <span class="comment">//接收到心跳包</span></span><br><span class="line">                qDebug()&lt;&lt;receiveData.Description;</span><br><span class="line">                m_heartBeatCount=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(m_tcpsocket-&gt;bytesAvailable())<span class="comment">//如果缓存区还存在数据，递归执行</span></span><br><span class="line">                handleGetRecieveData();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::handleSocketConnected()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">   m_pHeartBeat-&gt;start(<span class="number">3</span>*<span class="number">1000</span>);</span><br><span class="line">   m_heartBeatCount=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::handleSocketDisconnected()</span><br><span class="line">&#123;</span><br><span class="line">    m_pHeartBeat-&gt;stop();</span><br><span class="line">    m_heartBeatCount=MAX_HEARTBEAT_COUNT+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::handleSendHeartbeatMsg()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_heartBeatCount&lt;MAX_HEARTBEAT_COUNT)&#123;     <span class="comment">//没有超出心跳最大次数</span></span><br><span class="line">        sendStruct sendtextData;</span><br><span class="line">        sendtextData.Type=<span class="number">100</span>;</span><br><span class="line">        sendtextData.Description=<span class="string">"This is a heartbeat msg to server."</span>;</span><br><span class="line">        <span class="function">QDataStream <span class="title">stream</span><span class="params">(&amp;sendtextData.ByteData,QIODevice::WriteOnly)</span></span>;</span><br><span class="line">        stream&lt;&lt;QString(<span class="string">""</span>);</span><br><span class="line">        handleSendOutData(sendtextData);</span><br><span class="line">        m_heartBeatCount++;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;                                       <span class="comment">//超出心跳最大此处，重连</span></span><br><span class="line">        disconnectFromServer();</span><br><span class="line">        connectToServer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::sendText(QString msg)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//发送文字</span></span><br><span class="line">    sendStruct sendtextData;</span><br><span class="line">    sendtextData.Type=<span class="number">1</span>;</span><br><span class="line">    sendtextData.Description=<span class="string">"this is text"</span>;</span><br><span class="line">    <span class="function">QDataStream <span class="title">pointStream</span><span class="params">(&amp;sendtextData.ByteData,QIODevice::WriteOnly)</span></span>;</span><br><span class="line">    pointStream&lt;&lt;msg;</span><br><span class="line">    handleSendOutData(sendtextData);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::sendImage(<span class="keyword">const</span> QImage&amp; img)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//    发送图片</span></span><br><span class="line">    sendStruct sendImageData;</span><br><span class="line">    sendImageData.Type=<span class="number">2</span>;</span><br><span class="line">    sendImageData.Description=QString(<span class="string">"this is image"</span>);</span><br><span class="line"><span class="comment">//    QImage image(QSize(640,480),QImage::Format_RGB888);</span></span><br><span class="line"><span class="comment">//    image.fill(Qt::red);</span></span><br><span class="line">    <span class="function">QBuffer <span class="title">buffur</span><span class="params">(&amp;(sendImageData.ByteData))</span></span>;</span><br><span class="line">    buffur.open(QIODevice::ReadWrite);</span><br><span class="line"></span><br><span class="line">    img.save(&amp;buffur,<span class="string">"JPG"</span>);</span><br><span class="line">    handleSendOutData(sendImageData);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> TcpClientConnect::sendVideoImage(<span class="keyword">const</span> QImage&amp; img)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//    发送图片</span></span><br><span class="line">    sendStruct sendImageData;</span><br><span class="line">    sendImageData.Type=<span class="number">3</span>;</span><br><span class="line">    sendImageData.Description=QString(<span class="string">"this is video image"</span>);</span><br><span class="line"><span class="comment">//    QImage image(QSize(640,480),QImage::Format_RGB888);</span></span><br><span class="line"><span class="comment">//    image.fill(Qt::red);</span></span><br><span class="line">    <span class="function">QBuffer <span class="title">buffur</span><span class="params">(&amp;(sendImageData.ByteData))</span></span>;</span><br><span class="line">    buffur.open(QIODevice::ReadWrite);</span><br><span class="line"></span><br><span class="line">    img.save(&amp;buffur,<span class="string">"JPG"</span>);</span><br><span class="line">    handleSendOutData(sendImageData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> TcpClientConnect::connectToServer()</span><br><span class="line">&#123;</span><br><span class="line">    m_tcpsocket-&gt;connectToHost(QHostAddress(<span class="string">"192.168.16.200"</span>),<span class="number">6868</span>);</span><br><span class="line">    <span class="keyword">if</span>(m_tcpsocket-&gt;state()!=QTcpSocket::ConnectedState)&#123;</span><br><span class="line">        m_tcpsocket-&gt;waitForConnected(<span class="number">1500</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(m_tcpsocket-&gt;state()==QTcpSocket::ConnectedState)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> TcpClientConnect::disconnectFromServer()</span><br><span class="line">&#123;</span><br><span class="line">    m_tcpsocket-&gt;disconnectFromHost();</span><br><span class="line">    <span class="keyword">if</span>(m_tcpsocket-&gt;state()==QTcpSocket::UnconnectedState)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+      
     </div>
 
     
 
     
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
         <div class="post-tags">
-            <i class="fa fa-tags" aria-hidden="true"></i>
-            <a href="/tags/QTcpSocket/">#QTcpSocket</a> <a href="/tags/QTcpServer/">#QTcpServer</a> <a href="/tags/心跳包/">#心跳包</a> <a href="/tags/序列化/">#序列化</a>
+          
+            <a href="/tags/QTcpSocket/" rel="tag"># QTcpSocket</a>
+          
+            <a href="/tags/QTcpServer/" rel="tag"># QTcpServer</a>
+          
+            <a href="/tags/心跳包/" rel="tag"># 心跳包</a>
+          
+            <a href="/tags/序列化/" rel="tag"># 序列化</a>
+          
         </div>
-    
+      
 
-    <!-- Comments -->
-    
+      
+      
+      
 
-</div>
-        </section>
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/22/QThread模板/" rel="next" title="QThread模板">
+                <i class="fa fa-chevron-left"></i> QThread模板
+              </a>
+            
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/编译mingw64版本QGis3-4-6/" rel="prev" title="编译mingw64版本QGis3.4.6">
+                编译mingw64版本QGis3.4.6 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
-</div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
 
-</div>
+      
 
-<!-- Footer -->
-<div class="push"></div>
-
-<footer class="footer-content">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 footer-about">
-                <h2>About</h2>
-                <p>
-                    
-                </p>
-            </div>
-            
-    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
-        <h2>Recent Posts</h2>
-        <ul>
-            
-            <li>
-                <a class="footer-post" href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">QCoreApplication::quit()无</a>
-            </li>
-            
-            <li>
-                <a class="footer-post" href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">cmake编译OsgEarth2.10.1-VS2</a>
-            </li>
-            
-            <li>
-                <a class="footer-post" href="/2019/06/12/cpp的深拷贝和浅拷贝/">cpp的深拷贝和浅拷贝</a>
-            </li>
-            
-            <li>
-                <a class="footer-post" href="/2019/06/04/OSG环境配置/">OSG环境配置</a>
-            </li>
-            
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
         </ul>
-    </div>
+      
 
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
 
-
-            
-<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 footer-categories">
-    <h2>Categories</h2>
-    <ul>
-        
-        <li>
-            <a class="footer-post" href="/categories/Git教程/">Git教程</a>
-        </li>
-        
-        <li>
-            <a class="footer-post" href="/categories/数据库/">数据库</a>
-        </li>
-        
-        <li>
-            <a class="footer-post" href="/categories/HDF5-CPP教程/">HDF5_CPP教程</a>
-        </li>
-        
-        <li>
-            <a class="footer-post" href="/categories/cpp基础/">cpp基础</a>
-        </li>
-        
-    </ul>
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  
+  <p class="site-author-name" itemprop="name">还在输入</p>
+  <div class="site-description motion-element" itemprop="description"></div>
 </div>
 
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/1358320528@qq.com" title="E-Mail &rarr; 1358320528@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+
+          
+          
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <ul class="list-inline footer-social-icons">
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                </ul>
-            </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构体"><span class="nav-number">1.</span> <span class="nav-text">数据结构体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务端"><span class="nav-number">2.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpserverconnection-h"><span class="nav-number">2.1.</span> <span class="nav-text">tcpserverconnection.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpserverconnection-cpp"><span class="nav-number">2.2.</span> <span class="nav-text">tcpserverconnection.cpp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#客户端"><span class="nav-number">3.</span> <span class="nav-text">客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpclientconnection-h"><span class="nav-number">3.1.</span> <span class="nav-text">tcpclientconnection.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpclientconnection-cpp"><span class="nav-number">3.2.</span> <span class="nav-text">tcpclientconnection.cpp</span></a></li></ol></li></ol></div>
+            
+
+          </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="footer-copyright">
-                    
-                </div>
-            </div>
-        </div>
+      <!--/noindex-->
+      
+
+      
+
     </div>
-</footer>
-
-<!-- After footer scripts -->
-
-<!-- jQuery -->
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
-<!-- Tween Max -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-
-<!-- Gallery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-
-<!-- Custom JavaScript -->
-<script src="/js/main.js"></script>
-
-<!-- Disqus Comments -->
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">还在输入</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 �?<a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// GET RESPONSIVE HEIGHT PASSED FROM IFRAME
+
+window.addEventListener("message", function(e) {
+  var data = e.data;
+  if ((typeof data === 'string') && (data.indexOf('ciu_embed') > -1)) {
+    var featureID = data.split(':')[1];
+    var height = data.split(':')[2];
+    $(`iframe[data-feature=${featureID}]`).height(parseInt(height) + 30);
+  }
+}, false);
+</script>
+
+
+
+
+
+
+
+
+  
 
 </body>
-
 </html>
