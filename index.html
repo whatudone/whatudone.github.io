@@ -347,6 +347,348 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/Windows编译QtMqtt-5-12-1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/08/01/Windows编译QtMqtt-5-12-1/" class="post-title-link" itemprop="url">Windows编译QtMqtt-5.12.1</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-01 10:36:50 / 修改时间：11:32:31" itemprop="dateCreated datePublished" datetime="2019-08-01T10:36:50+08:00">2019-08-01</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>mqtt协议主要是用于物联网，机器对机器，网络开销要求小的环境。原理是一个publisher(发布者)发布一个topic(主题),然后发送payload(有效负载，即消息内容)，然后经过一个中间broker(服务器)，另外一个subscriber(订阅者)订阅这个主题，然后发送者发送的消息，这个订阅者就可以接收到了。当然前提是这两个都需要先连接服务器，所以这两个可以理解为都是客户端，只是角色不同。发布者同时也可以是订阅者。原理简单理解之后就是编程了(其实就是找库使用)。这里我们客户端采用Qt的mqtt，服务器采用EMQTT。由于我安装的Qt5.12.1里面没有mqtt模块所以需要自己去github上下载对应的源码，然后编译。而服务器则可以直接在github上下载编译好的程序直接运行，这个后续介绍。</p>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><h2 id="mingw64版"><a href="#mingw64版" class="headerlink" title="mingw64版"></a>mingw64版</h2><p>打开git-bash，进入mqtt的源码根目录，执行/QtPath/mingw64__730/bin/qmake(生成Makefile)，然后执行/QtPath/Tools/mingw64____730/bin/mingw32-make(编译)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在mingw64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行mingw32-make install,就会把bin和lib都拷贝到Qt对应的目录。</p>
+<h2 id="msvc64版"><a href="#msvc64版" class="headerlink" title="msvc64版"></a>msvc64版</h2><p>打开vs2017的64位命令框，进入mqtt的源码根目录，执行/QtPath/msvc2017__64/bin/qmake(生成Makefile)，然后执行nmake(编译，因为使用的vs2017的命令框，所以nmake在环境变量里面，可以直接运行)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在msvc2017____64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行nmake install,就会把bin和lib都拷贝到Qt对应的目录。</p>
+<blockquote>
+<p>这里需要注意qmake和make的搭配，在Windows上qt安装之后mingw编译器会有对应的make工具，那就是mingw32-make，而msvc编译器则是nmake。所以在Windows上编译东西不要盲目的使用make，这里直接使用make编译会提示Makefile的语法错误。Linux则没有这些区别。</p>
+</blockquote>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>在pro文件里面添加 Qt += mqtt即可</p>
+<h1 id="搭建服务器"><a href="#搭建服务器" class="headerlink" title="搭建服务器"></a>搭建服务器</h1><p>解压下载的windows版的压缩包，进入bin目录，执行empx.cmd start启动服务器。然后在网页上访问127.0.0.1:18083就可以通过web直接管理服务器，查看服务器的运行状态。访问需要账户密码，默认账户是admin,密码public。界面如下：</p>
+<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/1.png" alt="Windows编译QtMqtt-5-12-1\1"></p>
+<p>点击Listeners，这里面就是服务器提供的服务和对应的端口号，客户端采用不同的协议，按图使用不同的端口即可。界面如下：</p>
+<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/2.png" alt="Windows编译QtMqtt-5-12-1\2"></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>测试客户端采用Qt的mqtt里面的例子，截图如下。</p>
+<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/3.png" alt="Windows编译QtMqtt-5-12-1\3"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/29/QMetaObject-connectSlotsByName-No-matching-signal-for/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/29/QMetaObject-connectSlotsByName-No-matching-signal-for/" class="post-title-link" itemprop="url">QMetaObject::connectSlotsByName: No matching signal for</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-29 08:27:43 / 修改时间：08:40:01" itemprop="dateCreated datePublished" datetime="2019-07-29T08:27:43+08:00">2019-07-29</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots:  void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1769,350 +2111,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/QML-ListView视图模型/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/08/QML-ListView视图模型/" class="post-title-link" itemprop="url">QML-ListView视图模型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-08 15:53:33 / 修改时间：17:01:12" itemprop="dateCreated datePublished" datetime="2019-05-08T15:53:33+08:00">2019-05-08</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这篇主要是介绍如何使用ListView的自定义高亮委托和自定义元素委托，以及section属性的分类和section的自定义委托。代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.7</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Rectangle &#123;</span><br><span class="line">    id:root</span><br><span class="line">    ScrollView&#123;</span><br><span class="line">        id:scroll</span><br><span class="line">        anchors.fill: parent</span><br><span class="line">        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff</span><br><span class="line">        ScrollBar.vertical.policy: ScrollBar.AlwaysOn</span><br><span class="line">        ListModel&#123;</span><br><span class="line">            id:listModel</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"发现音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/music.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"私人FM"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/FM.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"视频"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/video.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"朋友"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/friends.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"本地音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/localmusic.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"下载管理"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/download.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的音乐云盘"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/cloud.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的收藏"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/collection.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Component &#123;</span><br><span class="line">            id: sectionHeading</span><br><span class="line">            Rectangle &#123;</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: childrenRect.height</span><br><span class="line"></span><br><span class="line">                Text &#123;</span><br><span class="line">                    text: section</span><br><span class="line">                    font.italic: <span class="literal">true</span></span><br><span class="line">                    font.pixelSize: <span class="number">15</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ListView &#123;</span><br><span class="line">            id:listView</span><br><span class="line">            clip: <span class="literal">true</span></span><br><span class="line">            model: listModel</span><br><span class="line">            anchors.fill: parent</span><br><span class="line">            focus: <span class="literal">true</span></span><br><span class="line">            highlight: Rectangle &#123;</span><br><span class="line">                color: <span class="string">"lightsteelblue"</span></span><br><span class="line">                width:listView.width</span><br><span class="line">                height:<span class="number">30</span></span><br><span class="line">                Behavior on y&#123;</span><br><span class="line">                    NumberAnimation &#123; <span class="attr">duration</span>: <span class="number">10000</span> &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            highlightFollowsCurrentItem :<span class="literal">true</span></span><br><span class="line">            delegate: Item &#123;</span><br><span class="line">                id:delegateitem</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: <span class="number">30</span></span><br><span class="line">                Image &#123;</span><br><span class="line">                    id: icon</span><br><span class="line">                    source: image</span><br><span class="line">                    anchors.left: parent.left</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                    width: <span class="number">16</span></span><br><span class="line">                    height: <span class="number">16</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                Text &#123;</span><br><span class="line">                    id: text</span><br><span class="line">                    text: title</span><br><span class="line">                    anchors.left: icon.right</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                &#125;</span><br><span class="line">                MouseArea&#123;</span><br><span class="line">                    anchors.fill: parent</span><br><span class="line">                    onClicked: &#123;</span><br><span class="line">                        listView.currentIndex = index;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            section.property: <span class="string">"section"</span></span><br><span class="line">            section.criteria: ViewSection.FullString</span><br><span class="line">            section.delegate: sectionHeading</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ListView的clip属性是裁剪，避免item在拖动的过程中超出边界，highlight就是高亮item，可以自定义。默认高亮item的高度和宽度会自动适应Item的高和宽。highlightFollowsCurrentItem属性是控制高亮item是否根据currentItem的切换自动改变坐标和高宽和item一致。delegate就是item的委托，这个委托的最上层不能使用Rectangle，这样会和高亮的Item冲突，导致高亮无法显示。使用Item作为最顶层的元素就没有这个问题。Item的委托在点击的过程中不会自动更新视图的currentIndex索引，需要手动处理。section作为对item的分类，property是关联modelData中分类的属性，delegate指定代理。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/Qt注意事项/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/05/Qt注意事项/" class="post-title-link" itemprop="url">Qt注意事项</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-05 09:34:32" itemprop="dateCreated datePublished" datetime="2019-05-05T09:34:32+08:00">2019-05-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-23 11:03:32" itemprop="dateModified" datetime="2019-07-23T11:03:32+08:00">2019-07-23</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p>
-<h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“/”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p>
-<h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2160,7 +2158,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2312,7 +2310,11 @@
         
           
         
-        <span class="site-state-item-count">52</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

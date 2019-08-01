@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Windows编译QtMqtt-5.12.1]]></title>
+    <url>%2F2019%2F08%2F01%2FWindows%E7%BC%96%E8%AF%91QtMqtt-5-12-1%2F</url>
+    <content type="text"><![CDATA[前言mqtt协议主要是用于物联网，机器对机器，网络开销要求小的环境。原理是一个publisher(发布者)发布一个topic(主题),然后发送payload(有效负载，即消息内容)，然后经过一个中间broker(服务器)，另外一个subscriber(订阅者)订阅这个主题，然后发送者发送的消息，这个订阅者就可以接收到了。当然前提是这两个都需要先连接服务器，所以这两个可以理解为都是客户端，只是角色不同。发布者同时也可以是订阅者。原理简单理解之后就是编程了(其实就是找库使用)。这里我们客户端采用Qt的mqtt，服务器采用EMQTT。由于我安装的Qt5.12.1里面没有mqtt模块所以需要自己去github上下载对应的源码，然后编译。而服务器则可以直接在github上下载编译好的程序直接运行，这个后续介绍。 编译mingw64版打开git-bash，进入mqtt的源码根目录，执行/QtPath/mingw64__730/bin/qmake(生成Makefile)，然后执行/QtPath/Tools/mingw64____730/bin/mingw32-make(编译)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在mingw64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行mingw32-make install,就会把bin和lib都拷贝到Qt对应的目录。 msvc64版打开vs2017的64位命令框，进入mqtt的源码根目录，执行/QtPath/msvc2017__64/bin/qmake(生成Makefile)，然后执行nmake(编译，因为使用的vs2017的命令框，所以nmake在环境变量里面，可以直接运行)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在msvc2017____64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行nmake install,就会把bin和lib都拷贝到Qt对应的目录。 这里需要注意qmake和make的搭配，在Windows上qt安装之后mingw编译器会有对应的make工具，那就是mingw32-make，而msvc编译器则是nmake。所以在Windows上编译东西不要盲目的使用make，这里直接使用make编译会提示Makefile的语法错误。Linux则没有这些区别。 使用在pro文件里面添加 Qt += mqtt即可 搭建服务器解压下载的windows版的压缩包，进入bin目录，执行empx.cmd start启动服务器。然后在网页上访问127.0.0.1:18083就可以通过web直接管理服务器，查看服务器的运行状态。访问需要账户密码，默认账户是admin,密码public。界面如下： 点击Listeners，这里面就是服务器提供的服务和对应的端口号，客户端采用不同的协议，按图使用不同的端口即可。界面如下： 测试测试客户端采用Qt的mqtt里面的例子，截图如下。]]></content>
+      <categories>
+        <category>Qt学习笔记</category>
+      </categories>
+      <tags>
+        <tag>QtMqtt编译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[QMetaObject::connectSlotsByName: No matching signal for]]></title>
+    <url>%2F2019%2F07%2F29%2FQMetaObject-connectSlotsByName-No-matching-signal-for%2F</url>
+    <content type="text"><![CDATA[代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots: void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。]]></content>
+      <categories>
+        <category>Qt学习笔记</category>
+      </categories>
+      <tags>
+        <tag>信号槽</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[QCoreApplication::quit()无法退出程序解决方法]]></title>
     <url>%2F2019%2F07%2F23%2FQCoreApplication-quit-%E6%97%A0%E6%B3%95%E9%80%80%E5%87%BA%E7%A8%8B%E5%BA%8F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[前言使用Qt一般是做带界面的桌面软件，然而我在使用Qt写后台服务程序的时候遇到一个问题，程序调用QCoreApplication::quit()无法正常退出程序，程序一直出于挂起状态。以下是我的错误代码： 12345678910111213141516171819202122232425262728293031323334353637383940//.h#include &lt;QObject&gt;class Test : public QObject&#123; Q_OBJECTpublic: explicit Test(QObject *parent = nullptr); virtual ~Test();public slots:&#125;;//cpp#include &quot;test.h&quot;#include &lt;QDebug&gt;#include &lt;QCoreApplication&gt;Test::Test(QObject *parent) : QObject(parent)&#123; //do something if(something is wrong) qApp-&gt;quit();&#125;Test::~Test()&#123; //释放内存 qDebug()&lt;&lt;&quot;delete&quot;;&#125;int main(int argc, char *argv[])&#123; QCoreApplication a(argc, argv); Test test; return a.exec();&#125; 上述代码导致程序无法退出，一直导致程序在挂起状态。错误原因是quit()函数是用于退出Qt程序主线程的事件循环，进而结束程序。但是此处是在执行a.exec()之前就执行了quit(),也就是说此时还没有进入主线程的事件循环，所以此处调用quit()是无效的。正确代码如下: 解决方法1234567891011121314151617181920212223242526272829303132//.h#include &lt;QObject&gt;class Test : public QObject&#123; Q_OBJECTpublic: explicit Test(QObject *parent = nullptr); virtual ~Test();public slots:&#125;;//cpp#include "test.h"#include &lt;QDebug&gt;#include &lt;QCoreApplication&gt;#include &lt;QTimer&gt;Test::Test(QObject *parent) : QObject(parent)&#123; //do something if(something is wrong) QTimer::singleShot(1000,qApp,SLOT(quit()));&#125;Test::~Test()&#123; //释放内存 qDebug()&lt;&lt;"delete";&#125;int main(int argc, char *argv[]) &#123; QCoreApplication a(argc, argv); Test test; return a.exec(); &#125; 此处采用QTimer定时器，将quit()操作放在1秒之后，然后程序继续执行，就会进入主线程的事件循环，QTimer的timeout之后调用quit()这时就可以正确退出程序了。]]></content>
