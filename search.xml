@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Qt5.13.0搭建安卓开发环境]]></title>
+    <url>%2F2019%2F08%2F05%2FQt5-13-0%E6%90%AD%E5%BB%BA%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[准备材料 新版NDK，我选用的版本是r-20，目前是最新的。 新版Android SDK,我选用的25.2.5。 Java SDK最好采用1.8.0，实测10版本和12版本识别不了。 Qt5.13.0，Qt编译版本选择安装armv7和armv8以及Android x86_64。Qt的组件除了源码都装上，tool也都装上。 选择安装x86—64版本是为了在Windows上运行Android x86的64位虚拟机进行测试，因为我没有安卓测试机。至于发布版本则采用armv8版本编译即可，目前主流安卓机的CPU应该都是armv8架构。java的环境变量如何配置自行百度。 最后解压或安装目录如下： 下载SDK进入android-sdk目录,打开SDK Manager.exe。如果打开闪退，原因是java的版本不对，或者是环境变量没有配置。打开之后下载勾选的项目，如图： 此处，我下载的是Android7.1.1版本，对应的编译工具下载了25.0.3，当然下载最新的编译工具也可以，向下兼容。extras全部下载，最后一项是x86架构Android虚拟机的加速插件。 镜像和sdk下载完了之后，打开android -sdk目录下的AVD manager.exe，创建x86-64架构的Android虚拟机，arm虚拟机会比较慢。创建虚拟机时，分配的RAM如果过大，下面会有提示不能超过多少数值，这时应该减少RAM至阈值或以下，不然会导致虚拟机打开失败。 配置Qt For Android打开QtCreator，打开菜单里面的工具-选项，选择左侧的设备，然后选择设备tab页。如下图： 右侧的三个选择按钮是选择对应的开发包的根目录，选择完了之后，如果没问题，下面会有提示，配置正确。这是我配置完成之后的截图。最下面是我创建的Android虚拟机。配置完了之后kit界面会自动检测到Android版本的Qt，如下图： 创建Android App新建一个QML或者widgets应用，选择x86-64版本的Qt套件。然后编译，这时候会提示一个错误： 根据gcc的-l用法，这是提示找不到libc++.so标准库，而标准库在ndk里面，目录如下图： 从txt里面的内容来看，这些数字后缀版本的.a和.so文件类似于一个软链接，最终还是让编译器去找libc++-static.so 和libc++-abi.so。所以我们可以模仿这种写法，拷贝一份libc++.a.29，然后重新命名为libc++.a，这时候重新编译就会解决这个错误。下面是安卓虚拟机跑QML应用的简单测试，如下图：]]></content>
+      <categories>
+        <category>Qt学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Qt</tag>
+        <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Windows编译QtMqtt-5.12.1]]></title>
     <url>%2F2019%2F08%2F01%2FWindows%E7%BC%96%E8%AF%91QtMqtt-5-12-1%2F</url>
     <content type="text"><![CDATA[前言mqtt协议主要是用于物联网，机器对机器，网络开销要求小的环境。原理是一个publisher(发布者)发布一个topic(主题),然后发送payload(有效负载，即消息内容)，然后经过一个中间broker(服务器)，另外一个subscriber(订阅者)订阅这个主题，然后发送者发送的消息，这个订阅者就可以接收到了。当然前提是这两个都需要先连接服务器，所以这两个可以理解为都是客户端，只是角色不同。发布者同时也可以是订阅者。原理简单理解之后就是编程了(其实就是找库使用)。这里我们客户端采用Qt的mqtt，服务器采用EMQTT。由于我安装的Qt5.12.1里面没有mqtt模块所以需要自己去github上下载对应的源码，然后编译。而服务器则可以直接在github上下载编译好的程序直接运行，这个后续介绍。 编译mingw64版打开git-bash，进入mqtt的源码根目录，执行/QtPath/mingw64__730/bin/qmake(生成Makefile)，然后执行/QtPath/Tools/mingw64____730/bin/mingw32-make(编译)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在mingw64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行mingw32-make install,就会把bin和lib都拷贝到Qt对应的目录。 msvc64版打开vs2017的64位命令框，进入mqtt的源码根目录，执行/QtPath/msvc2017__64/bin/qmake(生成Makefile)，然后执行nmake(编译，因为使用的vs2017的命令框，所以nmake在环境变量里面，可以直接运行)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在msvc2017____64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行nmake install,就会把bin和lib都拷贝到Qt对应的目录。 这里需要注意qmake和make的搭配，在Windows上qt安装之后mingw编译器会有对应的make工具，那就是mingw32-make，而msvc编译器则是nmake。所以在Windows上编译东西不要盲目的使用make，这里直接使用make编译会提示Makefile的语法错误。Linux则没有这些区别。 使用在pro文件里面添加 Qt += mqtt即可 搭建服务器解压下载的windows版的压缩包，进入bin目录，执行empx.cmd start启动服务器。然后在网页上访问127.0.0.1:18083就可以通过web直接管理服务器，查看服务器的运行状态。访问需要账户密码，默认账户是admin,密码public。界面如下： 点击Listeners，这里面就是服务器提供的服务和对应的端口号，客户端采用不同的协议，按图使用不同的端口即可。界面如下： 测试测试客户端采用Qt的mqtt里面的例子，截图如下。]]></content>
