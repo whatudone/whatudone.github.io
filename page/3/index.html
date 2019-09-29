@@ -347,6 +347,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/QSqlDatabase使用注意事项/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/17/QSqlDatabase使用注意事项/" class="post-title-link" itemprop="url">QSqlDatabase使用注意事项</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-17 10:04:56" itemprop="dateCreated datePublished" datetime="2019-04-17T10:04:56+08:00">2019-04-17</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:04:11" itemprop="dateModified" datetime="2019-07-23T11:04:11+08:00">2019-07-23</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>QSqldatabase::addDatabase(“connectionname”)创建的数据库连接对象，只能在同一个线程中使用，但是一旦按照某个连接名创建了连接，那么按照QSqldatabase::database(“connectionname”)获取的连接实例可以跨线程使用，但是注意跨线程时不同线程同时使用一个连接名创建的连接，则会引起资源竞争，导致意外的错误，具体的错误为：2006：server has gone away 或者2013 lost connection，需要mutex锁保护一下，或者使用数据库连接池的概念，保证每次使用的连接没有和其他线程产生竞争。</p>
+<h1 id="删除连接"><a href="#删除连接" class="headerlink" title="删除连接"></a>删除连接</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase db = QSqlDatabase::database(<span class="string">"sales"</span>);</span><br><span class="line"><span class="function">QSqlQuery <span class="title">query</span><span class="params">(<span class="string">"SELECT NAME, DOB FROM EMPLOYEES"</span>, db)</span></span>;</span><br><span class="line">QSqlDatabase::removeDatabase(<span class="string">"sales"</span>);</span><br></pre></td></tr></table></figure>
+<p>上述代码在运行时会报警告：QSqlDatabasePrivate::removeDatabase: connection ‘sales’ is still in use, all queries will cease to work。这个警告会导致内存泄漏，意味着这个db并没有被释放。上述代码在同一个函数中，之所以会出现这个警告，是因为在调用remove的时候db这个对象还没有销毁，db是QSqlDatabase创建的数据库全局实例的一个引用，remove就导致销毁全局实例的时候，它还有一个引用没有销毁。</p>
+<h2 id="正确写法"><a href="#正确写法" class="headerlink" title="正确写法"></a>正确写法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   QSqlDatabase db = QSqlDatabase::database(<span class="string">"sales"</span>);</span><br><span class="line">   QSqlQuery query(<span class="string">"SELECT NAME, DOB FROM EMPLOYEES"</span>, db); </span><br><span class="line">&#125;</span><br><span class="line">QSqlDatabase::removeDatabase(<span class="string">"sales"</span>);</span><br></pre></td></tr></table></figure>
+<p>这样写db在调用remove的时候已经销毁了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/centos7安装docker/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2047,183 +2226,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/g++编译方法以及合并静态库/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/19/g++编译方法以及合并静态库/" class="post-title-link" itemprop="url">g++编译方法以及合并静态库</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-19 09:43:42 / 修改时间：10:39:54" itemprop="dateCreated datePublished" datetime="2019-03-19T09:43:42+08:00">2019-03-19</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<h1 id="g-编译源码"><a href="#g-编译源码" class="headerlink" title="g++编译源码"></a>g++编译源码</h1><p>一般g++的编译选项常用两种-c 和-o 。-c是源码编译但不链接，生成.o文件，-o是编译同时链接，生成可行性文件，如果不指定-o会生成默认的a.out可执行程序。假设以及存在一个main.cpp的源文件,示例如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.cpp</span><br></pre></td></tr></table></figure>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp -o test</span><br></pre></td></tr></table></figure>
-<h1 id="生成和合并静态库"><a href="#生成和合并静态库" class="headerlink" title="生成和合并静态库"></a>生成和合并静态库</h1><p>生成静态库是将.o文件压缩为一个.a文件，方法如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar crv libtest.a test.o</span><br></pre></td></tr></table></figure>
-<p>g++使用静态库的方法如下：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp libtest.a -o output</span><br></pre></td></tr></table></figure>
-<p>说明:此处main.cpp引用libtest.a 静态库直接接在main.cpp之后就行了</p>
-<p>生成动态库：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ test.cpp -fPIC -shared -o libtest.so</span><br></pre></td></tr></table></figure>
-<p>接下来讲解合并多个单独编译生成的.a静态库，思路就是先将.a拆分为.o，然后合并.o成为一个.o。假设已经存在a1.a(包含a1.o),a2.a(包含a2.o)</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ar x a1.a</span><br><span class="line">ar x a2.a</span><br><span class="line">ar rc a3.a *.o</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2271,7 +2273,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2302,7 +2304,9 @@
         
           
         
-        <span class="site-state-item-count">7</span>
+          
+        
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2429,7 +2433,9 @@
         
           
         
-        <span class="site-state-item-count">55</span>
+          
+        
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

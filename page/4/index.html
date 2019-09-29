@@ -347,6 +347,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/g++编译方法以及合并静态库/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/19/g++编译方法以及合并静态库/" class="post-title-link" itemprop="url">g++编译方法以及合并静态库</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-19 09:43:42 / 修改时间：10:39:54" itemprop="dateCreated datePublished" datetime="2019-03-19T09:43:42+08:00">2019-03-19</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h1 id="g-编译源码"><a href="#g-编译源码" class="headerlink" title="g++编译源码"></a>g++编译源码</h1><p>一般g++的编译选项常用两种-c 和-o 。-c是源码编译但不链接，生成.o文件，-o是编译同时链接，生成可行性文件，如果不指定-o会生成默认的a.out可执行程序。假设以及存在一个main.cpp的源文件,示例如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.cpp</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp -o test</span><br></pre></td></tr></table></figure>
+<h1 id="生成和合并静态库"><a href="#生成和合并静态库" class="headerlink" title="生成和合并静态库"></a>生成和合并静态库</h1><p>生成静态库是将.o文件压缩为一个.a文件，方法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar crv libtest.a test.o</span><br></pre></td></tr></table></figure>
+<p>g++使用静态库的方法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp libtest.a -o output</span><br></pre></td></tr></table></figure>
+<p>说明:此处main.cpp引用libtest.a 静态库直接接在main.cpp之后就行了</p>
+<p>生成动态库：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ test.cpp -fPIC -shared -o libtest.so</span><br></pre></td></tr></table></figure>
+<p>接下来讲解合并多个单独编译生成的.a静态库，思路就是先将.a拆分为.o，然后合并.o成为一个.o。假设已经存在a1.a(包含a1.o),a2.a(包含a2.o)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ar x a1.a</span><br><span class="line">ar x a2.a</span><br><span class="line">ar rc a3.a *.o</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/QThread的事件循环与生命周期/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1873,194 +2050,6 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/15/银河麒麟64bit编译32bit-Qt4-8-6/" class="post-title-link" itemprop="url">银河麒麟64bit编译32bit-Qt4.8.6</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-15 16:18:13" itemprop="dateCreated datePublished" datetime="2019-01-15T16:18:13+08:00">2019-01-15</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-19 15:49:44" itemprop="dateModified" datetime="2019-03-19T15:49:44+08:00">2019-03-19</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="配置32bit的编译环境"><a href="#配置32bit的编译环境" class="headerlink" title="配置32bit的编译环境"></a>配置32bit的编译环境</h1><p>这个配置在前面的博客里面提到过，所以此处不再叙述。</p>
-<h1 id="安装libX-32bit库"><a href="#安装libX-32bit库" class="headerlink" title="安装libX* 32bit库"></a>安装libX* 32bit库</h1><p>编译错误信息</p>
-<p>Basic XLib functionality test failed!</p>
-<p>You might need to modify the include and library search paths by editing</p>
-<p>QMAKE_INCDIR_X11 and QMAKE_LIBDIR_X11 in /home/zhu/Qt/qt-x11-opensource-src-4.5.2/mkspecs/Linux-g++</p>
-<p>解决这个问题只需要几个库就可以了，实际上只要安装两个库：</p>
-<p>sudo yum install libXau-dev:i386</p>
-<p>sudo yum install ibX11-dev:i386 （打印信息显示，该package已经安装）</p>
-<p>sudo yum install libXext-dev:i386</p>
-<p>sudo yum install libXtst-dev:i386  (无法安装就不装)</p>
-<p>运行qt程序报错,缺少libX库</p>
-<p>X Error: BadDrawable (invalid Pixmap or Window parameter) 9</p>
-<p>  Major opcode: 62 (X_CopyArea)</p>
-<p>  Resource id:  0x0</p>
-<p>Sudo yum install libXrandr-dev:i386</p>
-<h1 id="编译Qt4-8-6-32bit"><a href="#编译Qt4-8-6-32bit" class="headerlink" title="编译Qt4.8.6-32bit"></a>编译Qt4.8.6-32bit</h1><ol>
-<li><p>下载源码</p>
-</li>
-<li><p>解压缩</p>
-</li>
-<li><p>cd 源码目录</p>
-</li>
-<li><p>配置qt</p>
-</li>
-<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure -platform linux-g++-<span class="number">32</span> -nomake examples -nomake demos -no-webkit -qt-zlib -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -qt-freetype -fontconfig</span><br><span class="line">gmake -j4  <span class="comment">#多线程编译</span></span><br><span class="line">sudo gmake install</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>fontconfig参数是为了更好的支持系统的字体，不然会出现中文显示不全或者不显示的问题。</p>
-<h1 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export QTDIR=/usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span></span><br><span class="line">export PATH=<span class="variable">$QTDIR</span>/bin:<span class="variable">$PATH</span></span><br><span class="line">export MANPATH=<span class="variable">$QTDIR</span>/man:<span class="variable">$MANPAT</span></span><br><span class="line">export LD_LIBRARY_PATH=<span class="variable">$QTDIR</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2108,7 +2097,7 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2139,7 +2128,9 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
         
           
         
-        <span class="site-state-item-count">7</span>
+          
+        
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2266,7 +2257,9 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
         
           
         
-        <span class="site-state-item-count">55</span>
+          
+        
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
