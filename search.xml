@@ -257,7 +257,7 @@
   <entry>
     <title><![CDATA[Linux常用命令]]></title>
     <url>%2F2019%2F04%2F16%2FLinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号]]></content>
+    <content type="text"><![CDATA[1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /home/username/SharedFloder #给目录读写执行权限sudo mount -t vboxsf WinFloder /home/username/SharedFloder #临时挂载 挂载u盘 1234fdisk -l #查看u盘设备（假设为sdc1）mkdir /mntmount /dev/sdc1 /mnt umount /dev/sdc1 #卸载u盘]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
