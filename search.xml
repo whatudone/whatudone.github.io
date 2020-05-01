@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[dpkg从源码打包]]></title>
+    <url>%2F2020%2F05%2F01%2Fdpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85%2F</url>
+    <content type="text"><![CDATA[前言&emsp;&emsp;在刚接触Linux软件开发时，在软件开发完成之后都面临一个问题，那就是如何发布？开始我才用最原始的方法，使用压缩包。但是这种模式就很局限，毕竟很难把所有的库依赖都找全。后来使用dpkg打包，这样就跟安装包一样，能够自定义安装的位置，并且检查库依赖是否齐全。下面开始介绍步骤。 1、创建一个简单项目&emsp;&emsp;新建一个简单项目，文件夹命名为test-1.0。注1.0为版本号。 2、压缩源码12tar zcvf hello_1.0.orig.tar.gz hello-1.0 #注意前后下划线的区别cd hello-1.0 3、创建打包文件1dh_make -e emailaddress -f ../hello_1.0.orig.tar.gz #指定邮箱和源码 &emsp;&emsp;此时会在当前文件夹下生成一个的debian目录，目录里面最重要的是control文件，这个是控制打包的依赖，版本号等各种设置，下面就是我的一个简单示例： &emsp;&emsp;同时记得把changelog里面的版本号修改和上图一致。 4、打包1dpkg-buildpackage 打包完成之后会在上层目录产生deb包。使用dpkg -i xxxx.deb安装即可。]]></content>
+      <categories>
+        <category>Linux学习笔记</category>
+      </categories>
+      <tags>
+        <tag>dpkg</tag>
+        <tag>debian</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[对汉字按照拼音排序]]></title>
     <url>%2F2019%2F09%2F05%2F%E5%AF%B9%E6%B1%89%E5%AD%97%E6%8C%89%E7%85%A7%E6%8B%BC%E9%9F%B3%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[汉字排序对于英文单词排序很常见，但是对于汉字单词如何排序，可以借助于std的标准库，代码如下： 1234567891011121314151617181920#include &lt;iostream&gt;#include &lt;cstring&gt;#include &lt;locale&gt;#include &lt;algorithm&gt;#include &lt;array&gt;using namespace std;int main()&#123; std::array&lt;const char* ,5&gt; str=&#123;"测试","爱情","剥削","中户","命令"&#125;; std::sort(str.begin(),str.end(),[](const char* a,const char* b) &#123; return std::strcoll(a,b)&lt;0;&#125;); for (unsigned int i=0;i&lt;str.size();i++) &#123; std::cout&lt;&lt;str.at(i)&lt;&lt;std::endl; &#125; return 0;&#125;]]></content>
