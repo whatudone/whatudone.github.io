@@ -347,6 +347,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/QProcess调用外部进程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/05/06/QProcess调用外部进程/" class="post-title-link" itemprop="url">QProcess调用外部进程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-06 13:17:39 / 修改时间：13:52:04" itemprop="dateCreated datePublished" datetime="2020-05-06T13:17:39+08:00">2020-05-06</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&emsp;&emsp;在Qt程序开发过程中，往往我们会调用一些外部的程序，实现特定的功能，并减少开发工作量。例如有一个项目需要使用Https接口下载一些文件和上传下载一些数据，Qt本身虽然封装了OpenSSL的接口，但是安装包中SDK并不带编译完成的OpenSSL的库文件，需要用户自己手动编译对应版本的OpenSSL（Qt对应的OpenSSL版本号可以调用QSslSocket::sslLibraryBuildVersionString()查看），msvc版本相对比较好编译，但是mingw版本就很费事。关于mingw编译三方库可以参考我的另外一篇。所以最后项目采用wget for windows，利用wget的功能去实现我们想要的功能。wget的压缩包里面已经自带了OpenSSL的库文件。</p>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    QStringList args;</span><br><span class="line">    <span class="comment">//当前wget版本不支持timeout，后续如果有需求需要下载新版wget</span></span><br><span class="line">    args &lt;&lt; <span class="string">"--no-check-certificate"</span> &lt;&lt; <span class="string">"-c"</span> &lt;&lt; <span class="string">"-O"</span> &lt;&lt; <span class="string">"wechat.exe"</span> &lt;&lt; m_url;</span><br><span class="line"></span><br><span class="line">    connect(m_pWgetProcess, &amp;QProcess::readyReadStandardOutput, [&amp;]() &#123;</span><br><span class="line">        <span class="comment">//这里需要死循环处理，不然当wget下载完成，输出还没有读完，导致无法通知进度</span></span><br><span class="line">        <span class="keyword">while</span> (m_pWgetProcess-&gt;bytesAvailable() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            QString text = m_pWgetProcess-&gt;readLine();</span><br><span class="line">            QRegExp reg(<span class="string">"[\\s0-9K]+[\\.\\s]+([0-9]&#123;1,3&#125;)%\\s+([0-9\\.]+[KM])\\s+([0-9hms]+).*"</span>);</span><br><span class="line">            reg.setCaseSensitivity(Qt::CaseInsensitive);</span><br><span class="line">            <span class="keyword">if</span> (reg.exactMatch(text)) &#123;</span><br><span class="line">                <span class="keyword">int</span> progress = reg.cap(<span class="number">1</span>).toInt();</span><br><span class="line">                QString curSize = reg.cap(<span class="number">2</span>).toLocal8Bit();</span><br><span class="line">                QString time = reg.cap(<span class="number">3</span>).toLocal8Bit();</span><br><span class="line">                emit s_UpdateProgress(progress, time);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (text.contains(<span class="string">"100%"</span>)) &#123;</span><br><span class="line">                emit s_UpdateProgress(<span class="number">100</span>, <span class="string">"0s"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (text.contains(<span class="string">"saved"</span>) &amp;&amp; text.contains(QString(<span class="string">"[%1/%2]"</span>).arg(m_iFileSize).arg(m_iFileSize))) &#123;</span><br><span class="line">                emit s_haveDone();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    connect(m_pWgetProcess, &amp;QProcess::readyReadStandardError, [&amp;]() &#123;</span><br><span class="line">        qWarning() &lt;&lt; m_pWgetProcess-&gt;readAllStandardError();</span><br><span class="line">        emit s_haveError(<span class="number">2</span>, m_pWgetProcess-&gt;readAllStandardError());</span><br><span class="line">    &#125;);</span><br><span class="line">    m_pWgetProcess-&gt;setReadChannel(QProcess::StandardOutput);</span><br><span class="line">    m_pWgetProcess-&gt;setProcessChannelMode(QProcess::MergedChannels);</span><br><span class="line">    m_pWgetProcess-&gt;start(m_wgetFilePath, args);</span><br><span class="line">    bRet = m_pWgetProcess-&gt;waitForFinished(<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bRet) &#123;</span><br><span class="line">        qDebug() &lt;&lt; m_pWgetProcess-&gt;errorString();</span><br><span class="line">        <span class="function">emit <span class="title">s_haveError</span><span class="params">(<span class="number">2</span>,  m_pWgetProcess-&gt;errorString())</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>&emsp;&emsp;上述代码非常简单，采用wget下载一个微信程序，实时通知下载进度并通知下载失败或完成，需要注意以下几点：</p>
+<ul>
+<li><p>QProcess启动子进程推荐使用cmd和args分离的形式，适合参数比较复杂的情况</p>
+</li>
+<li><p>需要获取QProcess输出的时候，一般只读StandardOutput通道即可，StandardErro通道会有无意义的错误返回输出，导致解析难度加大</p>
+</li>
+<li><p>start方式启动的子进程需要调用waitForFinished或其他wait接口才能获取到输出，默认是阻塞30s，如果任务超时就会自动退出。需要等待子进程自己退出那么需要将参数传入-1。</p>
+</li>
+<li><p>在获取输出时采用readLine()按行读取解析时，如果输出过于庞大，会出现输出还没有获取完，但是子进程已经退出了（注意此时QProcess其实已经获取了全部输出在缓存里面了，在wait接口后面可以readAll获取到，但是我们是希望在QProcess::readyReadStandardOutput的槽函数里面同步处理）。这里就可以采用while循环的方式，将全部输出全部按行解析。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/01/dpkg从源码打包/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1015,171 +1192,6 @@
 <p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/2.png" alt="Windows编译QtMqtt-5-12-1\2"></p>
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>测试客户端采用Qt的mqtt里面的例子，截图如下。</p>
 <p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/3.png" alt="Windows编译QtMqtt-5-12-1\3"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/29/QMetaObject-connectSlotsByName-No-matching-signal-for/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/29/QMetaObject-connectSlotsByName-No-matching-signal-for/" class="post-title-link" itemprop="url">QMetaObject::connectSlotsByName: No matching signal for</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-29 08:27:43 / 修改时间：08:40:01" itemprop="dateCreated datePublished" datetime="2019-07-29T08:27:43+08:00">2019-07-29</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots:  void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p>
 
           
         
