@@ -1295,7 +1295,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-05-06 13:15:59" itemprop="dateModified" datetime="2020-05-06T13:15:59+08:00">2020-05-06</time>
+                <time title="修改时间：2020-05-08 11:22:24" itemprop="dateModified" datetime="2020-05-08T11:22:24+08:00">2020-05-08</time>
               </span>
             
           
@@ -1361,7 +1361,9 @@
 <p>再上另外一段错误代码</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> buffer[<span class="number">1024</span>]=<span class="string">"test"</span>;   <span class="comment">//要求buffer的长度固定为1024</span></span><br><span class="line">QByteArray out = QCryptographicHash::hash(buffer, QCryptographicHash::Md5);</span><br></pre></td></tr></table></figure>
 <p>这里看似没有问题，但是结果仍然不正确，是因为hash的接口参数列表，第一个参数是const  QByteArray  &amp;data，也就是说char []传入进去会导致一个默认的类型转换，转换的结果就是丢失了原本填充的\0，只保留了test字符，导致加密之前的原始内容长度变了，所以结果也变了。所以在char[]转QByteArray的时候注意一定要明确长度。</p>
+<h2 id="4-2、Qt-Tool"><a href="#4-2、Qt-Tool" class="headerlink" title="4.2、Qt::Tool"></a>4.2、Qt::Tool</h2><p>&emsp;&emsp;这是一个窗口属性，如果一个顶层窗口并且是最后一个窗口设置了这个属性，会导致关闭这个窗口时，进程并不会自动退出，也就是没有结束qApp的事件循环。并且windows的任务栏也没有该进程的图标。</p>
 <h1 id="5、信号槽"><a href="#5、信号槽" class="headerlink" title="5、信号槽"></a>5、信号槽</h1><h2 id="5-1、槽函数命名"><a href="#5-1、槽函数命名" class="headerlink" title="5.1、槽函数命名"></a>5.1、槽函数命名</h2><p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots: void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p>
+<h1 id="6、OpenSSL"><a href="#6、OpenSSL" class="headerlink" title="6、OpenSSL"></a>6、OpenSSL</h1><p>&emsp;&emsp;Qt的网络库如果需要使用https或者其他依赖OpenSSL的协议，一般直接引入相关代码会报无法找到相关接口实现的bug，因为sdk的bin目录里面默认没有加入OpenSSL的两个dll，以前都是手动编译对应的版本，特别是mingw，后来发现在Tools/mingwxxx_xx/opt/bin目录以及存在该库文件，只需要拷贝到mingw的qt sdk的bin目录即可。</p>
 
           
         
