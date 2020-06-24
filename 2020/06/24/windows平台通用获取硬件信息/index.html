@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="windows平台通用获取硬件信息前言&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息： 1wmic diskdrive get model,serialnumber 但这种方法存在局限性，在xp上控制台无法交互，也就是说虽然wmic可以获">
+<meta name="keywords" content="windows,wmi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows平台通用获取硬件信息">
+<meta property="og:url" content="http://yoursite.com/2020/06/24/windows平台通用获取硬件信息/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="windows平台通用获取硬件信息前言&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息： 1wmic diskdrive get model,serialnumber 但这种方法存在局限性，在xp上控制台无法交互，也就是说虽然wmic可以获">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-06-24T05:40:17.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows平台通用获取硬件信息">
+<meta name="twitter:description" content="windows平台通用获取硬件信息前言&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息： 1wmic diskdrive get model,serialnumber 但这种方法存在局限性，在xp上控制台无法交互，也就是说虽然wmic可以获">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2020/06/24/windows平台通用获取硬件信息/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>windows平台通用获取硬件信息 | 一个骚年</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一个骚年</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">说点啥好呢</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/24/windows平台通用获取硬件信息/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows平台通用获取硬件信息
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-24 11:21:49 / 修改时间：13:40:17" itemprop="dateCreated datePublished" datetime="2020-06-24T11:21:49+08:00">2020-06-24</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="windows平台通用获取硬件信息"><a href="#windows平台通用获取硬件信息" class="headerlink" title="windows平台通用获取硬件信息"></a>windows平台通用获取硬件信息</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic diskdrive get model,serialnumber</span><br></pre></td></tr></table></figure>
+<p>但这种方法存在局限性，在xp上控制台无法交互，也就是说虽然wmic可以获取到结果，但是外部进程无法通过进程通信获取返回结果。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>&emsp;&emsp;通过msdn查询wmic相关信息，发现wmic也是调用wmi的com接口实现的，所以直接使用wmi的com接口就可以避免进程间通信，直接获取结果。为了使用方便，我简单封装了一下这个接口的调用，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">ManageWMIInterface</span><span class="params">(<span class="keyword">const</span> BSTR &amp;querySql, <span class="keyword">const</span> QList&lt;<span class="built_in">std</span>::wstring&gt; ¶mList, QStringList &amp;resultList)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HRESULT hres;</span><br><span class="line">    <span class="comment">// Step 1:  初始化COM</span></span><br><span class="line">    <span class="comment">//    hres = CoInitializeEx(0, COINIT_MULTITHREADED); //这种方式初始化错误</span></span><br><span class="line">    hres = CoInitialize(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hres)) &#123;</span><br><span class="line">        qWarning() &lt;&lt; <span class="string">"Failed to initialize COM library. Error code = 0x"</span></span><br><span class="line">                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Program has failed.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Step 2:  设置COM的安全认证级别</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//在实际使用过程中，我发现如果这一步不注释掉的话，程序总是返回false，注释掉之后程序反而可以正常运行，原因未知</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note: If you are using Windows 2000, you need to specify -</span></span><br><span class="line">    <span class="comment">// the default authentication credentials for a user by using</span></span><br><span class="line">    <span class="comment">// a SOLE_AUTHENTICATION_LIST structure in the pAuthList ----</span></span><br><span class="line">    <span class="comment">// parameter of CoInitializeSecurity ------------------------</span></span><br><span class="line">    <span class="comment">//    hres =  CoInitializeSecurity(</span></span><br><span class="line">    <span class="comment">//                NULL,</span></span><br><span class="line">    <span class="comment">//                -1,      // COM negotiates service</span></span><br><span class="line">    <span class="comment">//                NULL,    // Authentication services</span></span><br><span class="line">    <span class="comment">//                NULL,    // Reserved</span></span><br><span class="line">    <span class="comment">//                RPC_C_AUTHN_LEVEL_DEFAULT,    // authentication</span></span><br><span class="line">    <span class="comment">//                RPC_C_IMP_LEVEL_IMPERSONATE,  // Impersonation</span></span><br><span class="line">    <span class="comment">//                NULL,             // Authentication info</span></span><br><span class="line">    <span class="comment">//                EOAC_NONE,        // Additional capabilities</span></span><br><span class="line">    <span class="comment">//                NULL              // Reserved</span></span><br><span class="line">    <span class="comment">//            );</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//    if (FAILED(hres)) &#123;</span></span><br><span class="line">    <span class="comment">//        cout &lt;&lt; "Failed to initialize security. Error code = 0x"</span></span><br><span class="line">    <span class="comment">//             &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;</span></span><br><span class="line">    <span class="comment">//        CoUninitialize();</span></span><br><span class="line">    <span class="comment">//        return false; // Program has failed.</span></span><br><span class="line">    <span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 3:  获得WMI连接COM接口</span></span><br><span class="line">    CLSID CLSID_WbemLocator = &#123;<span class="number">0x4590F811</span>, <span class="number">0x1D3A</span>, <span class="number">0x11D0</span>, &#123;<span class="number">0x89</span>, <span class="number">0x1F</span>, <span class="number">0</span>, <span class="number">0xAA</span>, <span class="number">0</span>, <span class="number">0x4B</span>, <span class="number">0x2E</span>, <span class="number">0x24</span>&#125;&#125;;</span><br><span class="line">    IWbemLocator *pLoc = <span class="literal">nullptr</span>;</span><br><span class="line">    hres = CoCreateInstance(</span><br><span class="line">               CLSID_WbemLocator,</span><br><span class="line">               <span class="literal">nullptr</span>,</span><br><span class="line">               CLSCTX_INPROC_SERVER,</span><br><span class="line">               IID_IWbemLocator, (LPVOID *)&amp;pLoc);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hres)) &#123;</span><br><span class="line">        qWarning() &lt;&lt; <span class="string">"Failed to create IWbemLocator object."</span></span><br><span class="line">                   &lt;&lt; <span class="string">" Err code = 0x"</span></span><br><span class="line">                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Program has failed.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 4:  通过连接接口连接WMI的内核对象名"ROOT//CIMV2"</span></span><br><span class="line">    IWbemServices *pSvc = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    hres = pLoc-&gt;ConnectServer(</span><br><span class="line"></span><br><span class="line">               <span class="keyword">_bstr_t</span>(<span class="string">L"ROOT\\CIMV2"</span>), <span class="comment">// Object path of WMI namespace</span></span><br><span class="line">               <span class="literal">NULL</span>, <span class="comment">// User name. nullptr = current user</span></span><br><span class="line">               <span class="literal">NULL</span>, <span class="comment">// User password. nullptr = current</span></span><br><span class="line">               <span class="number">0</span>, <span class="comment">// Locale. nullptr indicates current</span></span><br><span class="line">               <span class="literal">NULL</span>, <span class="comment">// Security flags.</span></span><br><span class="line">               <span class="number">0</span>, <span class="comment">// Authority (e.g. Kerberos)</span></span><br><span class="line">               <span class="number">0</span>, <span class="comment">// Context object</span></span><br><span class="line">               &amp;pSvc <span class="comment">// pointer to IWbemServices proxy</span></span><br><span class="line">           );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hres)) &#123;</span><br><span class="line">        qWarning() &lt;&lt; <span class="string">"Could not connect. Error code = 0x"</span></span><br><span class="line">                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        pLoc-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Program has failed.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Step 5:  设置请求代理的安全级别</span></span><br><span class="line">    hres = CoSetProxyBlanket(</span><br><span class="line">               pSvc, <span class="comment">// Indicates the proxy to set</span></span><br><span class="line">               RPC_C_AUTHN_WINNT, <span class="comment">// RPC_C_AUTHN_xxx</span></span><br><span class="line">               RPC_C_AUTHZ_NONE, <span class="comment">// RPC_C_AUTHZ_xxx</span></span><br><span class="line">               <span class="literal">nullptr</span>, <span class="comment">// Server principal name</span></span><br><span class="line">               RPC_C_AUTHN_LEVEL_CALL, <span class="comment">// RPC_C_AUTHN_LEVEL_xxx</span></span><br><span class="line">               RPC_C_IMP_LEVEL_IMPERSONATE, <span class="comment">// RPC_C_IMP_LEVEL_xxx</span></span><br><span class="line">               <span class="literal">nullptr</span>, <span class="comment">// client identity</span></span><br><span class="line">               EOAC_NONE <span class="comment">// proxy capabilities</span></span><br><span class="line">           );</span><br><span class="line">    <span class="keyword">if</span> (FAILED(hres)) &#123;</span><br><span class="line">        qWarning() &lt;&lt; <span class="string">"Could not set proxy blanket. Error code = 0x"</span></span><br><span class="line">                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        pSvc-&gt;Release();</span><br><span class="line">        pLoc-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Program has failed.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Step 6: 通过请求代理来向WMI发送请求----</span></span><br><span class="line">    <span class="comment">// For example, get the name of the operating system</span></span><br><span class="line">    IEnumWbemClassObject *pEnumerator = <span class="literal">nullptr</span>;</span><br><span class="line">    BSTR wql = SysAllocString(<span class="string">L"WQL"</span>);</span><br><span class="line">    hres = pSvc-&gt;ExecQuery(</span><br><span class="line">               wql,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">               querySql,<span class="comment">//只需要通过修改这里的查询语句，就可以实现对MAC地址等其他信息的查询</span></span><br><span class="line">               WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,</span><br><span class="line">               <span class="literal">nullptr</span>,</span><br><span class="line">               &amp;pEnumerator);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (FAILED(hres)) &#123;</span><br><span class="line">        qWarning() &lt;&lt; <span class="string">"Query for Network Adapter Configuration failed."</span></span><br><span class="line">                   &lt;&lt; <span class="string">" Error code = 0x"</span></span><br><span class="line">                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        pSvc-&gt;Release();</span><br><span class="line">        pLoc-&gt;Release();</span><br><span class="line">        CoUninitialize();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Program has failed.</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Step 7:  循环枚举所有的结果对象</span></span><br><span class="line"></span><br><span class="line">    IWbemClassObject *pclsObj = <span class="literal">nullptr</span>;</span><br><span class="line">    ULONG uReturn = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (pEnumerator) &#123;</span><br><span class="line">        HRESULT hr = pEnumerator-&gt;Next(WBEM_INFINITE, <span class="number">1</span>,</span><br><span class="line">                                       &amp;pclsObj, &amp;uReturn);</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == uReturn) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        foreach (<span class="built_in">std</span>::wstring param, paramList) &#123;</span><br><span class="line">            VARIANT vtProp;</span><br><span class="line">            VariantInit(&amp;vtProp);</span><br><span class="line"></span><br><span class="line">            hr = pclsObj-&gt;Get(param.data(), <span class="number">0</span>, &amp;vtProp, <span class="number">0</span>, <span class="number">0</span>);<span class="comment">//查询不同的硬件信息，除了修改上面的查询语句，这里的字段也要修改</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!FAILED(hr)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (vtProp.bstrVal)</span><br><span class="line">                    resultList.append(QString::fromStdWString(vtProp.bstrVal));</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    resultList.append(QString::fromStdWString(<span class="string">L""</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            VariantClear(&amp;vtProp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="comment">//end while</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 释放资源</span></span><br><span class="line">    <span class="keyword">if</span> (pSvc)</span><br><span class="line">        pSvc-&gt;Release();</span><br><span class="line">    <span class="keyword">if</span> (pLoc)</span><br><span class="line">        pLoc-&gt;Release();</span><br><span class="line">    <span class="keyword">if</span> (pEnumerator)</span><br><span class="line">        pEnumerator-&gt;Release();</span><br><span class="line">    <span class="keyword">if</span> (pclsObj)</span><br><span class="line">        pclsObj-&gt;Release();</span><br><span class="line">    CoUninitialize();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// Program successfully completed.</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用接口示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">BSTR sql = SysAllocString(<span class="string">L"SELECT * FROM Win32_NetworkAdapter WHERE (MACAddress IS NOT NULL) AND ((PNPDeviceID LIKE 'PCI%') OR (PNPDeviceID LIKE 'USB%'))"</span>);</span><br><span class="line">    QList&lt;<span class="built_in">std</span>::wstring&gt; paramList = &#123;<span class="string">L"name"</span>, <span class="string">L"macaddress"</span>, <span class="string">L"NetworkAddresses"</span>&#125;;</span><br><span class="line">    QList&lt; QStringList&gt;  resultList;</span><br><span class="line">    <span class="keyword">if</span> (ManageWMIInterface(sql, paramList, resultList)) &#123;</span><br><span class="line">        foreach (QStringList <span class="built_in">list</span>, resultList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">list</span>.count() == <span class="number">3</span>) &#123;</span><br><span class="line">                strAdapters.append(<span class="built_in">list</span>.at(<span class="number">0</span>));</span><br><span class="line">                strMACs.append(<span class="built_in">list</span>.at(<span class="number">1</span>));</span><br><span class="line">                strIPs.append(<span class="string">""</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从使用方法不难发现，其实wmi的调用接口就是传入sql语句查询指定的硬件信息，通过sql的查询条件筛选出需要的数据，这里是为了查询出物理网卡信息，并去掉虚拟网卡。</p>
+<h2 id="mingw使用wmi的注意事项"><a href="#mingw使用wmi的注意事项" class="headerlink" title="mingw使用wmi的注意事项"></a>mingw使用wmi的注意事项</h2><h3 id="1、模块引入"><a href="#1、模块引入" class="headerlink" title="1、模块引入"></a>1、模块引入</h3><p>&emsp;&emsp;在Qt中使用com接口需要在工程中引入axcontainer模块，不然相关com接口无法通过编译，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QT       += core gui network svg  xml axcontainer</span><br></pre></td></tr></table></figure>
+<h3 id="2、CLSID-WbemLocator"><a href="#2、CLSID-WbemLocator" class="headerlink" title="2、CLSID_WbemLocator"></a>2、CLSID_WbemLocator</h3><p> &emsp;&emsp;在msvc编译器中这个对象的值已经通过宏定义取到了，但是在mingw中没有实现这个接口，导致编译不过，所以只能自己定义该对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLSID CLSID_WbemLocator = &#123;<span class="number">0x4590F811</span>, <span class="number">0x1D3A</span>, <span class="number">0x11D0</span>, &#123;<span class="number">0x89</span>, <span class="number">0x1F</span>, <span class="number">0</span>, <span class="number">0xAA</span>, <span class="number">0</span>, <span class="number">0x4B</span>, <span class="number">0x2E</span>, <span class="number">0x24</span>&#125;&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个对象的值是从注册表中取得的，经查询所有版本的windows系统这个对象在注册表中的值都是固定的。</p>
+<h2 id="硬盘信息特例"><a href="#硬盘信息特例" class="headerlink" title="硬盘信息特例"></a>硬盘信息特例</h2><p>&emsp;&emsp;实际测试当中发现wmi在xp中无法获取硬盘的serialnumber，数据库中并没有这一列的信息。这里通过DeviceIoControl获取。经msdn查询，该接口支持xp及以上的系统。使用示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">flipAndCodeBytes</span><span class="params">(<span class="keyword">int</span> iPos, <span class="keyword">int</span> iFlip, <span class="keyword">const</span> <span class="keyword">char</span> *pcszStr, <span class="keyword">char</span> *pcszBuf)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> iI;</span><br><span class="line">    <span class="keyword">int</span> iJ = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> iK = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    pcszBuf [<span class="number">0</span>] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">if</span> (iPos &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> pcszBuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! iJ) &#123;</span><br><span class="line">        <span class="keyword">char</span> cP = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// First try to gather all characters representing hex digits only.</span></span><br><span class="line">        iJ = <span class="number">1</span>;</span><br><span class="line">        iK = <span class="number">0</span>;</span><br><span class="line">        pcszBuf[iK] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (iI = iPos; iJ &amp;&amp; !(pcszStr[iI] == <span class="string">'\0'</span>); ++iI) &#123;</span><br><span class="line">            <span class="keyword">char</span> cC = <span class="built_in">tolower</span>(pcszStr[iI]);</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isspace</span>(cC))</span><br><span class="line">                cC = <span class="string">'0'</span>;</span><br><span class="line">            ++cP;</span><br><span class="line">            pcszBuf[iK] &lt;&lt;= <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cC &gt;= <span class="string">'0'</span> &amp;&amp; cC &lt;= <span class="string">'9'</span>)</span><br><span class="line">                pcszBuf[iK] |= (<span class="keyword">char</span>)(cC - <span class="string">'0'</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (cC &gt;= <span class="string">'a'</span> &amp;&amp; cC &lt;= <span class="string">'f'</span>)</span><br><span class="line">                pcszBuf[iK] |= (<span class="keyword">char</span>)(cC - <span class="string">'a'</span> + <span class="number">10</span>);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                iJ = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (cP == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> ((pcszBuf[iK] != <span class="string">'\0'</span>) &amp;&amp; ! <span class="built_in">isprint</span>(pcszBuf[iK])) &#123;</span><br><span class="line">                    iJ = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ++iK;</span><br><span class="line">                cP = <span class="number">0</span>;</span><br><span class="line">                pcszBuf[iK] = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! iJ) &#123;</span><br><span class="line">        <span class="comment">// There are non-digit characters, gather them as is.</span></span><br><span class="line">        iJ = <span class="number">1</span>;</span><br><span class="line">        iK = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (iI = iPos; iJ &amp;&amp; (pcszStr[iI] != <span class="string">'\0'</span>); ++iI) &#123;</span><br><span class="line">            <span class="keyword">char</span> cC = pcszStr[iI];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (! <span class="built_in">isprint</span>(cC)) &#123;</span><br><span class="line">                iJ = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            pcszBuf[iK++] = cC;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! iJ) &#123;</span><br><span class="line">        <span class="comment">// The characters are not there or are not printable.</span></span><br><span class="line">        iK = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pcszBuf[iK] = <span class="string">'\0'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (iFlip)</span><br><span class="line">        <span class="comment">// Flip adjacent characters</span></span><br><span class="line">        <span class="keyword">for</span> (iJ = <span class="number">0</span>; iJ &lt; iK; iJ += <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">char</span> t = pcszBuf[iJ];</span><br><span class="line">            pcszBuf[iJ] = pcszBuf[iJ + <span class="number">1</span>];</span><br><span class="line">            pcszBuf[iJ + <span class="number">1</span>] = t;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Trim any beginning and end space</span></span><br><span class="line">    iI = iJ = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (iK = <span class="number">0</span>; (pcszBuf[iK] != <span class="string">'\0'</span>); ++iK) &#123;</span><br><span class="line">        <span class="keyword">if</span> (! <span class="built_in">isspace</span>(pcszBuf[iK])) &#123;</span><br><span class="line">            <span class="keyword">if</span> (iI &lt; <span class="number">0</span>)</span><br><span class="line">                iI = iK;</span><br><span class="line">            iJ = iK;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((iI &gt;= <span class="number">0</span>) &amp;&amp; (iJ &gt;= <span class="number">0</span>)) &#123;</span><br><span class="line">        <span class="keyword">for</span> (iK = iI; (iK &lt;= iJ) &amp;&amp; (pcszBuf[iK] != <span class="string">'\0'</span>); ++iK)</span><br><span class="line">            pcszBuf[iK - iI] = pcszBuf[iK];</span><br><span class="line">        pcszBuf[iK - iI] = <span class="string">'\0'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pcszBuf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">readPhysicalDriveSerialnumber</span><span class="params">(<span class="keyword">const</span> QStringList &amp;driveNameList, QStringList &amp;soList)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    foreach (<span class="keyword">const</span> QString &amp;driveName, driveNameList) &#123;</span><br><span class="line">        HANDLE hPhysicalDriveIOCTL = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//  Windows NT, Windows 2000, Windows XP - admin rights not required</span></span><br><span class="line">        hPhysicalDriveIOCTL = CreateFileA(driveName.toStdString().data(), <span class="number">0</span>,</span><br><span class="line">                                          FILE_SHARE_READ | FILE_SHARE_WRITE, <span class="literal">NULL</span>,</span><br><span class="line">                                          OPEN_EXISTING, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">if</span> (hPhysicalDriveIOCTL == INVALID_HANDLE_VALUE) &#123;</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">"创建hPhysicalDriveIOCTL(%1)失败"</span>).arg(driveName);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            STORAGE_PROPERTY_QUERY query;</span><br><span class="line">            DWORD dwBytesReturned = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">char</span> cszBuffer [<span class="number">10000</span>];</span><br><span class="line"></span><br><span class="line">            <span class="built_in">memset</span>((<span class="keyword">void</span> *) &amp; query, <span class="number">0</span>, <span class="keyword">sizeof</span>(query));</span><br><span class="line">            query.PropertyId = StorageDeviceProperty;</span><br><span class="line">            query.QueryType = PropertyStandardQuery;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">memset</span>(cszBuffer, <span class="number">0</span>, <span class="keyword">sizeof</span>(cszBuffer));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (DeviceIoControl(hPhysicalDriveIOCTL, IOCTL_STORAGE_QUERY_PROPERTY,</span><br><span class="line">                                &amp; query,</span><br><span class="line">                                <span class="keyword">sizeof</span>(query),</span><br><span class="line">                                &amp; cszBuffer,</span><br><span class="line">                                <span class="keyword">sizeof</span>(cszBuffer),</span><br><span class="line">                                &amp; dwBytesReturned, <span class="literal">NULL</span>)) &#123;</span><br><span class="line">                STORAGE_DEVICE_DESCRIPTOR *descrip = (STORAGE_DEVICE_DESCRIPTOR *) &amp; cszBuffer;</span><br><span class="line">                <span class="keyword">char</span> cszSerialNumber [<span class="number">1000</span>];</span><br><span class="line">                <span class="built_in">memset</span>(cszSerialNumber, <span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">                flipAndCodeBytes(descrip -&gt; SerialNumberOffset,</span><br><span class="line">                                 <span class="number">0</span>, cszBuffer, cszSerialNumber);</span><br><span class="line">                soList.append(QString::fromLocal8Bit(cszSerialNumber));</span><br><span class="line">                CloseHandle(hPhysicalDriveIOCTL);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> soList.count() &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里flipAndCodeBytes()是用来从所有结果cszBuffer中根据指定offset获取指定的数据。需要注意的是由于xp和win7的序列号原始数据是40位的hex数据，flipAndCodeBytes()返回的是转化过的字符串，但是因为大小端问题，需要转化，代码如下：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">QString revertQString(const QString &amp;src)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="comment">(src.isEmpty()</span>)</span><br><span class="line">        return "";</span><br><span class="line">    QString dest(src.count(), 0);</span><br><span class="line">    for <span class="comment">(int i = 0; i &lt; src.size()</span> - <span class="number">1</span>; i += <span class="number">2</span>) &#123;</span><br><span class="line">        QChar temp = src[i];</span><br><span class="line">        dest[i] = src[i + <span class="number">1</span>];</span><br><span class="line">        dest[i + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//奇数情况</span></span><br><span class="line">    <span class="keyword">if</span> <span class="comment">(src.count()</span> <span class="meta">%</span> <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">        dest[src.count() - 1] = src[src.count() - 1];</span><br><span class="line">    &#125;</span><br><span class="line">    return dest;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QStringList tempList;</span><br><span class="line">ret = readPhysicalDriveSerialnumber(driveNameList, tempList);</span><br><span class="line"></span><br><span class="line">QString osVersion = QSysInfo::productVersion();</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">foreach <span class="comment">(QString serial, tempList)</span> &#123;</span><br><span class="line"></span><br><span class="line">        QByteArray buffer = serial.toLocal<span class="number">8</span>Bit<span class="comment">()</span>;</span><br><span class="line">        <span class="comment">//xp win7 serialnumber是40位hex,readPhysicalDriveSerialnumber已经转为字符串，但需要转换大小端</span></span><br><span class="line">        <span class="comment">//win8 win10是字符串格式</span></span><br><span class="line">        if (osVersion.contains("xp", Qt::CaseInsensitive) || osVersion.contains("7", Qt::CaseInsensitive)) &#123;</span><br><span class="line">            resultList.append(revertQString(serial));</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            resultList.append(serial);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&emsp;&emsp;使用wmi接口可以在xp及以上系统获取绝大部分硬件信息，只需要处理xp系统获取硬盘信息时，使用DeviceIoControl接口即可。注意wmware的虚拟机没有硬盘信息，根本无法获取，virtualbox虚拟机没有这个问题。</p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/windows/" rel="tag"># windows</a>
+          
+            <a href="/tags/wmi/" rel="tag"># wmi</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/29/解决CryptoPP加密库在xp运行的bug/" rel="next" title="解决CryptoPP加密库在xp运行的bug">
+                <i class="fa fa-chevron-left"></i> 解决CryptoPP加密库在xp运行的bug
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  
+  <p class="site-author-name" itemprop="name">还在输入</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/1358320528@qq.com" title="E-Mail &rarr; 1358320528@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#windows平台通用获取硬件信息"><span class="nav-number">1.</span> <span class="nav-text">windows平台通用获取硬件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">1.2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mingw使用wmi的注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">mingw使用wmi的注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、模块引入"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、模块引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、CLSID-WbemLocator"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、CLSID_WbemLocator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘信息特例"><span class="nav-number">1.4.</span> <span class="nav-text">硬盘信息特例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">还在输入</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 �?<a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// GET RESPONSIVE HEIGHT PASSED FROM IFRAME
+
+window.addEventListener("message", function(e) {
+  var data = e.data;
+  if ((typeof data === 'string') && (data.indexOf('ciu_embed') > -1)) {
+    var featureID = data.split(':')[1];
+    var height = data.split(':')[2];
+    $(`iframe[data-feature=${featureID}]`).height(parseInt(height) + 30);
+  }
+}, false);
+</script>
+
+
+
+
+
+
+
+
+  
+
+</body>
+</html>
