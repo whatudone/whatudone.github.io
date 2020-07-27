@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /hom">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-12T06:08:04.988Z">
+<meta property="og:updated_time" content="2020-07-15T05:46:32.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux常用命令">
 <meta name="twitter:description" content="1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /hom">
@@ -409,7 +409,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-04-12 14:08:04" itemprop="dateModified" datetime="2020-04-12T14:08:04+08:00">2020-04-12</time>
+                <time title="修改时间：2020-07-15 13:46:32" itemprop="dateModified" datetime="2020-07-15T13:46:32+08:00">2020-07-15</time>
               </span>
             
           
@@ -475,6 +475,62 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l <span class="comment">#查看u盘设备（假设为sdc1）</span></span><br><span class="line">mkdir /mnt</span><br><span class="line">mount /dev/sdc1 /mnt </span><br><span class="line">umount /dev/sdc1 <span class="comment">#卸载u盘</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h3 id="5、apt用法"><a href="#5、apt用法" class="headerlink" title="5、apt用法"></a>5、apt用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-cache depends package <span class="comment">#查看包的依赖</span></span><br><span class="line">apt-cache search package <span class="comment">#搜索包</span></span><br><span class="line">apt rdepends package <span class="comment">#查看该包被哪些包依赖</span></span><br></pre></td></tr></table></figure>
+<h3 id="6、vim常用快捷键"><a href="#6、vim常用快捷键" class="headerlink" title="6、vim常用快捷键"></a>6、vim常用快捷键</h3><ol>
+<li><p>跳转指定行数       :n</p>
+</li>
+<li><p>跳转文件末尾       G</p>
+</li>
+<li><p>搜索文件内容       :/content </p>
+</li>
+<li><p>查找下一个搜索到的内容     n</p>
+</li>
+<li><p>查找上一个搜索内容             N</p>
+</li>
+<li><p>剪切行                                        dd</p>
+</li>
+<li><p>粘贴                                        p</p>
+</li>
+<li><p>复制行                                    yy</p>
+</li>
+<li><p>复制指定内容       v进入可视化，选中指定内容，y复制</p>
+</li>
+<li><p>批量添加注释       ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行</p>
+</li>
+<li><p>批量取消注释        ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出</p>
+</li>
+<li><p>撤销操作       u</p>
+</li>
+<li><p>恢复上一步被撤销的操作         ctrl+r         </p>
+</li>
+</ol>
+<h3 id="7、dpkg"><a href="#7、dpkg" class="headerlink" title="7、dpkg"></a>7、dpkg</h3><ol>
+<li><p>查看包的版本信息    </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l package</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看包的文件            </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -L package</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看文件对应的包   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -S filename</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="8、xprop"><a href="#8、xprop" class="headerlink" title="8、xprop"></a>8、xprop</h3><ol>
+<li><p>查看窗口进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xprop           <span class="comment">#执行完之后点击窗口就会获取窗口信息</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="9、proc"><a href="#9、proc" class="headerlink" title="9、proc"></a>9、proc</h3><ol>
+<li><p>查看进程的命令行参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/cmdline  <span class="comment">#ID是指进程id，Linux一切皆文件</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/environ  <span class="comment">#Qt在Linux上很多bug就是因为环境变量导致的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的内存结构</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/maps</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 
       
     </div>
@@ -778,7 +834,13 @@
         
           
         
-        <span class="site-state-item-count">63</span>
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -838,7 +900,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、查找进程"><span class="nav-number">1.</span> <span class="nav-text">1、查找进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、查看网络端口占用"><span class="nav-number">2.</span> <span class="nav-text">2、查看网络端口占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、查看进程占用cpu和内存"><span class="nav-number">3.</span> <span class="nav-text">3、查看进程占用cpu和内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、挂载u盘或共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">4、挂载u盘或共享文件夹</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、查找进程"><span class="nav-number">1.</span> <span class="nav-text">1、查找进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、查看网络端口占用"><span class="nav-number">2.</span> <span class="nav-text">2、查看网络端口占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、查看进程占用cpu和内存"><span class="nav-number">3.</span> <span class="nav-text">3、查看进程占用cpu和内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、挂载u盘或共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">4、挂载u盘或共享文件夹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、apt用法"><span class="nav-number">5.</span> <span class="nav-text">5、apt用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、vim常用快捷键"><span class="nav-number">6.</span> <span class="nav-text">6、vim常用快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、dpkg"><span class="nav-number">7.</span> <span class="nav-text">7、dpkg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、xprop"><span class="nav-number">8.</span> <span class="nav-text">8、xprop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、proc"><span class="nav-number">9.</span> <span class="nav-text">9、proc</span></a></li></ol></div>
             
 
           </div>

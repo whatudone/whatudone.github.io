@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="1、云打印组成结构云打印机分为windows端的服务端和Linux下的客户端。服务端和客户端都是多进程架构，分别由两个和四个进程组成。客户端和服务器通信采用thrift的rpc框架，通过定义统一的IDL接口，实现接口统一。 1.1客户端组成客户端由四个进程组成，分别是：  deepin-cloud-print-agent  deepin-cloud-print-configurator  dcp">
+<meta name="keywords" content="云打印,thrift,go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云打印实现流程与细节">
+<meta property="og:url" content="http://yoursite.com/2020/07/22/云打印实现流程与细节/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="1、云打印组成结构云打印机分为windows端的服务端和Linux下的客户端。服务端和客户端都是多进程架构，分别由两个和四个进程组成。客户端和服务器通信采用thrift的rpc框架，通过定义统一的IDL接口，实现接口统一。 1.1客户端组成客户端由四个进程组成，分别是：  deepin-cloud-print-agent  deepin-cloud-print-configurator  dcp">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-07-22T09:46:15.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="云打印实现流程与细节">
+<meta name="twitter:description" content="1、云打印组成结构云打印机分为windows端的服务端和Linux下的客户端。服务端和客户端都是多进程架构，分别由两个和四个进程组成。客户端和服务器通信采用thrift的rpc框架，通过定义统一的IDL接口，实现接口统一。 1.1客户端组成客户端由四个进程组成，分别是：  deepin-cloud-print-agent  deepin-cloud-print-configurator  dcp">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2020/07/22/云打印实现流程与细节/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>云打印实现流程与细节 | 一个骚年</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">一个骚年</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">说点啥好呢</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/22/云打印实现流程与细节/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">云打印实现流程与细节
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-22 10:23:48 / 修改时间：17:46:15" itemprop="dateCreated datePublished" datetime="2020-07-22T10:23:48+08:00">2020-07-22</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1、云打印组成结构"><a href="#1、云打印组成结构" class="headerlink" title="1、云打印组成结构"></a>1、云打印组成结构</h1><p>云打印机分为windows端的服务端和Linux下的客户端。服务端和客户端都是多进程架构，分别由两个和四个进程组成。客户端和服务器通信采用thrift的rpc框架，通过定义统一的IDL接口，实现接口统一。</p>
+<h2 id="1-1客户端组成"><a href="#1-1客户端组成" class="headerlink" title="1.1客户端组成"></a>1.1客户端组成</h2><p>客户端由四个进程组成，分别是：</p>
+<ul>
+<li><p>deepin-cloud-print-agent</p>
+</li>
+<li><p>deepin-cloud-print-configurator</p>
+</li>
+<li><p>dcp</p>
+</li>
+<li><p>deepin-cloud-print-daemon</p>
+<p>deepin-cloud-print-agent是一个开机自启dbus服务，用户权限启动。这个dbus服务提供三个接口，用来获取配置文件存储的加密认证码，输入框的加密认证码和打印完成的系统通知。deepin-cloud-print-daemon也是一个开机自启的dbus服务进程，但是是root权限启动，这个dbus服务就是封装deepin-cloud-print-agent里面的接口（个人感觉这两个进程功能有些重复）。dcp是最重要的一个部分，作为backend后端，在程序安装的时候拷贝到/usr/lib/cups/backend/目录。使用云打印的时候cups就会调用这个后端去处理打印。deepin-cloud-print-configurator是Qt界面交互程序，提供用户输入ip和授权码的入口，展示和添加云打印机。</p>
+</li>
+</ul>
+<h2 id="1-2客户端工作流程"><a href="#1-2客户端工作流程" class="headerlink" title="1.2客户端工作流程"></a>1.2客户端工作流程</h2><ul>
+<li><p>安装</p>
+<p>安装的时候除了会执行一些常规的拷贝操作，postinst脚本会在安装完成之后，修改dcp的权限以及日志目录的权限、用户、组，保证cups可以正常访问。重启之后agent和daemon就会在后台常驻提供dbus服务。</p>
+</li>
+<li><p>启动配置界面</p>
+<p>配置界面启动之后，用户输入远程ip和授权码，点击下一步，程序通过thrift调用windows上的verify接口验证，验证完成之后通过ListPrinter接口获取远程打印机列表，然后获取本地cups的打印机列表进行对比，对已经添加过的云打印机区分不同的图标进行展示。用户点击添加按钮，程序调用lpadmin进行打印机添加，添加打印机的ppd是提前固定写死的，后续可以扩展为实时获取windows打印机的支持属性，动态生成ppd文件。</p>
+</li>
+<li><p>打印</p>
+<p>用户通过软件选择云打印机进行打印时，cups会调用dcp后端程序，并将打印参数option传递给它。cups的job模块会向stdin的标准输入里面写入输出文件的内容，dcp会读取stdin的内容在/var/spool/dcp/SPOOL目录生成中间文件。然后使用gs将ps文件翻译为pdf文件，临时目录在/var/cache/cups/dcp/,然后通过print接口调用远程服务器上的打印机功能。</p>
+</li>
+<li><p>打印机通知</p>
+<p>dcp等待服务器端处理完打印任务之后获取打印机结果，然后调用daemon的dbus接口弹出打印结果通知。</p>
+</li>
+</ul>
+<h2 id="2-1服务端组成"><a href="#2-1服务端组成" class="headerlink" title="2.1服务端组成"></a>2.1服务端组成</h2><p>服务端由两个进程组成：</p>
+<ul>
+<li><p>PrintAgent</p>
+</li>
+<li><p>CloudPrint</p>
+</li>
+</ul>
+<p>PrintAgent是一个后台常驻UI程序,由Qt和thrift cpp实现，主要是四个功能，界面部分展示当前机器的ip和授权码，数据通过rpc接口从CloudPrint获取，用户可以手动更新授权码。业务部分实现了一个PrinterAgentServer服务实例，里面提供了打印的相关操作的具体实现接口，比如DefaultPrinter获取默认打印机，StartJob调用第三方工具SumatraPDF进行打印等等。这些接口供CloudPrint调用。然后实现了一个PrintNotifyClient客户端接口，去调用CloudPrint提供的对应的接口。这些接口主要用来通知CloudPrint服务器打印任务状态。PrintNotify是一个在子线程死循环监听打印机任务状态的实例，是通过winSpool接口获取相关的通知信息，然后转发给PrintNotifyClient。</p>
+<p>CloudPrint是go实现的后台服务，主要功能类似于一个中转站，连接Linux的客户端和windows端的PrintAgent。CloudPrint启动了三个服务实例，configServer是和PrintAgent之间传输配置信息的服务接口，默认启动会创建一个默认授权码，PrintAgent获取和更新授权码都是通过这个服务。cloudPrintServer提供打印相关的中间接口，接受客户端dcp传输过来的打印数据和打印指令，处理完成之后调用go里面的serverPrinter客户端实例去调用PrintAgent服务端接口进行真实打印任务。printerNotifyServer作为通知服务的实例，接受PrintAgent发来的打印机任务通知请求。CloudPrint还调用svc库实现了windows服务的注册、启动、删除等接口。</p>
+<h2 id="2-2服务端工作流程"><a href="#2-2服务端工作流程" class="headerlink" title="2.2服务端工作流程"></a>2.2服务端工作流程</h2><ul>
+<li><p>安装</p>
+<p>安装完成之后，PrintAgent常驻后台，成为一个托盘程序，CloudPrint注册为一个windows服务。</p>
+</li>
+<li><p>启动界面程序</p>
+<p>PrintAgent启动之后会在界面上展示ip列表和默认的授权码，这些信息是rpc接口从CloudPrint获取，用户重新输入授权码，更新也是调用CloudPrint接口，CloudPrint的config实例会将新的配置信息存储到本地。</p>
+</li>
+<li><p>打印流程</p>
+<p>Linux客户端通过rpc接口调用CloudPrint的服务接口，然后CloudPrint通过rpc接口调用PrintAgent的打印服务端接口，所以CloudPrint本质上就是个中转程序，理论上可以将它的功能合并到c++实现的PrintAgent程序中，这里估计是考虑到go的高并发性，提高打印效率（大量打印任务的情况下），所以采用go作为中转程序。</p>
+</li>
+</ul>
+<h1 id="2、thrift的使用技巧"><a href="#2、thrift的使用技巧" class="headerlink" title="2、thrift的使用技巧"></a>2、thrift的使用技巧</h1><p>thrift作为rpc架构，实现远程进程通信，有tcp和http两种协议选项。优点在于，只要定义了一个IDL接口，可以自动编译成常见语言的通信框架代码，编译工具thrift.exe可以去官网下载指定版本，不同版本编译的代码会有很大不同，就拿cpp来说，毕竟cpp的标准库也在不停添加新特性。然后用户只需要继承虚基类实现对应的虚函数（就cpp而言）就行，想要启动一个thrift的服务，只需要将该类作为一个handle传递给server，server内部维护的map就会将接口和实现对应起来，客户端只需要使用自动生成的客户端实例就可以连接服务器，直接调用服务器的接口。</p>
+<h2 id="IDL示例"><a href="#IDL示例" class="headerlink" title="IDL示例"></a>IDL示例</h2><p>User.thrift</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">namespace cpp Sample</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">struct User &#123;</span><br><span class="line">    1:required i32 id;</span><br><span class="line">    2:required string name;</span><br><span class="line">    3:required string avatar;</span><br><span class="line">    4:required string address;</span><br><span class="line">    5:required string mobile;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct UserList &#123;</span><br><span class="line">    1:required list&lt;User&gt; userList;</span><br><span class="line">    2:required i32 page;</span><br><span class="line">    3:required i32 limit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Service.thrift</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">include &quot;User.thrift&quot;</span><br><span class="line"></span><br><span class="line">namespace cpp Sample</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">typedef map&lt;string, string&gt; Data</span><br><span class="line"></span><br><span class="line">struct Response &#123;</span><br><span class="line">    1:required i32 errCode; //错误码</span><br><span class="line">    2:required string errMsg; //错误信息</span><br><span class="line">    3:required Data data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//定义服务</span><br><span class="line">service Greeter &#123;</span><br><span class="line">    Response SayHello(</span><br><span class="line">        1:required User.User user</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    Response GetUser(</span><br><span class="line">        1:required i32 uid</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>User.thrift里面定义的是公用的数据结构，namespace表示命名空间，cpp表示对应的语言，Service.thrift定义的是提供的服务接口，编译完成会生成服务端的虚基类和客户端的直接调用接口。编译命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thrift -r --gen cpp thrift/Service.thrift</span><br></pre></td></tr></table></figure>
+<p>-r参数可以自动编译include进去的User.thrift文件，–gen 后面接你的目标语言。</p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/云打印/" rel="tag"># 云打印</a>
+          
+            <a href="/tags/thrift/" rel="tag"># thrift</a>
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/24/windows平台通用获取硬件信息/" rel="next" title="windows平台通用获取硬件信息">
+                <i class="fa fa-chevron-left"></i> windows平台通用获取硬件信息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  
+  <p class="site-author-name" itemprop="name">还在输入</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+  <div class="links-of-author motion-element">
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/1358320528@qq.com" title="E-Mail &rarr; 1358320528@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+  <div class="cc-license motion-element" itemprop="license">
+  
+  
+    
+  
+  
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、云打印组成结构"><span class="nav-number">1.</span> <span class="nav-text">1、云打印组成结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1客户端组成"><span class="nav-number">1.1.</span> <span class="nav-text">1.1客户端组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2客户端工作流程"><span class="nav-number">1.2.</span> <span class="nav-text">1.2客户端工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1服务端组成"><span class="nav-number">1.3.</span> <span class="nav-text">2.1服务端组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2服务端工作流程"><span class="nav-number">1.4.</span> <span class="nav-text">2.2服务端工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、thrift的使用技巧"><span class="nav-number">2.</span> <span class="nav-text">2、thrift的使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IDL示例"><span class="nav-number">2.1.</span> <span class="nav-text">IDL示例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">还在输入</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 �?<a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// GET RESPONSIVE HEIGHT PASSED FROM IFRAME
+
+window.addEventListener("message", function(e) {
+  var data = e.data;
+  if ((typeof data === 'string') && (data.indexOf('ciu_embed') > -1)) {
+    var featureID = data.split(':')[1];
+    var height = data.split(':')[2];
+    $(`iframe[data-feature=${featureID}]`).height(parseInt(height) + 30);
+  }
+}, false);
+</script>
+
+
+
+
+
+
+
+
+  
+
+</body>
+</html>
