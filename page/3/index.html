@@ -347,6 +347,738 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/QML-ListView视图模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/08/QML-ListView视图模型/" class="post-title-link" itemprop="url">QML-ListView视图模型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-08 15:53:33 / 修改时间：17:01:12" itemprop="dateCreated datePublished" datetime="2019-05-08T15:53:33+08:00">2019-05-08</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这篇主要是介绍如何使用ListView的自定义高亮委托和自定义元素委托，以及section属性的分类和section的自定义委托。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.7</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Rectangle &#123;</span><br><span class="line">    id:root</span><br><span class="line">    ScrollView&#123;</span><br><span class="line">        id:scroll</span><br><span class="line">        anchors.fill: parent</span><br><span class="line">        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff</span><br><span class="line">        ScrollBar.vertical.policy: ScrollBar.AlwaysOn</span><br><span class="line">        ListModel&#123;</span><br><span class="line">            id:listModel</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"发现音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/music.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"私人FM"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/FM.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"视频"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/video.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"朋友"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/friends.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"本地音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/localmusic.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"下载管理"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/download.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的音乐云盘"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/cloud.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的收藏"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/collection.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Component &#123;</span><br><span class="line">            id: sectionHeading</span><br><span class="line">            Rectangle &#123;</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: childrenRect.height</span><br><span class="line"></span><br><span class="line">                Text &#123;</span><br><span class="line">                    text: section</span><br><span class="line">                    font.italic: <span class="literal">true</span></span><br><span class="line">                    font.pixelSize: <span class="number">15</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ListView &#123;</span><br><span class="line">            id:listView</span><br><span class="line">            clip: <span class="literal">true</span></span><br><span class="line">            model: listModel</span><br><span class="line">            anchors.fill: parent</span><br><span class="line">            focus: <span class="literal">true</span></span><br><span class="line">            highlight: Rectangle &#123;</span><br><span class="line">                color: <span class="string">"lightsteelblue"</span></span><br><span class="line">                width:listView.width</span><br><span class="line">                height:<span class="number">30</span></span><br><span class="line">                Behavior on y&#123;</span><br><span class="line">                    NumberAnimation &#123; <span class="attr">duration</span>: <span class="number">10000</span> &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            highlightFollowsCurrentItem :<span class="literal">true</span></span><br><span class="line">            delegate: Item &#123;</span><br><span class="line">                id:delegateitem</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: <span class="number">30</span></span><br><span class="line">                Image &#123;</span><br><span class="line">                    id: icon</span><br><span class="line">                    source: image</span><br><span class="line">                    anchors.left: parent.left</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                    width: <span class="number">16</span></span><br><span class="line">                    height: <span class="number">16</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                Text &#123;</span><br><span class="line">                    id: text</span><br><span class="line">                    text: title</span><br><span class="line">                    anchors.left: icon.right</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                &#125;</span><br><span class="line">                MouseArea&#123;</span><br><span class="line">                    anchors.fill: parent</span><br><span class="line">                    onClicked: &#123;</span><br><span class="line">                        listView.currentIndex = index;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            section.property: <span class="string">"section"</span></span><br><span class="line">            section.criteria: ViewSection.FullString</span><br><span class="line">            section.delegate: sectionHeading</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ListView的clip属性是裁剪，避免item在拖动的过程中超出边界，highlight就是高亮item，可以自定义。默认高亮item的高度和宽度会自动适应Item的高和宽。highlightFollowsCurrentItem属性是控制高亮item是否根据currentItem的切换自动改变坐标和高宽和item一致。delegate就是item的委托，这个委托的最上层不能使用Rectangle，这样会和高亮的Item冲突，导致高亮无法显示。使用Item作为最顶层的元素就没有这个问题。Item的委托在点击的过程中不会自动更新视图的currentIndex索引，需要手动处理。section作为对item的分类，property是关联modelData中分类的属性，delegate指定代理。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/Qt注意事项/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/05/Qt注意事项/" class="post-title-link" itemprop="url">Qt注意事项</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-05 09:34:32" itemprop="dateCreated datePublished" datetime="2019-05-05T09:34:32+08:00">2019-05-05</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-05-08 11:22:24" itemprop="dateModified" datetime="2020-05-08T11:22:24+08:00">2020-05-08</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p>
+<h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“/”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p>
+<h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p>
+<h1 id="3、QtCreator"><a href="#3、QtCreator" class="headerlink" title="3、QtCreator"></a>3、QtCreator</h1><h2 id="3-1、项目名称"><a href="#3-1、项目名称" class="headerlink" title="3.1、项目名称"></a>3.1、项目名称</h2><p>如果项目的target名称包含installer这种字符串，会导致编译出来的exe自动提升为管理员权限，导致QtCreator无法启动编译完的程序。并且运行结束后，会提示没有正确安装程序。此bug在win10上出现，win7没有。</p>
+<h1 id="4、Qt接口"><a href="#4、Qt接口" class="headerlink" title="4、Qt接口"></a>4、Qt接口</h1><h2 id="4-1、QByteArray"><a href="#4-1、QByteArray" class="headerlink" title="4.1、QByteArray"></a>4.1、QByteArray</h2><p>先上一段bug代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QByteArray buffer=<span class="string">"test"</span>;</span><br><span class="line"></span><br><span class="line">buffer.resize(<span class="number">1024</span>);</span><br><span class="line">QByteArray out = QCryptographicHash::hash(buffer, QCryptographicHash::Md5);</span><br></pre></td></tr></table></figure>
+<p>这个代码在我的开发机器上没有问题，每次加密出来的内容正确，但是在其他机器上运行出现bug，每次加密完的东西都不一样。这里我对resize这个接口没有仔细查看文档，文档已经说明resize只会分配空间，但是不会初始化，也就是说这地方是个未定义行为，导致结果不可预测。（其实c++的容器都是这样，以后需谨记）。</p>
+<p>再上另外一段错误代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> buffer[<span class="number">1024</span>]=<span class="string">"test"</span>;   <span class="comment">//要求buffer的长度固定为1024</span></span><br><span class="line">QByteArray out = QCryptographicHash::hash(buffer, QCryptographicHash::Md5);</span><br></pre></td></tr></table></figure>
+<p>这里看似没有问题，但是结果仍然不正确，是因为hash的接口参数列表，第一个参数是const  QByteArray  &amp;data，也就是说char []传入进去会导致一个默认的类型转换，转换的结果就是丢失了原本填充的\0，只保留了test字符，导致加密之前的原始内容长度变了，所以结果也变了。所以在char[]转QByteArray的时候注意一定要明确长度。</p>
+<h2 id="4-2、Qt-Tool"><a href="#4-2、Qt-Tool" class="headerlink" title="4.2、Qt::Tool"></a>4.2、Qt::Tool</h2><p>&emsp;&emsp;这是一个窗口属性，如果一个顶层窗口并且是最后一个窗口设置了这个属性，会导致关闭这个窗口时，进程并不会自动退出，也就是没有结束qApp的事件循环。并且windows的任务栏也没有该进程的图标。</p>
+<h1 id="5、信号槽"><a href="#5、信号槽" class="headerlink" title="5、信号槽"></a>5、信号槽</h1><h2 id="5-1、槽函数命名"><a href="#5-1、槽函数命名" class="headerlink" title="5.1、槽函数命名"></a>5.1、槽函数命名</h2><p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots: void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p>
+<h1 id="6、OpenSSL"><a href="#6、OpenSSL" class="headerlink" title="6、OpenSSL"></a>6、OpenSSL</h1><p>&emsp;&emsp;Qt的网络库如果需要使用https或者其他依赖OpenSSL的协议，一般直接引入相关代码会报无法找到相关接口实现的bug，因为sdk的bin目录里面默认没有加入OpenSSL的两个dll，以前都是手动编译对应的版本，特别是mingw，后来发现在Tools/mingwxxx_xx/opt/bin目录以及存在该库文件，只需要拷贝到mingw的qt sdk的bin目录即可。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/QML-CPP混合编程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/28/QML-CPP混合编程/" class="post-title-link" itemprop="url">QML/C++混合编程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-28 16:44:33" itemprop="dateCreated datePublished" datetime="2019-04-28T16:44:33+08:00">2019-04-28</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-10 09:14:30" itemprop="dateModified" datetime="2019-05-10T09:14:30+08:00">2019-05-10</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>QML和C++混合编程的好处在于，分离前端UI和后台业务。而且C++在处理效率上也会比QML和JS更加快，并且C++的编写后台业务也有更多的库可供选择。</p>
+<h2 id="C-类"><a href="#C-类" class="headerlink" title="C++类"></a>C++类</h2><p>代码如下，万事先开代码:</p>
+<p>robject.h</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ROBJECT_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ROBJECT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QColor&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RObject</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line">    <span class="comment">//导出属性 可读，可写，通知</span></span><br><span class="line">    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">RObject</span><span class="params">(QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    <span class="comment">//导出方法</span></span><br><span class="line">    <span class="function">Q_INVOKABLE <span class="keyword">void</span> <span class="title">print</span><span class="params">(QString str)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function">QColor <span class="title">color</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setColor</span><span class="params">(QColor color)</span></span>;</span><br><span class="line">signals:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">colorChanged</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    QColor m_color;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ROBJECT_H</span></span></span><br></pre></td></tr></table></figure>
+<p>robject.cpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"robject.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line">RObject::RObject(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> RObject::print(QString str)</span><br><span class="line">&#123;</span><br><span class="line">    qDebug()&lt;&lt;str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QColor RObject::color()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> m_color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> RObject::setColor(QColor color)</span><br><span class="line">&#123;</span><br><span class="line">   m_color=color;</span><br><span class="line">   <span class="function">emit <span class="title">colorChanged</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> RObject::add(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先想要把一个c++类注册到QML中，需要这个类继承QObject，这是Qt的基石，元对象系统。QML可以访问RObject类中如下部分：</p>
+<ol>
+<li><p>通过Q_PROPERTY定义的属性</p>
+</li>
+<li><p>通过Q_INVOKABLE导出的函数（不是槽函数）</p>
+</li>
+<li><p>槽函数</p>
+</li>
+<li><p>信号</p>
+</li>
+</ol>
+<h2 id="QML调用C-类"><a href="#QML调用C-类" class="headerlink" title="QML调用C++类"></a>QML调用C++类</h2><p>使用方法有两种</p>
+<h3 id="注册类"><a href="#注册类" class="headerlink" title="注册类"></a>注册类</h3><p>将C++类注册成QML中一个Component。使用如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QQmlApplicationEngine engine;</span><br><span class="line">qmlRegisterType&lt;RObject&gt;(<span class="string">"Gdwy.Robject"</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">"RObject"</span>);</span><br><span class="line"></span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br></pre></td></tr></table></figure>
+<p>注意注册类型必须在加载qml文件之前，不然qml里面import的包就无法识别了。qmlRegisterType是一个模板函数，&lt;&gt;里面是需要注册的类名，第一个参数是注册的包名，类似于QtQuick,这个包名的好处在于我们可以将多个类按照不同的模块导出到不同的包名里面进行管理。第二个参数是大版本号，第三个参数是小版本号，第四个参数是导出到QML里面使用的component名。对应的QML使用如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">RObject&#123;</span><br><span class="line"></span><br><span class="line">    id:robejct</span><br><span class="line">    color: Qt.rgba(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line">MouseArea&#123;</span><br><span class="line">    anchors.fill: parent</span><br><span class="line">    onClicked: &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(robejct.color);</span><br><span class="line">        robejct.color=Qt.rgba(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">var</span> result=robejct.add(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">        robejct.print(<span class="string">"测试"</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(result);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Connections&#123;</span><br><span class="line">    target: robejct</span><br><span class="line">    onColorChanged:&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(robejct.color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此处连接RObject的colorChanged()信号时，要写成onColorChanged,不然无法识别该信号。</p>
+<h3 id="注册属性"><a href="#注册属性" class="headerlink" title="注册属性"></a>注册属性</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">QQmlApplicationEngine engine;</span><br><span class="line"></span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (engine.rootObjects().isEmpty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line"></span><br><span class="line">        QScopedPointer&lt;RObject&gt; object(<span class="keyword">new</span> RObject);</span><br><span class="line"></span><br><span class="line">        engine.rootContext()-&gt;setContextProperty(<span class="string">"robject"</span>,object.data());</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这是将一个RObject的实例注册为main.qml根元素的一个属性。此处采用智能指针是因为qml不会帮助这个实例释放，所以采取智能指针自动释放。QMl的用法就当做普通的属性使用即可。这里使用C++仅仅只是传递了一个简单的数据类型int，转换到js之后会自动转换为js的int类型。但是如果你想传递一个数组类型，可以使用QVariantList,QVariant又是一个模板类，可以包含任何数据类型，包括map，QObject,int等等。QVariantList传递到js里面之后会转换成js的数组（array）类型，这时候遍历解析也要使用js的方法，记住此时数据已经是一个js的对象，不能再使用原来的c++的方法，要转换这个思维。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/Qt配置多项目解决方案/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/28/Qt配置多项目解决方案/" class="post-title-link" itemprop="url">Qt配置多项目解决方案</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-28 14:16:52" itemprop="dateCreated datePublished" datetime="2019-04-28T14:16:52+08:00">2019-04-28</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:07:12" itemprop="dateModified" datetime="2019-07-23T11:07:12+08:00">2019-07-23</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Qt的pro文件类似于cmake的CmakeLists.txt，调用qmake根据不同的平台和编译器生成Makefile文件。我们的代码经常会使用主工程依赖多个库工程的结构，这个时候使用一个pro文件将多个项目关联起来会更加方便。实例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// my.pro</span><br><span class="line">TEMPLATE = subdirs</span><br><span class="line"></span><br><span class="line">subdirs = mylib \</span><br><span class="line">    myapp</span><br><span class="line"></span><br><span class="line">CONFIG += ordered</span><br></pre></td></tr></table></figure>
+<p>TEMPLATE是说明这个pro文件的作用，ordered是说明按照编译顺序，先编译依赖库然后编译主程序，避免出现编译库缺失的错误。</p>
+<p>补充一下对应的cmake的写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/Qt资源文件加载大文件/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1417,881 +2149,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/Linux常用命令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/16/Linux常用命令/" class="post-title-link" itemprop="url">Linux常用命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-16 16:18:37" itemprop="dateCreated datePublished" datetime="2019-04-16T16:18:37+08:00">2019-04-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-15 13:46:32" itemprop="dateModified" datetime="2020-07-15T13:46:32+08:00">2020-07-15</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1、查找进程"><a href="#1、查找进程" class="headerlink" title="1、查找进程"></a>1、查找进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br></pre></td></tr></table></figure>
-<p>grep是过滤，其他命令里面的同理。</p>
-<h3 id="2、查看网络端口占用"><a href="#2、查看网络端口占用" class="headerlink" title="2、查看网络端口占用"></a>2、查看网络端口占用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp | grep 80</span><br></pre></td></tr></table></figure>
-<h3 id="3、查看进程占用cpu和内存"><a href="#3、查看进程占用cpu和内存" class="headerlink" title="3、查看进程占用cpu和内存"></a>3、查看进程占用cpu和内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -p 进程号</span><br></pre></td></tr></table></figure>
-<h3 id="4、挂载u盘或共享文件夹"><a href="#4、挂载u盘或共享文件夹" class="headerlink" title="4、挂载u盘或共享文件夹"></a>4、挂载u盘或共享文件夹</h3><ul>
-<li><p>挂载共享文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir dir /home/username/SharedFloder <span class="comment">#linux上的共享文件夹</span></span><br><span class="line">sudo chmod 777 /home/username/SharedFloder <span class="comment">#给目录读写执行权限</span></span><br><span class="line">sudo mount -t vboxsf WinFloder /home/username/SharedFloder <span class="comment">#临时挂载</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>挂载u盘</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l <span class="comment">#查看u盘设备（假设为sdc1）</span></span><br><span class="line">mkdir /mnt</span><br><span class="line">mount /dev/sdc1 /mnt </span><br><span class="line">umount /dev/sdc1 <span class="comment">#卸载u盘</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="5、apt用法"><a href="#5、apt用法" class="headerlink" title="5、apt用法"></a>5、apt用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-cache depends package <span class="comment">#查看包的依赖</span></span><br><span class="line">apt-cache search package <span class="comment">#搜索包</span></span><br><span class="line">apt rdepends package <span class="comment">#查看该包被哪些包依赖</span></span><br></pre></td></tr></table></figure>
-<h3 id="6、vim常用快捷键"><a href="#6、vim常用快捷键" class="headerlink" title="6、vim常用快捷键"></a>6、vim常用快捷键</h3><ol>
-<li><p>跳转指定行数       :n</p>
-</li>
-<li><p>跳转文件末尾       G</p>
-</li>
-<li><p>搜索文件内容       :/content </p>
-</li>
-<li><p>查找下一个搜索到的内容     n</p>
-</li>
-<li><p>查找上一个搜索内容             N</p>
-</li>
-<li><p>剪切行                                        dd</p>
-</li>
-<li><p>粘贴                                        p</p>
-</li>
-<li><p>复制行                                    yy</p>
-</li>
-<li><p>复制指定内容       v进入可视化，选中指定内容，y复制</p>
-</li>
-<li><p>批量添加注释       ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行</p>
-</li>
-<li><p>批量取消注释        ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出</p>
-</li>
-<li><p>撤销操作       u</p>
-</li>
-<li><p>恢复上一步被撤销的操作         ctrl+r         </p>
-</li>
-</ol>
-<h3 id="7、dpkg"><a href="#7、dpkg" class="headerlink" title="7、dpkg"></a>7、dpkg</h3><ol>
-<li><p>查看包的版本信息    </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l package</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看包的文件            </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -L package</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看文件对应的包   </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -S filename</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="8、xprop"><a href="#8、xprop" class="headerlink" title="8、xprop"></a>8、xprop</h3><ol>
-<li><p>查看窗口进程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xprop           <span class="comment">#执行完之后点击窗口就会获取窗口信息</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="9、proc"><a href="#9、proc" class="headerlink" title="9、proc"></a>9、proc</h3><ol>
-<li><p>查看进程的命令行参数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/cmdline  <span class="comment">#ID是指进程id，Linux一切皆文件</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看进程的环境变量</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/environ  <span class="comment">#Qt在Linux上很多bug就是因为环境变量导致的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看进程的内存结构</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/maps</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/08/Git使用教程/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/08/Git使用教程/" class="post-title-link" itemprop="url">Git使用教程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-08 09:57:37" itemprop="dateCreated datePublished" datetime="2019-04-08T09:57:37+08:00">2019-04-08</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-06-29 15:06:14" itemprop="dateModified" datetime="2020-06-29T15:06:14+08:00">2020-06-29</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Git教程/" itemprop="url" rel="index"><span itemprop="name">Git教程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>登陆一个Git的托管服务器，这里我使用的是自己搭建的gitlab。然后创建一个账号，新建一个仓库。下载git客户端。</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;your name&quot;</span><br><span class="line">git config --global user.email &quot;your email&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="生成SSH-kEY"><a href="#生成SSH-kEY" class="headerlink" title="生成SSH kEY"></a>生成SSH kEY</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;your.email@example.com&quot; -b 4096</span><br></pre></td></tr></table></figure>
-<p>连续回车三次</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-<p>复制密钥。然后去git服务器添加到你的用户设置里面，就可以直接使用ssh认证方式，而不需要每次输入用户名密码。</p>
-<p><img src="/2019/04/08/Git使用教程/ssh.png" alt="Git使用教程\ssh"></p>
-<h1 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h1><h2 id="1-本地已经存在工程"><a href="#1-本地已经存在工程" class="headerlink" title="1.本地已经存在工程"></a>1.本地已经存在工程</h2><p>登陆git服务器，创建远程仓库（test）。然后打开git bash客户端。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd basedir</span><br><span class="line">git init   </span><br><span class="line">git remote add origin git@192.168.16.100:liurui/test.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;Initial commit&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-<h2 id="2-创建新的仓库"><a href="#2-创建新的仓库" class="headerlink" title="2.创建新的仓库"></a>2.创建新的仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone git@192.168.16.100:liurui/test.git</span><br><span class="line">cd test</span><br><span class="line">touch README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;add README&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-<h2 id="3-已经存在本地仓库"><a href="#3-已经存在本地仓库" class="headerlink" title="3.已经存在本地仓库"></a>3.已经存在本地仓库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd existing_repo</span><br><span class="line">git remote rename origin old-origin</span><br><span class="line">git remote add origin git@192.168.16.100:liurui/test.git</span><br><span class="line">git push -u origin --all</span><br><span class="line">git push -u origin --tags</span><br></pre></td></tr></table></figure>
-<h1 id="日常维护"><a href="#日常维护" class="headerlink" title="日常维护"></a>日常维护</h1><h2 id="单人开发"><a href="#单人开发" class="headerlink" title="单人开发"></a>单人开发</h2><p>一个人开发的话就不需要考虑合并别人的代码，只需要在主干master分支开发即可。而且你的本地代码永远都是最新的，所以不需要git pull操作更新代码。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;你的版本记录信息&quot;</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<h2 id="多人开发"><a href="#多人开发" class="headerlink" title="多人开发"></a>多人开发</h2><h3 id="1-非fork模式"><a href="#1-非fork模式" class="headerlink" title="1. 非fork模式"></a>1. 非fork模式</h3><p>多人开发，就需要注意每个人代码的合并问题，一般采取所有人维护master主干，开发的时候在各自的分支开发，然后合并到master主干分支上，提交前注意git pull 更新最新的代码，因为你的代码提交可能落后master。这种情况适用于共同维护一个远程仓库。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git pull origin master</span><br><span class="line">git checkout yourbranch</span><br><span class="line">git rebase master</span><br><span class="line">git rebase --continue</span><br><span class="line">git push origin liurui:liurui/dev</span><br></pre></td></tr></table></figure>
-<p>说明：git rebase master 可以理解为合并master分支上进度到当前自己的分支，如果没有冲突，那么直接git push，如果存在冲突，那么根据提示去相应的文件，手动合并冲突，合并完了执行git rebase –continue。git push origin liurui:liurui/dev 其中liurui是你的本地分支名，liurui/dev是你的远程分支名。然后去网站上提交合并申请，然后有master合并权限的用户审核代码，他可以合并本次提交，也可以不合并。</p>
-<h3 id="2-fork模式"><a href="#2-fork模式" class="headerlink" title="2. fork模式"></a>2. fork模式</h3><p>这种模式适用于fork原始仓库，更新维护自己仓库，并将自己的仓库的更新提交merge request到主干仓库。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> xxxxxxxx <span class="comment">#克隆自己的仓库到本地</span></span><br><span class="line">git remote add upstream xxxxxxxxx <span class="comment">#将主干仓库添加到自己git仓库中</span></span><br><span class="line">git remote -v <span class="comment">#查看所有远程仓库地址</span></span><br><span class="line"><span class="comment">#修改代码</span></span><br><span class="line">git diff <span class="comment">#比较工作区和暂存区之间的变化 --filename 比较指定的文件差异</span></span><br><span class="line">git add -u <span class="comment">#-u是为了只将已经在暂存区的内容的修改加到暂存区</span></span><br><span class="line">git diff --cached <span class="comment">#比较的是暂存区和分支最新版本</span></span><br><span class="line">git commit -m <span class="string">"message"</span></span><br><span class="line">git fetch upstream</span><br><span class="line">git rebase upstream/master</span><br><span class="line"><span class="comment">#如果出现冲突,先手动解决冲突</span></span><br><span class="line">git add -u</span><br><span class="line">git rebase --<span class="built_in">continue</span> </span><br><span class="line"><span class="comment">#如果没有冲突，那么直接push即可</span></span><br><span class="line">git push origin master <span class="comment">#默认将本地master分支push到远程的master分支</span></span><br><span class="line">git push origin master:dev <span class="comment">#将本地master分支push到远程dev分支</span></span><br><span class="line"><span class="comment">#最后去网站上提交合并请求</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-删除具体某个commit"><a href="#3-删除具体某个commit" class="headerlink" title="3.删除具体某个commit"></a>3.删除具体某个commit</h3><ol>
-<li>上述开发流程存在缺陷，功能开发都是在master一个分支进行，这样同时开发几个功能时只能串行提交。假设有一个merge有问题并且包含多个commit，被拒绝合并到主仓库。那么本地需要删除这个commit，然后重新提交。假设有三个commit A,B,C。需要删除B。</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i commit-A-ID <span class="comment">#需要删除的前一个commit的id</span></span><br></pre></td></tr></table></figure>
-<p>输出如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pick commit-B-ID message</span><br><span class="line">pick commit-C-ID message</span><br></pre></td></tr></table></figure>
-<p>将B对应的pick改为drop保存退出即可。</p>
-<ol start="2">
-<li><p>这里也可以采取拉新的分支，先将commit-C导出成patch，然后拉取一个分支到commit-A节点，然后在新的分支合并patch。代码如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git format-patch -1 commit_id <span class="comment">#-1是指只导出该commit的patch</span></span><br><span class="line">git checkout -b newbranchname commit-A</span><br><span class="line">git apply --check 0001-test.patch <span class="comment">#检测patch是否可以合并</span></span><br><span class="line">git apply  0001-test.patch <span class="comment">#合并patch</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="4-解决上述流程缺陷的办法"><a href="#4-解决上述流程缺陷的办法" class="headerlink" title="4.解决上述流程缺陷的办法"></a>4.解决上述流程缺陷的办法</h3><p>第二点的folk模式根本缺陷是本地只有一个master分支，正确的开发流程</p>
-<ol>
-<li><p>本地master分支保持和上游的master同步即可，不进行开发</p>
-</li>
-<li><p>开发新功能就切换一个新分支</p>
-</li>
-<li><p>需要提交代码时就先切换到master，更新本地master分支</p>
-</li>
-<li><p>切换到开发分支，合并本地master的更新</p>
-</li>
-<li><p>push代码到自己folk出来的仓库</p>
-</li>
-<li><p>去网站上提交merge到主仓库</p>
-<p>假设已经clone了自己fork的仓库，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feat1 #切换到feat1分支</span><br><span class="line">#进行一些修改</span><br><span class="line">git add -u</span><br><span class="line">git commit -m &quot;message&quot;</span><br><span class="line">git checkout master</span><br><span class="line">git fetch upstream</span><br><span class="line">git rebase upstream/master</span><br><span class="line"></span><br><span class="line">git checkout feat1</span><br><span class="line">git rebase master</span><br><span class="line">git push origin feat1:dev</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="版本维护"><a href="#版本维护" class="headerlink" title="版本维护"></a>版本维护</h1><p>在大型项目中，需要对某一个节点设置一个版本，用于发布，就可以使用git tag相关指令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git tag <span class="comment">#显示所有tag</span></span><br><span class="line">git show tagname <span class="comment">#显示某个tag的具体commit信息</span></span><br><span class="line">git tag tagname <span class="comment">#给最新的commit打tag</span></span><br><span class="line">git tag tagname commitid <span class="comment">#给指定commit打tag，比如遗漏了版本</span></span><br></pre></td></tr></table></figure>
-<h1 id="从版本库中删除文件"><a href="#从版本库中删除文件" class="headerlink" title="从版本库中删除文件"></a>从版本库中删除文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm file #从版本库中删除文件并且删除本地文件</span><br><span class="line">git rm file --cache #只从版本库中删除文件，但保留本地文件</span><br><span class="line">git rm -r floder #从版本库中删除整个文件夹</span><br></pre></td></tr></table></figure>
-<h1 id="添加忽略文件"><a href="#添加忽略文件" class="headerlink" title="添加忽略文件"></a>添加忽略文件</h1><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>添加忽略文件是为了将开发中产生的一些中间文件排除在版本管理之外，方便其他人维护更新。忽略文件只能忽略尚未添加到版本管理中的文件和文件夹。</p>
-<h2 id="添加方法"><a href="#添加方法" class="headerlink" title="添加方法"></a>添加方法</h2><p>在项目根目录下打开gitbash，创建文件 touch .gitignore,然后编辑文件。</p>
-<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><ul>
-<li><p>空格不匹配任意文件，可作为分隔符，可用反斜杠转义</p>
-</li>
-<li><p>#开头的模式标识注释，可以使用反斜杠进行转义</p>
-</li>
-<li><p>! 开头的模式标识否定，该文件将会再次被包含，如果排除了该文件的父级目录，则使用 ! 也不会再次被包含。可以使用反斜杠进行转义</p>
-</li>
-<li><p>/ 结束的模式只匹配文件夹以及在该文件夹路径下的内容，但是不匹配该文件</p>
-</li>
-<li><p>/ 开始的模式匹配项目跟目录</p>
-</li>
-<li><p>如果一个模式不包含斜杠，则它匹配相对于当前 .gitignore 文件路径的内容，如果该模式不在 .gitignore 文件中，则相对于项目根目录</p>
-</li>
-<li><p>*匹配多级目录，可在开始，中间，结束</p>
-</li>
-<li><p>?通用匹配单个字符</p>
-</li>
-<li><p>[]通用匹配单个字符列表</p>
-</li>
-</ul>
-<h2 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a>常用示例</h2><ul>
-<li><p>忽略指定文件</p>
-<p>project.pro.user   这种方法会忽略根目录下的该文件，其他路径下的同名文件不会忽略</p>
-</li>
-</ul>
-<ul>
-<li><p>忽略特定后缀的文件</p>
-<p>*.o</p>
-</li>
-<li><p>忽略文件夹及文件夹下的所有内容</p>
-<p>build/</p>
-</li>
-<li><p>忽略某一文件夹下的所有内容但是不忽略特定内容</p>
-<p>build/</p>
-<p>!build/temp/</p>
-</li>
-</ul>
-<h1 id="忽略已经加入版本管理的内容"><a href="#忽略已经加入版本管理的内容" class="headerlink" title="忽略已经加入版本管理的内容"></a>忽略已经加入版本管理的内容</h1><p>先删除本地缓存，然后重新提交。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">"test"</span></span><br></pre></td></tr></table></figure>
-<h1 id="导出补丁合并补丁"><a href="#导出补丁合并补丁" class="headerlink" title="导出补丁合并补丁"></a>导出补丁合并补丁</h1><p>有些场景我们并不能直接提交代码到远程仓库，只能通过补丁的形式，将自己修改的代码合并到仓库当中。有两种形式diff文件和patch文件，diff没有commit信息，而patch存在commit信息，一个commit对应一个patch。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成补丁的两种方法</span></span><br><span class="line">git diff commitID &gt;test.diff </span><br><span class="line">git format-patch commitID -n <span class="comment">#n是从该commit到第n个commit</span></span><br><span class="line"><span class="comment">#导入补丁</span></span><br><span class="line">git apply test.diff</span><br><span class="line">git apply test.patch</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/02/MYSQL创建外键/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/02/MYSQL创建外键/" class="post-title-link" itemprop="url">MYSQL创建外键</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-02 16:09:05 / 修改时间：16:32:13" itemprop="dateCreated datePublished" datetime="2019-04-02T16:09:05+08:00">2019-04-02</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天将sqlite的表迁移到mysql中，有一张表的存在外键。外键约束的成立条件首先就是子表（定义外键的表）的引用的父表的那一列有唯一性约束，也就是UNIQUE,当一列是主键（PRIMARY KEY ）他已经是默认的唯一性，所以可以不用考虑这个问题。另外还需要注意的问题如下：</p>
-<ol>
-<li><p>找不到父表中引用的列</p>
-</li>
-<li><p>主键和外键的字符编码不一致</p>
-</li>
-<li><p>外键字段与要做外键校验的字段类型不匹配 </p>
-</li>
-<li><p>MySQL支持外键约束，并提供与其它DB相同的功能，但表类型必须为 InnoDB，非InnoDB 存储引擎会导致报错</p>
-</li>
-<li><p>多个子表的外键引用同一个父表的列时，每个外键的名称不能一样</p>
-</li>
-</ol>
-<p>外键的用法一般作为一种关联性校验，如下：</p>
-<ol>
-<li><p>父表更新时子表也更新，父表删除时如果子表有匹配的项删除失败 (ON UPDATE CASCADE ON DELETE RESTRICT)</p>
-</li>
-<li><p>父表更新时子表也更新，父表删除时子表匹配的项也删除（ON UPDATE CASCADE ON DELETE CASCADE）</p>
-</li>
-</ol>
-<p>下面给出一个简单的例子分别创建父表和子表。</p>
-<p>父表sql语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`线路表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
-<p>子表sql语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`节点表`</span> (</span><br><span class="line">  <span class="string">`ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`线路ID`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`节点名`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`属性`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`位置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`版本`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`设置`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`统计`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`ID`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`FK`</span> (<span class="string">`线路ID`</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> <span class="string">`FK`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`线路ID`</span>) <span class="keyword">REFERENCES</span> <span class="string">`线路表`</span> (<span class="string">`ID`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/27/编译mingw64版本QGis3-4-6/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/27/编译mingw64版本QGis3-4-6/" class="post-title-link" itemprop="url">编译mingw64版本QGis3.4.6</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-27 16:24:18" itemprop="dateCreated datePublished" datetime="2019-03-27T16:24:18+08:00">2019-03-27</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-28 08:52:35" itemprop="dateModified" datetime="2019-03-28T08:52:35+08:00">2019-03-28</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>msys2环境搭建 autoconf automake libtool </p>
-<p>make clean 和make distclean </p>
-<p>mingw的mingw32-make 和msys/make 避免出现处理makefile脚本出现</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2339,7 +2196,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2374,7 +2231,11 @@
         
           
         
-        <span class="site-state-item-count">9</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2517,7 +2378,15 @@
         
           
         
-        <span class="site-state-item-count">63</span>
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
