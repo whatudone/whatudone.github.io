@@ -103,7 +103,7 @@
 <meta property="og:description" content="概述cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在/var/log/cups/error.log。 问题1：临时目录权限问题反馈说某台打印机无法打印，查看打印日志的时候发现以下问题： 123456789101112131415161718192021222324252627D [26/Aug/2020:">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2020/08/26/cups常用问题记录/D:/web-blog/blog/source/_posts/cups常用问题记录/err.jpg">
-<meta property="og:updated_time" content="2020-08-26T06:46:38.124Z">
+<meta property="og:updated_time" content="2020-09-15T03:33:20.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cups常用问题记录">
 <meta name="twitter:description" content="概述cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在/var/log/cups/error.log。 问题1：临时目录权限问题反馈说某台打印机无法打印，查看打印日志的时候发现以下问题： 123456789101112131415161718192021222324252627D [26/Aug/2020:">
@@ -396,13 +396,23 @@
                 
               
 
-              <time title="创建时间：2020-08-26 14:04:31 / 修改时间：14:46:38" itemprop="dateCreated datePublished" datetime="2020-08-26T14:04:31+08:00">2020-08-26</time>
+              <time title="创建时间：2020-08-26 14:04:31" itemprop="dateCreated datePublished" datetime="2020-08-26T14:04:31+08:00">2020-08-26</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-09-15 11:33:20" itemprop="dateModified" datetime="2020-09-15T11:33:20+08:00">2020-09-15</time>
+              </span>
             
           
 
@@ -465,7 +475,13 @@
 <p>从结果看group没有w写权限，通过执行下列命令修复</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo setfacl -m g:lp:rwx /var/spool/cups/tmp</span><br><span class="line">sudo setfacl -m d:group:lp:rwx /var/spool/cups/</span><br></pre></td></tr></table></figure>
 <p>第一行是添加一个lp用户组，分配rwx权限，第二行是给上级目录添加lp用户组rwx权限，因为tmp目录是集成cups目录权限的，重启后cups调用mkdir创建tmp目录继承cups目录的权限，所以要修改上层cups目录的权限。</p>
-
+<h1 id="问题2：PPD文件异常"><a href="#问题2：PPD文件异常" class="headerlink" title="问题2：PPD文件异常"></a>问题2：PPD文件异常</h1><p>ppd文件是打印机能力的描述文件，如果ppd文件损坏，会导致cups无法正确解析打印机的各种属性。通过ipp请求获取打印机型号时，cups返回的是添加打印机时缓存的属性，这时候ppd损坏也可以返回正确值，但是cups重启后，重新加载ppd，这个时候就无法获取和ppd相关的属性。代码里面也要做出判断，比如std::map等容器直接使用没有的key会导致异常退出。</p>
+<h1 id="问题3：用户组权限问题"><a href="#问题3：用户组权限问题" class="headerlink" title="问题3：用户组权限问题"></a>问题3：用户组权限问题</h1><p>新版欧拉系统测试打印管理器，发现lpinfo -v可以发现直接的打印机，但是打印管理器自动发现没找到，有一个细节就是用户需要sudo才能执行该命令，但是正常的专业版是不需要的，所以应该是当前用户不在lp和lpadmin组，导致无法管理打印机。输入id命令查看当前用户所属组，发现确实用户默认没有lp和lpadmin组。所以手动添加组即可，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -a -G lp user   <span class="comment">#给user用户添加lp组</span></span><br><span class="line">sudo usermod -a -G lpadmin user <span class="comment">#给user用户添加lpadmin组</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>目前欧拉版和行业版基于centos，所有的打印机驱动没有适配，暂时需要手动下载安装驱动</p>
+</blockquote>
+<h1 id="问题4：驱动包正确但是无法打印"><a href="#问题4：驱动包正确但是无法打印" class="headerlink" title="问题4：驱动包正确但是无法打印"></a>问题4：驱动包正确但是无法打印</h1>
       
     </div>
 
@@ -840,7 +856,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题1：临时目录权限问题"><span class="nav-number">2.</span> <span class="nav-text">问题1：临时目录权限问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题1：临时目录权限问题"><span class="nav-number">2.</span> <span class="nav-text">问题1：临时目录权限问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题2：PPD文件异常"><span class="nav-number">3.</span> <span class="nav-text">问题2：PPD文件异常</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题3：用户组权限问题"><span class="nav-number">4.</span> <span class="nav-text">问题3：用户组权限问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题4：驱动包正确但是无法打印"><span class="nav-number">5.</span> <span class="nav-text">问题4：驱动包正确但是无法打印</span></a></li></ol></div>
             
 
           </div>

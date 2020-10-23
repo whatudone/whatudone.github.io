@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /hom">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-18T05:26:46.609Z">
+<meta property="og:updated_time" content="2020-09-14T01:53:19.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux常用命令">
 <meta name="twitter:description" content="1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /hom">
@@ -409,7 +409,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-08-18 13:26:46" itemprop="dateModified" datetime="2020-08-18T13:26:46+08:00">2020-08-18</time>
+                <time title="修改时间：2020-09-14 09:53:19" itemprop="dateModified" datetime="2020-09-14T09:53:19+08:00">2020-09-14</time>
               </span>
             
           
@@ -531,6 +531,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/maps</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<h3 id="10、GDB和SSH远程调试"><a href="#10、GDB和SSH远程调试" class="headerlink" title="10、GDB和SSH远程调试"></a>10、GDB和SSH远程调试</h3><p>代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh user@host             <span class="comment">#不带图形界面</span></span><br><span class="line">ssh -X user@host          <span class="comment">#可以启动带图形界面的程序</span></span><br></pre></td></tr></table></figure>
+<p>调试代码gdb：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gdb program   <span class="comment">#启动gdb</span></span><br><span class="line">run           <span class="comment">#启动程序</span></span><br><span class="line">bt            <span class="comment">#打印当前堆栈</span></span><br></pre></td></tr></table></figure>
+<p>大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。</p>
 
       
     </div>
@@ -906,7 +911,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、查找进程"><span class="nav-number">1.</span> <span class="nav-text">1、查找进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、查看网络端口占用"><span class="nav-number">2.</span> <span class="nav-text">2、查看网络端口占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、查看进程占用cpu和内存"><span class="nav-number">3.</span> <span class="nav-text">3、查看进程占用cpu和内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、挂载u盘或共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">4、挂载u盘或共享文件夹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、apt用法"><span class="nav-number">5.</span> <span class="nav-text">5、apt用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、vim常用快捷键"><span class="nav-number">6.</span> <span class="nav-text">6、vim常用快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、dpkg"><span class="nav-number">7.</span> <span class="nav-text">7、dpkg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、xprop"><span class="nav-number">8.</span> <span class="nav-text">8、xprop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、proc"><span class="nav-number">9.</span> <span class="nav-text">9、proc</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、查找进程"><span class="nav-number">1.</span> <span class="nav-text">1、查找进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、查看网络端口占用"><span class="nav-number">2.</span> <span class="nav-text">2、查看网络端口占用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、查看进程占用cpu和内存"><span class="nav-number">3.</span> <span class="nav-text">3、查看进程占用cpu和内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、挂载u盘或共享文件夹"><span class="nav-number">4.</span> <span class="nav-text">4、挂载u盘或共享文件夹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、apt用法"><span class="nav-number">5.</span> <span class="nav-text">5、apt用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、vim常用快捷键"><span class="nav-number">6.</span> <span class="nav-text">6、vim常用快捷键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、dpkg"><span class="nav-number">7.</span> <span class="nav-text">7、dpkg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、xprop"><span class="nav-number">8.</span> <span class="nav-text">8、xprop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、proc"><span class="nav-number">9.</span> <span class="nav-text">9、proc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10、GDB和SSH远程调试"><span class="nav-number">10.</span> <span class="nav-text">10、GDB和SSH远程调试</span></a></li></ol></div>
             
 
           </div>
