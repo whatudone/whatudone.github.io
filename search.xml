@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[cups通过lpd使用windows打印机]]></title>
+    <url>%2F2021%2F01%2F04%2Fcups%E9%80%9A%E8%BF%87lpd%E4%BD%BF%E7%94%A8windows%E6%89%93%E5%8D%B0%E6%9C%BA%2F</url>
+    <content type="text"><![CDATA[cups使用lpd协议连接windows共享打印机1、windows设置1.1、开启共享 打开需要指定的打印机共享开关。 1.2、启用windows的lpd设置 勾选LPD和LPR选项。 2、Linux添加打印机这里以UOS自带的打印管理器作为例子，如果其他发行版可以访问localhost:631在网页上操作。 2.1、填写设备urilpd协议的打印机uri构成如下：lpd://host/printername。host就是对应windwos的ip或者对应的域名，printername是指打印机共享出来的名字，而不是打印机在windows上的设备名称。打印管理器目前不支持带空格的uri，所以可以把共享名称改成不带空格的。 2.2、选择驱动 厂商和型号的下拉列表可以直接搜索，手动选择驱动需要提前以前安装过对应的驱动，才能在下拉列表中显示。如果不是手动填写的uri，而是直接在手动查找里面发现的lpd协议打印机，那么可以自动匹配到驱动，前提是系统适配过对应的打印机。]]></content>
+      <categories>
+        <category>cups</category>
+        <category>lpd</category>
+      </categories>
+      <tags>
+        <tag>cups</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[valgrind分析说明]]></title>
     <url>%2F2020%2F09%2F02%2Fvalgrind%E5%88%86%E6%9E%90%E8%AF%B4%E6%98%8E%2F</url>
     <content type="text"><![CDATA[前言cpp程序开发完成之后，总有些内存问题，最近使用valgrind扫描一下程序，发现bug很多，但是valgrind给出的分析结果虽然很详细，但是由于是英文，还是有些不太理解，这里做一下笔记，记录一些常见问题对应的valgrind分析。下次就可以从valgrind的分析去找代码的问题。 使用先将代码使用-g编译，生成调试符号。然后调用下列命令去启动程序： 1valgrind --log-file=valReport --leak-check=full --show-reachable=yes --leak-resolution=low YourProcess 关闭程序之后就会在当前目录生成valReport文件。 分析1、Mismatched free() / delete / delete []这里是因为没有把new-delete，malloc-free对应使用，比如new一个堆然后使用free释放内存。 2、Address 0xafa4d80 is 0 bytes inside a block of size 264 alloc’d3、Conditional jump or move depends on uninitialised value(s)没有初始化一个变量就直接使用它。]]></content>
@@ -343,7 +355,7 @@
   <entry>
     <title><![CDATA[Linux常用命令]]></title>
     <url>%2F2019%2F04%2F16%2FLinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /home/username/SharedFloder #给目录读写执行权限sudo mount -t vboxsf WinFloder /home/username/SharedFloder #临时挂载 挂载u盘 1234fdisk -l #查看u盘设备（假设为sdc1）mkdir /mntmount /dev/sdc1 /mnt umount /dev/sdc1 #卸载u盘 5、apt用法1234apt-cache depends package #查看包的依赖apt-cache search package #搜索包apt rdepends package #查看该包被哪些包依赖apt build-dep package #安装一个包对应编译依赖环境 6、vim常用快捷键 跳转指定行数 :n 跳转文件末尾 G 搜索文件内容 :/content 查找下一个搜索到的内容 n 查找上一个搜索内容 N 剪切行 dd 粘贴 p 复制行 yy 复制指定内容 v进入可视化，选中指定内容，y复制 批量添加注释 ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行 批量取消注释 ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出 撤销操作 u 恢复上一步被撤销的操作 ctrl+r 7、dpkg 查看包的版本信息 1dpkg -l package 查看包的文件 1dpkg -L package 查看文件对应的包 1dpkg -S filename 8、xprop 查看窗口进程 1xprop #执行完之后点击窗口就会获取窗口信息 9、proc 查看进程的命令行参数 1cat /proc/ID/cmdline #ID是指进程id，Linux一切皆文件 查看进程的环境变量 1cat /proc/ID/environ #Qt在Linux上很多bug就是因为环境变量导致的 查看进程的内存结构 1cat /proc/ID/maps 10、GDB和SSH远程调试代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器： 12ssh user@host #不带图形界面ssh -X user@host #可以启动带图形界面的程序 调试代码gdb： 123gdb program #启动gdbrun #启动程序bt #打印当前堆栈 大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。]]></content>
+    <content type="text"><![CDATA[1、查找进程1ps aux | grep nginx grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80 3、查看进程占用cpu和内存1top -p 进程号 4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir /home/username/SharedFloder #linux上的共享文件夹sudo chmod 777 /home/username/SharedFloder #给目录读写执行权限sudo mount -t vboxsf WinFloder /home/username/SharedFloder #临时挂载 挂载u盘 1234fdisk -l #查看u盘设备（假设为sdc1）mkdir /mntmount /dev/sdc1 /mnt umount /dev/sdc1 #卸载u盘 5、apt用法1234apt-cache depends package #查看包的依赖apt-cache search package #搜索包apt rdepends package #查看该包被哪些包依赖apt build-dep package #安装一个包对应编译依赖环境 6、vim常用快捷键 跳转指定行数 :n 跳转文件末尾 G 搜索文件内容 :/content 查找下一个搜索到的内容 n 查找上一个搜索内容 N 剪切行 dd 粘贴 p 复制行 yy 复制指定内容 v进入可视化，选中指定内容，y复制 批量添加注释 ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行 批量取消注释 ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出 撤销操作 u 恢复上一步被撤销的操作 ctrl+r 7、dpkg 查看包的版本信息 1dpkg -l package 查看包的文件 1dpkg -L package 查看文件对应的包 1dpkg -S filename 8、xprop 查看窗口进程 1xprop #执行完之后点击窗口就会获取窗口信息 9、proc 查看进程的命令行参数 1cat /proc/ID/cmdline #ID是指进程id，Linux一切皆文件 查看进程的环境变量 1cat /proc/ID/environ #Qt在Linux上很多bug就是因为环境变量导致的 查看进程的内存结构 1cat /proc/ID/maps 10、GDB和SSH远程调试代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器： 12ssh user@host #不带图形界面ssh -X user@host #可以启动带图形界面的程序 调试代码gdb： 123gdb program #启动gdbrun #启动程序bt #打印当前堆栈 大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。 11、apt包管理冲突解决当安装一个包发生错误时，此时该包处于一种half-install(半安装)状态，如果继续使用apt安装或者卸载其他包时，dpkg会尝试继续处理上次为安装完成的包，导致后面的操作也会失败，截图示例如下： 上图是在卸载toshibaest2822am时，因为上次toshiba-est2822amf-cups没有安装完成所以继续安装，但是又有问题，解决办法就是去掉dpkg的包状态文件里面的关于toshiba-est2822amf-cups的整段信息，然后重新卸载toshibaest2822am即可。dpkg的包状态文件是/var/lib/dpkg/status。]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>

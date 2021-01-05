@@ -347,6 +347,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/QML编写自定义组件/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/10/QML编写自定义组件/" class="post-title-link" itemprop="url">QML编写自定义组件</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-10 10:44:43 / 修改时间：11:38:34" itemprop="dateCreated datePublished" datetime="2019-05-10T10:44:43+08:00">2019-05-10</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们在使用qml的过程中经常会根据自己的特殊需求定制各种控件，为了方便使用和代码复用，会考虑将控件抽象出来写在一个新的qml文件中，这样就形成了一个控件。注意文件名开头大写，不然无法识别。</p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.12</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Item &#123;</span><br><span class="line">   id:root</span><br><span class="line">   width: <span class="number">200</span></span><br><span class="line">   height: <span class="number">20</span></span><br><span class="line">   property alias backgroundColor: searchBox.color</span><br><span class="line">   property alias radius: searchBox.radius</span><br><span class="line">   property alias textColor: searchText.color</span><br><span class="line">   property alias text: searchText.text</span><br><span class="line"></span><br><span class="line">   signal searched()</span><br><span class="line">   Rectangle&#123;</span><br><span class="line">       id : searchBox</span><br><span class="line">       anchors.fill: parent</span><br><span class="line">       radius: <span class="number">10</span></span><br><span class="line">       color: <span class="string">"darkGrey"</span></span><br><span class="line"></span><br><span class="line">       TextInput&#123;</span><br><span class="line">           id : searchText</span><br><span class="line">           text: qsTr(<span class="string">"输入关键字"</span>)</span><br><span class="line">           color: <span class="string">"white"</span></span><br><span class="line">           selectByMouse: <span class="literal">true</span></span><br><span class="line">           width: parent.width</span><br><span class="line">           height: parent.height</span><br><span class="line">           anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       Image &#123;</span><br><span class="line">           id: searchIcon</span><br><span class="line">           source: <span class="string">"qrc:/Images/search.png"</span></span><br><span class="line">           anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">           anchors.right: parent.right</span><br><span class="line">           width: parent.width</span><br><span class="line">           height: parent.height</span><br><span class="line">           MouseArea&#123;</span><br><span class="line">               anchors.fill: parent</span><br><span class="line">               onClicked: &#123;</span><br><span class="line">                   searched();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>导出的控件顶层元素最好使用Item，在其他地方使用这个控件的时候，无法直接访问Item的子控件的属性，所以为了方便可以将这些需要的属性的暴露给使用者，用法property alias name : subItem.property。signal 是定义信号，开头小写，括号里面可以传递参数。使用者使用这个信号时，使用onSearched: {}。注意先添加一个on，然后首字母大写。为了代码方便管理，可能将新的qml组件放在另外一个目录,这样就无法直接使用。那么使用的时候需要导入该文件夹，用法</p>
+<p> import “<directorypath>“ [as <qualifier>]</qualifier></directorypath></p>
+<p>这个目录可以使用相对目录，例如“./Component”</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/QML-ListView视图模型/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1956,204 +2125,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/centos7安装docker/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/16/centos7安装docker/" class="post-title-link" itemprop="url">centos7安装docker</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-16 16:29:19 / 修改时间：17:26:44" itemprop="dateCreated datePublished" datetime="2019-04-16T16:29:19+08:00">2019-04-16</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><p>docker运行要求</p>
-<p>centos 7 （64-bit）</p>
-<p>centos 6.5（64-bit）或更高版本</p>
-<p>内核要求高于3.10，使用如下命令查看</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<h1 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h1><p>docker分为社区版（ce）和企业按(ee),安装之前先卸载旧版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker*</span><br></pre></td></tr></table></figure>
-<h2 id="安装必要的系统工具"><a href="#安装必要的系统工具" class="headerlink" title="安装必要的系统工具"></a>安装必要的系统工具</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
-<h2 id="添加软件源"><a href="#添加软件源" class="headerlink" title="添加软件源"></a>添加软件源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-<h2 id="更新yum缓存"><a href="#更新yum缓存" class="headerlink" title="更新yum缓存"></a>更新yum缓存</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum makecache fast</span><br></pre></td></tr></table></figure>
-<h2 id="安装docker-1"><a href="#安装docker-1" class="headerlink" title="安装docker"></a>安装docker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install docker-ce</span><br></pre></td></tr></table></figure>
-<h2 id="启动docker服务"><a href="#启动docker服务" class="headerlink" title="启动docker服务"></a>启动docker服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
-<h2 id="测试安装成功"><a href="#测试安装成功" class="headerlink" title="测试安装成功"></a>测试安装成功</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker version</span><br></pre></td></tr></table></figure>
-<p>提示client和server端表示成功。</p>
-<h1 id="安装nginx-镜像"><a href="#安装nginx-镜像" class="headerlink" title="安装nginx 镜像"></a>安装nginx 镜像</h1><h2 id="搜索镜像"><a href="#搜索镜像" class="headerlink" title="搜索镜像"></a>搜索镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search nginx</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/04/16/centos7安装docker/search.png" alt="centos7安装docker\search"></p>
-<p>第一nginx没有组名，表示是官方的，其他带有组名</p>
-<h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull  nginx</span><br></pre></td></tr></table></figure>
-<h2 id="运行nginx"><a href="#运行nginx" class="headerlink" title="运行nginx"></a>运行nginx</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 8080:80 -d docker.io/nginx</span><br></pre></td></tr></table></figure>
-<h2 id="查看docker运行的容器"><a href="#查看docker运行的容器" class="headerlink" title="查看docker运行的容器"></a>查看docker运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/04/16/centos7安装docker/docker_ps.png" alt="centos7安装docker\search"></p>
-<p>一个docker容器相当于一个完整的Linux系统，只不过这个系统里面只存在nginx。同理可以运行多个nginx的容器，只要映射到不同的端口即可。</p>
-<h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker stop container_ID</span><br></pre></td></tr></table></figure>
-<h2 id="修改镜像的内容"><a href="#修改镜像的内容" class="headerlink" title="修改镜像的内容"></a>修改镜像的内容</h2><p>例如我需要将我的项目发布到nginx的目录下。有如下两种方法：</p>
-<h3 id="1、拷贝项目到容器"><a href="#1、拷贝项目到容器" class="headerlink" title="1、拷贝项目到容器"></a>1、拷贝项目到容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp hello.html container_ID://usr/share/nginx/html</span><br><span class="line">sudo docker <span class="built_in">exec</span> -it container_ID bash</span><br></pre></td></tr></table></figure>
-<p>/usr/share/nginx/html是容器里nginx的默认静态网页的路径。exec表示进入容器。</p>
-<h3 id="2、映射宿主机的目录到容器目录"><a href="#2、映射宿主机的目录到容器目录" class="headerlink" title="2、映射宿主机的目录到容器目录"></a>2、映射宿主机的目录到容器目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 80:80 -d -v yourdir:usr/share/nginx/html docker.io/nginx</span><br></pre></td></tr></table></figure>
-<p>-v表示映射目录,进入容器之后退出容器命令如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2196,7 +2172,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2235,7 +2211,11 @@
         
           
         
-        <span class="site-state-item-count">11</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2450,7 +2430,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
