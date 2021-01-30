@@ -347,6 +347,380 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/char数组的数据显示/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/24/char数组的数据显示/" class="post-title-link" itemprop="url">char数组的数据显示</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 16:58:44 / 修改时间：17:29:47" itemprop="dateCreated datePublished" datetime="2019-05-24T16:58:44+08:00">2019-05-24</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天在做一个读取mp3文件的metadata信息的时候遇到两个很简单的问题，由于长时间没有使用标准c++，导致花了一点时间才解决，看来c++基础基本荒废了啊。</p>
+<h3 id="struct-h"><a href="#struct-h" class="headerlink" title="struct.h"></a>struct.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MetaData</span>&#123;</span></span><br><span class="line">    <span class="keyword">char</span> Header[<span class="number">3</span>]; <span class="comment">/*标签头必须是"TAG"否则认为没有标签*/</span></span><br><span class="line">    <span class="keyword">char</span> Title[<span class="number">30</span>]; <span class="comment">/*标题*/</span></span><br><span class="line">    <span class="keyword">char</span> Artist[<span class="number">30</span>]; <span class="comment">/*作者*/</span></span><br><span class="line">    <span class="keyword">char</span> Album[<span class="number">30</span>]; <span class="comment">/*专集*/</span></span><br><span class="line">    <span class="keyword">char</span> Year[<span class="number">4</span>]; <span class="comment">/*出品年代*/</span></span><br><span class="line">    <span class="keyword">char</span> Comment[<span class="number">28</span>]; <span class="comment">/*备注*/</span></span><br><span class="line">    <span class="keyword">char</span> Reserver;    <span class="comment">/*保留*/</span></span><br><span class="line">    <span class="keyword">char</span> Channel;     <span class="comment">/*音轨*/</span></span><br><span class="line">    <span class="keyword">char</span> Genre; <span class="comment">/*类型*/</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是mp3的ID3V1的标签格式，128数据在文件的最末尾，起始是三个字节的“TAG”</p>
+</blockquote>
+<h3 id="main-cpp"><a href="#main-cpp" class="headerlink" title="main.cpp"></a>main.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">in</span><span class="params">(filename,ios::in)</span></span>;</span><br><span class="line"><span class="keyword">if</span>(!in.is_open())&#123;</span><br><span class="line">    <span class="keyword">return</span>;    </span><br><span class="line">&#125;</span><br><span class="line">in.seekg(<span class="number">128</span>,ios::end);<span class="comment">//wrong ,正确写法:in.seekg(-128,ios::end);</span></span><br><span class="line"><span class="keyword">char</span> data[<span class="number">128</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">in.read(data,<span class="number">128</span>);</span><br><span class="line">MetaData tagData;</span><br><span class="line"><span class="built_in">memset</span>(&amp;tagData,<span class="number">0</span>,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">memcpy</span>(&amp;tagData,data,<span class="keyword">sizeof</span>(MetaData));</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;tagData.Header&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//错误，正确 string header(tagData.Header,3);cout&lt;&lt;header&lt;&lt;endl;</span></span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
+<p>错误1，ifstream::seekg的作用是移动当前读取文件指针的位置，第一个参数是offset偏移（向后），我已经使用ios::end，也就是说参考位置到了文件末尾，我又向后移动了128,这样读取的信息肯定是空的，应该此处是-128，即向前偏移128位，这样才能获取到最后的128字节信息。</p>
+<p>错误2，我直接cout&lt;&lt;tagData.Header,以为只会输出“TAG”这三个字符，但是实际结果是后面还输出了Title的信息。因为Header此时是一个字符串指针，指向的是第一个字节，而不是我以为的字符串（string)，输出的时候结果是输出指针后面的所有字节，直到遇到第一个字符串结束符（\0）。所以正确的用法是将Header转化为std::string，然后显示。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/HDF5-CPP使用教程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/21/HDF5-CPP使用教程/" class="post-title-link" itemprop="url">HDF5_CPP使用教程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-21 15:29:24" itemprop="dateCreated datePublished" datetime="2019-05-21T15:29:24+08:00">2019-05-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-22 11:51:11" itemprop="dateModified" datetime="2019-05-22T11:51:11+08:00">2019-05-22</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/HDF5-CPP教程/" itemprop="url" rel="index"><span itemprop="name">HDF5_CPP教程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”/“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（DataSpace）存储数据，数据类型可以是整形，浮点型，字符等。通过以上介绍大概就能知道这种文件的可扩展性很强。库文件可以从官网上直接下载对应的版本，但是只要vs的vc++编译的版本，如果使用mingw编译器需要编译源码，但是我尝试了一下，bug太多，最后放弃了，也没有必要浪费时间在库的编译上。从官网上下载的安装包安装之后，根目录下include目录是头文件，lib目录是静态链接库目录，其中hdf5.lib是c的，hdf5_cpp.lib是c++的库。</p>
+<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h1><p>根据工作需要，我使用HDF5文件创建一个树形结构，然后显示到界面上，然后做一些简单的交互。</p>
+<h2 id="Pro文件配置"><a href="#Pro文件配置" class="headerlink" title="Pro文件配置"></a>Pro文件配置</h2><p><img src="/2019/05/21/HDF5-CPP使用教程/pro.png" alt="HDF5-CPP使用教程\pro"></p>
+<p>H5_BUILD_AS_DYNAMIC_LIB是HDF5的一个预编译宏，不添加这个使用HDF5库会提示未定义的方法等错误。这个库在debug模式下也是经常崩溃，应该是这个库是release模式，所以在pro文件里面只配置了release模式。链接库我使用了c++的和c的，这是因为在后续的实践中发现，c的库函数有很多没有移植到c++中，只能采取c的函数进行替代。</p>
+<h2 id="创建HDF5文件"><a href="#创建HDF5文件" class="headerlink" title="创建HDF5文件"></a>创建HDF5文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> RANK = <span class="number">2</span>; <span class="comment">//定义数组的维度</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> M = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//准备要存储的数据</span></span><br><span class="line"><span class="keyword">char</span> *data = <span class="keyword">new</span> <span class="keyword">char</span>[M*N];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;M; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;N; ++j)&#123;</span><br><span class="line">        tmp = data + i*N +j;</span><br><span class="line">        *tmp = <span class="number">80</span>+i+j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Turn off the auto-printing when failure occurs so that we can</span></span><br><span class="line">    <span class="comment">// handle the errors appropriately</span></span><br><span class="line"></span><br><span class="line">    Exception::dontPrint();</span><br><span class="line">    <span class="comment">//创建文件</span></span><br><span class="line">    <span class="function">H5File <span class="title">file</span><span class="params">(filename, H5F_ACC_TRUNC)</span></span>;</span><br><span class="line">    <span class="comment">//创建第一层 group section</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Section0</span><span class="params">(file.createGroup(<span class="string">"Section0"</span>))</span></span>;</span><br><span class="line">    group_Section0.setComment(QString::fromLocal8Bit(<span class="string">"区域1"</span>).toStdString()); <span class="comment">//用来作为显示的名称</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Group <span class="title">group_Section1</span><span class="params">(file.createGroup(<span class="string">"Section1"</span>))</span></span>;</span><br><span class="line">    group_Section1.setComment(QString::fromLocal8Bit(<span class="string">"区域2"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第二层group run</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Run0</span><span class="params">(group_Section0.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run0.setComment(QString::fromLocal8Bit(<span class="string">"测试1"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run1</span><span class="params">(group_Section0.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run1.setComment(QString::fromLocal8Bit(<span class="string">"测试2"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run2</span><span class="params">(group_Section1.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run2.setComment(QString::fromLocal8Bit(<span class="string">"测试3"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run3</span><span class="params">(group_Section1.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run3.setComment(QString::fromLocal8Bit(<span class="string">"测试4"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第三层group timedata和spectrum</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Time0</span><span class="params">(group_Run0.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time0.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec0</span><span class="params">(group_Run0.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec0.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time1</span><span class="params">(group_Run1.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time1.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec1</span><span class="params">(group_Run1.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec1.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time2</span><span class="params">(group_Run2.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time2.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec2</span><span class="params">(group_Run2.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec2.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time3</span><span class="params">(group_Run3.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time3.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec3</span><span class="params">(group_Run3.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec3.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据空间</span></span><br><span class="line">    <span class="keyword">hsize_t</span> dims[RANK];               <span class="comment">// dataset dimensions</span></span><br><span class="line">    dims[<span class="number">0</span>] = M;</span><br><span class="line">    dims[<span class="number">1</span>] = N;</span><br><span class="line">    DataSpace *dataspace = <span class="keyword">new</span> DataSpace (RANK, dims);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据集，通道数据</span></span><br><span class="line">    DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>, PredType::NATIVE_CHAR, *dataspace));</span><br><span class="line">    dataset_Time-&gt;setComment(QString::fromLocal8Bit(<span class="string">"通道1"</span>).toStdString());</span><br><span class="line">    dataset_Time-&gt;write(data, PredType::NATIVE_CHAR);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集属性空间.</span></span><br><span class="line">    <span class="keyword">int</span> attr_data[<span class="number">2</span>] = &#123; <span class="number">100</span>, <span class="number">200</span>&#125;;</span><br><span class="line">    <span class="keyword">hsize_t</span> attr_dims[<span class="number">1</span>] = &#123; <span class="number">2</span> &#125;;</span><br><span class="line">    DataSpace attr_dataspace = DataSpace (<span class="number">1</span>,attr_dims );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集的属性.</span></span><br><span class="line">    Attribute attribute = group_Time0.createAttribute( <span class="string">"ATTR_NAME"</span>, PredType::STD_I32BE, attr_dataspace);</span><br><span class="line">    <span class="comment">// 写属性.</span></span><br><span class="line">    attribute.write( PredType::NATIVE_INT, attr_data);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭数据空间、数据集、group对象.</span></span><br><span class="line">    <span class="keyword">delete</span> dataspace;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Time;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Spec;</span><br><span class="line">    file.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// catch failure caused by the H5File operations</span></span><br><span class="line"><span class="keyword">catch</span>(FileIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSpace operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSpaceIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the Group operations</span></span><br><span class="line"><span class="keyword">catch</span>(GroupIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSet operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSetIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：<img src="/2019/05/21/HDF5-CPP使用教程/first.png" alt="HDF5-CPP使用教程\first"></p>
+<blockquote>
+<p>这是安装包里面的bin目录的h5dump程序，可以查看h5文件</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_RDWR    (H5CHECK H5OPEN 0x0001u)    <span class="comment">/*open for read and write    */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_TRUNC    (H5CHECK H5OPEN 0x0002u)    <span class="comment">/*overwrite existing files   */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_EXCL    (H5CHECK H5OPEN 0x0004u)    <span class="comment">/*fail if file already exists*/</span></span></span><br><span class="line"><span class="comment">/* <span class="doctag">NOTE:</span> 0x0008u was H5F_ACC_DEBUG, now deprecated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_CREAT    (H5CHECK H5OPEN 0x0010u)    <span class="comment">/*create non-existing files  */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_WRITE    (H5CHECK 0x0020u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for writing in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for reading must open the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * with RDONLY access, and use</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * the special "SWMR_READ" access</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag. */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_READ    (H5CHECK 0x0040u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for reading in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for SWMR reading must also</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open the file with the RDONLY</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag.  */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Value passed to H5Pset_elink_acc_flags to cause flags to be taken from the</span></span><br><span class="line"><span class="comment"> * parent file. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_DEFAULT (H5CHECK H5OPEN 0xffffu)    <span class="comment">/*ignore setting on lapl     */</span></span></span><br></pre></td></tr></table></figure>
+<p>创建文件之后，文件默认会生成一个根目录，类型是Group，路径是“/”。文件类可以创建Group，DataSet，Attribute，还可以设置comment用来存储一些简单信息。Group，DataSet也可以继续创建上述三种对象，而Attitude只能创建DataSet和Group。file.createGroup(“Section0”)这是使用的相对路径，相当于在根目录下创建Section0目录，所以其绝对路径为/Section0，后续访问的时候也可以通过父目录使用相对目录访问它，也可以在任意目录使用绝对路径访问它，如果在非父目录使用相对路径访问，会引发异常。访问方法是openGroup,其他类型的对象创建和访问的规则也是如此。DataSpace是在创建DataSet和Attribute的时候事先创建的一个数据空间，用来告诉HDF5在存储数据时分配多大的内存空间。它有两个参数，第一个RANK代表维度，第二个参数代表每一个维度的长度。上述例子中就是创建一个二维的三行四列的空间。在创建DataSet和Attribute时还需要指定存储的数据类型，在写入数据（write）的时候也要指定一致的数据类型。数据类型的定义在头文件中有定义，请自行查看。file.close()就是关闭文件句柄，将缓存写入到硬盘中。如果此处不关闭文件句柄，可以调用flush将缓存写入到硬盘。</p>
+<h2 id="读取DataSet数据"><a href="#读取DataSet数据" class="headerlink" title="读取DataSet数据"></a>读取DataSet数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!m_h5FileHandle.exist(objname))  <span class="comment">//判断是否存在</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">DataSet channelDataSet=m_h5FileHandle.openDataSet(objName);<span class="comment">//打开数据集</span></span><br><span class="line">DataType datatype= channelDataSet.getDataType();<span class="comment">//获取数据类型</span></span><br><span class="line"></span><br><span class="line">DataSpace dataSpace=  channelDataSet.getSpace();<span class="comment">//获取数据空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> rank=dataSpace.getSimpleExtentNdims();<span class="comment">//获取维度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> *dims;</span><br><span class="line"></span><br><span class="line">dataSpace.getSimpleExtentDims(dims);<span class="comment">//获取每个维度对应的长度</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*dims&lt;&lt;<span class="string">"   "</span>&lt;&lt;*(dims+<span class="number">1</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//假设此处rank=2，那么*dim就是行数，*（dim+1）就是列数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hssize_t</span> sum= dataSpace.getSimpleExtentNpoints();<span class="comment">//获取数据总大小 sum=（*dim）x *（dim+1）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(datatype==PredType::NATIVE_CHAR)&#123;</span><br><span class="line"></span><br><span class="line">     QByteArray dataBuffer;</span><br><span class="line"></span><br><span class="line">     dataBuffer.resize(sum);   <span class="comment">//创建对应大小的缓存空间</span></span><br><span class="line"></span><br><span class="line">     <span class="built_in">memset</span>(dataBuffer.data(),<span class="number">0</span>,sum);</span><br><span class="line"></span><br><span class="line">     channelDataSet.read(dataBuffer.data(),datatype,dataSpace);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">channelDataSet.close();<span class="comment">//关闭数据集</span></span><br></pre></td></tr></table></figure>
+<p>此处是通过绝对路径来访问，访问之前使用exist来判断一下是否存在这个对象，如果访问不存在的对象，也会抛出异常。读取数据集的数据，首先需要获取数据的维度，以及每个维度对应的长度，然后动态创建数组，此处我为了简单，直接将数据全部存入到一个一维字符串数组里面（QByteArray），如果你获取了维度和维度对应的长度也可以根据这个来分割这个一维字符串数组。此处需要注意的是不管打开了Group还是其他对象，使用完了之后一定要close关闭，虽然局部变量释放的时候会自动关闭。</p>
+<h2 id="读写DataSet的子集"><a href="#读写DataSet的子集" class="headerlink" title="读写DataSet的子集"></a>读写DataSet的子集</h2><p>有时候可能需要向数据集的局部写入数据，或者读取数据集的部分。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Specify size and shape of subset to write.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> offset[<span class="number">2</span>], count[<span class="number">2</span>], stride[<span class="number">2</span>], block[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">hsize_t</span> dimsm[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> RANK=<span class="number">2</span>;         <span class="comment">//子集维度</span></span><br><span class="line"><span class="keyword">int</span> DIM0_SUB=<span class="number">3</span>;     <span class="comment">//子集维度1长度</span></span><br><span class="line"><span class="keyword">int</span> DIM1_SUB=<span class="number">4</span>;     <span class="comment">//子集维度2长度</span></span><br><span class="line">offset[<span class="number">0</span>] = <span class="number">1</span>;      <span class="comment">//子集维度1偏移量</span></span><br><span class="line">offset[<span class="number">1</span>] = <span class="number">2</span>;      <span class="comment">//维度2偏移量</span></span><br><span class="line"></span><br><span class="line">count[<span class="number">0</span>]  = DIM0_SUB;<span class="comment">//维度1长度</span></span><br><span class="line">count[<span class="number">1</span>]  = DIM1_SUB;<span class="comment">//维度2长度</span></span><br><span class="line"><span class="comment">//维度间隙，默认为1数据之间无间隙，=2的时候,写入的子集数据之间间隔为1，以此类推。当子集的数据下标超过总的维度长度，此设置就会无效</span></span><br><span class="line"></span><br><span class="line">stride[<span class="number">0</span>] = <span class="number">2</span>;        </span><br><span class="line">stride[<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">block[<span class="number">0</span>] = <span class="number">1</span>;        <span class="comment">//维度1块大小，暂时未发现这个设置的作用</span></span><br><span class="line"></span><br><span class="line">block[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">dimsm[<span class="number">0</span>] = DIM0_SUB;</span><br><span class="line">dimsm[<span class="number">1</span>] = DIM1_SUB;</span><br><span class="line"><span class="comment">//写入子集的数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *wdata = <span class="keyword">new</span> <span class="keyword">char</span>[DIM0_SUB*DIM1_SUB];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;DIM0_SUB; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;DIM1_SUB; ++j)&#123;</span><br><span class="line">        tmp = wdata + i*DIM1_SUB +j;</span><br><span class="line">        *tmp = <span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> rdata[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="function">H5File <span class="title">file</span><span class="params">(filename,H5F_ACC_RDWR)</span></span>;</span><br><span class="line"><span class="comment">//根据绝对路径打开数据集</span></span><br><span class="line"></span><br><span class="line">DataSet dataset =file.openDataSet(<span class="string">"/Section0/Run0/TimeData/Channel0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//子集数据空间</span></span><br><span class="line"><span class="function">DataSpace <span class="title">memSpace</span><span class="params">(RANK, dimsm, <span class="literal">NULL</span>)</span></span>;</span><br><span class="line"><span class="comment">//原数据集空间</span></span><br><span class="line">DataSpace dataSpace= dataset.getSpace();</span><br><span class="line"><span class="comment">//H5S_SELECT_SET是用子集覆盖原来相同坐标的数据，还有其他选项，OR XOR AND 等选项，可以进入源码自行阅读</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置超实验室</span></span><br><span class="line">dataSpace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);</span><br><span class="line"><span class="comment">//写入子集</span></span><br><span class="line"></span><br><span class="line">dataset.write(wdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line"><span class="comment">//读取子集</span></span><br><span class="line"></span><br><span class="line">dataset.read(rdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line">file.close();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;DIM0_SUB;i++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;DIM1_SUB;j++)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;(rdata[i][j]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不设置间隙stride[[0]]=1;stride[[1]]=1;结果如下：</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/second.png" alt="HDF5-CPP使用教程\second"></p>
+<p>设置间隙stride[[0]]=2;stride[[1]]=2;结果如下：</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/fourth.png" alt="HDF5-CPP使用教程\fourth"></p>
+<p>读取出来的子集结果:</p>
+<p><img src="/2019/05/21/HDF5-CPP使用教程/third.png" alt="HDF5-CPP使用教程\third"></p>
+<blockquote>
+<p>char字符’d‘转化为int就是100</p>
+</blockquote>
+<h2 id="写入数据时压缩处理"><a href="#写入数据时压缩处理" class="headerlink" title="写入数据时压缩处理"></a>写入数据时压缩处理</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建压缩空间</span></span><br><span class="line"><span class="keyword">hsize_t</span> chunk_dims[<span class="number">2</span>]=&#123;<span class="number">5</span>,<span class="number">10</span>&#125;;</span><br><span class="line">DSetCreatPropList  *plist = <span class="keyword">new</span>  DSetCreatPropList;</span><br><span class="line">plist-&gt;setChunk(<span class="number">2</span>, chunk_dims);</span><br><span class="line"><span class="comment">//设置Deflate=6使用zlib压缩，注释掉则使用下列的szip</span></span><br><span class="line">plist-&gt;setDeflate(<span class="number">6</span>);</span><br><span class="line"><span class="comment">//        unsigned szip_options_mask = H5_SZIP_NN_OPTION_MASK;</span></span><br><span class="line"><span class="comment">//        unsigned szip_pixels_per_block = 16;</span></span><br><span class="line"><span class="comment">//        plist-&gt;setSzip(szip_options_mask, szip_pixels_per_block);</span></span><br><span class="line"><span class="comment">//创建数据集，通道数据</span></span><br><span class="line">DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>,       PredType::NATIVE_CHAR, *dataspace,*plist));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个代码是替换创建HDF5文件里面创建数据集的过程，这个代码添加了压缩属性设置，支持zlib个szip两种压缩模式。读取数据集的时候和没有压缩一样即可。但是在使用过程中，发现压缩前和压缩后的文件大小并没有区别，这个问题后续再来研究。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/15/Qt的pro配置详解/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1755,375 +2129,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/24/QML两种启动方式及打开新窗口/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/24/QML两种启动方式及打开新窗口/" class="post-title-link" itemprop="url">QML两种启动方式及打开新窗口</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-24 10:39:44" itemprop="dateCreated datePublished" datetime="2019-04-24T10:39:44+08:00">2019-04-24</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-10 10:43:36" itemprop="dateModified" datetime="2019-05-10T10:43:36+08:00">2019-05-10</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式</p>
-<h3 id="1、QQmlApplicationEngine"><a href="#1、QQmlApplicationEngine" class="headerlink" title="1、QQmlApplicationEngine"></a>1、QQmlApplicationEngine</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQmlApplicationEngine engine;</span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br><span class="line"><span class="keyword">if</span> (engine.rootObjects().isEmpty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
-<p>这种启动方式是必须qml顶层元素为window或者ApplicationWindow</p>
-<h3 id="2、QQuickView"><a href="#2、QQuickView" class="headerlink" title="2、QQuickView"></a>2、QQuickView</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQuickView viwer;</span><br><span class="line">viwer.setSource(QUrl(<span class="string">"qrc:/RListView.qml"</span>));</span><br><span class="line">viwer.setVisible(<span class="literal">true</span>);</span><br><span class="line">QQuickItem *rootItem = viwer.rootObject();</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
-<p>这种启动方式，qml顶层可以是Item、Rectangle等，不需要是window。</p>
-<h1 id="启动一个新窗口"><a href="#启动一个新窗口" class="headerlink" title="启动一个新窗口"></a>启动一个新窗口</h1><p>要打开一个新的QML窗口，那么新的窗口顶层元素必须是Window或者ApplicationWindow等，代码示例如下。</p>
-<h3 id="当前窗口main-qml"><a href="#当前窗口main-qml" class="headerlink" title="当前窗口main.qml"></a>当前窗口main.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line">    id: inletSettingPanel</span><br><span class="line">    title: <span class="string">"主窗口"</span></span><br><span class="line">    minimumWidth: <span class="number">270</span></span><br><span class="line">    minimumHeight: <span class="number">660</span></span><br><span class="line"></span><br><span class="line">    Button</span><br><span class="line">    &#123;</span><br><span class="line">        x: parent.x</span><br><span class="line">        y: parent.y</span><br><span class="line">        width: <span class="number">30</span></span><br><span class="line">        height: <span class="number">15</span></span><br><span class="line">        activeFocusOnTab: <span class="literal">false</span></span><br><span class="line">        text: <span class="string">"打开新窗口"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//可在此类中设置需要显示的窗口的大小等属性</span></span><br><span class="line">        needShowWindow</span><br><span class="line">        &#123;</span><br><span class="line">            id: needShowWindowPanel</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        onClicked:</span><br><span class="line">        &#123;</span><br><span class="line">            needShowWindowPanel.show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="新窗口-needShowWindow-qml"><a href="#新窗口-needShowWindow-qml" class="headerlink" title="新窗口 needShowWindow.qml"></a>新窗口 needShowWindow.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Window &#123;</span><br><span class="line">    id: inletSettingPanel</span><br><span class="line">    title: <span class="string">"新窗口"</span></span><br><span class="line">    minimumWidth: <span class="number">270</span>; minimumHeight: <span class="number">660</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当新窗口的背景设置为透明之后，拖动窗口时会在主窗口重合的地方显示重影，当设置新的窗口为FramelessWindowHint时这个问题就解决了。但是这种写法有一个弊端，那就是新的窗口的父窗口是原来的主窗口，当主窗口关闭的时候就会一起关闭新窗口。要是想创建一个独立的窗口就需要下面的方法。</p>
-<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line"> id: inletSettingPanel</span><br><span class="line"> title: <span class="string">"主窗口"</span></span><br><span class="line"> minimumWidth: <span class="number">270</span></span><br><span class="line"> minimumHeight: <span class="number">660</span></span><br><span class="line"> property variant newWindow: needShowWindow</span><br><span class="line"> &#123;</span><br><span class="line">     id: needShowWindowPanel</span><br><span class="line"> &#125;</span><br><span class="line"> Button</span><br><span class="line"> &#123;</span><br><span class="line"> x: parent.x</span><br><span class="line"> y: parent.y</span><br><span class="line"> width: <span class="number">30</span></span><br><span class="line"> height: <span class="number">15</span></span><br><span class="line"> activeFocusOnTab: <span class="literal">false</span></span><br><span class="line"> text: <span class="string">"打开新窗口"</span></span><br><span class="line"></span><br><span class="line"> onClicked:</span><br><span class="line"> &#123;</span><br><span class="line">    newWindow.show();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line"> id: inletSettingPanel</span><br><span class="line"> title: <span class="string">"主窗口"</span></span><br><span class="line"> minimumWidth: <span class="number">270</span></span><br><span class="line"> minimumHeight: <span class="number">660</span></span><br><span class="line"> property variant newWindow: Qt.createComponent(<span class="string">"needShowWindow.qml"</span>).createObject()</span><br><span class="line"> Button</span><br><span class="line"> &#123;</span><br><span class="line"> x: parent.x</span><br><span class="line"> y: parent.y</span><br><span class="line"> width: <span class="number">30</span></span><br><span class="line"> height: <span class="number">15</span></span><br><span class="line"> activeFocusOnTab: <span class="literal">false</span></span><br><span class="line"> text: <span class="string">"打开新窗口"</span></span><br><span class="line">  onClicked:</span><br><span class="line"> &#123;</span><br><span class="line"> newWindow.show();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过这种方式创建的新窗口独立原来的窗口，当主窗口关闭时如果新窗口没有关闭，那么不会结束程序，需要继续关闭新窗口才行。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/Qt线程池执行事件循环/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/18/Qt线程池执行事件循环/" class="post-title-link" itemprop="url">Qt线程池执行事件循环</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-18 17:22:39" itemprop="dateCreated datePublished" datetime="2019-04-18T17:22:39+08:00">2019-04-18</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-23 11:06:50" itemprop="dateModified" datetime="2019-07-23T11:06:50+08:00">2019-07-23</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Qt的线程池有一个专门的类QThreadPool，内置全局单例，它可以设置最大线程数，假设线程池添加了10个任务，设置最大线程数为3，那么这10个任务就会排队等待3个线程处理。QRunnable是线程池运行的基本工作类，它是一个虚基类，需要用户继承然后重写run(),线程实际运行的就是run（）函数里面的代码。这个类不继承QObject，所以直接继承无法使用信号槽。于是采用多继承，先继承QObject,然后继承QRunnable。这个基类没有实现exec（），也就是说run（）函数结束后,这个对象也会销毁。如果需要事件循环，那么可以使用QEventloop，达到同样的效果，只要注意及时退出事件循环。这个QRunnable默认是自动销毁，就是说run（）执行完了自动销毁，不要要用户自己释放。也可以通过task-&gt;setAutoDelete(false)设置不自动销毁。下面给一个代码示例。</p>
-<h3 id="downloadfiletask-h"><a href="#downloadfiletask-h" class="headerlink" title="downloadfiletask.h"></a>downloadfiletask.h</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOWNLOADFILETASK_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DOWNLOADFILETASK_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QRunnable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QEventLoop&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"fileprocess.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadFileTask</span> :</span> <span class="keyword">public</span> QObject,<span class="keyword">public</span> QRunnable</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">DownloadFileTask</span><span class="params">(MmsRemoteIedRuner *mr,RFileProcess::DownloadMode mode,QString remotepath,QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~DownloadFileTask();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setDownloadFileList</span><span class="params">(QStringList&amp; <span class="built_in">list</span>)</span></span>;</span><br><span class="line">signals:</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">filesDownloadedFinished</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    RFileProcess::DownloadMode m_downloadFileMode;</span><br><span class="line">    QString m_remotePath;   <span class="comment">//文件的远程路径</span></span><br><span class="line">    QStringList m_downloadFileList;</span><br><span class="line"></span><br><span class="line">    QEventLoop loop;</span><br><span class="line">    RFileProcess *m_pfilePro;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// DOWNLOADFILETASK_H</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="downloadfiletask-cpp"><a href="#downloadfiletask-cpp" class="headerlink" title="downloadfiletask.cpp"></a>downloadfiletask.cpp</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"downloadfiletask.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mmsoption.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line">DownloadFileTask::DownloadFileTask(MmsRemoteIedRuner *mr, RFileProcess::DownloadMode mode, QString remotepath, QObject *parent)</span><br><span class="line">    : m_downloadFileMode(mode),</span><br><span class="line">      m_remotePath(remotepath),</span><br><span class="line">      QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    m_pfilePro=<span class="keyword">new</span> RFileProcess(mr,m_downloadFileMode,m_remotePath);</span><br><span class="line"></span><br><span class="line">    connect(m_pfilePro,SIGNAL(filesDownloadFinished()),<span class="keyword">this</span>,SLOT(filesDownloadedFinished()));</span><br><span class="line">&#125;</span><br><span class="line">DownloadFileTask::~DownloadFileTask()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::run()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_downloadFileMode==RFileProcess::DownloadWantedModel)&#123;</span><br><span class="line">        m_pfilePro-&gt;setDownloadFileList(m_downloadFileList);</span><br><span class="line">    &#125;</span><br><span class="line">    m_pfilePro-&gt;listDirectory();</span><br><span class="line">    loop.exec();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::setDownloadFileList(QStringList&amp; <span class="built_in">list</span>)</span><br><span class="line">&#123;</span><br><span class="line">    m_downloadFileList=<span class="built_in">list</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::filesDownloadedFinished()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(m_pfilePro)&#123;</span><br><span class="line">        m_pfilePro-&gt;deleteLater();</span><br><span class="line">    &#125;</span><br><span class="line">    loop.quit();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QThreadPool m_pThreadPool=QThreadPool::globalInstance();</span><br><span class="line"></span><br><span class="line">m_pThreadPool-&gt;setMaxThreadCount(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p_iedManager-&gt;count();i++)&#123;       </span><br><span class="line"></span><br><span class="line">      DownloadFileTask *task=<span class="keyword">new</span> DownloadFileTask();</span><br><span class="line"></span><br><span class="line">      m_pThreadPool-&gt;start(task);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="BUG修复"><a href="#BUG修复" class="headerlink" title="BUG修复"></a>BUG修复</h2><p>上述代码在实际运行的时候，会提示一个警告信息：</p>
-<p>QEventDispatcherUNIX: internal error, wakeUps.testAndSetRelease(1, 0) failed!</p>
-<p>会导致程序崩溃。通过使用gdb调试查看堆栈信息，发现程序断在 run（）函数里面的loop.exec()这里。于是我猜想QEventLoop 被定义为成员变量，所以它和创建它的类属于同一个线程，而在run()里面则是另外一个线程。于是修改上述代码如下：</p>
-<h3 id="downloadfiletask-h-1"><a href="#downloadfiletask-h-1" class="headerlink" title="downloadfiletask.h"></a>downloadfiletask.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOWNLOADFILETASK_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DOWNLOADFILETASK_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QRunnable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QEventLoop&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"fileprocess.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadFileTask</span> :</span> <span class="keyword">public</span> QObject,<span class="keyword">public</span> QRunnable</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">DownloadFileTask</span><span class="params">(MmsRemoteIedRuner *mr,RFileProcess::DownloadMode mode,QString remotepath,QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~DownloadFileTask();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setDownloadFileList</span><span class="params">(QStringList&amp; <span class="built_in">list</span>)</span></span>;</span><br><span class="line">signals:</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    RFileProcess::DownloadMode m_downloadFileMode;</span><br><span class="line">    QString m_remotePath;   <span class="comment">//文件的远程路径</span></span><br><span class="line">    QStringList m_downloadFileList;</span><br><span class="line">    RFileProcess *m_pfilePro;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// DOWNLOADFILETASK_H</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="downloadfiletask-cpp-1"><a href="#downloadfiletask-cpp-1" class="headerlink" title="downloadfiletask.cpp"></a>downloadfiletask.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"downloadfiletask.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mmsoption.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line">DownloadFileTask::DownloadFileTask(MmsRemoteIedRuner *mr, RFileProcess::DownloadMode mode, QString remotepath, QObject *parent)</span><br><span class="line">    : QObject(parent),</span><br><span class="line">      m_downloadFileMode(mode),</span><br><span class="line">      m_remotePath(remotepath)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    m_pfilePro=<span class="keyword">new</span> RFileProcess(mr,m_downloadFileMode,m_remotePath);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">DownloadFileTask::~DownloadFileTask()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_pfilePro)&#123;</span><br><span class="line">        m_pfilePro-&gt;deleteLater();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::run()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_downloadFileMode==RFileProcess::DownloadWantedModel)&#123;</span><br><span class="line">        m_pfilePro-&gt;setDownloadFileList(m_downloadFileList);</span><br><span class="line">    &#125;</span><br><span class="line">    QEventLoop loop;</span><br><span class="line">    connect(m_pfilePro,SIGNAL(filesDownloadFinished()),&amp;loop,SLOT(quit()));</span><br><span class="line">    m_pfilePro-&gt;listDirectory();</span><br><span class="line">    loop.exec();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::setDownloadFileList(QStringList&amp; <span class="built_in">list</span>)</span><br><span class="line">&#123;</span><br><span class="line">    m_downloadFileList=<span class="built_in">list</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2171,7 +2176,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2214,7 +2219,9 @@
         
           
         
-        <span class="site-state-item-count">13</span>
+          
+        
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2371,7 +2378,15 @@
         
           
         
-        <span class="site-state-item-count">70</span>
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">74</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

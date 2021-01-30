@@ -347,6 +347,375 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/24/QML两种启动方式及打开新窗口/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/24/QML两种启动方式及打开新窗口/" class="post-title-link" itemprop="url">QML两种启动方式及打开新窗口</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-24 10:39:44" itemprop="dateCreated datePublished" datetime="2019-04-24T10:39:44+08:00">2019-04-24</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-10 10:43:36" itemprop="dateModified" datetime="2019-05-10T10:43:36+08:00">2019-05-10</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式</p>
+<h3 id="1、QQmlApplicationEngine"><a href="#1、QQmlApplicationEngine" class="headerlink" title="1、QQmlApplicationEngine"></a>1、QQmlApplicationEngine</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQmlApplicationEngine engine;</span><br><span class="line">engine.load(QUrl(QLatin1String(<span class="string">"qrc:/main.qml"</span>)));</span><br><span class="line"><span class="keyword">if</span> (engine.rootObjects().isEmpty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
+<p>这种启动方式是必须qml顶层元素为window或者ApplicationWindow</p>
+<h3 id="2、QQuickView"><a href="#2、QQuickView" class="headerlink" title="2、QQuickView"></a>2、QQuickView</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);</span><br><span class="line"></span><br><span class="line"><span class="function">QGuiApplication <span class="title">app</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"></span><br><span class="line">QQuickView viwer;</span><br><span class="line">viwer.setSource(QUrl(<span class="string">"qrc:/RListView.qml"</span>));</span><br><span class="line">viwer.setVisible(<span class="literal">true</span>);</span><br><span class="line">QQuickItem *rootItem = viwer.rootObject();</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> app.exec();</span><br></pre></td></tr></table></figure>
+<p>这种启动方式，qml顶层可以是Item、Rectangle等，不需要是window。</p>
+<h1 id="启动一个新窗口"><a href="#启动一个新窗口" class="headerlink" title="启动一个新窗口"></a>启动一个新窗口</h1><p>要打开一个新的QML窗口，那么新的窗口顶层元素必须是Window或者ApplicationWindow等，代码示例如下。</p>
+<h3 id="当前窗口main-qml"><a href="#当前窗口main-qml" class="headerlink" title="当前窗口main.qml"></a>当前窗口main.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line">    id: inletSettingPanel</span><br><span class="line">    title: <span class="string">"主窗口"</span></span><br><span class="line">    minimumWidth: <span class="number">270</span></span><br><span class="line">    minimumHeight: <span class="number">660</span></span><br><span class="line"></span><br><span class="line">    Button</span><br><span class="line">    &#123;</span><br><span class="line">        x: parent.x</span><br><span class="line">        y: parent.y</span><br><span class="line">        width: <span class="number">30</span></span><br><span class="line">        height: <span class="number">15</span></span><br><span class="line">        activeFocusOnTab: <span class="literal">false</span></span><br><span class="line">        text: <span class="string">"打开新窗口"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//可在此类中设置需要显示的窗口的大小等属性</span></span><br><span class="line">        needShowWindow</span><br><span class="line">        &#123;</span><br><span class="line">            id: needShowWindowPanel</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        onClicked:</span><br><span class="line">        &#123;</span><br><span class="line">            needShowWindowPanel.show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="新窗口-needShowWindow-qml"><a href="#新窗口-needShowWindow-qml" class="headerlink" title="新窗口 needShowWindow.qml"></a>新窗口 needShowWindow.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Window &#123;</span><br><span class="line">    id: inletSettingPanel</span><br><span class="line">    title: <span class="string">"新窗口"</span></span><br><span class="line">    minimumWidth: <span class="number">270</span>; minimumHeight: <span class="number">660</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当新窗口的背景设置为透明之后，拖动窗口时会在主窗口重合的地方显示重影，当设置新的窗口为FramelessWindowHint时这个问题就解决了。但是这种写法有一个弊端，那就是新的窗口的父窗口是原来的主窗口，当主窗口关闭的时候就会一起关闭新窗口。要是想创建一个独立的窗口就需要下面的方法。</p>
+<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line"> id: inletSettingPanel</span><br><span class="line"> title: <span class="string">"主窗口"</span></span><br><span class="line"> minimumWidth: <span class="number">270</span></span><br><span class="line"> minimumHeight: <span class="number">660</span></span><br><span class="line"> property variant newWindow: needShowWindow</span><br><span class="line"> &#123;</span><br><span class="line">     id: needShowWindowPanel</span><br><span class="line"> &#125;</span><br><span class="line"> Button</span><br><span class="line"> &#123;</span><br><span class="line"> x: parent.x</span><br><span class="line"> y: parent.y</span><br><span class="line"> width: <span class="number">30</span></span><br><span class="line"> height: <span class="number">15</span></span><br><span class="line"> activeFocusOnTab: <span class="literal">false</span></span><br><span class="line"> text: <span class="string">"打开新窗口"</span></span><br><span class="line"></span><br><span class="line"> onClicked:</span><br><span class="line"> &#123;</span><br><span class="line">    newWindow.show();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span></span><br><span class="line">&#123;</span><br><span class="line"> id: inletSettingPanel</span><br><span class="line"> title: <span class="string">"主窗口"</span></span><br><span class="line"> minimumWidth: <span class="number">270</span></span><br><span class="line"> minimumHeight: <span class="number">660</span></span><br><span class="line"> property variant newWindow: Qt.createComponent(<span class="string">"needShowWindow.qml"</span>).createObject()</span><br><span class="line"> Button</span><br><span class="line"> &#123;</span><br><span class="line"> x: parent.x</span><br><span class="line"> y: parent.y</span><br><span class="line"> width: <span class="number">30</span></span><br><span class="line"> height: <span class="number">15</span></span><br><span class="line"> activeFocusOnTab: <span class="literal">false</span></span><br><span class="line"> text: <span class="string">"打开新窗口"</span></span><br><span class="line">  onClicked:</span><br><span class="line"> &#123;</span><br><span class="line"> newWindow.show();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这种方式创建的新窗口独立原来的窗口，当主窗口关闭时如果新窗口没有关闭，那么不会结束程序，需要继续关闭新窗口才行。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/Qt线程池执行事件循环/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/18/Qt线程池执行事件循环/" class="post-title-link" itemprop="url">Qt线程池执行事件循环</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-18 17:22:39" itemprop="dateCreated datePublished" datetime="2019-04-18T17:22:39+08:00">2019-04-18</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:06:50" itemprop="dateModified" datetime="2019-07-23T11:06:50+08:00">2019-07-23</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Qt的线程池有一个专门的类QThreadPool，内置全局单例，它可以设置最大线程数，假设线程池添加了10个任务，设置最大线程数为3，那么这10个任务就会排队等待3个线程处理。QRunnable是线程池运行的基本工作类，它是一个虚基类，需要用户继承然后重写run(),线程实际运行的就是run（）函数里面的代码。这个类不继承QObject，所以直接继承无法使用信号槽。于是采用多继承，先继承QObject,然后继承QRunnable。这个基类没有实现exec（），也就是说run（）函数结束后,这个对象也会销毁。如果需要事件循环，那么可以使用QEventloop，达到同样的效果，只要注意及时退出事件循环。这个QRunnable默认是自动销毁，就是说run（）执行完了自动销毁，不要要用户自己释放。也可以通过task-&gt;setAutoDelete(false)设置不自动销毁。下面给一个代码示例。</p>
+<h3 id="downloadfiletask-h"><a href="#downloadfiletask-h" class="headerlink" title="downloadfiletask.h"></a>downloadfiletask.h</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOWNLOADFILETASK_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DOWNLOADFILETASK_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QRunnable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QEventLoop&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"fileprocess.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadFileTask</span> :</span> <span class="keyword">public</span> QObject,<span class="keyword">public</span> QRunnable</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">DownloadFileTask</span><span class="params">(MmsRemoteIedRuner *mr,RFileProcess::DownloadMode mode,QString remotepath,QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~DownloadFileTask();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setDownloadFileList</span><span class="params">(QStringList&amp; <span class="built_in">list</span>)</span></span>;</span><br><span class="line">signals:</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">filesDownloadedFinished</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    RFileProcess::DownloadMode m_downloadFileMode;</span><br><span class="line">    QString m_remotePath;   <span class="comment">//文件的远程路径</span></span><br><span class="line">    QStringList m_downloadFileList;</span><br><span class="line"></span><br><span class="line">    QEventLoop loop;</span><br><span class="line">    RFileProcess *m_pfilePro;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// DOWNLOADFILETASK_H</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="downloadfiletask-cpp"><a href="#downloadfiletask-cpp" class="headerlink" title="downloadfiletask.cpp"></a>downloadfiletask.cpp</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"downloadfiletask.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mmsoption.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line">DownloadFileTask::DownloadFileTask(MmsRemoteIedRuner *mr, RFileProcess::DownloadMode mode, QString remotepath, QObject *parent)</span><br><span class="line">    : m_downloadFileMode(mode),</span><br><span class="line">      m_remotePath(remotepath),</span><br><span class="line">      QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    m_pfilePro=<span class="keyword">new</span> RFileProcess(mr,m_downloadFileMode,m_remotePath);</span><br><span class="line"></span><br><span class="line">    connect(m_pfilePro,SIGNAL(filesDownloadFinished()),<span class="keyword">this</span>,SLOT(filesDownloadedFinished()));</span><br><span class="line">&#125;</span><br><span class="line">DownloadFileTask::~DownloadFileTask()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::run()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_downloadFileMode==RFileProcess::DownloadWantedModel)&#123;</span><br><span class="line">        m_pfilePro-&gt;setDownloadFileList(m_downloadFileList);</span><br><span class="line">    &#125;</span><br><span class="line">    m_pfilePro-&gt;listDirectory();</span><br><span class="line">    loop.exec();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::setDownloadFileList(QStringList&amp; <span class="built_in">list</span>)</span><br><span class="line">&#123;</span><br><span class="line">    m_downloadFileList=<span class="built_in">list</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::filesDownloadedFinished()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(m_pfilePro)&#123;</span><br><span class="line">        m_pfilePro-&gt;deleteLater();</span><br><span class="line">    &#125;</span><br><span class="line">    loop.quit();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">QThreadPool m_pThreadPool=QThreadPool::globalInstance();</span><br><span class="line"></span><br><span class="line">m_pThreadPool-&gt;setMaxThreadCount(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p_iedManager-&gt;count();i++)&#123;       </span><br><span class="line"></span><br><span class="line">      DownloadFileTask *task=<span class="keyword">new</span> DownloadFileTask();</span><br><span class="line"></span><br><span class="line">      m_pThreadPool-&gt;start(task);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="BUG修复"><a href="#BUG修复" class="headerlink" title="BUG修复"></a>BUG修复</h2><p>上述代码在实际运行的时候，会提示一个警告信息：</p>
+<p>QEventDispatcherUNIX: internal error, wakeUps.testAndSetRelease(1, 0) failed!</p>
+<p>会导致程序崩溃。通过使用gdb调试查看堆栈信息，发现程序断在 run（）函数里面的loop.exec()这里。于是我猜想QEventLoop 被定义为成员变量，所以它和创建它的类属于同一个线程，而在run()里面则是另外一个线程。于是修改上述代码如下：</p>
+<h3 id="downloadfiletask-h-1"><a href="#downloadfiletask-h-1" class="headerlink" title="downloadfiletask.h"></a>downloadfiletask.h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOWNLOADFILETASK_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DOWNLOADFILETASK_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QRunnable&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QEventLoop&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"fileprocess.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DownloadFileTask</span> :</span> <span class="keyword">public</span> QObject,<span class="keyword">public</span> QRunnable</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">DownloadFileTask</span><span class="params">(MmsRemoteIedRuner *mr,RFileProcess::DownloadMode mode,QString remotepath,QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~DownloadFileTask();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setDownloadFileList</span><span class="params">(QStringList&amp; <span class="built_in">list</span>)</span></span>;</span><br><span class="line">signals:</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">    RFileProcess::DownloadMode m_downloadFileMode;</span><br><span class="line">    QString m_remotePath;   <span class="comment">//文件的远程路径</span></span><br><span class="line">    QStringList m_downloadFileList;</span><br><span class="line">    RFileProcess *m_pfilePro;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// DOWNLOADFILETASK_H</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="downloadfiletask-cpp-1"><a href="#downloadfiletask-cpp-1" class="headerlink" title="downloadfiletask.cpp"></a>downloadfiletask.cpp</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"downloadfiletask.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mmsoption.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line">DownloadFileTask::DownloadFileTask(MmsRemoteIedRuner *mr, RFileProcess::DownloadMode mode, QString remotepath, QObject *parent)</span><br><span class="line">    : QObject(parent),</span><br><span class="line">      m_downloadFileMode(mode),</span><br><span class="line">      m_remotePath(remotepath)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    m_pfilePro=<span class="keyword">new</span> RFileProcess(mr,m_downloadFileMode,m_remotePath);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">DownloadFileTask::~DownloadFileTask()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_pfilePro)&#123;</span><br><span class="line">        m_pfilePro-&gt;deleteLater();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::run()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(m_downloadFileMode==RFileProcess::DownloadWantedModel)&#123;</span><br><span class="line">        m_pfilePro-&gt;setDownloadFileList(m_downloadFileList);</span><br><span class="line">    &#125;</span><br><span class="line">    QEventLoop loop;</span><br><span class="line">    connect(m_pfilePro,SIGNAL(filesDownloadFinished()),&amp;loop,SLOT(quit()));</span><br><span class="line">    m_pfilePro-&gt;listDirectory();</span><br><span class="line">    loop.exec();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> DownloadFileTask::setDownloadFileList(QStringList&amp; <span class="built_in">list</span>)</span><br><span class="line">&#123;</span><br><span class="line">    m_downloadFileList=<span class="built_in">list</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/QSqlDatabase使用注意事项/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1956,391 +2325,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/读写文件时字符串存在多个文件终止符解决方法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/21/读写文件时字符串存在多个文件终止符解决方法/" class="post-title-link" itemprop="url">读写文件时字符串存在多个文件终止符解决方法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-21 11:16:05" itemprop="dateCreated datePublished" datetime="2019-03-21T11:16:05+08:00">2019-03-21</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-22 08:55:26" itemprop="dateModified" datetime="2019-03-22T08:55:26+08:00">2019-03-22</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<h1 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h1><p>我在Linux使用openssl库的DES算法进行文件的加解密时遇到一个问题。我从文件读取明文，然后加密为密文，最后将密文写入文件时发现文件写入的字节数量小于加密完的密文字节数，经过一番验证，发现是加密完的字符串中间包含文件终止符（-1），导致写入的时候遇到文件终止符提前结束了，所以只写入了部分内容。</p>
-<p>错误写法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> outText;<span class="comment">//outText为输出的加密字符串 </span></span><br><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(filename)</span></span>;</span><br><span class="line">file.open(QFile::WriteOnly|QFile::Truncate);</span><br><span class="line">file.write(outText.data());</span><br><span class="line">file.close();</span><br></pre></td></tr></table></figure>
-<p>正确写法:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> outText;<span class="comment">//outText为输出的加密字符串</span></span><br><span class="line"><span class="function">QFile <span class="title">file</span><span class="params">(filename)</span></span>;</span><br><span class="line">file.open(QFile::WriteOnly|QFile::Truncate);</span><br><span class="line">file.write(outText.data(),outText.size());</span><br><span class="line">file.close();</span><br></pre></td></tr></table></figure>
-<p>此处唯一的区别在于写入的指定写入的大小，这样就能将全部字符串写入文件。</p>
-<h1 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h1><p>将加密字符串存入文件之后，读取文件的内容也会遇到同样的问题，即文件读的时候遇到文件终止符会结束，导致读取的加密字符串不完整。这里我以c++的<ifsteam>操作说明如何解决该问题。ifstream的 &gt;&gt;buf和getLine(buf)都会遇见文件终止符结束，所以我才有get（）读取每一个字节，然后使用peek来判断是否结束，peek会预读文件指针下一个的内容。代码如下：</ifsteam></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> srcText = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">char</span> temp;</span><br><span class="line">QList&lt;<span class="keyword">char</span>&gt; <span class="built_in">list</span>;</span><br><span class="line"><span class="keyword">while</span>( in.peek()!=EOF)&#123;</span><br><span class="line"></span><br><span class="line">    in.get(temp);</span><br><span class="line">    <span class="built_in">list</span>.push_back(temp);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">srcText.assign(<span class="built_in">list</span>.begin(),<span class="built_in">list</span>.end());</span><br></pre></td></tr></table></figure>
-<p>最后还有一个关于“\0”的问题，我解密出来的字符串除了下列情况 “泰安\0\0\0”，于是我想将去掉‘\0’，我使用的是Qt的QString。</p>
-<p>错误用法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QString out=<span class="string">"泰安\0\0\0"</span>;</span><br><span class="line">out.replace(<span class="string">"\0"</span>,<span class="string">""</span>); <span class="comment">//错误用法一，这种用法会将“\0”转化成一个QString</span></span><br><span class="line">out.replace(<span class="string">'\0'</span>,<span class="string">""</span>); <span class="comment">//错误用法二，这个会导致重载函数的调用出现歧义，出现编译错误</span></span><br></pre></td></tr></table></figure>
-<p>现象如下：<img src="/2019/03/21/读写文件时字符串存在多个文件终止符解决方法/img1.png" alt="读写文件时字符串存在多个文件终止符解决方法\img1"></p>
-<p>正确用法:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QString out=<span class="string">"泰安\0\0\0"</span>;</span><br><span class="line">out.replace(QChar(<span class="string">'\0'</span>),<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/PHP扩展开发之c与c-两种模式/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/19/PHP扩展开发之c与c-两种模式/" class="post-title-link" itemprop="url">PHP扩展开发之c与c++两种模式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-19 09:45:00 / 修改时间：14:15:23" itemprop="dateCreated datePublished" datetime="2019-03-19T09:45:00+08:00">2019-03-19</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<p>使用c或者c++开发php扩展的目的在于，利用c和c++的高效性提高性能，毕竟php只是一个脚本语言。php的msyqli等扩展就是一个例子，可以从其中了解php扩展的大概框架。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol>
-<li><p>下载相应的php源码</p>
-</li>
-<li><p>编译需要的库文件</p>
-</li>
-</ol>
-<h1 id="开发扩展"><a href="#开发扩展" class="headerlink" title="开发扩展"></a>开发扩展</h1><h2 id="1-创建扩展项目"><a href="#1-创建扩展项目" class="headerlink" title="1.创建扩展项目"></a>1.创建扩展项目</h2><p>进入php源码的ext目录,生成一个名为test的扩展项目</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ext_skel --extname=test</span><br></pre></td></tr></table></figure>
-<h2 id="2-编辑配置文件"><a href="#2-编辑配置文件" class="headerlink" title="2.编辑配置文件"></a>2.编辑配置文件</h2><p>进入test目录，里面存在一个config.m4和test.c。config.m4文件是扩展项目的编译配置文件，类似于Qt的pro文件。打开config.m4文件。打开其中三行的注释，dnl就是改行的注释删除即可：</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config1.png" alt="PHP扩展开发之c与c-两种模式\config1"></p>
-<p>这三句话的意思就是在编译安装php的时候可以开启test扩展的支持。然后配置扩展依赖的的动态库或者静态库。示例如下：</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config2.png" alt="PHP扩展开发之c与c-两种模式\config2"></p>
-<p>PHP_ADD_INCLUDE添加编译的头文件搜索路径。PHP_ADD_LIBRARY按照我的理解就是添加系统库路径下的库文件，比如/usr/lib路径。PHP_ADD_LIBRARY_PATH就是添加指定路径的第三方库。PHP_REQUIRE_CXX()指定c++编译,没有的话就是按照c编译。PHP_NEW_EXTENSION就是配置文件的关键，创建指定的扩展。第一个参数是扩展名，第二个参数是扩展用到的实现源码（不包含.h，可以包含多个，中间用空格隔开，例如 test1.cpp test2.cpp）。此处默认生成应该是wy_analyze.c，由于我的项目需要使用c++，所以我改成了.cpp，对应的文件的名称也应该改为.cpp。</p>
-<h2 id="3-编写wy-analyze-cpp"><a href="#3-编写wy-analyze-cpp" class="headerlink" title="3.编写wy_analyze.cpp"></a>3.编写wy_analyze.cpp</h2><p>首先使用extern “C” {}包含该文件自动添加的.h头文件，如下：</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config3.png" alt="PHP扩展开发之c与c-两种模式\config3"></p>
-<p>添加函数定义，参考自动生成的例子</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config4.png" alt="PHP扩展开发之c与c-两种模式\config4"></p>
-<p>confirm_wy_analyze_compiled是php自动生成的测试函数（后续完成之后可以去掉），我们可以参照这个例子编写我们自己的函数，后面两个就是我定义的函数，类似于头文件的定义。</p>
-<p>完成函数实现</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config5.png" alt="PHP扩展开发之c与c-两种模式\config5"></p>
-<p>我们以测试参考例子来简单说明。arg是函数的传入参数，arg_len是参数长度，zend_parse_parameters是php校验函数参数的一个方法，第一个参数 ZEND_NUM_ARGS()表示参数的个数，第三个参数”s”表示只有一个字符串参数，如果是函数是两个字符串变量，那么这个参数声明和校验如下：</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config6.png" alt="PHP扩展开发之c与c-两种模式\config6"></p>
-<p>其他类型的参数的格式请参考其他资料，这里就不详细说明了。</p>
-<h2 id="4-编译安装扩展"><a href="#4-编译安装扩展" class="headerlink" title="4.编译安装扩展"></a>4.编译安装扩展</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd php/ext/your_extdir</span><br><span class="line">phpize</span><br><span class="line">./configure --with-php-config=php-config</span><br><span class="line">make </span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-<p>编译链接生成完的.so会自动拷贝到php的扩展目录里面。如果修改了源码需要重新编译，可以清除。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">phpize --clean <span class="comment">#清除所有配置和编译产生的文件</span></span><br><span class="line">make clean <span class="comment">#清除编译产生的文件，不需要重新configure</span></span><br></pre></td></tr></table></figure>
-<h2 id="5-修改php-ini添加扩展信息"><a href="#5-修改php-ini添加扩展信息" class="headerlink" title="5.修改php.ini添加扩展信息"></a>5.修改php.ini添加扩展信息</h2><p>如果找不到php.ini的路径可以php-config 查看。在php.ini里面添加如下信息</p>
-<p><img src="/2019/03/19/PHP扩展开发之c与c-两种模式/config7.png" alt="PHP扩展开发之c与c-两种模式\config7"></p>
-<p>同理添加php的自带扩展，只需要取消该扩展的注释即可。然后重启php就会生效。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br><span class="line">sudo service php-fpm restart</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2388,7 +2372,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2431,7 +2415,9 @@
         
           
         
-        <span class="site-state-item-count">13</span>
+          
+        
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2588,7 +2574,15 @@
         
           
         
-        <span class="site-state-item-count">70</span>
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">74</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

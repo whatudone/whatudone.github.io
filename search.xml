@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[cpp11及以上新特性学习]]></title>
+    <url>%2F2021%2F01%2F30%2Fcpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[1、c++111.1、尾返回类型123auto add(int a,int b) -&gt; int &#123; return a+b;&#125; auto在c++11中无法直接作为返回类型，需要使用尾返回类型，在c++14中可以直接使用auto，而不用尾返回类型。这种写法很累赘，因为一般用法在于使用匿名lambda函数时需要返回值，可以这么使用。 1.2、默认模板类型12345template &lt;typename T = int, typename T1 = int&gt;auto add1(T a, T1 b) -&gt; decltype(a + b)&#123; return a + b;&#125; 1.3、委托构造函数123456789101112131415class Base&#123;public: Base() &#123; value1 = 10; &#125; Base(int value): Base() &#123; value2 = value; &#125;private: int value1; int value2;&#125;; 使用这种形式好处在于如果一个类存在一个公共的初始化需求，比如Person这个基类，name和age这个参数是大家都需要的，就可以把它们抽出来放在一个公共的构造函数里面，需要其他参数的就可以使用委托构造初始化公共部分，然后再初始化自己特定的参数，从而减少不必要的代码。 1.4、final和overrideoverride用于告诉编译器该函数需要重载基类的相同函数，如果没有就会报错，意义在于明确代码中对于该函数的使用意图。 final可以用于终止重载虚函数或者终止继承类。 2、c++143、c++173.1、if constexpr123456template &lt; typename T0, typename ... T&gt;void printf(T0 t0, T... t)&#123; std :: cout &lt;&lt; t0 &lt;&lt; std :: endl ; if constexpr(sizeof ...(t) &gt; 0) printf(t ...) ;&#125; if constexpr的作用在于编译期确认条件的值，从而在编译器就可以决定进入哪个分支，而不需要在运行期再去判断，提高运行效率。上述代码用于可变长模板解包，如果没有if constexpr 那么就只能采用递归形式一层层分解模板参数个数直到最后一个，就需要额外提供一个最终一个参数的模板函数。]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>c++11</tag>
+        <tag>c++14</tag>
+        <tag>c++17</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[打印机耗材研究]]></title>
+    <url>%2F2021%2F01%2F29%2F%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6%2F</url>
+    <content type="text"><![CDATA[cups耗材信息1、cups的定义查询打印机耗材信息涉及到CUPS command file format (application/vnd.cups-command)，它是一种特殊的和打印机交互的文件格式，用于向打印机下发指定命令。支持这种功能的打印机会在ppd中添加一个描述字段 1*cupsCommands: &quot;AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus&quot; 上述描述字段就包含了四种常用的命令，耗材信息就需要使用ReportLevels。通过打印测试页会把指令下发到打印机，打印机会返回耗材marker-*相关的信息到打印机属性中。这种方式不会产生真正的打印任务。 2、应用处理流程 根据打印机类型进行不同操作，网络socket协议的打印机使用snmp直接获取，好处是不需要下发指令，可以直接获取到耗材信息。usb打印机采用ReportLevel方式。 usb打印机先需要从打印机属性中读取printer-type属性，判断是否支持操作command，具体通过是否包含CUPS_PRINTER_COMMANDS值为准 然后判断printer-commands属性中是否包含ReportLevels 写入如下内容到临时文件 12#CUPS-COMMANDReportLevels 通过发送打印测试任务下发指令，格式如下 12345678format = &quot;application/vnd.cups-command&quot;cups.printTestPage (printer.name, format=format, file=tmpfile.name, user=cups.getUser ()) 监听cups的特殊消息，触发更新指定打印机属性的操作（包含耗材） 添加打印机 on_state_reason_added on_state_reason_removed 3、打印管理耗材逻辑优化有了这个基础之后就不需要在线程中定时查询所有打印机的耗材信息，只需要在初始化的时候读取一次，然后用户打开耗材界面才下发ReportLevels指令去更新耗材信息，耗材界面获取更新的数据刷新即可。]]></content>
+      <categories>
+        <category>cups</category>
+      </categories>
+      <tags>
+        <tag>cups</tag>
+        <tag>耗材</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[向日葵连接远程机器无法通过终端启动gui程序]]></title>
     <url>%2F2021%2F01%2F05%2F%E5%90%91%E6%97%A5%E8%91%B5%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E7%BB%88%E7%AB%AF%E5%90%AF%E5%8A%A8gui%E7%A8%8B%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[向日葵连接远程Linux机器终端无法启动gui程序原因是远程连接无法找到显示设备，或者没有权限连接xserver。 12345xauth list #查看显示设备export DISPLAY=:0.0 #设置显示服务器的连接参数环境变量xhost + #允许所有人访问X serverxhost - #不允许所有人访问x server，仅限当前用户 DISPLAY的格式为host:A:B，host为空表示连接到本机的xserver服务器，A表示连接xserver的不同方式，如果以unix socket连接，0表示/tmp/.X11-unix/X0，如果以socket连接，0表示连接到6000端口（A=port-6000）。B一般为0。]]></content>
