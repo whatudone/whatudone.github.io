@@ -347,6 +347,553 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/" class="post-title-link" itemprop="url">cmake编译OsgEarth2.10.1-VS2017-64版</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-17 08:22:56 / 修改时间：10:55:32" itemprop="dateCreated datePublished" datetime="2019-06-17T08:22:56+08:00">2019-06-17</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a href="https://objexx.com/OpenSceneGraph.html" target="_blank" rel="noopener">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a href="http://www.openscenegraph.org/index.php/download-section/dependencies" target="_blank" rel="noopener">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
+<h1 id="编译其他依赖"><a href="#编译其他依赖" class="headerlink" title="编译其他依赖"></a>编译其他依赖</h1><p>官网提供的第三方库包含了gdal等，但是osgearth还需要geos，protobuf,sqlite3，poco，rocksdb等。由于我刚开始初学，暂时用不到后面的扩展，这里我们只编译geos，sqlite3，poco,protobuf。这里统一使用cmake创建sln工程，这是为了更好的控制编译的参数。tool选择vs2017 x64(默认是选择win32，一定要修改)。</p>
+<blockquote>
+<p>这里要注意cmake的时候，build目录（生成的vs工程和后续编译的二进制的目录）一定要和install（自动安装的目录）分开，不能选择同一个目录。这个install目录由CMAKE_INSTALL_PREFIX参数控制，默认在c:/Program Files(x86)</p>
+<p>目录，一定要选在其他目录，不然安装的时候由于没有权限导致无法安装。</p>
+</blockquote>
+<h2 id="编译geos-3-7-2"><a href="#编译geos-3-7-2" class="headerlink" title="编译geos-3.7.2"></a>编译geos-3.7.2</h2><p>这个过程没有什么曲折，cmake生成工程，vs编译安装即可。将安装完的bin，include，lib三个目录直接拷贝到第三方库的目录下即可，后续编译的依赖都需要拷贝到第三方库目录，方便统一设置环境变量。</p>
+<blockquote>
+<p>cmake的时候注意是不是编译的dll版（shared），osgearth貌似需要dll版的依赖库。后续编译的protobuf就遇到这个问题，最开始编译的是静态版，导致编译osgearth出现大量错误，将它编译成动态版之后sogearth就完美编译成功了。同时编译的时候注意是否有参数区分了debug和release编译的库名称，一般用d来表示debug版。这个参数是CMAKE_DEBUG_POSTFIX，可能Cmakelist.txt并没有配置这个参数，那么就需要手动添加，但是有可能配置了其他参数来替代它，比如protobuf就是使用PROTOBUF_DEBUG_POSTFIX，这两者作用是一致的，这时候就不要再添加了。在cmake-gui的上方有一个按钮名称为Add Entry ,操作如下图所示：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0046.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0046"></p>
+<h2 id="编译poco"><a href="#编译poco" class="headerlink" title="编译poco"></a>编译poco</h2><p>poco版本选择poco-1.9.0-all，记得选择all这个版本。其他和geos操作一致。</p>
+<blockquote>
+<p>在用vs编译的时候，选择<strong><em>生成-批生成</em></strong>。然后勾选ALL_BUILD的debug和release版，点击生成即可，这样就会编译debug和release两个版本，编译完成之后同样选择<strong><em>生成-批生成</em></strong>，去掉ALL_BUILD的勾选项，将INTSALL的debug和release勾选，点击生成，这样就会将编译好的库和头文件都拷贝到camke设置的安装目录，操作如下图：</p>
+</blockquote>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0047.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047"></p>
+<h2 id="编译sqlite3"><a href="#编译sqlite3" class="headerlink" title="编译sqlite3"></a>编译sqlite3</h2><p>其实这已经不是编译了，官网上已经提供了编译好的二进制，这个dll可以同时在debug和release两个环境使用。我下载的是sqlite-amalgamation-3280000和sqlite-dll-win64-x64-3280000。解压，将sqlite3.h和sqlit3ext.h拷贝到第三方库的include目录。然后将解压出来的dll转化为lib。操作如下，先打开vs2017的x64 Native cmd窗口，然后cd进入到dll存在的目录，里面包含两个文件，sqlite3.dll和sqlite3.def。调用如下命令即可,就会生成sqlite3.lib和sqlite3.exp。</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0044.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0044"></p>
+<h2 id="编译protobuf"><a href="#编译protobuf" class="headerlink" title="编译protobuf"></a>编译protobuf</h2><p>版本一定要选择3.8.0，这是osgearth的依赖要求，cmake的时候去掉protobuf-BUILD_TESTS的勾选，不然会报错，然后勾上protobuf_BUILD_SHARED_LIBS，编译动态版。然后在zlib的依赖文件在第三方库中已经有，选择即可。如下图所示：</p>
+<p><img src="/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/IMG_0045.png" alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0045"></p>
+<blockquote>
+<p>protobuf默认是编译静态版，后续osgearth编译的时候需要动态版，导致编译失败。编译这个的同时也解决了我一个问题，由于我总是使用gcc编译动态库，动态版就是.so，静态版就是.a。但是msvc的很多库就是编译要链接.lib文件，运行的时候需要.dll支持，不然无法运行。我搞不懂这个库到底是静态版还是动态版，通过这次百度才知道，这其实是一个动态版的库，那个.lib里面只是导出的定义，实现还是在.dll里面。msvc编译的库可以分为四种：1、MT(多线程静态release版)；2、MTd(多线程静态debug版)；3、MD(多线程动态release版)；4、MDd(多线程动态debug版)。这个可以在vs里面修改。右键工程–选择属性–c/c++–代码生成-运行库。</p>
+</blockquote>
+<h1 id="编译osgEarth"><a href="#编译osgEarth" class="headerlink" title="编译osgEarth"></a>编译osgEarth</h1><p>osgearth选用2.10.1版本，前面配置完环境变量之后，configure的时候大部分依赖都会自动找到。这里需要修改一下未能正确配置的地方。1、PROTOBUF_USE_DLLS勾选上；2、THIRD_PARTY_DIR目录选择第三方库目录。3；libcurl库的debug版未找到，手动去第三方库目录添加。再检查一下，有没有漏下的地方。将生成的osgearth库拷贝到OSG目录，环境变量PATH添加该库的bin目录。</p>
+<h1 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h1><p>下载最新的osg数据，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">下载地址</a>下载最新的3.4.0即可，解压到OSG目录。然后将该目录重命名为data，将osgearth源码里面的data和tests拷贝到OSG目录下，添加环境变量OSG_FILE_PATH，值为OSG/data目录。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/12/cpp的深拷贝和浅拷贝/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/12/cpp的深拷贝和浅拷贝/" class="post-title-link" itemprop="url">cpp的深拷贝和浅拷贝</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 09:26:27 / 修改时间：10:41:15" itemprop="dateCreated datePublished" datetime="2019-06-12T09:26:27+08:00">2019-06-12</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/cpp基础/" itemprop="url" rel="index"><span itemprop="name">cpp基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="默认拷贝构造"><a href="#默认拷贝构造" class="headerlink" title="默认拷贝构造"></a>默认拷贝构造</h1><p>代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>; <span class="comment">//Test b=a; //效果一样</span></span><br><span class="line"></span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在这个Test类中我并没有实现拷贝构造，但是编译器自动实现了一份拷贝构造,并且也重载了=操作符。但是这个默认的拷贝构造函数仅仅只是实现了一个浅拷贝，当类的成员中存在指针对象时这种默认拷贝构造就会出现未知的错误。下面是一份错误的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/2.png" alt="cpp的深拷贝和浅拷贝\2"></p>
+<p>Test新增了一个int型指针，构造函数里面分配内存空间，析构函数里面释放内存，咋一看没有问题，但是运行结束结束之前会出现一个错误，导致程序无法正常结束。那是因为这个默认拷贝构造在处理int指针时，只是单纯的将b的指针p指向了a的指针p指向的相同内存空间。也就是说这两个指针指向了同一个内存空间，当两个Test对象析构的时候就会释放两次这个内存，导致报错。</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p>针对上述出现的错误，所以需要自己实现一份深拷贝构造函数。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Test(<span class="keyword">int</span> k,<span class="keyword">int</span> v):key(k),value(v)</span><br><span class="line">    &#123;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Test(<span class="keyword">const</span> Test&amp; val)</span><br><span class="line">    &#123;</span><br><span class="line">        key=val.key;</span><br><span class="line">        value=val.value;</span><br><span class="line">        p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>);</span><br><span class="line">        *p=*(val.p);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Test()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p)</span><br><span class="line">            <span class="keyword">delete</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">       <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;key&lt;&lt;<span class="string">":"</span>&lt;&lt;value&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> key;</span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">Test <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">25</span>)</span></span>;</span><br><span class="line">    a.show();</span><br><span class="line">    <span class="function">Test <span class="title">b</span><span class="params">(a)</span></span>;</span><br><span class="line">    b.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="/2019/06/12/cpp的深拷贝和浅拷贝/1.png" alt="cpp的深拷贝和浅拷贝\1"></p>
+<p>在上述的拷贝构造的构造中，为对象b的指针p重新分配了新的内存空间，然后把对象a的指针p的指向的内容赋值给b.p指向的内存空间。这样就实现了每个对象的指针指向独立的内存空间，并且内容一样。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h2 id="1、拷贝构造的参数传递"><a href="#1、拷贝构造的参数传递" class="headerlink" title="1、拷贝构造的参数传递"></a>1、拷贝构造的参数传递</h2><p>上述代码采用了常量引用方式（const &amp;）。为什么不采用传值要采用传引用？第一，传值会需要拷贝a对象的副本，导致额外的开销，影响效率。第二，也是最严重的问题，会导致递归无限调用拷贝构造函数。const是为了在传引用的时候，参数既可以使用左值（变量），又可以使用右值（常量），而且可以保证参数不被修改。当没有const的时候，参数只能使用左值，无法使用右值。</p>
+<h2 id="2、避免默认的拷贝构造函数"><a href="#2、避免默认的拷贝构造函数" class="headerlink" title="2、避免默认的拷贝构造函数"></a>2、避免默认的拷贝构造函数</h2><p>在类的定义中定义一个私有的拷贝构造函数如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>:</span><br><span class="line">Test(<span class="keyword">const</span> Test&amp;);</span><br></pre></td></tr></table></figure>
+<p>这样在不要拷贝的环境中，如果用户错误的调用了拷贝构造，会触发编译器错误。</p>
+<h2 id="3、析构函数"><a href="#3、析构函数" class="headerlink" title="3、析构函数"></a>3、析构函数</h2><p>析构函数前面加一个virtual使其变为一个虚函数。这是利用了cpp的多态。假设Test是一个基类，后续的继承类又定义了新的指针成员变量，这个时候继承类就需要自己重写析构函数。如果没有Test类的析构函数没有定义成虚函数，那么在继承类释放的时候，不会调用自己的析构函数，而是调用父类的析构函数，这样就会导致内存泄漏。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/04/OSG环境配置/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/04/OSG环境配置/" class="post-title-link" itemprop="url">OSG环境配置</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-04 16:29:50" itemprop="dateCreated datePublished" datetime="2019-06-04T16:29:50+08:00">2019-06-04</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-05 09:29:41" itemprop="dateModified" datetime="2019-06-05T09:29:41+08:00">2019-06-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近开始学习osg，免不了涉及到编译osg的开源库，如果不想编译的话可以直接去官网下载编译好的msvc版本。但是osgearth暂时没有找到直接编译好的。对于Windows编译开源库最近的心得是不要使用mingw进行编译，很多开源库都无法编译过去，还是使用msvc编译。编译开源库，发现一款微软的神器vcpkg，相当于是windows上的包管理器，他会自动下载源码然后进行编译，默认使用vs2017，没有的话使用vs2015。目前只支持这两款。</p>
+<h1 id="VCPKG"><a href="#VCPKG" class="headerlink" title="VCPKG"></a>VCPKG</h1><h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p><a href="https://github.com/microsoft/vcpkg" target="_blank" rel="noopener">github地址</a></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>1、先将项目克隆到本地，然后打开vs的命令行工具运行项目下的脚本bootstrap-vcpkg.bat,结束之后会在项目底下生成一个vcpkg.exe。将当前exe目录添加到环境变量中方便使用。</p>
+<p>2、搜索包</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcpkg search lib</span><br></pre></td></tr></table></figure>
+<p>lib是你需要搜索的包名，我们搜索一下osg，结果如下：</p>
+<p><img src="/2019/06/04/OSG环境配置/" alt=".."></p>
+<p>3、安装包</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcpkg install lib</span><br><span class="line">vcpkg install lib:x64-windows</span><br></pre></td></tr></table></figure>
+<p>默认不指定编译器位数的话编译32位，想要编译64位需要后面指定:x64-windows。这里我们编译64位osg，整个时间大概2个小时。</p>
+<p>4、下载缓慢解决方法</p>
+<p>使用vcpkg自动下载源码的时候经常会比较缓慢，所以我们可以把自动下载的地址复制出来，然后自己去网页上下载，下载完之后拷贝到downloads目录，这是他的文件下载目录。然后在自动下载的时候进入downloads/temp文件夹看一下，他下载的文件名称。有可能下载的同一个源码，但是文件名称不一致，导致vcpkg识别不了，需要将你下载的文件名称改成和temp里面的缓存文件名称一致，然后重新安装，这个时候他就会启用你下载的版本，不会自动下载了。</p>
+<h1 id="OSG环境配置"><a href="#OSG环境配置" class="headerlink" title="OSG环境配置"></a>OSG环境配置</h1><p>vcpkg编译的结果是debug和release分开了，后缀使用d区分。但是实际使用的话很麻烦，所以我将两个版本合并。新建一个osg目录，将include目录拷贝进去，然后将两个版本的lib和bin目录拷贝进去，然后把tools/osg目录里面的东西直接剪切到bin目录里面，然后在osg根目录新建一个data目录，用来存放数据，数据直接从官网下载即可，<a href="http://www.openscenegraph.org/index.php/download-section/data" target="_blank" rel="noopener">datal链接</a>。将数据解压后拷贝到data目录即可。然后添加环境变量，在用户环境变量里面将新的osg/bin目录添加到path，然后新建一个环境变量OSG_FILE_PATH,值是osg/data目录,这样后续代码里面直接加载测试文件的时候可以不用带路径。</p>
+<blockquote>
+<p>这个tools/osg目录里面存在许多编译好的工具，后续会使用到，然后目录下有个osgPlugins-3.6.3,这里面有osgDB的插件，不把它放在bin目录里面会导致后续使用osgDB库时，无法读写osg或者其他格式文件。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/char数组的数据显示/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1606,529 +2153,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/Qt配置多项目解决方案/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/28/Qt配置多项目解决方案/" class="post-title-link" itemprop="url">Qt配置多项目解决方案</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-28 14:16:52" itemprop="dateCreated datePublished" datetime="2019-04-28T14:16:52+08:00">2019-04-28</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-23 11:07:12" itemprop="dateModified" datetime="2019-07-23T11:07:12+08:00">2019-07-23</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Qt的pro文件类似于cmake的CmakeLists.txt，调用qmake根据不同的平台和编译器生成Makefile文件。我们的代码经常会使用主工程依赖多个库工程的结构，这个时候使用一个pro文件将多个项目关联起来会更加方便。实例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// my.pro</span><br><span class="line">TEMPLATE = subdirs</span><br><span class="line"></span><br><span class="line">subdirs = mylib \</span><br><span class="line">    myapp</span><br><span class="line"></span><br><span class="line">CONFIG += ordered</span><br></pre></td></tr></table></figure>
-<p>TEMPLATE是说明这个pro文件的作用，ordered是说明按照编译顺序，先编译依赖库然后编译主程序，避免出现编译库缺失的错误。</p>
-<p>补充一下对应的cmake的写法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/Qt资源文件加载大文件/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/26/Qt资源文件加载大文件/" class="post-title-link" itemprop="url">Qt资源文件加载大文件</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-26 09:51:59" itemprop="dateCreated datePublished" datetime="2019-04-26T09:51:59+08:00">2019-04-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-23 11:07:03" itemprop="dateModified" datetime="2019-07-23T11:07:03+08:00">2019-07-23</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>当使用Qt的资源文件加载大文件，例如视频文件时会报错如下：</p>
-<p>cc1plus.exe: out of memory allocating 1073745919 bytes</p>
-<p>需要在pro文件里面配置</p>
-<p>CONFIG += resources_big</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/24/QML动画插值模型/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/24/QML动画插值模型/" class="post-title-link" itemprop="url">QML动画插值模型</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-24 10:40:23 / 修改时间：10:44:55" itemprop="dateCreated datePublished" datetime="2019-04-24T10:40:23+08:00">2019-04-24</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>QML动画的插值默认是线性的，但是有些动画效果需要特殊插值方式，如下图是各个插值类型的模型</p>
-<p><img src="/2019/04/24/QML动画插值模型/easing.png" alt="QML动画插值模型\easing"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2176,7 +2200,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2221,7 +2245,9 @@
         
           
         
-        <span class="site-state-item-count">14</span>
+          
+        
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2386,7 +2412,11 @@
         
           
         
-        <span class="site-state-item-count">74</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">76</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
