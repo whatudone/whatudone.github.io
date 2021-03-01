@@ -1921,7 +1921,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-10-23 10:39:55" itemprop="dateModified" datetime="2020-10-23T10:39:55+08:00">2020-10-23</time>
+                <time title="修改时间：2021-03-01 13:24:18" itemprop="dateModified" datetime="2021-03-01T13:24:18+08:00">2021-03-01</time>
               </span>
             
           
@@ -2070,9 +2070,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">"test"</span></span><br></pre></td></tr></table></figure>
 <h1 id="导出补丁合并补丁"><a href="#导出补丁合并补丁" class="headerlink" title="导出补丁合并补丁"></a>导出补丁合并补丁</h1><p>有些场景我们并不能直接提交代码到远程仓库，只能通过补丁的形式，将自己修改的代码合并到仓库当中。有两种形式diff文件和patch文件，diff没有commit信息，而patch存在commit信息，一个commit对应一个patch。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成补丁的两种方法</span></span><br><span class="line">git diff commitID &gt;test.diff </span><br><span class="line">git format-patch commitID -n <span class="comment">#n是从该commit到第n个commit</span></span><br><span class="line"><span class="comment">#导入补丁</span></span><br><span class="line">git apply test.diff</span><br><span class="line">git apply test.patch</span><br></pre></td></tr></table></figure>
+<h2 id="合并其他分支的commit"><a href="#合并其他分支的commit" class="headerlink" title="合并其他分支的commit"></a>合并其他分支的commit</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick commitid -e //合并指定的commit,-e表示重新填写提交信息不带-e的话默认使用原始提交信息。</span><br><span class="line">git cherry-pick master    //合并master分支最新的commit到当前分支，这里还有很多复杂的用法比如指定master分支的倒数第几个</span><br></pre></td></tr></table></figure>
+<h2 id="不同情况下新建分支"><a href="#不同情况下新建分支" class="headerlink" title="不同情况下新建分支"></a>不同情况下新建分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b name   //从当前分支最新提交新建一个分支</span><br><span class="line">git branch -r          //查看上游分支</span><br><span class="line">git checkout -b name upstream/branch   //从上游指定分支创建一个本地分支并切换</span><br><span class="line">git checkout -b name commitid          //从指定的commit创建一个新分支</span><br><span class="line">git branch name tagname                //从指定tag号创建一个新分支，需要手动切换到对应分支上</span><br></pre></td></tr></table></figure>
 <h2 id="查看代码提交信息"><a href="#查看代码提交信息" class="headerlink" title="查看代码提交信息"></a>查看代码提交信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git blame file   <span class="comment">#查看该文件每一行的提交信息</span></span><br><span class="line">git blame -L 2,4 file <span class="comment">#查看文件的2-4行提交信息</span></span><br></pre></td></tr></table></figure>
 <p>结果如下图所示：</p>
-<p><img src="/2019/04/08/Git使用教程/D:/web-blog\blog\source\_posts\Git使用教程\blame.png" alt=".."></p>
+<p><img src="/2019/04/08/Git使用教程/blame.png" alt=".."></p>
 <p>前面是commit-id，后面是提交者，时间以及具体代码段</p>
 <h2 id="查看某个commit所在分支"><a href="#查看某个commit所在分支" class="headerlink" title="查看某个commit所在分支"></a>查看某个commit所在分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r --contains commitid</span><br></pre></td></tr></table></figure>
 <p>命令会列举出本地个远程仓库里面包含这个commit的所有分支</p>
