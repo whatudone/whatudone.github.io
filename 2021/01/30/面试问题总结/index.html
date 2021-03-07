@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="c++常见面试题总结1、c++基础 虚析构和多态 多态就是利用继承基类重写虚函数virtual和动态绑定来实现调用基类函数，在运行期根据绑定的不同类型的子类，去调用子类的接口。这里就衍生出一个虚析构问题，假如基类的析构函数没有声明virtual，那么释放基类指针的时候也不会调用派生类的析构函数。对于需要在派生类中释放资源的类就会出现内存泄漏的问题，所以如果基类中存在虚函数，那么一般是会去继承重写虚">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-30T08:44:50.042Z">
+<meta property="og:updated_time" content="2021-03-07T05:55:15.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面试问题总结">
 <meta name="twitter:description" content="c++常见面试题总结1、c++基础 虚析构和多态 多态就是利用继承基类重写虚函数virtual和动态绑定来实现调用基类函数，在运行期根据绑定的不同类型的子类，去调用子类的接口。这里就衍生出一个虚析构问题，假如基类的析构函数没有声明virtual，那么释放基类指针的时候也不会调用派生类的析构函数。对于需要在派生类中释放资源的类就会出现内存泄漏的问题，所以如果基类中存在虚函数，那么一般是会去继承重写虚">
@@ -394,13 +394,23 @@
                 
               
 
-              <time title="创建时间：2021-01-30 15:28:16 / 修改时间：16:44:50" itemprop="dateCreated datePublished" datetime="2021-01-30T15:28:16+08:00">2021-01-30</time>
+              <time title="创建时间：2021-01-30 15:28:16" itemprop="dateCreated datePublished" datetime="2021-01-30T15:28:16+08:00">2021-01-30</time>
             </span>
           
 
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-07 13:55:15" itemprop="dateModified" datetime="2021-03-07T13:55:15+08:00">2021-03-07</time>
+              </span>
             
           
 
@@ -453,7 +463,7 @@
       
 
       
-        <h1 id="c-常见面试题总结"><a href="#c-常见面试题总结" class="headerlink" title="c++常见面试题总结"></a>c++常见面试题总结</h1><h3 id="1、c-基础"><a href="#1、c-基础" class="headerlink" title="1、c++基础"></a>1、c++基础</h3><ul>
+        <h1 id="c-常见面试题总结"><a href="#c-常见面试题总结" class="headerlink" title="c++常见面试题总结"></a>c++常见面试题总结</h1><h2 id="1、c-基础"><a href="#1、c-基础" class="headerlink" title="1、c++基础"></a>1、c++基础</h2><ul>
 <li><p>虚析构和多态</p>
 <p>多态就是利用继承基类重写虚函数virtual和动态绑定来实现调用基类函数，在运行期根据绑定的不同类型的子类，去调用子类的接口。这里就衍生出一个虚析构问题，假如基类的析构函数没有声明virtual，那么释放基类指针的时候也不会调用派生类的析构函数。对于需要在派生类中释放资源的类就会出现内存泄漏的问题，所以如果基类中存在虚函数，那么一般是会去继承重写虚函数的，这时候把基类的析构函数也顺便定义成virtual。</p>
 </li>
@@ -461,10 +471,10 @@
 <p>简单理解就是深拷贝重新分配内存然后将原始内容拷贝过来，而浅拷贝没有重新分配内存，只是从引用了已经存在的资源。简单内置类型比如int型一般不用考虑这些问题，对于复杂类或结构体，如果存在需要释放的资源并且没有提供自定义的拷贝构造函数，编译器会提供默认的拷贝构造函数，那么一旦发生拷贝，默认拷贝提供的是浅拷贝。所以这两个对象都将共用一份资源，一旦释放其中一个的资源，而另外一个对象再去访问共用的的资源就会触发异常。</p>
 </li>
 </ul>
-<h3 id="2、Qt基础"><a href="#2、Qt基础" class="headerlink" title="2、Qt基础"></a>2、Qt基础</h3><ul>
+<h2 id="2、Qt基础"><a href="#2、Qt基础" class="headerlink" title="2、Qt基础"></a>2、Qt基础</h2><ul>
 <li>信号槽机制实现原理</li>
 </ul>
-
+<h2 id="3、设计模式"><a href="#3、设计模式" class="headerlink" title="3、设计模式"></a>3、设计模式</h2>
       
     </div>
 
@@ -867,7 +877,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c-常见面试题总结"><span class="nav-number">1.</span> <span class="nav-text">c++常见面试题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、c-基础"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、c++基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Qt基础"><span class="nav-number">1.0.2.</span> <span class="nav-text">2、Qt基础</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c-常见面试题总结"><span class="nav-number">1.</span> <span class="nav-text">c++常见面试题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、c-基础"><span class="nav-number">1.1.</span> <span class="nav-text">1、c++基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、Qt基础"><span class="nav-number">1.2.</span> <span class="nav-text">2、Qt基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、设计模式"><span class="nav-number">1.3.</span> <span class="nav-text">3、设计模式</span></a></li></ol></li></ol></div>
             
 
           </div>
