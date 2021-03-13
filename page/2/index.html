@@ -347,6 +347,348 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/26/cups常用问题记录/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/08/26/cups常用问题记录/" class="post-title-link" itemprop="url">cups常用问题记录</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-08-26 14:04:31" itemprop="dateCreated datePublished" datetime="2020-08-26T14:04:31+08:00">2020-08-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-01-05 09:44:54" itemprop="dateModified" datetime="2021-01-05T09:44:54+08:00">2021-01-05</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/linux学习笔记/" itemprop="url" rel="index"><span itemprop="name">linux学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在/var/log/cups/error.log。</p>
+<h1 id="问题1：临时目录权限问题"><a href="#问题1：临时目录权限问题" class="headerlink" title="问题1：临时目录权限问题"></a>问题1：临时目录权限问题</h1><p>反馈说某台打印机无法打印，查看打印日志的时候发现以下问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[12]=&quot;TMPDIR=/var/spool/cups/tmp&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[13]=&quot;USER=root&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[14]=&quot;CUPS_MAX_MESSAGE=2047&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[15]=&quot;CUPS_SERVER=/run/cups/cups.sock&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[16]=&quot;CUPS_ENCRYPTION=IfRequested&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[17]=&quot;IPP_PORT=631&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[18]=&quot;CHARSET=utf-8&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[19]=&quot;LANG=zh_CN.UTF-8&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[20]=&quot;PPD=/etc/cups/ppd/HP-LaserJet-M1319f-MFP.ppd&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[21]=&quot;RIP_MAX_CACHE=128m&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[22]=&quot;CONTENT_TYPE=application/vnd.cups-pdf-banner&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[23]=&quot;DEVICE_URI=smb://workgroup/192.168.5.162/A912&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[24]=&quot;PRINTER_INFO=HP LaserJet M1319f MFP&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[25]=&quot;PRINTER_LOCATION=A912&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[26]=&quot;PRINTER=HP-LaserJet-M1319f-MFP&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[27]=&quot;PRINTER_STATE_REASONS=none&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[28]=&quot;CUPS_FILETYPE=document&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[29]=&quot;FINAL_CONTENT_TYPE=application/vnd.cups-pdf&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[30]=&quot;AUTH_I****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[31]=&quot;AUTH_U****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[32]=&quot;AUTH_P****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/bannertopdf (PID 12160)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/pdftopdf (PID 12161)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/foomatic-rip (PID 12162)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started backend /usr/lib/cups/backend/smb (PID 12163)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] pdftopdf: Last filter determined by the PPD: foomatic-rip; FINAL_CONTENT_TYPE: application/vnd.cups-pdf =&gt; pdftopdf will log pages in page_log.</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Set job-printer-state-message to &quot;Can\&apos;t create temporary file&quot;, current level=ERROR</span><br></pre></td></tr></table></figure>
+<p>从日志看这里是因为cups无法在TMPDIR目录创建临时文件，导致无法继续打印，所以先查看该目录的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getfacl /var/spool/cups/tmp</span><br></pre></td></tr></table></figure>
+<p>结果如下图</p>
+<p><img src="/2020/08/26/cups常用问题记录/D:/web-blog\blog\source\_posts\cups常用问题记录\err.jpg" alt="error"></p>
+<p>从结果看group没有w写权限，通过执行下列命令修复</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo setfacl -m g:lp:rwx /var/spool/cups/tmp</span><br><span class="line">sudo setfacl -m d:group:lp:rwx /var/spool/cups/</span><br></pre></td></tr></table></figure>
+<p>第一行是添加一个lp用户组，分配rwx权限，第二行是给上级目录添加lp用户组rwx权限，因为tmp目录是集成cups目录权限的，重启后cups调用mkdir创建tmp目录继承cups目录的权限，所以要修改上层cups目录的权限。</p>
+<h1 id="问题2：PPD文件异常"><a href="#问题2：PPD文件异常" class="headerlink" title="问题2：PPD文件异常"></a>问题2：PPD文件异常</h1><p>ppd文件是打印机能力的描述文件，如果ppd文件损坏，会导致cups无法正确解析打印机的各种属性。通过ipp请求获取打印机型号时，cups返回的是添加打印机时缓存的属性，这时候ppd损坏也可以返回正确值，但是cups重启后，重新加载ppd，这个时候就无法获取和ppd相关的属性。代码里面也要做出判断，比如std::map等容器直接使用没有的key会导致异常退出。</p>
+<h1 id="问题3：用户组权限问题"><a href="#问题3：用户组权限问题" class="headerlink" title="问题3：用户组权限问题"></a>问题3：用户组权限问题</h1><p>新版欧拉系统测试打印管理器，发现lpinfo -v可以发现直接的打印机，但是打印管理器自动发现没找到，有一个细节就是用户需要sudo才能执行该命令，但是正常的专业版是不需要的，所以应该是当前用户不在lp和lpadmin组，导致无法管理打印机。输入id命令查看当前用户所属组，发现确实用户默认没有lp和lpadmin组。所以手动添加组即可，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -a -G lp user   <span class="comment">#给user用户添加lp组</span></span><br><span class="line">sudo usermod -a -G lpadmin user <span class="comment">#给user用户添加lpadmin组</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>目前欧拉版和行业版基于centos，所有的打印机驱动没有适配，暂时需要手动下载安装驱动</p>
+</blockquote>
+<h1 id="问题4：cups配置文件被破坏"><a href="#问题4：cups配置文件被破坏" class="headerlink" title="问题4：cups配置文件被破坏"></a>问题4：cups配置文件被破坏</h1><p>cups服务配置文件位于/etc/cups/cupsd.conf，有时候配置文件被系统其他程序破坏，导致无法启动，可以重新安装cups-daemon服务，重新安装之后会初始化配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cups-daemon --reinstall</span><br></pre></td></tr></table></figure>
+<p>不要卸载cups，这是两个包，而且重新安装不会卸载对应的强依赖，更加安全。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/19/Windows10-vs2015编译thrift0-11-0/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/08/19/Windows10-vs2015编译thrift0-11-0/" class="post-title-link" itemprop="url">Windows10-vs2015编译thrift0.11.0</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-08-19 13:07:34 / 修改时间：13:07:35" itemprop="dateCreated datePublished" datetime="2020-08-19T13:07:34+08:00">2020-08-19</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/U盘bootloader安装过程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1791,352 +2133,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/Windows编译QtMqtt-5-12-1/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/08/01/Windows编译QtMqtt-5-12-1/" class="post-title-link" itemprop="url">Windows编译QtMqtt-5.12.1</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-08-01 10:36:50 / 修改时间：11:32:31" itemprop="dateCreated datePublished" datetime="2019-08-01T10:36:50+08:00">2019-08-01</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>mqtt协议主要是用于物联网，机器对机器，网络开销要求小的环境。原理是一个publisher(发布者)发布一个topic(主题),然后发送payload(有效负载，即消息内容)，然后经过一个中间broker(服务器)，另外一个subscriber(订阅者)订阅这个主题，然后发送者发送的消息，这个订阅者就可以接收到了。当然前提是这两个都需要先连接服务器，所以这两个可以理解为都是客户端，只是角色不同。发布者同时也可以是订阅者。原理简单理解之后就是编程了(其实就是找库使用)。这里我们客户端采用Qt的mqtt，服务器采用EMQTT。由于我安装的Qt5.12.1里面没有mqtt模块所以需要自己去github上下载对应的源码，然后编译。而服务器则可以直接在github上下载编译好的程序直接运行，这个后续介绍。</p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><h2 id="mingw64版"><a href="#mingw64版" class="headerlink" title="mingw64版"></a>mingw64版</h2><p>打开git-bash，进入mqtt的源码根目录，执行/QtPath/mingw64__730/bin/qmake(生成Makefile)，然后执行/QtPath/Tools/mingw64____730/bin/mingw32-make(编译)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在mingw64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行mingw32-make install,就会把bin和lib都拷贝到Qt对应的目录。</p>
-<h2 id="msvc64版"><a href="#msvc64版" class="headerlink" title="msvc64版"></a>msvc64版</h2><p>打开vs2017的64位命令框，进入mqtt的源码根目录，执行/QtPath/msvc2017__64/bin/qmake(生成Makefile)，然后执行nmake(编译，因为使用的vs2017的命令框，所以nmake在环境变量里面，可以直接运行)，中间会有错误：找不到&lt;QtMqtt/….&gt;这样的头文件，这里在msvc2017____64的include目录里面新建QtMqtt目录，然后把下载的源码里面的.h文件全部拷贝到新建的QtMqtt目录。然后重新编译。编译完成之后执行nmake install,就会把bin和lib都拷贝到Qt对应的目录。</p>
-<blockquote>
-<p>这里需要注意qmake和make的搭配，在Windows上qt安装之后mingw编译器会有对应的make工具，那就是mingw32-make，而msvc编译器则是nmake。所以在Windows上编译东西不要盲目的使用make，这里直接使用make编译会提示Makefile的语法错误。Linux则没有这些区别。</p>
-</blockquote>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>在pro文件里面添加 Qt += mqtt即可</p>
-<h1 id="搭建服务器"><a href="#搭建服务器" class="headerlink" title="搭建服务器"></a>搭建服务器</h1><p>解压下载的windows版的压缩包，进入bin目录，执行empx.cmd start启动服务器。然后在网页上访问127.0.0.1:18083就可以通过web直接管理服务器，查看服务器的运行状态。访问需要账户密码，默认账户是admin,密码public。界面如下：</p>
-<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/1.png" alt="Windows编译QtMqtt-5-12-1\1"></p>
-<p>点击Listeners，这里面就是服务器提供的服务和对应的端口号，客户端采用不同的协议，按图使用不同的端口即可。界面如下：</p>
-<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/2.png" alt="Windows编译QtMqtt-5-12-1\2"></p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>测试客户端采用Qt的mqtt里面的例子，截图如下。</p>
-<p><img src="/2019/08/01/Windows编译QtMqtt-5-12-1/3.png" alt="Windows编译QtMqtt-5-12-1\3"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/07/23/QCoreApplication-quit-无法退出程序解决方法/" class="post-title-link" itemprop="url">QCoreApplication::quit()无法退出程序解决方法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-07-23 11:09:33 / 修改时间：11:28:36" itemprop="dateCreated datePublished" datetime="2019-07-23T11:09:33+08:00">2019-07-23</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用Qt一般是做带界面的桌面软件，然而我在使用Qt写后台服务程序的时候遇到一个问题，程序调用QCoreApplication::quit()无法正常退出程序，程序一直出于挂起状态。以下是我的错误代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">//.h</span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line">class Test : public QObject</span><br><span class="line">&#123;</span><br><span class="line"> Q_OBJECT</span><br><span class="line">public:</span><br><span class="line"> explicit Test(QObject *parent = nullptr);</span><br><span class="line"> virtual ~Test();</span><br><span class="line">public slots:</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//cpp</span><br><span class="line"></span><br><span class="line">#include &quot;test.h&quot;</span><br><span class="line"></span><br><span class="line">#include &lt;QDebug&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;QCoreApplication&gt;</span><br><span class="line"></span><br><span class="line">Test::Test(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"> //do something</span><br><span class="line"> if(something is wrong)</span><br><span class="line">    qApp-&gt;quit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Test::~Test()</span><br><span class="line">&#123;</span><br><span class="line"> //释放内存</span><br><span class="line"> qDebug()&lt;&lt;&quot;delete&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    QCoreApplication a(argc, argv);</span><br><span class="line">    Test test;</span><br><span class="line"></span><br><span class="line">    return a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码导致程序无法退出，一直导致程序在挂起状态。错误原因是quit()函数是用于退出Qt程序主线程的事件循环，进而结束程序。但是此处是在执行a.exec()之前就执行了quit(),也就是说此时还没有进入主线程的事件循环，所以此处调用quit()是无效的。正确代码如下:</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QObject&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> :</span> <span class="keyword">public</span> QObject</span><br><span class="line">&#123;</span><br><span class="line"> Q_OBJECT</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"> <span class="function"><span class="keyword">explicit</span> <span class="title">Test</span><span class="params">(QObject *parent = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"> <span class="keyword">virtual</span> ~Test();</span><br><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"test.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QCoreApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QTimer&gt;</span></span></span><br><span class="line">Test::Test(QObject *parent) : QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"> <span class="comment">//do something</span></span><br><span class="line"> <span class="keyword">if</span>(something is wrong)</span><br><span class="line">    QTimer::singleShot(<span class="number">1000</span>,qApp,SLOT(quit()));</span><br><span class="line">&#125;</span><br><span class="line">Test::~Test()</span><br><span class="line">&#123;</span><br><span class="line"> <span class="comment">//释放内存</span></span><br><span class="line"> qDebug()&lt;&lt;<span class="string">"delete"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="function">QCoreApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line"> Test test;</span><br><span class="line"> <span class="keyword">return</span> a.exec();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>此处采用QTimer定时器，将quit()操作放在1秒之后，然后程序继续执行，就会进入主线程的事件循环，QTimer的timeout之后调用quit()这时就可以正确退出程序了。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2184,7 +2180,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2231,7 +2227,9 @@
         
           
         
-        <span class="site-state-item-count">15</span>
+          
+        
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2400,7 +2398,9 @@
         
           
         
-        <span class="site-state-item-count">76</span>
+          
+        
+        <span class="site-state-item-count">77</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

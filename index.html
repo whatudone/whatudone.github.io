@@ -347,6 +347,339 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/13/常用设计模式/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/03/13/常用设计模式/" class="post-title-link" itemprop="url">常用设计模式</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-13 11:56:39" itemprop="dateCreated datePublished" datetime="2021-03-13T11:56:39+08:00">2021-03-13</time>
+            </span>
+          
+
+          
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/13/常用数据结构和算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/03/13/常用数据结构和算法/" class="post-title-link" itemprop="url">常用数据结构和算法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-13 11:56:30 / 修改时间：14:45:29" itemprop="dateCreated datePublished" datetime="2021-03-13T11:56:30+08:00">2021-03-13</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/数据结构与算法/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h1><p>编写代码时我们经常会用到各种别人造好的轮子，比如比较常用的c++标准库，这里面就涉及到很多基本的数据结构以及算法。例如std::vector，std::array数组，std::list双向链表，std::forward_list单向链表及std::sort排序算法等。这章主要分别介绍常用数据结构的实现和常用算法实现。</p>
+<h1 id="二、常用数据结构"><a href="#二、常用数据结构" class="headerlink" title="二、常用数据结构"></a>二、常用数据结构</h1><h2 id="2-1、数组"><a href="#2-1、数组" class="headerlink" title="2.1、数组"></a>2.1、数组</h2><p>数组比较容易理解，就是一块连续的内存。一个简答的动态数组实现如下：</p>
+<p>头文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> LRVECTOR_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LRVECTOR_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stddef.h&gt;</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T &gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRVector</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRVector();</span><br><span class="line">    ~LRVector();</span><br><span class="line"></span><br><span class="line">    T &amp;<span class="keyword">operator</span>[](<span class="keyword">size_t</span> index) <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(<span class="keyword">const</span> T &amp;data)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">size_t</span> size)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reserve</span><span class="params">(<span class="keyword">size_t</span> size)</span></span>;</span><br><span class="line">    <span class="keyword">size_t</span> size() <span class="keyword">const</span>;</span><br><span class="line">    <span class="keyword">size_t</span> capacity() <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">printAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">size_t</span> m_size;</span><br><span class="line">    <span class="keyword">size_t</span> m_capacity;</span><br><span class="line"></span><br><span class="line">    T *m_pDataArray;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// LRVECTOR_H</span></span></span><br></pre></td></tr></table></figure>
+<p>源文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"lrvector.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;exception&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">LRVector&lt;T&gt;::LRVector():</span><br><span class="line">    m_size(<span class="number">0</span>),</span><br><span class="line">    m_capacity(<span class="number">4</span>)</span><br><span class="line">&#123;</span><br><span class="line">    init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">LRVector&lt;T&gt;::~LRVector()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (m_pDataArray) &#123;</span><br><span class="line">        <span class="keyword">delete</span> []m_pDataArray;</span><br><span class="line">        m_pDataArray = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">T &amp;LRVector&lt;T&gt;::<span class="keyword">operator</span>[](<span class="keyword">size_t</span> index) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; m_size) &#123;</span><br><span class="line">        <span class="keyword">return</span> m_pDataArray[index];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::runtime_error(<span class="string">"index out of range"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> LRVector&lt;T&gt;::push_back(<span class="keyword">const</span> T &amp;data)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/*内存足够直接追加赋值，不够则进行扩容然后再赋值*/</span></span><br><span class="line">    <span class="keyword">if</span> (m_size &gt;= m_capacity) &#123;</span><br><span class="line">        reserve(m_capacity * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    m_pDataArray[m_size] = data;</span><br><span class="line">    ++m_size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> LRVector&lt;T&gt;::resize(<span class="keyword">size_t</span> size)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (size &lt;= m_capacity) &#123;</span><br><span class="line">        m_size = size;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> LRVector&lt;T&gt;::reserve(<span class="keyword">size_t</span> size)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/*先判断内存大小已经足够，不够重新分配完整内存，将原始数据拷贝过来，然后销毁原始内存，将指针指向新分配的内存*/</span></span><br><span class="line">    <span class="keyword">if</span> (size &lt;= m_capacity) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    T *pDataArrayTmp = <span class="keyword">new</span> T[size];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> index = <span class="number">0</span>; index &lt; m_size; ++index) &#123;</span><br><span class="line">        pDataArrayTmp[index] = m_pDataArray[index];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (m_pDataArray) &#123;</span><br><span class="line">        <span class="keyword">delete</span> []m_pDataArray;</span><br><span class="line">        m_pDataArray = pDataArrayTmp;</span><br><span class="line">    &#125;</span><br><span class="line">    m_capacity = size;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">size_t</span> LRVector&lt;T&gt;::size() <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> m_size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">size_t</span> LRVector&lt;T&gt;::capacity() <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> m_capacity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> LRVector&lt;T&gt;::printAll()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> index = <span class="number">0</span>; index &lt; m_size; ++index) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; m_pDataArray[index] &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"size="</span> &lt;&lt; m_size &lt;&lt; <span class="string">" capacity="</span> &lt;&lt; m_capacity &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> LRVector&lt;T&gt;::init()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (m_capacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        m_pDataArray = <span class="keyword">new</span> T[m_capacity];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用模板简单实现了一个模板动态数组，由于头文件和实现分离了，可以直接包含cpp。</p>
+<h1 id="三、常用算法"><a href="#三、常用算法" class="headerlink" title="三、常用算法"></a>三、常用算法</h1><h2 id="3-1、排序算法"><a href="#3-1、排序算法" class="headerlink" title="3.1、排序算法"></a>3.1、排序算法</h2><ul>
+<li><p>冒泡排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//冒泡排序 O(n2) 基本思路：先把首位的当做最小的，然后遍历比较，找到比他更小的就交换位置，把每一趟筛选出来的</span></span><br><span class="line"><span class="comment">//最小的放在第一层循环的首位</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;origin)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it = origin.begin(); it != origin.end(); ++it) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it1 = it + <span class="number">1</span>; it1 &lt; origin.end(); ++it1) &#123;</span><br><span class="line">            <span class="keyword">if</span> (*it1 &lt; *it) &#123;</span><br><span class="line">                <span class="built_in">std</span>::swap(*it1, *it);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选择排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//选择排序</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;origin)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; temp;</span><br><span class="line"> <span class="keyword">while</span> (origin.size() &gt; <span class="number">1</span>) &#123;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插入排序 O(n^2) ，具体耗费时间和有序区相关，如果情况比较好，最低n-1,而冒泡这种时间固定为n^2</span></span><br><span class="line"> <span class="comment">//所以选择排序算法应该根据实际情况进行选择</span></span><br><span class="line"> <span class="comment">//基本思路，默认将第一位数据作为有序区域，后面的数据作为无序区域，从无序区循环取数据（正序），跟有序区的数据从最相邻的</span></span><br><span class="line"> <span class="comment">//位置进行比较（倒序），如果无序区数据小于有序区域，则将有序区域数据移动到后一个位置，直到没有有序数据比他小，就可以</span></span><br><span class="line"> <span class="comment">//将该数据插入到当前有序区域序号的后面，形成新的有序区域，然后逐渐扩大有序区域，完成排序。这个逻辑可以理解为有一排带数字</span></span><br><span class="line"> <span class="comment">//球体,插入的过程就是把前面比他大的球挤到后面去，直到没有球数字比他小，他就会停下来，插入到比他小的球前面。</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">list</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="built_in">list</span>.size();</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">unsigned</span> <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line"> <span class="comment">//第一层循环无序区域，起点下标为1</span></span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; count; ++i) </span><br><span class="line"> &#123;</span><br><span class="line">     temp = <span class="built_in">list</span>[i];</span><br><span class="line">     <span class="keyword">for</span> (j = i - <span class="number">1</span>; (<span class="built_in">list</span>[j] &gt; temp); j--) </span><br><span class="line">     &#123;</span><br><span class="line">         <span class="built_in">list</span>[j + <span class="number">1</span>] = <span class="built_in">list</span>[j];</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="built_in">list</span>[j + <span class="number">1</span>] = temp;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>快速排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//快速排序，时间复杂度n(log n)</span></span><br><span class="line"> <span class="comment">//基本思路：p归位，分割，递归。先找到第一位的值的正确位置（左边比他小，右边比他大），将它放到找到的位置，</span></span><br><span class="line"> <span class="comment">//然后将数组以找到的位置分割为两部分，分别对两部分再进行递归。</span></span><br><span class="line"> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::<span class="function">iterator <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator left, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator right)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="comment">//取出左边第一位的值，这里将它理解为是空位</span></span><br><span class="line"> <span class="keyword">int</span> temp = *left;</span><br><span class="line"> <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line"> <span class="comment">//倒序查找右边第一个比他小的值</span></span><br><span class="line"> <span class="keyword">while</span> (left &lt; right &amp;&amp; *right &gt;= temp) &#123;</span><br><span class="line"> --right;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//找到结果，将该值放到空位，这里原本的位置变成新的空位</span></span><br><span class="line"> *left = *right;</span><br><span class="line"> <span class="comment">//正序查找左边第一个比他大的值</span></span><br><span class="line"> <span class="keyword">while</span> (left &lt; right &amp;&amp; *left &lt;= temp) &#123;</span><br><span class="line"> ++left;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//找到结果，将该值放到空位，这里原本的位置变成新的空位</span></span><br><span class="line"> *right = *left;</span><br><span class="line"> &#125;</span><br><span class="line"> *left = temp;</span><br><span class="line"> <span class="keyword">return</span> left;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">quickSortPrivate</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator left, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator right)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line"> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator mid = partition(left, right);</span><br><span class="line"> quickSortPrivate(left, mid - <span class="number">1</span>);</span><br><span class="line"> quickSortPrivate(mid + <span class="number">1</span>, right);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">list</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> quickSortPrivate(<span class="built_in">list</span>.begin(), <span class="built_in">list</span>.end() - <span class="number">1</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>std标准库排序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//std排序标准库，作为基准时间参考</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">stdSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;<span class="built_in">list</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">     <span class="built_in">std</span>::sort(<span class="built_in">list</span>.begin(), <span class="built_in">list</span>.end());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/19/cups用户认证实现细节/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -939,7 +1272,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-07 18:07:24" itemprop="dateModified" datetime="2021-03-07T18:07:24+08:00">2021-03-07</time>
+                <time title="修改时间：2021-03-13 11:55:42" itemprop="dateModified" datetime="2021-03-13T11:55:42+08:00">2021-03-13</time>
               </span>
             
           
@@ -1097,7 +1430,6 @@
 <p>  前后引用关系如下图：</p>
 <p>  <img src="/2021/01/30/cpp11及以上新特性学习/sign.png" alt=".."></p>
 <p>  将B中对于A的引用改为std::weak_ptr之后，ptr_a和ptr_b释放时会断掉1和2的引用，随后A因为引用计数为0先释放，然后B接着释放。</p>
-<h1 id="6、常用算法和数据结构"><a href="#6、常用算法和数据结构" class="headerlink" title="6、常用算法和数据结构"></a>6、常用算法和数据结构</h1><h1 id="7、多线程"><a href="#7、多线程" class="headerlink" title="7、多线程"></a>7、多线程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
           
         
@@ -1867,348 +2199,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/26/cups常用问题记录/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/08/26/cups常用问题记录/" class="post-title-link" itemprop="url">cups常用问题记录</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-08-26 14:04:31" itemprop="dateCreated datePublished" datetime="2020-08-26T14:04:31+08:00">2020-08-26</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2021-01-05 09:44:54" itemprop="dateModified" datetime="2021-01-05T09:44:54+08:00">2021-01-05</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/linux学习笔记/" itemprop="url" rel="index"><span itemprop="name">linux学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在/var/log/cups/error.log。</p>
-<h1 id="问题1：临时目录权限问题"><a href="#问题1：临时目录权限问题" class="headerlink" title="问题1：临时目录权限问题"></a>问题1：临时目录权限问题</h1><p>反馈说某台打印机无法打印，查看打印日志的时候发现以下问题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[12]=&quot;TMPDIR=/var/spool/cups/tmp&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[13]=&quot;USER=root&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[14]=&quot;CUPS_MAX_MESSAGE=2047&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[15]=&quot;CUPS_SERVER=/run/cups/cups.sock&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[16]=&quot;CUPS_ENCRYPTION=IfRequested&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[17]=&quot;IPP_PORT=631&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[18]=&quot;CHARSET=utf-8&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[19]=&quot;LANG=zh_CN.UTF-8&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[20]=&quot;PPD=/etc/cups/ppd/HP-LaserJet-M1319f-MFP.ppd&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[21]=&quot;RIP_MAX_CACHE=128m&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[22]=&quot;CONTENT_TYPE=application/vnd.cups-pdf-banner&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[23]=&quot;DEVICE_URI=smb://workgroup/192.168.5.162/A912&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[24]=&quot;PRINTER_INFO=HP LaserJet M1319f MFP&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[25]=&quot;PRINTER_LOCATION=A912&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[26]=&quot;PRINTER=HP-LaserJet-M1319f-MFP&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[27]=&quot;PRINTER_STATE_REASONS=none&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[28]=&quot;CUPS_FILETYPE=document&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[29]=&quot;FINAL_CONTENT_TYPE=application/vnd.cups-pdf&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[30]=&quot;AUTH_I****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[31]=&quot;AUTH_U****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[32]=&quot;AUTH_P****&quot;</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/bannertopdf (PID 12160)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/pdftopdf (PID 12161)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/foomatic-rip (PID 12162)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Started backend /usr/lib/cups/backend/smb (PID 12163)</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] pdftopdf: Last filter determined by the PPD: foomatic-rip; FINAL_CONTENT_TYPE: application/vnd.cups-pdf =&gt; pdftopdf will log pages in page_log.</span><br><span class="line">D [26/Aug/2020:09:56:30 +0800] [Job 8] Set job-printer-state-message to &quot;Can\&apos;t create temporary file&quot;, current level=ERROR</span><br></pre></td></tr></table></figure>
-<p>从日志看这里是因为cups无法在TMPDIR目录创建临时文件，导致无法继续打印，所以先查看该目录的权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getfacl /var/spool/cups/tmp</span><br></pre></td></tr></table></figure>
-<p>结果如下图</p>
-<p><img src="/2020/08/26/cups常用问题记录/D:/web-blog\blog\source\_posts\cups常用问题记录\err.jpg" alt="error"></p>
-<p>从结果看group没有w写权限，通过执行下列命令修复</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo setfacl -m g:lp:rwx /var/spool/cups/tmp</span><br><span class="line">sudo setfacl -m d:group:lp:rwx /var/spool/cups/</span><br></pre></td></tr></table></figure>
-<p>第一行是添加一个lp用户组，分配rwx权限，第二行是给上级目录添加lp用户组rwx权限，因为tmp目录是集成cups目录权限的，重启后cups调用mkdir创建tmp目录继承cups目录的权限，所以要修改上层cups目录的权限。</p>
-<h1 id="问题2：PPD文件异常"><a href="#问题2：PPD文件异常" class="headerlink" title="问题2：PPD文件异常"></a>问题2：PPD文件异常</h1><p>ppd文件是打印机能力的描述文件，如果ppd文件损坏，会导致cups无法正确解析打印机的各种属性。通过ipp请求获取打印机型号时，cups返回的是添加打印机时缓存的属性，这时候ppd损坏也可以返回正确值，但是cups重启后，重新加载ppd，这个时候就无法获取和ppd相关的属性。代码里面也要做出判断，比如std::map等容器直接使用没有的key会导致异常退出。</p>
-<h1 id="问题3：用户组权限问题"><a href="#问题3：用户组权限问题" class="headerlink" title="问题3：用户组权限问题"></a>问题3：用户组权限问题</h1><p>新版欧拉系统测试打印管理器，发现lpinfo -v可以发现直接的打印机，但是打印管理器自动发现没找到，有一个细节就是用户需要sudo才能执行该命令，但是正常的专业版是不需要的，所以应该是当前用户不在lp和lpadmin组，导致无法管理打印机。输入id命令查看当前用户所属组，发现确实用户默认没有lp和lpadmin组。所以手动添加组即可，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -a -G lp user   <span class="comment">#给user用户添加lp组</span></span><br><span class="line">sudo usermod -a -G lpadmin user <span class="comment">#给user用户添加lpadmin组</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>目前欧拉版和行业版基于centos，所有的打印机驱动没有适配，暂时需要手动下载安装驱动</p>
-</blockquote>
-<h1 id="问题4：cups配置文件被破坏"><a href="#问题4：cups配置文件被破坏" class="headerlink" title="问题4：cups配置文件被破坏"></a>问题4：cups配置文件被破坏</h1><p>cups服务配置文件位于/etc/cups/cupsd.conf，有时候配置文件被系统其他程序破坏，导致无法启动，可以重新安装cups-daemon服务，重新安装之后会初始化配置文件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cups-daemon --reinstall</span><br></pre></td></tr></table></figure>
-<p>不要卸载cups，这是两个包，而且重新安装不会卸载对应的强依赖，更加安全。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/19/Windows10-vs2015编译thrift0-11-0/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2020/08/19/Windows10-vs2015编译thrift0-11-0/" class="post-title-link" itemprop="url">Windows10-vs2015编译thrift0.11.0</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2020-08-19 13:07:34 / 修改时间：13:07:35" itemprop="dateCreated datePublished" datetime="2020-08-19T13:07:34+08:00">2020-08-19</time>
-            </span>
-          
-
-          
-            
-
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2256,7 +2246,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2303,7 +2293,9 @@
         
           
         
-        <span class="site-state-item-count">15</span>
+          
+        
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2472,7 +2464,9 @@
         
           
         
-        <span class="site-state-item-count">76</span>
+          
+        
+        <span class="site-state-item-count">77</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
