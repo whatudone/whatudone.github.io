@@ -94,15 +94,18 @@
   };
 </script>
 
-  <meta name="keywords" content="windows,ip">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;这是一个Qt项目，需求是显示连接网卡的ip，过滤掉断开的和虚拟网卡等。本来想直接使用Qt提供的QNetworkConfigurationManager,但是在虚拟机里面这个接口某些情况无法检测到网卡配置，最后还是采用Windows API稳妥方案解决。WinAPI封装的com接口里面可以使用wmi nic查询网卡硬件相关的信息，但是这个接口主要是提供硬件信息，ip是个保">
+<meta name="keywords" content="windows,ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows获取网卡信息">
 <meta property="og:url" content="http://yoursite.com/2021/03/28/Windows获取网卡信息/index.html">
 <meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;这是一个Qt项目，需求是显示连接网卡的ip，过滤掉断开的和虚拟网卡等。本来想直接使用Qt提供的QNetworkConfigurationManager,但是在虚拟机里面这个接口某些情况无法检测到网卡配置，最后还是采用Windows API稳妥方案解决。WinAPI封装的com接口里面可以使用wmi nic查询网卡硬件相关的信息，但是这个接口主要是提供硬件信息，ip是个保">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-28T05:09:58.315Z">
+<meta property="og:updated_time" content="2021-03-28T05:45:38.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows获取网卡信息">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这是一个Qt项目，需求是显示连接网卡的ip，过滤掉断开的和虚拟网卡等。本来想直接使用Qt提供的QNetworkConfigurationManager,但是在虚拟机里面这个接口某些情况无法检测到网卡配置，最后还是采用Windows API稳妥方案解决。WinAPI封装的com接口里面可以使用wmi nic查询网卡硬件相关的信息，但是这个接口主要是提供硬件信息，ip是个保">
 
 
 
@@ -391,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2021-03-28 13:08:36 / 修改时间：13:09:58" itemprop="dateCreated datePublished" datetime="2021-03-28T13:08:36+08:00">2021-03-28</time>
+              <time title="创建时间：2021-03-28 13:08:36 / 修改时间：13:45:38" itemprop="dateCreated datePublished" datetime="2021-03-28T13:08:36+08:00">2021-03-28</time>
             </span>
           
 
@@ -450,7 +453,10 @@
       
 
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&emsp;&emsp;这是一个Qt项目，需求是显示连接网卡的ip，过滤掉断开的和虚拟网卡等。本来想直接使用Qt提供的QNetworkConfigurationManager,但是在虚拟机里面这个接口某些情况无法检测到网卡配置，最后还是采用Windows API稳妥方案解决。WinAPI封装的com接口里面可以使用wmi nic查询网卡硬件相关的信息，但是这个接口主要是提供硬件信息，ip是个保留项，里面没有填充数据。所以还是直接使用&lt;iphlpapi.h&gt;里面接口。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FREE(x) HeapFree(GetProcessHeap(), 0, (x))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WORKING_BUFFER_SIZE 15000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_TRIES 3</span></span><br><span class="line"><span class="keyword">void</span> queryNetcardIP&#123;</span><br><span class="line">    DWORD dwRetVal = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// Set the flags to pass to GetAdaptersAddresses</span></span><br><span class="line"></span><br><span class="line">    ULONG flags = GAA_FLAG_INCLUDE_PREFIX;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// default to unspecified address family (both)</span></span><br><span class="line">    ULONG family = AF_UNSPEC;</span><br><span class="line"></span><br><span class="line">    PIP_ADAPTER_ADDRESSES pAddresses = <span class="literal">NULL</span>;</span><br><span class="line">    ULONG outBufLen = <span class="number">0</span>;</span><br><span class="line">    ULONG Iterations = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    PIP_ADAPTER_ADDRESSES pCurrAddresses = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    IP_ADAPTER_PREFIX *pPrefix = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//指定ipv4</span></span><br><span class="line">    family = AF_INET;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Allocate a 15 KB buffer to start with.</span></span><br><span class="line">    outBufLen = WORKING_BUFFER_SIZE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line"></span><br><span class="line">        pAddresses = (IP_ADAPTER_ADDRESSES *) MALLOC(outBufLen);</span><br><span class="line">        <span class="keyword">if</span> (pAddresses == <span class="literal">NULL</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span>;         </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        dwRetVal =</span><br><span class="line">            GetAdaptersAddresses(family, flags, <span class="literal">NULL</span>, pAddresses, &amp;outBufLen);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dwRetVal == ERROR_BUFFER_OVERFLOW) &#123;</span><br><span class="line">            FREE(pAddresses);</span><br><span class="line">            pAddresses = <span class="literal">NULL</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Iterations++;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">while</span> ((dwRetVal == ERROR_BUFFER_OVERFLOW) &amp;&amp; (Iterations &lt; MAX_TRIES));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (dwRetVal == NO_ERROR) &#123;</span><br><span class="line">        <span class="comment">// If successful, output some information from the data we received</span></span><br><span class="line">        pCurrAddresses = pAddresses;</span><br><span class="line">        QStringList <span class="built_in">list</span>;</span><br><span class="line">        <span class="keyword">while</span> (pCurrAddresses) &#123;</span><br><span class="line">        <span class="comment">//去掉VMWare和VirtualBox创建的虚拟网卡，过滤掉断开连接的网卡(OperStatus=2)，过滤掉环回网卡</span></span><br><span class="line"></span><br><span class="line">            QString description = QString::fromWCharArray(pCurrAddresses-&gt;Description);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (description.contains(<span class="string">"VirtualBox"</span>, Qt::CaseInsensitive)</span><br><span class="line">                    || description.contains(<span class="string">"VMware"</span>, Qt::CaseInsensitive)</span><br><span class="line"></span><br><span class="line">                    || (pCurrAddresses-&gt;OperStatus == <span class="number">2</span>)</span><br><span class="line">                    || (pCurrAddresses-&gt;IfType == IF_TYPE_SOFTWARE_LOOPBACK))</span><br><span class="line">               ) &#123;</span><br><span class="line">                pCurrAddresses = pCurrAddresses-&gt;Next;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            pPrefix = pCurrAddresses-&gt;FirstPrefix;</span><br><span class="line">            <span class="keyword">if</span> (pPrefix) &#123;</span><br><span class="line">                <span class="keyword">for</span> (i = <span class="number">0</span>; pPrefix != <span class="literal">NULL</span>; i++) &#123;</span><br><span class="line">                <span class="comment">//一个网卡的里面包含多个ip，网关、真实ip、广播地址等，第二个是真实ip</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (i == <span class="number">1</span>) &#123;</span><br><span class="line">                        sockaddr_in *address = (sockaddr_in *) pPrefix-&gt;Address.lpSockaddr;</span><br><span class="line">                        <span class="built_in">list</span>.append(inet_ntoa(address-&gt;sin_addr));</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    pPrefix = pPrefix-&gt;Next;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            pCurrAddresses = pCurrAddresses-&gt;Next;</span><br><span class="line">        &#125;</span><br><span class="line">        qInfo() &lt;&lt; <span class="built_in">list</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">if</span> (pAddresses) &#123;</span><br><span class="line">        FREE(pAddresses);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实PIP_ADAPTER_ADDRESSES这个结构体里面还有很多其他重要信息，比如网卡速率，网卡类型等。</p>
+
       
     </div>
 
@@ -547,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
 
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -841,6 +856,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
