@@ -347,6 +347,256 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/Linux常用命令/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/16/Linux常用命令/" class="post-title-link" itemprop="url">Linux常用命令</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-16 16:18:37" itemprop="dateCreated datePublished" datetime="2019-04-16T16:18:37+08:00">2019-04-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-11-19 13:07:12" itemprop="dateModified" datetime="2020-11-19T13:07:12+08:00">2020-11-19</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1、查找进程"><a href="#1、查找进程" class="headerlink" title="1、查找进程"></a>1、查找进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br></pre></td></tr></table></figure>
+<p>grep是过滤，其他命令里面的同理。</p>
+<h3 id="2、查看网络端口占用"><a href="#2、查看网络端口占用" class="headerlink" title="2、查看网络端口占用"></a>2、查看网络端口占用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp | grep 80</span><br></pre></td></tr></table></figure>
+<h3 id="3、查看进程占用cpu和内存"><a href="#3、查看进程占用cpu和内存" class="headerlink" title="3、查看进程占用cpu和内存"></a>3、查看进程占用cpu和内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -p 进程号</span><br></pre></td></tr></table></figure>
+<h3 id="4、挂载u盘或共享文件夹"><a href="#4、挂载u盘或共享文件夹" class="headerlink" title="4、挂载u盘或共享文件夹"></a>4、挂载u盘或共享文件夹</h3><ul>
+<li><p>挂载共享文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir dir /home/username/SharedFloder <span class="comment">#linux上的共享文件夹</span></span><br><span class="line">sudo chmod 777 /home/username/SharedFloder <span class="comment">#给目录读写执行权限</span></span><br><span class="line">sudo mount -t vboxsf WinFloder /home/username/SharedFloder <span class="comment">#临时挂载</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>挂载u盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l <span class="comment">#查看u盘设备（假设为sdc1）</span></span><br><span class="line">mkdir /mnt</span><br><span class="line">mount /dev/sdc1 /mnt </span><br><span class="line">umount /dev/sdc1 <span class="comment">#卸载u盘</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5、apt用法"><a href="#5、apt用法" class="headerlink" title="5、apt用法"></a>5、apt用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-cache depends package <span class="comment">#查看包的依赖</span></span><br><span class="line">apt-cache search package <span class="comment">#搜索包</span></span><br><span class="line">apt rdepends package <span class="comment">#查看该包被哪些包依赖</span></span><br><span class="line">apt build-dep package <span class="comment">#安装一个包对应编译依赖环境</span></span><br></pre></td></tr></table></figure>
+<h3 id="6、vim常用快捷键"><a href="#6、vim常用快捷键" class="headerlink" title="6、vim常用快捷键"></a>6、vim常用快捷键</h3><ol>
+<li><p>跳转指定行数       :n</p>
+</li>
+<li><p>跳转文件末尾       G</p>
+</li>
+<li><p>搜索文件内容       :/content </p>
+</li>
+<li><p>查找下一个搜索到的内容     n</p>
+</li>
+<li><p>查找上一个搜索内容             N</p>
+</li>
+<li><p>剪切行                                        dd</p>
+</li>
+<li><p>粘贴                                        p</p>
+</li>
+<li><p>复制行                                    yy</p>
+</li>
+<li><p>复制指定内容       v进入可视化，选中指定内容，y复制</p>
+</li>
+<li><p>批量添加注释       ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行</p>
+</li>
+<li><p>批量取消注释        ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出</p>
+</li>
+<li><p>撤销操作       u</p>
+</li>
+<li><p>恢复上一步被撤销的操作         ctrl+r         </p>
+</li>
+</ol>
+<h3 id="7、dpkg"><a href="#7、dpkg" class="headerlink" title="7、dpkg"></a>7、dpkg</h3><ol>
+<li><p>查看包的版本信息    </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l package</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看包的文件            </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -L package</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看文件对应的包   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -S filename</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="8、xprop"><a href="#8、xprop" class="headerlink" title="8、xprop"></a>8、xprop</h3><ol>
+<li><p>查看窗口进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xprop           <span class="comment">#执行完之后点击窗口就会获取窗口信息</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="9、proc"><a href="#9、proc" class="headerlink" title="9、proc"></a>9、proc</h3><ol>
+<li><p>查看进程的命令行参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/cmdline  <span class="comment">#ID是指进程id，Linux一切皆文件</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/environ  <span class="comment">#Qt在Linux上很多bug就是因为环境变量导致的</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的内存结构</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/maps</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="10、GDB和SSH远程调试"><a href="#10、GDB和SSH远程调试" class="headerlink" title="10、GDB和SSH远程调试"></a>10、GDB和SSH远程调试</h3><p>代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh user@host             <span class="comment">#不带图形界面</span></span><br><span class="line">ssh -X user@host          <span class="comment">#可以启动带图形界面的程序</span></span><br></pre></td></tr></table></figure>
+<p>调试代码gdb：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gdb program   <span class="comment">#启动gdb</span></span><br><span class="line">run           <span class="comment">#启动程序</span></span><br><span class="line">bt            <span class="comment">#打印当前堆栈</span></span><br></pre></td></tr></table></figure>
+<p>大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。</p>
+<h3 id="11、apt包管理冲突解决"><a href="#11、apt包管理冲突解决" class="headerlink" title="11、apt包管理冲突解决"></a>11、apt包管理冲突解决</h3><p>当安装一个包发生错误时，此时该包处于一种half-install(半安装)状态，如果继续使用apt安装或者卸载其他包时，dpkg会尝试继续处理上次为安装完成的包，导致后面的操作也会失败，截图示例如下：</p>
+<p><img src="/2019/04/16/Linux常用命令/D:/web-blog\blog\source\_posts\Linux常用命令\dpkg-error.png" alt=""></p>
+<p>上图是在卸载toshibaest2822am时，因为上次toshiba-est2822amf-cups没有安装完成所以继续安装，但是又有问题，解决办法就是去掉dpkg的包状态文件里面的关于toshiba-est2822amf-cups的整段信息，然后重新卸载toshibaest2822am即可。dpkg的包状态文件是/var/lib/dpkg/status。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/08/Git使用教程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -407,7 +657,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-17 11:29:27" itemprop="dateModified" datetime="2021-03-17T11:29:27+08:00">2021-03-17</time>
+                <time title="修改时间：2021-03-17 17:19:49" itemprop="dateModified" datetime="2021-03-17T17:19:49+08:00">2021-03-17</time>
               </span>
             
           
@@ -495,7 +745,7 @@
 <ul>
 <li><h3 id="本地没有原始工程创建新的仓库"><a href="#本地没有原始工程创建新的仓库" class="headerlink" title="本地没有原始工程创建新的仓库"></a>本地没有原始工程创建新的仓库</h3></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone git@192.168.16.100:liurui/test.git</span><br><span class="line">cd test</span><br><span class="line">touch README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;add README&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone git@192.168.16.100:liurui/test.git</span><br><span class="line">cd test</span><br><span class="line">touch README.md</span><br><span class="line">git add README.md</span><br><span class="line">git commit -m &quot;add README&quot;</span><br><span class="line">git push -u origin master:dev</span><br></pre></td></tr></table></figure>
 <p>从远程直接把原始仓库下载到本地。</p>
 <ul>
 <li><h3 id="已经存在本地仓库"><a href="#已经存在本地仓库" class="headerlink" title="已经存在本地仓库"></a>已经存在本地仓库</h3></li>
@@ -2106,189 +2356,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/" class="post-title-link" itemprop="url">QtCreator在Linux下断点调试无法访问变量的值</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-05 17:02:22" itemprop="dateCreated datePublished" datetime="2019-03-05T17:02:22+08:00">2019-03-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-07-23 11:05:22" itemprop="dateModified" datetime="2019-07-23T11:05:22+08:00">2019-07-23</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="QtCreator调试无法获取当前变量值"><a href="#QtCreator调试无法获取当前变量值" class="headerlink" title="QtCreator调试无法获取当前变量值"></a>QtCreator调试无法获取当前变量值</h1><p>bug状态如下：</p>
-<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB"></p>
-<p>这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set solib-search-path  /usr/local/Trolltech/Qt-<span class="number">4.8</span>.<span class="number">6</span>-<span class="number">64</span>/lib/</span><br></pre></td></tr></table></figure>
-<p>如下图所示：</p>
-<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB1.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB1"></p>
-<p>添加后成功的状态图如下：</p>
-<p><img src="/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/Qt_GDB2.png" alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB2"></p>
-<h1 id="QtCreator无法调试"><a href="#QtCreator无法调试" class="headerlink" title="QtCreator无法调试"></a>QtCreator无法调试</h1><p>有一种情况，当调试的时候gdb提示GDB:Failed to set controlling terminal。解决办法是在项目-&gt;Run 勾选 Run in terminal。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2336,7 +2403,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2385,7 +2452,11 @@
         
           
         
-        <span class="site-state-item-count">16</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2556,7 +2627,11 @@
         
           
         
-        <span class="site-state-item-count">77</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">79</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

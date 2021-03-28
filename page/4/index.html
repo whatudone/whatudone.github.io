@@ -347,6 +347,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/QML-ListView视图模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/08/QML-ListView视图模型/" class="post-title-link" itemprop="url">QML-ListView视图模型</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-08 15:53:33 / 修改时间：17:01:12" itemprop="dateCreated datePublished" datetime="2019-05-08T15:53:33+08:00">2019-05-08</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/QML学习笔记/" itemprop="url" rel="index"><span itemprop="name">QML学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这篇主要是介绍如何使用ListView的自定义高亮委托和自定义元素委托，以及section属性的分类和section的自定义委托。代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.7</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Controls <span class="number">2.5</span></span><br><span class="line"></span><br><span class="line">Rectangle &#123;</span><br><span class="line">    id:root</span><br><span class="line">    ScrollView&#123;</span><br><span class="line">        id:scroll</span><br><span class="line">        anchors.fill: parent</span><br><span class="line">        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff</span><br><span class="line">        ScrollBar.vertical.policy: ScrollBar.AlwaysOn</span><br><span class="line">        ListModel&#123;</span><br><span class="line">            id:listModel</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"发现音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/music.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"私人FM"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/FM.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"视频"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/video.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"推荐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"朋友"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/friends.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"本地音乐"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/localmusic.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"下载管理"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/download.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的音乐云盘"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/cloud.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">            ListElement&#123;</span><br><span class="line">                section:qsTr(<span class="string">"我的音乐"</span>)</span><br><span class="line">                title:qsTr(<span class="string">"我的收藏"</span>)</span><br><span class="line">                image:<span class="string">"qrc:/Images/collection.png"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Component &#123;</span><br><span class="line">            id: sectionHeading</span><br><span class="line">            Rectangle &#123;</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: childrenRect.height</span><br><span class="line"></span><br><span class="line">                Text &#123;</span><br><span class="line">                    text: section</span><br><span class="line">                    font.italic: <span class="literal">true</span></span><br><span class="line">                    font.pixelSize: <span class="number">15</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ListView &#123;</span><br><span class="line">            id:listView</span><br><span class="line">            clip: <span class="literal">true</span></span><br><span class="line">            model: listModel</span><br><span class="line">            anchors.fill: parent</span><br><span class="line">            focus: <span class="literal">true</span></span><br><span class="line">            highlight: Rectangle &#123;</span><br><span class="line">                color: <span class="string">"lightsteelblue"</span></span><br><span class="line">                width:listView.width</span><br><span class="line">                height:<span class="number">30</span></span><br><span class="line">                Behavior on y&#123;</span><br><span class="line">                    NumberAnimation &#123; <span class="attr">duration</span>: <span class="number">10000</span> &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            highlightFollowsCurrentItem :<span class="literal">true</span></span><br><span class="line">            delegate: Item &#123;</span><br><span class="line">                id:delegateitem</span><br><span class="line">                width: listView.width</span><br><span class="line">                height: <span class="number">30</span></span><br><span class="line">                Image &#123;</span><br><span class="line">                    id: icon</span><br><span class="line">                    source: image</span><br><span class="line">                    anchors.left: parent.left</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                    width: <span class="number">16</span></span><br><span class="line">                    height: <span class="number">16</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                Text &#123;</span><br><span class="line">                    id: text</span><br><span class="line">                    text: title</span><br><span class="line">                    anchors.left: icon.right</span><br><span class="line">                    anchors.leftMargin: <span class="number">20</span></span><br><span class="line">                    anchors.verticalCenter: parent.verticalCenter</span><br><span class="line">                &#125;</span><br><span class="line">                MouseArea&#123;</span><br><span class="line">                    anchors.fill: parent</span><br><span class="line">                    onClicked: &#123;</span><br><span class="line">                        listView.currentIndex = index;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            section.property: <span class="string">"section"</span></span><br><span class="line">            section.criteria: ViewSection.FullString</span><br><span class="line">            section.delegate: sectionHeading</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ListView的clip属性是裁剪，避免item在拖动的过程中超出边界，highlight就是高亮item，可以自定义。默认高亮item的高度和宽度会自动适应Item的高和宽。highlightFollowsCurrentItem属性是控制高亮item是否根据currentItem的切换自动改变坐标和高宽和item一致。delegate就是item的委托，这个委托的最上层不能使用Rectangle，这样会和高亮的Item冲突，导致高亮无法显示。使用Item作为最顶层的元素就没有这个问题。Item的委托在点击的过程中不会自动更新视图的currentIndex索引，需要手动处理。section作为对item的分类，property是关联modelData中分类的属性，delegate指定代理。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/Qt注意事项/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1982,256 +2149,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/Linux常用命令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/16/Linux常用命令/" class="post-title-link" itemprop="url">Linux常用命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-16 16:18:37" itemprop="dateCreated datePublished" datetime="2019-04-16T16:18:37+08:00">2019-04-16</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-11-19 13:07:12" itemprop="dateModified" datetime="2020-11-19T13:07:12+08:00">2020-11-19</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1、查找进程"><a href="#1、查找进程" class="headerlink" title="1、查找进程"></a>1、查找进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br></pre></td></tr></table></figure>
-<p>grep是过滤，其他命令里面的同理。</p>
-<h3 id="2、查看网络端口占用"><a href="#2、查看网络端口占用" class="headerlink" title="2、查看网络端口占用"></a>2、查看网络端口占用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp | grep 80</span><br></pre></td></tr></table></figure>
-<h3 id="3、查看进程占用cpu和内存"><a href="#3、查看进程占用cpu和内存" class="headerlink" title="3、查看进程占用cpu和内存"></a>3、查看进程占用cpu和内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -p 进程号</span><br></pre></td></tr></table></figure>
-<h3 id="4、挂载u盘或共享文件夹"><a href="#4、挂载u盘或共享文件夹" class="headerlink" title="4、挂载u盘或共享文件夹"></a>4、挂载u盘或共享文件夹</h3><ul>
-<li><p>挂载共享文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir dir /home/username/SharedFloder <span class="comment">#linux上的共享文件夹</span></span><br><span class="line">sudo chmod 777 /home/username/SharedFloder <span class="comment">#给目录读写执行权限</span></span><br><span class="line">sudo mount -t vboxsf WinFloder /home/username/SharedFloder <span class="comment">#临时挂载</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>挂载u盘</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l <span class="comment">#查看u盘设备（假设为sdc1）</span></span><br><span class="line">mkdir /mnt</span><br><span class="line">mount /dev/sdc1 /mnt </span><br><span class="line">umount /dev/sdc1 <span class="comment">#卸载u盘</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="5、apt用法"><a href="#5、apt用法" class="headerlink" title="5、apt用法"></a>5、apt用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-cache depends package <span class="comment">#查看包的依赖</span></span><br><span class="line">apt-cache search package <span class="comment">#搜索包</span></span><br><span class="line">apt rdepends package <span class="comment">#查看该包被哪些包依赖</span></span><br><span class="line">apt build-dep package <span class="comment">#安装一个包对应编译依赖环境</span></span><br></pre></td></tr></table></figure>
-<h3 id="6、vim常用快捷键"><a href="#6、vim常用快捷键" class="headerlink" title="6、vim常用快捷键"></a>6、vim常用快捷键</h3><ol>
-<li><p>跳转指定行数       :n</p>
-</li>
-<li><p>跳转文件末尾       G</p>
-</li>
-<li><p>搜索文件内容       :/content </p>
-</li>
-<li><p>查找下一个搜索到的内容     n</p>
-</li>
-<li><p>查找上一个搜索内容             N</p>
-</li>
-<li><p>剪切行                                        dd</p>
-</li>
-<li><p>粘贴                                        p</p>
-</li>
-<li><p>复制行                                    yy</p>
-</li>
-<li><p>复制指定内容       v进入可视化，选中指定内容，y复制</p>
-</li>
-<li><p>批量添加注释       ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者//，然后Esc，就会自动注释所有选中行</p>
-</li>
-<li><p>批量取消注释        ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出</p>
-</li>
-<li><p>撤销操作       u</p>
-</li>
-<li><p>恢复上一步被撤销的操作         ctrl+r         </p>
-</li>
-</ol>
-<h3 id="7、dpkg"><a href="#7、dpkg" class="headerlink" title="7、dpkg"></a>7、dpkg</h3><ol>
-<li><p>查看包的版本信息    </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l package</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看包的文件            </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -L package</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看文件对应的包   </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -S filename</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="8、xprop"><a href="#8、xprop" class="headerlink" title="8、xprop"></a>8、xprop</h3><ol>
-<li><p>查看窗口进程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xprop           <span class="comment">#执行完之后点击窗口就会获取窗口信息</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="9、proc"><a href="#9、proc" class="headerlink" title="9、proc"></a>9、proc</h3><ol>
-<li><p>查看进程的命令行参数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/cmdline  <span class="comment">#ID是指进程id，Linux一切皆文件</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看进程的环境变量</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/environ  <span class="comment">#Qt在Linux上很多bug就是因为环境变量导致的</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看进程的内存结构</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/ID/maps</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="10、GDB和SSH远程调试"><a href="#10、GDB和SSH远程调试" class="headerlink" title="10、GDB和SSH远程调试"></a>10、GDB和SSH远程调试</h3><p>代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh user@host             <span class="comment">#不带图形界面</span></span><br><span class="line">ssh -X user@host          <span class="comment">#可以启动带图形界面的程序</span></span><br></pre></td></tr></table></figure>
-<p>调试代码gdb：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gdb program   <span class="comment">#启动gdb</span></span><br><span class="line">run           <span class="comment">#启动程序</span></span><br><span class="line">bt            <span class="comment">#打印当前堆栈</span></span><br></pre></td></tr></table></figure>
-<p>大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。</p>
-<h3 id="11、apt包管理冲突解决"><a href="#11、apt包管理冲突解决" class="headerlink" title="11、apt包管理冲突解决"></a>11、apt包管理冲突解决</h3><p>当安装一个包发生错误时，此时该包处于一种half-install(半安装)状态，如果继续使用apt安装或者卸载其他包时，dpkg会尝试继续处理上次为安装完成的包，导致后面的操作也会失败，截图示例如下：</p>
-<p><img src="/2019/04/16/Linux常用命令/D:/web-blog\blog\source\_posts\Linux常用命令\dpkg-error.png" alt=""></p>
-<p>上图是在卸载toshibaest2822am时，因为上次toshiba-est2822amf-cups没有安装完成所以继续安装，但是又有问题，解决办法就是去掉dpkg的包状态文件里面的关于toshiba-est2822amf-cups的整段信息，然后重新卸载toshibaest2822am即可。dpkg的包状态文件是/var/lib/dpkg/status。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2279,7 +2196,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2328,7 +2245,11 @@
         
           
         
-        <span class="site-state-item-count">16</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2499,7 +2420,11 @@
         
           
         
-        <span class="site-state-item-count">77</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">79</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
