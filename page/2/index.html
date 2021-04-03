@@ -347,6 +347,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/04/cups通过lpd使用windows打印机/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/01/04/cups通过lpd使用windows打印机/" class="post-title-link" itemprop="url">Windows和Linux互相共享打印机</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-04 17:52:06" itemprop="dateCreated datePublished" datetime="2021-01-04T17:52:06+08:00">2021-01-04</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-23 13:05:51" itemprop="dateModified" datetime="2021-03-23T13:05:51+08:00">2021-03-23</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/cups/" itemprop="url" rel="index"><span itemprop="name">cups</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一、cups使用lpd协议连接windows共享打印机"><a href="#一、cups使用lpd协议连接windows共享打印机" class="headerlink" title="一、cups使用lpd协议连接windows共享打印机"></a>一、cups使用lpd协议连接windows共享打印机</h1><h2 id="1、windows设置"><a href="#1、windows设置" class="headerlink" title="1、windows设置"></a>1、windows设置</h2><h3 id="1-1、开启共享"><a href="#1-1、开启共享" class="headerlink" title="1.1、开启共享"></a>1.1、开启共享</h3><p><img src="/2021/01/04/cups通过lpd使用windows打印机/企业微信截图_20210104175626.png" alt="cups通过lpd使用windows打印机"></p>
+<p>打开需要指定的打印机共享开关。</p>
+<h3 id="1-2、启用windows的lpd设置"><a href="#1-2、启用windows的lpd设置" class="headerlink" title="1.2、启用windows的lpd设置"></a>1.2、启用windows的lpd设置</h3><p><img src="/2021/01/04/cups通过lpd使用windows打印机/企业微信截图_20210104175753.png" alt="cups通过lpd使用windows打印机"></p>
+<p>勾选LPD和LPR选项。</p>
+<h2 id="2、Linux添加打印机"><a href="#2、Linux添加打印机" class="headerlink" title="2、Linux添加打印机"></a>2、Linux添加打印机</h2><p>这里以UOS自带的打印管理器作为例子，如果其他发行版可以访问localhost:631在网页上操作。</p>
+<h3 id="2-1、填写设备uri"><a href="#2-1、填写设备uri" class="headerlink" title="2.1、填写设备uri"></a>2.1、填写设备uri</h3><p>lpd协议的打印机uri构成如下：lpd://host/printername。host就是对应windwos的ip或者对应的域名，printername是指打印机共享出来的名字，而不是打印机在windows上的设备名称。打印管理器目前不支持带空格的uri，所以可以把共享名称改成不带空格的。</p>
+<p><img src="/2021/01/04/cups通过lpd使用windows打印机/企业微信截图_20210104180029.png" alt="cups通过lpd使用windows打印机"></p>
+<h3 id="2-2、选择驱动"><a href="#2-2、选择驱动" class="headerlink" title="2.2、选择驱动"></a>2.2、选择驱动</h3><p><img src="/2021/01/04/cups通过lpd使用windows打印机/企业微信截图_20210104175945.png" alt="cups通过lpd使用windows打印机"></p>
+<blockquote>
+<p>厂商和型号的下拉列表可以直接搜索，手动选择驱动需要提前以前安装过对应的驱动，才能在下拉列表中显示。如果不是手动填写的uri，而是直接在手动查找里面发现的lpd协议打印机，那么可以自动匹配到驱动，前提是系统适配过对应的打印机。</p>
+</blockquote>
+<h1 id="二、windows使用Linux共享打印机"><a href="#二、windows使用Linux共享打印机" class="headerlink" title="二、windows使用Linux共享打印机"></a>二、windows使用Linux共享打印机</h1><h2 id="1、Linux设置"><a href="#1、Linux设置" class="headerlink" title="1、Linux设置"></a>1、Linux设置</h2><p>打开Linux上的打印机共享设置，UOS打印管理操作如下，如果没有该应用，可以直接登录localhost:631去设置。</p>
+<p><img src="/2021/01/04/cups通过lpd使用windows打印机/cups-share1.png" alt=""></p>
+<p><img src="/2021/01/04/cups通过lpd使用windows打印机/cups-share2.png" alt=""></p>
+<h2 id="2、windows添加打印机"><a href="#2、windows添加打印机" class="headerlink" title="2、windows添加打印机"></a>2、windows添加打印机</h2><p>通过http添加Linux共享打印机，需要在windows上也安装对应的驱动，步骤如下：</p>
+<p>![]cups通过lpd使用windows打印机\windows-add1.png)</p>
+<blockquote>
+<p>注意ip后面是cups默认的631端口</p>
+</blockquote>
+<p><img src="/2021/01/04/cups通过lpd使用windows打印机/windows-add2.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/02/valgrind分析说明/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1938,187 +2132,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/05/对汉字按照拼音排序/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/09/05/对汉字按照拼音排序/" class="post-title-link" itemprop="url">对汉字按照拼音排序</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-05 08:24:33" itemprop="dateCreated datePublished" datetime="2019-09-05T08:24:33+08:00">2019-09-05</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-29 19:28:02" itemprop="dateModified" datetime="2019-09-29T19:28:02+08:00">2019-09-29</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/C-标准库/" itemprop="url" rel="index"><span itemprop="name">C++标准库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="汉字排序"><a href="#汉字排序" class="headerlink" title="汉字排序"></a>汉字排序</h1><p>对于英文单词排序很常见，但是对于汉字单词如何排序，可以借助于std的标准库，代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;locale&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;array&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">array</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span>* ,5&gt; str=&#123;<span class="string">"测试"</span>,<span class="string">"爱情"</span>,<span class="string">"剥削"</span>,<span class="string">"中户"</span>,<span class="string">"命令"</span>&#125;;</span><br><span class="line">    <span class="built_in">std</span>::sort(str.begin(),str.end(),[](<span class="keyword">const</span> <span class="keyword">char</span>* a,<span class="keyword">const</span> <span class="keyword">char</span>* b)                                                      &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">std</span>::strcoll(a,b)&lt;<span class="number">0</span>;&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.size();i++) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;str.at(i)&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2161,7 +2179,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2389,7 +2407,11 @@
         
           
         
-        <span class="site-state-item-count">79</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

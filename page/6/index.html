@@ -347,6 +347,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/QThread的事件循环与生命周期/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/06/QThread的事件循环与生命周期/" class="post-title-link" itemprop="url">QThread的事件循环与生命周期</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-06 08:12:14" itemprop="dateCreated datePublished" datetime="2019-03-06T08:12:14+08:00">2019-03-06</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-23 11:05:35" itemprop="dateModified" datetime="2019-07-23T11:05:35+08:00">2019-07-23</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div><br>    想要使用QThread一般就是继承QThread。然后重写（override）run()函数，run函数就是线程启动实际运行的部分。这里顺便说一下Qt创建的实例所处的线程问题，一个实例在哪个线程里面创建，那他就是属于哪个线程。比如一般使用QThread的时候都是在主线程里面创建的。由此引发了一个区别，在QThead的构造函数里面创建的实例属于主线程，因为这个构造函数是在主线程中执行的。在run函数里面创建的实例则属于QThread启动的线程。讲这个主要是因为Qt信号-槽机制的跨线程问题，需要明白sender和receiver分别所处的线程。<br>    run()函数就是QThread启动的线程的整个生命周期，一旦run函数结束，那么这个线程也结束了，此时会发送一个finished()的完成信号，告诉我们线程已经执行完毕了。此时我们绑定这个信号，然后销毁QThread实例即可。如果你的线程中有事件循环驱动的过程，那么就需要进入QThread的事件循环，调用exec()，调用这个函数之后会阻塞后续的代码执行。这个函数和QApplication的exec作用一样，都是进入调用对象的事件循环，类似于一个while死循环，只不过提供了退出循环的接口。进入了QThread的事件循环之后，线程就像是进入了一个死循环，如果想要结束线程，那么首先需要退出事件循环，调用quit()即可，此时就会继续执行exec()后面的代码，直到线程结束发出finished（）信号。<br></div>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/05/QtCreator在Linux下断点调试无法访问变量的值/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1886,216 +2061,11 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/15/银河麒麟64bit配置64bit达梦和qt4-8-6-32bit/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/15/银河麒麟64bit配置64bit达梦和qt4-8-6-32bit/" class="post-title-link" itemprop="url">银河麒麟64bit配置64bit达梦和qt4.8.6-32bit</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-15 09:44:13" itemprop="dateCreated datePublished" datetime="2019-01-15T09:44:13+08:00">2019-01-15</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-16 15:50:05" itemprop="dateModified" datetime="2019-01-16T15:50:05+08:00">2019-01-16</time>
-              </span>
-            
-          
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本次使用银河麒麟64操作系统以及64位达梦数据库，但是由于Qt程序依赖32位的库，所以需要配置32位unixodbc连接达梦数据库。</p>
-<h1 id="安装达梦数据库64bit"><a href="#安装达梦数据库64bit" class="headerlink" title="安装达梦数据库64bit"></a>安装达梦数据库64bit</h1><p>达梦数据库使用Java开发，所以依赖jdk，系统自带的是openjdk64bit，所以下载64bit的达梦镜像iso文件，直接解压缩。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd 解压缩文件夹</span><br><span class="line">chmod <span class="number">777</span> DMINSTALL</span><br><span class="line">./DMINSTALL</span><br></pre></td></tr></table></figure>
-<p>这里推荐使用普通用户安装，默认安装在/home/user/dmdbms/,如果采用root用户安装，那么安装路径会在/opt/dmdbms下，安装完成之后配置环境变量LD_LIBRARY_PATH，达梦数据库会自动创建一个dmdba的系统用户，密码默认和用户名一样，这个用户是用来管理达梦数据库的，达梦数据库安装是user和group都是使用它自己的，所以在你的账户是无法使用他的管理工具，但是对后续的配置没有影响。</p>
-<h1 id="安装达梦数据库32bit"><a href="#安装达梦数据库32bit" class="headerlink" title="安装达梦数据库32bit"></a>安装达梦数据库32bit</h1><h2 id="安装32bit的jdk"><a href="#安装32bit的jdk" class="headerlink" title="安装32bit的jdk"></a>安装32bit的jdk</h2><ol>
-<li><p>去官网下载32bit的jdk安装包</p>
-</li>
-<li><p>解压</p>
-</li>
-<li><p>配置环境变量 sudo vi /etc/profile</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/lib/jvm/jdk7</span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-<p>4.source /etc/profile生效</p>
-</li>
-</ol>
-<h2 id="配置默认jdk"><a href="#配置默认jdk" class="headerlink" title="配置默认jdk"></a>配置默认jdk</h2><p>一些linux环境可能存在默认的jdk配置，这时候需要我们进行默认jdk的配置（相当于同时保留32bit和64bit的jdk方便切换）。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config java  <span class="comment">#查看当前java配置并选择</span></span><br><span class="line">sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk7/bin/java <span class="number">300</span></span><br><span class="line">sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk7/bin/javac <span class="number">300</span></span><br><span class="line">sudo update-alternatives --config java <span class="comment">#查看当前java配置并选择</span></span><br><span class="line">java -version                    <span class="comment">#测试是否成功</span></span><br></pre></td></tr></table></figure>
-<h2 id="安装32bit的达梦数据库"><a href="#安装32bit的达梦数据库" class="headerlink" title="安装32bit的达梦数据库"></a>安装32bit的达梦数据库</h2><p>类似于安装64bit，只不过在运行安装程序时虽然前面已经配置了32bit的jdk，但是还缺少32bit的libXtst.so.6</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libxtst-dev:i386 <span class="comment">#x小写</span></span><br></pre></td></tr></table></figure>
-<p>此时会提示libxi:i386依赖没有安装，所以强行安装libxi-dev:i386(会破坏系统某些库的依赖，导致系统的home按钮无法使用，但是有终端就ok了，不影响)。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libxi-dev:i386</span><br><span class="line">sudo apt-get install libxtst-dev:i386</span><br></pre></td></tr></table></figure>
-<p>然后运行32bit的达梦数据库安装包，只安装驱动即可。安装完配置驱动库的环境变量。</p>
-<h1 id="安装系统32bit编译环境"><a href="#安装系统32bit编译环境" class="headerlink" title="安装系统32bit编译环境"></a>安装系统32bit编译环境</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --add-architecture i386</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get dist-upgrade </span><br><span class="line">sudo apt-get install gcc-multilib g++multilib</span><br></pre></td></tr></table></figure>
-<h1 id="安装unixodbc-32bit"><a href="#安装unixodbc-32bit" class="headerlink" title="安装unixodbc-32bit"></a>安装unixodbc-32bit</h1><ol>
-<li><p>去官网下载unixodbc 32bit的包</p>
-</li>
-<li><p>tar -zxvf unixodbc.tar.gz</p>
-</li>
-<li><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd </span><br><span class="line">CFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS=-m32 ./configure --prefix==/usr/local/unixODBC-<span class="number">32</span>bit --includedir=/usr/include --libdir=/usr/lib -bindir=/usr/bin --sysconfdir=/etc</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="配置odbc环境变量以及达梦数据库数据源"><a href="#配置odbc环境变量以及达梦数据库数据源" class="headerlink" title="配置odbc环境变量以及达梦数据库数据源"></a>配置odbc环境变量以及达梦数据库数据源</h2><p>这里的-m32是指使用32bit的编译器，所以以后编译32bit的软件都可以参考此思路，本质就是使用gcc main.c -m32，但是这种集成化安装方式只能在configure 里面设置编译参数。因为前面的配置参数里面把odbc的安装路径都设置到了系统的环境变量里面了，所以odbc的环境变量就不需要设置了。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">odbcinst -j <span class="comment">#查看odbc的ini配置路径</span></span><br></pre></td></tr></table></figure>
-<p>配置达梦驱动</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/odbcinst.ini</span><br></pre></td></tr></table></figure>
-<p>内容如下：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[DM7]</span>   </span><br><span class="line"></span><br><span class="line"><span class="attr">Description</span> = dm odbc</span><br><span class="line"><span class="attr">Driver</span> = /opt/dmdbms/bin/libdodbc.so  #此处是<span class="number">32</span>bit的达梦驱动</span><br></pre></td></tr></table></figure>
-<p>配置达梦数据源</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/odbc.ini</span><br></pre></td></tr></table></figure>
-<p>内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[DM7]</span><br><span class="line"></span><br><span class="line">Description = dm7 dsn</span><br><span class="line">Driver = DM7</span><br><span class="line">SERVER =127.0.0.1</span><br><span class="line">UID = SYSDBA</span><br><span class="line">PWD = SYSDBA</span><br><span class="line">TCP_PORT = 5236</span><br></pre></td></tr></table></figure>
-<p>测试是否成功</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isql DM7 -v      <span class="comment">#如果失败-v会提示错误信息</span></span><br></pre></td></tr></table></figure>
-<h1 id="编译32bit的libqsqlodbc-so驱动"><a href="#编译32bit的libqsqlodbc-so驱动" class="headerlink" title="编译32bit的libqsqlodbc.so驱动"></a>编译32bit的libqsqlodbc.so驱动</h1><p>32位qt的编译此处略过不谈。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd qt-everywhere-qt4.<span class="number">8.6</span>/src/plugins/sqldrivers/odbc</span><br><span class="line">qmake    <span class="comment">#本来此处是依赖odbc的include和lib的，但是前面已经将odbc安装到系统路径，所以不需要添加INCLUDEPATH 和LIBS</span></span><br><span class="line">make </span><br><span class="line">sudo make install <span class="comment">#此处会自动将libqsqlodbc.so 拷贝到QTDIR的数据库驱动文件夹</span></span><br></pre></td></tr></table></figure>
-<p>##使用Qt代码测试连接</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QSqlDatabase db=QSqlDatabase::addDatabase(<span class="string">"QODBC"</span>);</span><br><span class="line">db.setDatabaseName(<span class="string">"DM7"</span>);  #DM7就是前面配置的odbc数据源名称</span><br><span class="line">db.setHostName(<span class="string">"localhost"</span>);</span><br><span class="line">db.setPort(<span class="number">5236</span>);</span><br><span class="line">db.setUserName(<span class="string">"SYSDBA"</span>);</span><br><span class="line">db.setPassword(<span class="string">"123456789"</span>);</span><br><span class="line"><span class="keyword">if</span>(!db.open())&#123;</span><br><span class="line">    qDebug()&lt;&lt;db.lastError();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2138,7 +2108,7 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2366,7 +2336,11 @@ document.setContent(data, false, &amp;error, &amp;row, &amp;column);
         
           
         
-        <span class="site-state-item-count">79</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">81</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
