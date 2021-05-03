@@ -103,7 +103,7 @@
 <meta property="og:description" content="1、c++111.1、尾返回类型123auto add(int a,int b) -&amp;gt; int &amp;#123;    return a+b;&amp;#125; auto在c++11中无法直接作为返回类型，需要使用尾返回类型，在c++14中可以直接使用auto，而不用尾返回类型。这种写法很累赘，因为一般用法在于使用匿名lambda函数时需要返回值，可以这么使用。 1.2、默认模板类型12345temp">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2021/01/30/cpp11及以上新特性学习/sign.png">
-<meta property="og:updated_time" content="2021-05-02T13:11:07.392Z">
+<meta property="og:updated_time" content="2021-05-03T05:50:24.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cpp11及以上新特性学习">
 <meta name="twitter:description" content="1、c++111.1、尾返回类型123auto add(int a,int b) -&amp;gt; int &amp;#123;    return a+b;&amp;#125; auto在c++11中无法直接作为返回类型，需要使用尾返回类型，在c++14中可以直接使用auto，而不用尾返回类型。这种写法很累赘，因为一般用法在于使用匿名lambda函数时需要返回值，可以这么使用。 1.2、默认模板类型12345temp">
@@ -411,7 +411,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-05-02 21:11:07" itemprop="dateModified" datetime="2021-05-02T21:11:07+08:00">2021-05-02</time>
+                <time title="修改时间：2021-05-03 13:50:24" itemprop="dateModified" datetime="2021-05-03T13:50:24+08:00">2021-05-03</time>
               </span>
             
           
@@ -559,6 +559,7 @@
 </li>
 </ul>
 <p>  std::tuple（元组）作用在于将任意个数的数据绑定为一个整体，是一个轻量化数据结构体，类似std::pair的升级版，std::pair只能绑定两个数据。</p>
+<p># </p>
 <h1 id="5、内存管理"><a href="#5、内存管理" class="headerlink" title="5、内存管理"></a>5、内存管理</h1><h3 id="5-1、RAII"><a href="#5-1、RAII" class="headerlink" title="5.1、RAII"></a>5.1、RAII</h3><p>c++11之前一般内存管理比较常用的模式RAII,总体思路就是构造函数中初始化资源，在析构函数中释放资源。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Math(<span class="keyword">int</span> a, <span class="keyword">int</span> b): left(a), right(b)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> left + right;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> left;</span><br><span class="line">    <span class="keyword">int</span> right;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Args&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RAIIClass</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    RAIIClass(Args... arg): m_pValue(<span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!m_pValue) &#123;</span><br><span class="line">            <span class="comment">//通过std::forward完美转发参数，不然编译器会把arg作为类型</span></span><br><span class="line"></span><br><span class="line">            m_pValue = <span class="keyword">new</span> T(<span class="built_in">std</span>::forward&lt;Args&gt;(arg)...);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ~RAIIClass()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pValue) &#123;</span><br><span class="line">            <span class="keyword">delete</span> m_pValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">T *<span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_pValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    RAIIClass(<span class="keyword">const</span>  RAIIClass &amp;) = <span class="keyword">delete</span> ;</span><br><span class="line">    RAIIClass &amp;<span class="keyword">operator</span> = (<span class="keyword">const</span> RAIIClass &amp;) = <span class="keyword">delete</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T *m_pValue;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    RAIIClass&lt;<span class="keyword">int</span>&gt; int_type;</span><br><span class="line">    RAIIClass&lt;Math, <span class="keyword">int</span>, <span class="keyword">int</span>&gt; type_Math(<span class="number">10</span>, <span class="number">12</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面是一个简单的模板RAII实现，可以构造任意类型的数据并防止拷贝，没有考虑多线程等因素。</p>
@@ -706,7 +707,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -761,7 +762,9 @@
         
           
         
-        <span class="site-state-item-count">19</span>
+          
+        
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -942,7 +945,11 @@
         
           
         
-        <span class="site-state-item-count">82</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

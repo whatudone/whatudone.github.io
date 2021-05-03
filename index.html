@@ -347,6 +347,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/03/stl常用算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2021/05/03/stl常用算法/" class="post-title-link" itemprop="url">stl常用算法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-05-03 13:51:02 / 修改时间：21:13:31" itemprop="dateCreated datePublished" datetime="2021-05-03T13:51:02+08:00">2021-05-03</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/stl/" itemprop="url" rel="index"><span itemprop="name">stl</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="STL常用算法"><a href="#STL常用算法" class="headerlink" title="STL常用算法"></a>STL常用算法</h1><p>STL里面的容器是非常频繁使用的，但是关于算法部分可能使用不是太多，导致简洁的STL容器往往搭配繁琐低效的自实现算法。为此此章专门记录一些常用的STL算法。主要涉及到的头文件为\&lt;algorithm>和\&lt;numeric>。</p>
+<h2 id="查询算法"><a href="#查询算法" class="headerlink" title="查询算法"></a>查询算法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;numeric&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;binders.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">12</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">20</span>&#125;;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; svec&#123;<span class="string">"apple"</span>, <span class="string">"test"</span>, <span class="string">"god"</span>, <span class="string">"dog"</span>, <span class="string">"dog"</span>, <span class="string">"json"</span>, <span class="string">"orange"</span>&#125;;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * std::adjacent_find</span></span><br><span class="line"><span class="comment">     * 查找相邻重复的元素,默认版本是两个相同的元素为判断条件。对于数值型的数据一般按照默认规则</span></span><br><span class="line"><span class="comment">     * 即可，对于字符串类型的数据，可能会使用长度相同作为判断条件。STL大部分的算法都提供自定义</span></span><br><span class="line"><span class="comment">     * 规则入口。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::adjacent_find(ivec.begin(), ivec.end()) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::adjacent_find(svec.begin(), svec.end()) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::adjacent_find(svec.begin(), svec.end(), [](<span class="keyword">const</span> <span class="built_in">string</span> &amp; left,</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">string</span> &amp; right) &#123;</span><br><span class="line">        <span class="keyword">return</span> left.size() == right.size();</span><br><span class="line">    &#125;) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     *count</span></span><br><span class="line"><span class="comment">     * 计算给定范围内指定的值的个数</span></span><br><span class="line"><span class="comment">     * count_if</span></span><br><span class="line"><span class="comment">     * 按照自定义规则计算给定范围内指定的值的个数</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::count(ivec.begin(), ivec.end(), <span class="number">3</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::count_if(ivec.begin(), ivec.end(), <span class="built_in">std</span>::bind(<span class="built_in">std</span>::less&lt;<span class="keyword">int</span>&gt;(),  <span class="built_in">std</span>::placeholders::_1, <span class="number">10</span>)) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * std::binary_search</span></span><br><span class="line"><span class="comment">     * 二分查找，需要先对数据进行排序，然后才能使用二分查找，不然会一直返回false</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="comment">//    std::sort(ivec.begin(), ivec.end());</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::boolalpha &lt;&lt; <span class="built_in">std</span>::binary_search(ivec.begin(), ivec.end(), <span class="number">400</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * std::lower_bound 、std::upper_bound、 std::equal_range</span></span><br><span class="line"><span class="comment">     * 二分查找，需要先对数据进行排序。std::equal_range为前两个操作的综合操作，会</span></span><br><span class="line"><span class="comment">     * 得到一个pair类型的结果，first表示std::lower_bound的结果，second表示upper_bound</span></span><br><span class="line"><span class="comment">     * 的结果，都是迭代器类型。std::lower_bound表示查找序列中第一个大于或等于指定值的值，</span></span><br><span class="line"><span class="comment">     * 而std::upper_bound表示查找第一个大于指定值的值，和前者的不同之处在于是否包含等于。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::lower_bound(ivec.begin(), ivec.end(), <span class="number">8</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::upper_bound(ivec.begin(), ivec.end(), <span class="number">8</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">auto</span> pairIt = <span class="built_in">std</span>::equal_range(ivec.begin(), ivec.end(), <span class="number">6</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *pairIt.first &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *pairIt.second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * std::find</span></span><br><span class="line"><span class="comment">     * 查找元素是否存在，存在返回该元素的迭代器，不存在则返回end()</span></span><br><span class="line"><span class="comment">     * std::find_if</span></span><br><span class="line"><span class="comment">     * find的增加版，可以自定义规则</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::find(ivec.begin(), ivec.end(), <span class="number">12</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *<span class="built_in">std</span>::find_if(ivec.begin(), ivec.end(), <span class="built_in">std</span>::bind(<span class="built_in">std</span>::greater&lt;<span class="keyword">int</span>&gt;(),  <span class="built_in">std</span>::placeholders::_1, <span class="number">12</span>)) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * std::search</span></span><br><span class="line"><span class="comment">     * 在前者序列中搜索后者序列是否存在，存在返回前者序列中被查找到的序列首位置</span></span><br><span class="line"><span class="comment">     * std::search_n</span></span><br><span class="line"><span class="comment">     * 在序列中查找是否存在连续n个一样的值，重点是连续，而不单是数量</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec1&#123;<span class="number">12</span>, <span class="number">20</span>&#125;;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"search:"</span> &lt;&lt; *<span class="built_in">std</span>::search(ivec.begin(), ivec.end(), ivec1.begin(), ivec1.end()) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"search_n:"</span> &lt;&lt; *<span class="built_in">std</span>::search_n(ivec.begin(), ivec.end(), <span class="number">2</span>, <span class="number">6</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="复制删除替换"><a href="#复制删除替换" class="headerlink" title="复制删除替换"></a>复制删除替换</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/30/sane驱动开发/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2051,7 +2218,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-05-02 21:11:07" itemprop="dateModified" datetime="2021-05-02T21:11:07+08:00">2021-05-02</time>
+                <time title="修改时间：2021-05-03 13:50:24" itemprop="dateModified" datetime="2021-05-03T13:50:24+08:00">2021-05-03</time>
               </span>
             
           
@@ -2201,6 +2368,7 @@
 </li>
 </ul>
 <p>  std::tuple（元组）作用在于将任意个数的数据绑定为一个整体，是一个轻量化数据结构体，类似std::pair的升级版，std::pair只能绑定两个数据。</p>
+<p># </p>
 <h1 id="5、内存管理"><a href="#5、内存管理" class="headerlink" title="5、内存管理"></a>5、内存管理</h1><h3 id="5-1、RAII"><a href="#5-1、RAII" class="headerlink" title="5.1、RAII"></a>5.1、RAII</h3><p>c++11之前一般内存管理比较常用的模式RAII,总体思路就是构造函数中初始化资源，在析构函数中释放资源。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Math(<span class="keyword">int</span> a, <span class="keyword">int</span> b): left(a), right(b)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> left + right;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> left;</span><br><span class="line">    <span class="keyword">int</span> right;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Args&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RAIIClass</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    RAIIClass(Args... arg): m_pValue(<span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!m_pValue) &#123;</span><br><span class="line">            <span class="comment">//通过std::forward完美转发参数，不然编译器会把arg作为类型</span></span><br><span class="line"></span><br><span class="line">            m_pValue = <span class="keyword">new</span> T(<span class="built_in">std</span>::forward&lt;Args&gt;(arg)...);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ~RAIIClass()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (m_pValue) &#123;</span><br><span class="line">            <span class="keyword">delete</span> m_pValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">T *<span class="title">get</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_pValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    RAIIClass(<span class="keyword">const</span>  RAIIClass &amp;) = <span class="keyword">delete</span> ;</span><br><span class="line">    RAIIClass &amp;<span class="keyword">operator</span> = (<span class="keyword">const</span> RAIIClass &amp;) = <span class="keyword">delete</span> ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T *m_pValue;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    RAIIClass&lt;<span class="keyword">int</span>&gt; int_type;</span><br><span class="line">    RAIIClass&lt;Math, <span class="keyword">int</span>, <span class="keyword">int</span>&gt; type_Math(<span class="number">10</span>, <span class="number">12</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面是一个简单的模板RAII实现，可以构造任意类型的数据并防止拷贝，没有考虑多线程等因素。</p>
@@ -2219,208 +2387,6 @@
 <p>  前后引用关系如下图：</p>
 <p>  <img src="/2021/01/30/cpp11及以上新特性学习/sign.png" alt=".."></p>
 <p>  将B中对于A的引用改为std::weak_ptr之后，ptr_a和ptr_b释放时会断掉1和2的引用，随后A因为引用计数为0先释放，然后B接着释放。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/29/打印机耗材研究/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2021/01/29/打印机耗材研究/" class="post-title-link" itemprop="url">打印机耗材研究</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2021-01-29 15:10:38" itemprop="dateCreated datePublished" datetime="2021-01-29T15:10:38+08:00">2021-01-29</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2021-01-30 15:11:51" itemprop="dateModified" datetime="2021-01-30T15:11:51+08:00">2021-01-30</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/cups/" itemprop="url" rel="index"><span itemprop="name">cups</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="cups耗材信息"><a href="#cups耗材信息" class="headerlink" title="cups耗材信息"></a>cups耗材信息</h1><h2 id="1、cups的定义"><a href="#1、cups的定义" class="headerlink" title="1、cups的定义"></a>1、cups的定义</h2><p>查询打印机耗材信息涉及到CUPS command file format (application/vnd.cups-command)，它是一种特殊的和打印机交互的文件格式，用于向打印机下发指定命令。支持这种功能的打印机会在ppd中添加一个描述字段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*cupsCommands: &quot;AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus&quot;</span><br></pre></td></tr></table></figure>
-<p>上述描述字段就包含了四种常用的命令，耗材信息就需要使用ReportLevels。通过打印测试页会把指令下发到打印机，打印机会返回耗材marker-*相关的信息到打印机属性中。这种方式不会产生真正的打印任务。</p>
-<h2 id="2、应用处理流程"><a href="#2、应用处理流程" class="headerlink" title="2、应用处理流程"></a>2、应用处理流程</h2><ul>
-<li><p>根据打印机类型进行不同操作，网络socket协议的打印机使用snmp直接获取，好处是不需要下发指令，可以直接获取到耗材信息。usb打印机采用ReportLevel方式。</p>
-</li>
-<li><p>usb打印机先需要从打印机属性中读取printer-type属性，判断是否支持操作command，具体通过是否包含CUPS_PRINTER_COMMANDS值为准</p>
-</li>
-<li><p>然后判断printer-commands属性中是否包含ReportLevels</p>
-</li>
-<li><p>写入如下内容到临时文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#CUPS-COMMAND</span><br><span class="line">ReportLevels</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>通过发送打印测试任务下发指令，格式如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">format = &quot;application/vnd.cups-command&quot;</span><br><span class="line">cups.printTestPage (printer.name,</span><br><span class="line"></span><br><span class="line">                    format=format,</span><br><span class="line"></span><br><span class="line">                    file=tmpfile.name,</span><br><span class="line"></span><br><span class="line">                    user=cups.getUser ())</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>监听cups的特殊消息，触发更新指定打印机属性的操作（包含耗材）</p>
-<ul>
-<li><p>添加打印机</p>
-</li>
-<li><p>on_state_reason_added</p>
-</li>
-<li><p>on_state_reason_removed</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3、打印管理耗材逻辑优化"><a href="#3、打印管理耗材逻辑优化" class="headerlink" title="3、打印管理耗材逻辑优化"></a>3、打印管理耗材逻辑优化</h2><p>有了这个基础之后就不需要在线程中定时查询所有打印机的耗材信息，只需要在初始化的时候读取一次，然后用户打开耗材界面才下发ReportLevels指令去更新耗材信息，耗材界面获取更新的数据刷新即可。</p>
 
           
         
@@ -2511,7 +2477,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2566,7 +2532,9 @@
         
           
         
-        <span class="site-state-item-count">19</span>
+          
+        
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2747,7 +2715,11 @@
         
           
         
-        <span class="site-state-item-count">82</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

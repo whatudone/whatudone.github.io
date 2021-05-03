@@ -347,6 +347,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/QProcess调用外部进程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="还在输入">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个骚年">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2020/05/06/QProcess调用外部进程/" class="post-title-link" itemprop="url">QProcess调用外部进程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-06 13:17:39 / 修改时间：13:52:04" itemprop="dateCreated datePublished" datetime="2020-05-06T13:17:39+08:00">2020-05-06</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Qt学习笔记/" itemprop="url" rel="index"><span itemprop="name">Qt学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&emsp;&emsp;在Qt程序开发过程中，往往我们会调用一些外部的程序，实现特定的功能，并减少开发工作量。例如有一个项目需要使用Https接口下载一些文件和上传下载一些数据，Qt本身虽然封装了OpenSSL的接口，但是安装包中SDK并不带编译完成的OpenSSL的库文件，需要用户自己手动编译对应版本的OpenSSL（Qt对应的OpenSSL版本号可以调用QSslSocket::sslLibraryBuildVersionString()查看），msvc版本相对比较好编译，但是mingw版本就很费事。关于mingw编译三方库可以参考我的另外一篇。所以最后项目采用wget for windows，利用wget的功能去实现我们想要的功能。wget的压缩包里面已经自带了OpenSSL的库文件。</p>
+<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    QStringList args;</span><br><span class="line">    <span class="comment">//当前wget版本不支持timeout，后续如果有需求需要下载新版wget</span></span><br><span class="line">    args &lt;&lt; <span class="string">"--no-check-certificate"</span> &lt;&lt; <span class="string">"-c"</span> &lt;&lt; <span class="string">"-O"</span> &lt;&lt; <span class="string">"wechat.exe"</span> &lt;&lt; m_url;</span><br><span class="line"></span><br><span class="line">    connect(m_pWgetProcess, &amp;QProcess::readyReadStandardOutput, [&amp;]() &#123;</span><br><span class="line">        <span class="comment">//这里需要死循环处理，不然当wget下载完成，输出还没有读完，导致无法通知进度</span></span><br><span class="line">        <span class="keyword">while</span> (m_pWgetProcess-&gt;bytesAvailable() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            QString text = m_pWgetProcess-&gt;readLine();</span><br><span class="line">            QRegExp reg(<span class="string">"[\\s0-9K]+[\\.\\s]+([0-9]&#123;1,3&#125;)%\\s+([0-9\\.]+[KM])\\s+([0-9hms]+).*"</span>);</span><br><span class="line">            reg.setCaseSensitivity(Qt::CaseInsensitive);</span><br><span class="line">            <span class="keyword">if</span> (reg.exactMatch(text)) &#123;</span><br><span class="line">                <span class="keyword">int</span> progress = reg.cap(<span class="number">1</span>).toInt();</span><br><span class="line">                QString curSize = reg.cap(<span class="number">2</span>).toLocal8Bit();</span><br><span class="line">                QString time = reg.cap(<span class="number">3</span>).toLocal8Bit();</span><br><span class="line">                emit s_UpdateProgress(progress, time);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (text.contains(<span class="string">"100%"</span>)) &#123;</span><br><span class="line">                emit s_UpdateProgress(<span class="number">100</span>, <span class="string">"0s"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (text.contains(<span class="string">"saved"</span>) &amp;&amp; text.contains(QString(<span class="string">"[%1/%2]"</span>).arg(m_iFileSize).arg(m_iFileSize))) &#123;</span><br><span class="line">                emit s_haveDone();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    connect(m_pWgetProcess, &amp;QProcess::readyReadStandardError, [&amp;]() &#123;</span><br><span class="line">        qWarning() &lt;&lt; m_pWgetProcess-&gt;readAllStandardError();</span><br><span class="line">        emit s_haveError(<span class="number">2</span>, m_pWgetProcess-&gt;readAllStandardError());</span><br><span class="line">    &#125;);</span><br><span class="line">    m_pWgetProcess-&gt;setReadChannel(QProcess::StandardOutput);</span><br><span class="line">    m_pWgetProcess-&gt;setProcessChannelMode(QProcess::MergedChannels);</span><br><span class="line">    m_pWgetProcess-&gt;start(m_wgetFilePath, args);</span><br><span class="line">    bRet = m_pWgetProcess-&gt;waitForFinished(<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">if</span> (!bRet) &#123;</span><br><span class="line">        qDebug() &lt;&lt; m_pWgetProcess-&gt;errorString();</span><br><span class="line">        <span class="function">emit <span class="title">s_haveError</span><span class="params">(<span class="number">2</span>,  m_pWgetProcess-&gt;errorString())</span></span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>&emsp;&emsp;上述代码非常简单，采用wget下载一个微信程序，实时通知下载进度并通知下载失败或完成，需要注意以下几点：</p>
+<ul>
+<li><p>QProcess启动子进程推荐使用cmd和args分离的形式，适合参数比较复杂的情况</p>
+</li>
+<li><p>需要获取QProcess输出的时候，一般只读StandardOutput通道即可，StandardErro通道会有无意义的错误返回输出，导致解析难度加大</p>
+</li>
+<li><p>start方式启动的子进程需要调用waitForFinished或其他wait接口才能获取到输出，默认是阻塞30s，如果任务超时就会自动退出。需要等待子进程自己退出那么需要将参数传入-1。</p>
+</li>
+<li><p>在获取输出时采用readLine()按行读取解析时，如果输出过于庞大，会出现输出还没有获取完，但是子进程已经退出了（注意此时QProcess其实已经获取了全部输出在缓存里面了，在wait接口后面可以readAll获取到，但是我们是希望在QProcess::readyReadStandardOutput的槽函数里面同步处理）。这里就可以采用while循环的方式，将全部输出全部按行解析。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/01/dpkg从源码打包/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1956,208 +2133,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/HDF5-CPP使用教程/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="还在输入">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一个骚年">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/21/HDF5-CPP使用教程/" class="post-title-link" itemprop="url">HDF5_CPP使用教程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-
-          
-          
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-21 15:29:24" itemprop="dateCreated datePublished" datetime="2019-05-21T15:29:24+08:00">2019-05-21</time>
-            </span>
-          
-
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-22 11:51:11" itemprop="dateModified" datetime="2019-05-22T11:51:11+08:00">2019-05-22</time>
-              </span>
-            
-          
-
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/HDF5-CPP教程/" itemprop="url" rel="index"><span itemprop="name">HDF5_CPP教程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          <br>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”/“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（DataSpace）存储数据，数据类型可以是整形，浮点型，字符等。通过以上介绍大概就能知道这种文件的可扩展性很强。库文件可以从官网上直接下载对应的版本，但是只要vs的vc++编译的版本，如果使用mingw编译器需要编译源码，但是我尝试了一下，bug太多，最后放弃了，也没有必要浪费时间在库的编译上。从官网上下载的安装包安装之后，根目录下include目录是头文件，lib目录是静态链接库目录，其中hdf5.lib是c的，hdf5_cpp.lib是c++的库。</p>
-<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h1><p>根据工作需要，我使用HDF5文件创建一个树形结构，然后显示到界面上，然后做一些简单的交互。</p>
-<h2 id="Pro文件配置"><a href="#Pro文件配置" class="headerlink" title="Pro文件配置"></a>Pro文件配置</h2><p><img src="/2019/05/21/HDF5-CPP使用教程/pro.png" alt="HDF5-CPP使用教程\pro"></p>
-<p>H5_BUILD_AS_DYNAMIC_LIB是HDF5的一个预编译宏，不添加这个使用HDF5库会提示未定义的方法等错误。这个库在debug模式下也是经常崩溃，应该是这个库是release模式，所以在pro文件里面只配置了release模式。链接库我使用了c++的和c的，这是因为在后续的实践中发现，c的库函数有很多没有移植到c++中，只能采取c的函数进行替代。</p>
-<h2 id="创建HDF5文件"><a href="#创建HDF5文件" class="headerlink" title="创建HDF5文件"></a>创建HDF5文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> RANK = <span class="number">2</span>; <span class="comment">//定义数组的维度</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> M = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//准备要存储的数据</span></span><br><span class="line"><span class="keyword">char</span> *data = <span class="keyword">new</span> <span class="keyword">char</span>[M*N];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;M; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;N; ++j)&#123;</span><br><span class="line">        tmp = data + i*N +j;</span><br><span class="line">        *tmp = <span class="number">80</span>+i+j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Turn off the auto-printing when failure occurs so that we can</span></span><br><span class="line">    <span class="comment">// handle the errors appropriately</span></span><br><span class="line"></span><br><span class="line">    Exception::dontPrint();</span><br><span class="line">    <span class="comment">//创建文件</span></span><br><span class="line">    <span class="function">H5File <span class="title">file</span><span class="params">(filename, H5F_ACC_TRUNC)</span></span>;</span><br><span class="line">    <span class="comment">//创建第一层 group section</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Section0</span><span class="params">(file.createGroup(<span class="string">"Section0"</span>))</span></span>;</span><br><span class="line">    group_Section0.setComment(QString::fromLocal8Bit(<span class="string">"区域1"</span>).toStdString()); <span class="comment">//用来作为显示的名称</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Group <span class="title">group_Section1</span><span class="params">(file.createGroup(<span class="string">"Section1"</span>))</span></span>;</span><br><span class="line">    group_Section1.setComment(QString::fromLocal8Bit(<span class="string">"区域2"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第二层group run</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Run0</span><span class="params">(group_Section0.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run0.setComment(QString::fromLocal8Bit(<span class="string">"测试1"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run1</span><span class="params">(group_Section0.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run1.setComment(QString::fromLocal8Bit(<span class="string">"测试2"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run2</span><span class="params">(group_Section1.createGroup(<span class="string">"Run0"</span>))</span></span>;</span><br><span class="line">    group_Run2.setComment(QString::fromLocal8Bit(<span class="string">"测试3"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Run3</span><span class="params">(group_Section1.createGroup(<span class="string">"Run1"</span>))</span></span>;</span><br><span class="line">    group_Run3.setComment(QString::fromLocal8Bit(<span class="string">"测试4"</span>).toStdString());</span><br><span class="line">    <span class="comment">//创建第三层group timedata和spectrum</span></span><br><span class="line">    <span class="function">Group <span class="title">group_Time0</span><span class="params">(group_Run0.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time0.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec0</span><span class="params">(group_Run0.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec0.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time1</span><span class="params">(group_Run1.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time1.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec1</span><span class="params">(group_Run1.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec1.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time2</span><span class="params">(group_Run2.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time2.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec2</span><span class="params">(group_Run2.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec2.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Time3</span><span class="params">(group_Run3.createGroup(<span class="string">"TimeData"</span>))</span></span>;</span><br><span class="line">    group_Time3.setComment(QString::fromLocal8Bit(<span class="string">"实时数据"</span>).toStdString());</span><br><span class="line">    <span class="function">Group <span class="title">group_Spec3</span><span class="params">(group_Run3.createGroup(<span class="string">"Spectrum"</span>))</span></span>;</span><br><span class="line">    group_Spec3.setComment(QString::fromLocal8Bit(<span class="string">"处理数据"</span>).toStdString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据空间</span></span><br><span class="line">    <span class="keyword">hsize_t</span> dims[RANK];               <span class="comment">// dataset dimensions</span></span><br><span class="line">    dims[<span class="number">0</span>] = M;</span><br><span class="line">    dims[<span class="number">1</span>] = N;</span><br><span class="line">    DataSpace *dataspace = <span class="keyword">new</span> DataSpace (RANK, dims);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建数据集，通道数据</span></span><br><span class="line">    DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>, PredType::NATIVE_CHAR, *dataspace));</span><br><span class="line">    dataset_Time-&gt;setComment(QString::fromLocal8Bit(<span class="string">"通道1"</span>).toStdString());</span><br><span class="line">    dataset_Time-&gt;write(data, PredType::NATIVE_CHAR);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集属性空间.</span></span><br><span class="line">    <span class="keyword">int</span> attr_data[<span class="number">2</span>] = &#123; <span class="number">100</span>, <span class="number">200</span>&#125;;</span><br><span class="line">    <span class="keyword">hsize_t</span> attr_dims[<span class="number">1</span>] = &#123; <span class="number">2</span> &#125;;</span><br><span class="line">    DataSpace attr_dataspace = DataSpace (<span class="number">1</span>,attr_dims );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建数据集的属性.</span></span><br><span class="line">    Attribute attribute = group_Time0.createAttribute( <span class="string">"ATTR_NAME"</span>, PredType::STD_I32BE, attr_dataspace);</span><br><span class="line">    <span class="comment">// 写属性.</span></span><br><span class="line">    attribute.write( PredType::NATIVE_INT, attr_data);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭数据空间、数据集、group对象.</span></span><br><span class="line">    <span class="keyword">delete</span> dataspace;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Time;</span><br><span class="line">    <span class="keyword">delete</span> dataset_Spec;</span><br><span class="line">    file.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// catch failure caused by the H5File operations</span></span><br><span class="line"><span class="keyword">catch</span>(FileIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSpace operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSpaceIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the Group operations</span></span><br><span class="line"><span class="keyword">catch</span>(GroupIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// catch failure caused by the DataSet operations</span></span><br><span class="line"><span class="keyword">catch</span>(DataSetIException error)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;error.getDetailMsg();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果如下：<img src="/2019/05/21/HDF5-CPP使用教程/first.png" alt="HDF5-CPP使用教程\first"></p>
-<blockquote>
-<p>这是安装包里面的bin目录的h5dump程序，可以查看h5文件</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_RDWR    (H5CHECK H5OPEN 0x0001u)    <span class="comment">/*open for read and write    */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_TRUNC    (H5CHECK H5OPEN 0x0002u)    <span class="comment">/*overwrite existing files   */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_EXCL    (H5CHECK H5OPEN 0x0004u)    <span class="comment">/*fail if file already exists*/</span></span></span><br><span class="line"><span class="comment">/* <span class="doctag">NOTE:</span> 0x0008u was H5F_ACC_DEBUG, now deprecated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_CREAT    (H5CHECK H5OPEN 0x0010u)    <span class="comment">/*create non-existing files  */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_WRITE    (H5CHECK 0x0020u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for writing in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for reading must open the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * with RDONLY access, and use</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * the special "SWMR_READ" access</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag. */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_SWMR_READ    (H5CHECK 0x0040u) <span class="comment">/*indicate that this file is</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open for reading in a</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * single-writer/multi-reader (SWMR)</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * scenario.  Note that the</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * process(es) opening the file</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * for SWMR reading must also</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * open the file with the RDONLY</span></span></span><br><span class="line"><span class="meta"><span class="comment">                                                 * flag.  */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Value passed to H5Pset_elink_acc_flags to cause flags to be taken from the</span></span><br><span class="line"><span class="comment"> * parent file. */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> H5F_ACC_DEFAULT (H5CHECK H5OPEN 0xffffu)    <span class="comment">/*ignore setting on lapl     */</span></span></span><br></pre></td></tr></table></figure>
-<p>创建文件之后，文件默认会生成一个根目录，类型是Group，路径是“/”。文件类可以创建Group，DataSet，Attribute，还可以设置comment用来存储一些简单信息。Group，DataSet也可以继续创建上述三种对象，而Attitude只能创建DataSet和Group。file.createGroup(“Section0”)这是使用的相对路径，相当于在根目录下创建Section0目录，所以其绝对路径为/Section0，后续访问的时候也可以通过父目录使用相对目录访问它，也可以在任意目录使用绝对路径访问它，如果在非父目录使用相对路径访问，会引发异常。访问方法是openGroup,其他类型的对象创建和访问的规则也是如此。DataSpace是在创建DataSet和Attribute的时候事先创建的一个数据空间，用来告诉HDF5在存储数据时分配多大的内存空间。它有两个参数，第一个RANK代表维度，第二个参数代表每一个维度的长度。上述例子中就是创建一个二维的三行四列的空间。在创建DataSet和Attribute时还需要指定存储的数据类型，在写入数据（write）的时候也要指定一致的数据类型。数据类型的定义在头文件中有定义，请自行查看。file.close()就是关闭文件句柄，将缓存写入到硬盘中。如果此处不关闭文件句柄，可以调用flush将缓存写入到硬盘。</p>
-<h2 id="读取DataSet数据"><a href="#读取DataSet数据" class="headerlink" title="读取DataSet数据"></a>读取DataSet数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!m_h5FileHandle.exist(objname))  <span class="comment">//判断是否存在</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">DataSet channelDataSet=m_h5FileHandle.openDataSet(objName);<span class="comment">//打开数据集</span></span><br><span class="line">DataType datatype= channelDataSet.getDataType();<span class="comment">//获取数据类型</span></span><br><span class="line"></span><br><span class="line">DataSpace dataSpace=  channelDataSet.getSpace();<span class="comment">//获取数据空间</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> rank=dataSpace.getSimpleExtentNdims();<span class="comment">//获取维度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> *dims;</span><br><span class="line"></span><br><span class="line">dataSpace.getSimpleExtentDims(dims);<span class="comment">//获取每个维度对应的长度</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*dims&lt;&lt;<span class="string">"   "</span>&lt;&lt;*(dims+<span class="number">1</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//假设此处rank=2，那么*dim就是行数，*（dim+1）就是列数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hssize_t</span> sum= dataSpace.getSimpleExtentNpoints();<span class="comment">//获取数据总大小 sum=（*dim）x *（dim+1）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(datatype==PredType::NATIVE_CHAR)&#123;</span><br><span class="line"></span><br><span class="line">     QByteArray dataBuffer;</span><br><span class="line"></span><br><span class="line">     dataBuffer.resize(sum);   <span class="comment">//创建对应大小的缓存空间</span></span><br><span class="line"></span><br><span class="line">     <span class="built_in">memset</span>(dataBuffer.data(),<span class="number">0</span>,sum);</span><br><span class="line"></span><br><span class="line">     channelDataSet.read(dataBuffer.data(),datatype,dataSpace);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">channelDataSet.close();<span class="comment">//关闭数据集</span></span><br></pre></td></tr></table></figure>
-<p>此处是通过绝对路径来访问，访问之前使用exist来判断一下是否存在这个对象，如果访问不存在的对象，也会抛出异常。读取数据集的数据，首先需要获取数据的维度，以及每个维度对应的长度，然后动态创建数组，此处我为了简单，直接将数据全部存入到一个一维字符串数组里面（QByteArray），如果你获取了维度和维度对应的长度也可以根据这个来分割这个一维字符串数组。此处需要注意的是不管打开了Group还是其他对象，使用完了之后一定要close关闭，虽然局部变量释放的时候会自动关闭。</p>
-<h2 id="读写DataSet的子集"><a href="#读写DataSet的子集" class="headerlink" title="读写DataSet的子集"></a>读写DataSet的子集</h2><p>有时候可能需要向数据集的局部写入数据，或者读取数据集的部分。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Specify size and shape of subset to write.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">hsize_t</span> offset[<span class="number">2</span>], count[<span class="number">2</span>], stride[<span class="number">2</span>], block[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">hsize_t</span> dimsm[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> RANK=<span class="number">2</span>;         <span class="comment">//子集维度</span></span><br><span class="line"><span class="keyword">int</span> DIM0_SUB=<span class="number">3</span>;     <span class="comment">//子集维度1长度</span></span><br><span class="line"><span class="keyword">int</span> DIM1_SUB=<span class="number">4</span>;     <span class="comment">//子集维度2长度</span></span><br><span class="line">offset[<span class="number">0</span>] = <span class="number">1</span>;      <span class="comment">//子集维度1偏移量</span></span><br><span class="line">offset[<span class="number">1</span>] = <span class="number">2</span>;      <span class="comment">//维度2偏移量</span></span><br><span class="line"></span><br><span class="line">count[<span class="number">0</span>]  = DIM0_SUB;<span class="comment">//维度1长度</span></span><br><span class="line">count[<span class="number">1</span>]  = DIM1_SUB;<span class="comment">//维度2长度</span></span><br><span class="line"><span class="comment">//维度间隙，默认为1数据之间无间隙，=2的时候,写入的子集数据之间间隔为1，以此类推。当子集的数据下标超过总的维度长度，此设置就会无效</span></span><br><span class="line"></span><br><span class="line">stride[<span class="number">0</span>] = <span class="number">2</span>;        </span><br><span class="line">stride[<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">block[<span class="number">0</span>] = <span class="number">1</span>;        <span class="comment">//维度1块大小，暂时未发现这个设置的作用</span></span><br><span class="line"></span><br><span class="line">block[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">dimsm[<span class="number">0</span>] = DIM0_SUB;</span><br><span class="line">dimsm[<span class="number">1</span>] = DIM1_SUB;</span><br><span class="line"><span class="comment">//写入子集的数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *wdata = <span class="keyword">new</span> <span class="keyword">char</span>[DIM0_SUB*DIM1_SUB];</span><br><span class="line"><span class="keyword">char</span> *tmp=<span class="literal">NULL</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;DIM0_SUB; ++i)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j =<span class="number">0</span>; j&lt;DIM1_SUB; ++j)&#123;</span><br><span class="line">        tmp = wdata + i*DIM1_SUB +j;</span><br><span class="line">        *tmp = <span class="number">100</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> rdata[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="function">H5File <span class="title">file</span><span class="params">(filename,H5F_ACC_RDWR)</span></span>;</span><br><span class="line"><span class="comment">//根据绝对路径打开数据集</span></span><br><span class="line"></span><br><span class="line">DataSet dataset =file.openDataSet(<span class="string">"/Section0/Run0/TimeData/Channel0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//子集数据空间</span></span><br><span class="line"><span class="function">DataSpace <span class="title">memSpace</span><span class="params">(RANK, dimsm, <span class="literal">NULL</span>)</span></span>;</span><br><span class="line"><span class="comment">//原数据集空间</span></span><br><span class="line">DataSpace dataSpace= dataset.getSpace();</span><br><span class="line"><span class="comment">//H5S_SELECT_SET是用子集覆盖原来相同坐标的数据，还有其他选项，OR XOR AND 等选项，可以进入源码自行阅读</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置超实验室</span></span><br><span class="line">dataSpace.selectHyperslab(H5S_SELECT_SET, count, offset, stride, block);</span><br><span class="line"><span class="comment">//写入子集</span></span><br><span class="line"></span><br><span class="line">dataset.write(wdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line"><span class="comment">//读取子集</span></span><br><span class="line"></span><br><span class="line">dataset.read(rdata,PredType::NATIVE_CHAR,memSpace,dataSpace);</span><br><span class="line">file.close();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;DIM0_SUB;i++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;DIM1_SUB;j++)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;(rdata[i][j]);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>不设置间隙stride[[0]]=1;stride[[1]]=1;结果如下：</p>
-<p><img src="/2019/05/21/HDF5-CPP使用教程/second.png" alt="HDF5-CPP使用教程\second"></p>
-<p>设置间隙stride[[0]]=2;stride[[1]]=2;结果如下：</p>
-<p><img src="/2019/05/21/HDF5-CPP使用教程/fourth.png" alt="HDF5-CPP使用教程\fourth"></p>
-<p>读取出来的子集结果:</p>
-<p><img src="/2019/05/21/HDF5-CPP使用教程/third.png" alt="HDF5-CPP使用教程\third"></p>
-<blockquote>
-<p>char字符’d‘转化为int就是100</p>
-</blockquote>
-<h2 id="写入数据时压缩处理"><a href="#写入数据时压缩处理" class="headerlink" title="写入数据时压缩处理"></a>写入数据时压缩处理</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建压缩空间</span></span><br><span class="line"><span class="keyword">hsize_t</span> chunk_dims[<span class="number">2</span>]=&#123;<span class="number">5</span>,<span class="number">10</span>&#125;;</span><br><span class="line">DSetCreatPropList  *plist = <span class="keyword">new</span>  DSetCreatPropList;</span><br><span class="line">plist-&gt;setChunk(<span class="number">2</span>, chunk_dims);</span><br><span class="line"><span class="comment">//设置Deflate=6使用zlib压缩，注释掉则使用下列的szip</span></span><br><span class="line">plist-&gt;setDeflate(<span class="number">6</span>);</span><br><span class="line"><span class="comment">//        unsigned szip_options_mask = H5_SZIP_NN_OPTION_MASK;</span></span><br><span class="line"><span class="comment">//        unsigned szip_pixels_per_block = 16;</span></span><br><span class="line"><span class="comment">//        plist-&gt;setSzip(szip_options_mask, szip_pixels_per_block);</span></span><br><span class="line"><span class="comment">//创建数据集，通道数据</span></span><br><span class="line">DataSet *dataset_Time = <span class="keyword">new</span> DataSet (group_Time0.createDataSet(<span class="string">"Channel0"</span>,       PredType::NATIVE_CHAR, *dataspace,*plist));</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个代码是替换创建HDF5文件里面创建数据集的过程，这个代码添加了压缩属性设置，支持zlib个szip两种压缩模式。读取数据集的时候和没有压缩一样即可。但是在使用过程中，发现压缩前和压缩后的文件大小并没有区别，这个问题后续再来研究。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2205,7 +2180,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2260,7 +2235,9 @@
         
           
         
-        <span class="site-state-item-count">19</span>
+          
+        
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -2441,7 +2418,11 @@
         
           
         
-        <span class="site-state-item-count">82</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
