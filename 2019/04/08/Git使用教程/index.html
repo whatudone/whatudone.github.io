@@ -1,0 +1,811 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、前言1、简介git仓库每个节点都是一个独立的版本管理节点，当不需要和其他节点同步时，可以在本地仓库独立开发。而当需要和其他节点同步信息时即多人协作开发，就需要一个中心仓库（Github、Gitee、Gitlab等），合并其他节点的提交，另外的节点再去中心仓库拉取自己需要的其他节点的提交，简而言之，git是一个分布式版本管理系统。 2、名词解释 工作区（ Working Directory） 工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git使用教程">
+<meta property="og:url" content="http://yoursite.com/2019/04/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="一、前言1、简介git仓库每个节点都是一个独立的版本管理节点，当不需要和其他节点同步时，可以在本地仓库独立开发。而当需要和其他节点同步信息时即多人协作开发，就需要一个中心仓库（Github、Gitee、Gitlab等），合并其他节点的提交，另外的节点再去中心仓库拉取自己需要的其他节点的提交，简而言之，git是一个分布式版本管理系统。 2、名词解释 工作区（ Working Directory） 工">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cssh.png">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cprocess1.png">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Corigin.png">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cmerge.png">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Crebase.png">
+<meta property="og:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cblame.png">
+<meta property="article:published_time" content="2019-04-08T01:57:37.000Z">
+<meta property="article:modified_time" content="2021-03-17T09:19:49.084Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://yoursite.com/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cssh.png">
+  
+  
+  
+  <title>Git使用教程 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Git使用教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-04-08 09:57" pubdate>
+          2019年4月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Git使用教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p>git仓库每个节点都是一个独立的版本管理节点，当不需要和其他节点同步时，可以在本地仓库独立开发。而当需要和其他节点同步信息时即多人协作开发，就需要一个中心仓库（Github、Gitee、Gitlab等），合并其他节点的提交，另外的节点再去中心仓库拉取自己需要的其他节点的提交，简而言之，git是一个分布式版本管理系统。</p>
+<h2 id="2、名词解释"><a href="#2、名词解释" class="headerlink" title="2、名词解释"></a>2、名词解释</h2><ul>
+<li><p>工作区（ Working Directory）</p>
+<p>工作区也就是你系统的文件目录，所有修改的东西首先存在你的工作区。这时候的状态是untracked（未追踪）。</p>
+</li>
+<li><p>暂存区（stage&#x2F;index）</p>
+<p>暂存区是一个添加到版本之前的缓冲区，通过git add 把工作区的修改加到暂存区，状态为Changes to be committed(要提交的变更)。如果已经添加到版本控制的文件对它进行修改也需要git add 重新将修改更新到暂存区。</p>
+</li>
+<li><p>版本库（commit）</p>
+<p>每一个commit都是一个回溯点，通过git commit把暂存区的东西加到版本库。这时候HEAD指针会指向最新的commit。此时状态为nothing to commit(没有需要提交的东西，暂存区是干净的)。</p>
+</li>
+<li><p>分支（branch）</p>
+<p>分支是以commit节点为基础形成的一个概念，可以把整个版本库理解为一棵树，每个commit就是一个节点，把节点串起来的就是分支，就像树枝一样。当任务进行到一个阶段，需要朝不同方向进行时，这时候就需要以某个节点为基础切换分支，就像树一样分叉。当有一天两个方向需要共同前进，这时候就可以把两个分支合并。</p>
+</li>
+</ul>
+<h1 id="二-、准备工作"><a href="#二-、准备工作" class="headerlink" title="二 、准备工作"></a>二 、准备工作</h1><p>安装git客户端工具，准备一个远程托管仓库Github或公司搭建的局域网Gitlab。</p>
+<h2 id="1、常用配置"><a href="#1、常用配置" class="headerlink" title="1、常用配置"></a>1、常用配置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs git">git config --global user.name &quot;your name&quot;      #配置用户名和邮箱<br>git config --global user.email &quot;your email&quot;<br>git config  --global core.editor vim          #配置commit-msg的编辑器，默认编辑器个人觉得不太好用，可以改成自己习惯的编辑器<br></code></pre></td></tr></table></figure>
+
+<h2 id="2、SSH"><a href="#2、SSH" class="headerlink" title="2、SSH"></a>2、SSH</h2><p>git服务器一般使用https和ssh协议，如果使用https协议，客户端在和服务器交互时，比如pull和push就需要填写用户名和密码非常麻烦，所以一般如果长期要用整个服务器的话还是使用ssh协议，把自己的SSH密钥添加到服务器，就可以不用每次输出用户名和密码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">ssh-keygen -t rsa -C &quot;your.email@example.com&quot; -b 4096<br></code></pre></td></tr></table></figure>
+
+<p>连续回车三次</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">cat ~<span class="hljs-regexp">/.ssh/i</span>d_rsa.pub <span class="hljs-comment">#如果生成过密码就不需要重新生成</span><br></code></pre></td></tr></table></figure>
+
+<p>复制密钥，然后去git服务器添加到你的用户设置里面，就可以直接使用ssh认证方式。</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cssh.png" srcset="/img/loading.gif" lazyload alt="Git使用教程\ssh"></p>
+<h1 id="三、开发流程"><a href="#三、开发流程" class="headerlink" title="三、开发流程"></a>三、开发流程</h1><h2 id="1、初始化仓库"><a href="#1、初始化仓库" class="headerlink" title="1、初始化仓库"></a>1、初始化仓库</h2><ul>
+<li><h3 id="本地已经存在工程"><a href="#本地已经存在工程" class="headerlink" title="本地已经存在工程"></a>本地已经存在工程</h3></li>
+</ul>
+<p>登陆git服务器，创建远程仓库（test）。然后把本地已经存在的项目（没有建立版本库）新建一个版本仓库，初始化提交，最终推送到远程仓库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs git">cd basedir<br>git init   <br>git remote add origin git@192.168.16.100:liurui/test.git #远程仓库的ssh链接<br>git add .<br>git commit -m &quot;Initial commit&quot;<br>git push -u origin master<br></code></pre></td></tr></table></figure>
+
+<p>git push [远程仓库] [本地分支]:[远程分支]，这是push的一般用法，远程仓库就是git remote add 时添加的远程链接的别名，可以任意。这里push时省略了远程分支，表示默认推送到本地master分支关联的上游分支，如果上游仓库没有整这个分支就会自动创建一个。</p>
+<ul>
+<li><h3 id="本地没有原始工程创建新的仓库"><a href="#本地没有原始工程创建新的仓库" class="headerlink" title="本地没有原始工程创建新的仓库"></a>本地没有原始工程创建新的仓库</h3></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs git">git clone git@192.168.16.100:liurui/test.git<br>cd test<br>touch README.md<br>git add README.md<br>git commit -m &quot;add README&quot;<br>git push -u origin master:dev  <br></code></pre></td></tr></table></figure>
+
+<p>从远程直接把原始仓库下载到本地。</p>
+<ul>
+<li><h3 id="已经存在本地仓库"><a href="#已经存在本地仓库" class="headerlink" title="已经存在本地仓库"></a>已经存在本地仓库</h3></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">cd existing_repo<br>git remote rename origin <span class="hljs-keyword">old</span><span class="hljs-operator">-</span>origin<br>git remote <span class="hljs-keyword">add</span> origin git<span class="hljs-variable">@192</span><span class="hljs-number">.168</span><span class="hljs-number">.16</span><span class="hljs-number">.100</span>:liurui<span class="hljs-operator">/</span>test.git<br>git push <span class="hljs-operator">-</span>u origin <span class="hljs-comment">--all</span><br>git push <span class="hljs-operator">-</span>u origin <span class="hljs-comment">--tags</span><br></code></pre></td></tr></table></figure>
+
+<p>当需要将仓库的上游服务器换成新的时，可以先增加新的远程仓库，然后把本地的仓库全部推送到新建的远程。</p>
+<h2 id="2、-日常维护"><a href="#2、-日常维护" class="headerlink" title="2、 日常维护"></a>2、 日常维护</h2><ul>
+<li><h3 id="单人开发"><a href="#单人开发" class="headerlink" title="单人开发"></a>单人开发</h3></li>
+</ul>
+<p>一个人开发的话就不需要考虑合并别人的代码，但是需要考虑同时开发多个功能的问题。这时候就不能直接在master分支开发，需要根据指定commit或者分支切换新的开发分支。等该分支的任务完成之后就可以合并到远程仓库，并删除本地的开发分支（避免本地分支越来越多，忘记当前分支的合并清空）。然后开发新功能时，先从远程更新本地master分支，在从master切开发分支继续开发。</p>
+<p>流程图如下：</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cprocess1.png" srcset="/img/loading.gif" lazyload alt=".."></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs git">git fetch origin  #当前位于master分支,更新远程仓库到本地<br>git rebase origin/master  #以rebase形式合并远程master到本地master<br>git checkout -b dev #默认从当前分支HEAD切出新分支<br>#do something<br>git add -u    #-u是指只把modified的修改加到暂存区，不会把工作区的修改加进去<br>git commit -m &quot;你的版本记录信息&quot;   # -m 用于简短描述，复杂描述不用-m<br>git fetch origin    #push之前一定要先从远程拉取最新的提交到本地分支<br>git rebase origin/master<br>git push origin master<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我这里采取git fetch和git rebase的方式更新远程代码，也可以使用git pull origin –rebase的方式，pull&#x3D;fetch+merge，pull –rebase&#x3D;fetch+rebase。fetch只会把远程最新的commit记录更新到.git&#x2F;refs&#x2F;remotes&#x2F;里面，不会更新本地提交。只有merge才会合并到本地分支。</p>
+</blockquote>
+<p>rebase的意思是变基，也就是把自己基线设置到指定分支的HEAD,然后把自己新增的commit放到新起点的后面。下面是不同操作的示意图：</p>
+<p>合并前：</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Corigin.png" srcset="/img/loading.gif" lazyload></p>
+<p>merge合并：</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cmerge.png" srcset="/img/loading.gif" lazyload></p>
+<p>rebase合并：</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Crebase.png" srcset="/img/loading.gif" lazyload></p>
+<p>明显看到merge会多生成一个commit节点，分支树会更加复杂一些，优点是保留了分支自己的提交历史，合并冲突比较简单，合并完了直接重新commit就行。rebase不会生成多余的merge提交，维护起来更加简单，但是合并冲突会复杂一点，一般合并完了需要git rebase –continue。</p>
+<ul>
+<li><h3 id="多人开发"><a href="#多人开发" class="headerlink" title="多人开发"></a>多人开发</h3><ul>
+<li><h4 id="非fork模式"><a href="#非fork模式" class="headerlink" title="非fork模式"></a>非fork模式</h4></li>
+</ul>
+</li>
+</ul>
+<p>多人开发，就需要注意每个人代码的合并问题，一般采取所有人维护master主干，开发的时候在各自的分支开发，然后合并到master主干分支上，提交前注意git pull 更新最新的代码，因为你的代码提交可能落后master。这种情况适用于共同维护一个远程仓库。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">git fetch origin <span class="hljs-comment">#当前位于master分支,更新远程仓库到本地</span><br>git rebase origin/<span class="hljs-keyword">master</span> <span class="hljs-title">#以rebase</span>形式合并远程<span class="hljs-literal">master</span>到本地<span class="hljs-keyword">master</span><br><span class="hljs-title">git</span> checkout dev<br><span class="hljs-comment">#do something and commit</span><br>git push origin liurui:liurui/dev<br></code></pre></td></tr></table></figure>
+
+<p>说明：git rebase master 可以理解为合并master分支上进度到当前自己的分支，如果没有冲突，那么直接git push，如果存在冲突，那么根据提示去相应的文件，手动合并冲突，合并完了执行git rebase –continue。git push origin liurui:liurui&#x2F;dev 其中liurui是你的本地分支名，liurui&#x2F;dev是你的远程分支名。然后去网站上提交合并申请，然后有master合并权限的用户审核代码，他可以合并本次提交，也可以不合并。</p>
+<ul>
+<li><h4 id="fork模式"><a href="#fork模式" class="headerlink" title="fork模式"></a>fork模式</h4></li>
+</ul>
+<p>这种模式适用于fork原始仓库，更新维护自己仓库，并将自己的仓库的更新提交merge request到主干仓库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> xxxxxxxx <span class="hljs-comment">#克隆自己的仓库到本地</span><br>git remote add upstream xxxxxxxxx <span class="hljs-comment">#将主干仓库添加到自己git仓库中</span><br>git remote -v <span class="hljs-comment">#查看所有远程仓库地址</span><br><span class="hljs-comment">#修改代码</span><br>git diff <span class="hljs-comment">#比较工作区和暂存区之间的变化 --filename 比较指定的文件差异</span><br>git add -u <span class="hljs-comment">#-u是为了只将已经在暂存区的内容的修改加到暂存区</span><br>git diff --cached <span class="hljs-comment">#比较的是暂存区和分支最新版本</span><br>git commit -m <span class="hljs-string">&quot;message&quot;</span><br>git fetch upstream<br>git rebase upstream/master<br><span class="hljs-comment">#如果出现冲突,先手动解决冲突</span><br>git add -u<br>git rebase --<span class="hljs-built_in">continue</span> <br><span class="hljs-comment">#如果没有冲突，那么直接push即可</span><br>git push origin master <span class="hljs-comment">#默认将本地master分支push到远程的master分支</span><br>git push origin master:dev <span class="hljs-comment">#将本地master分支push到远程dev分支</span><br><span class="hljs-comment">#最后去网站上提交合并请求</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="四、常用功能示例"><a href="#四、常用功能示例" class="headerlink" title="四、常用功能示例"></a>四、常用功能示例</h1><h2 id="1、删除具体某个commit"><a href="#1、删除具体某个commit" class="headerlink" title="1、删除具体某个commit"></a>1、删除具体某个commit</h2><p>假设功能开发都是在master一个分支进行，这样同时开发几个功能时只能串行提交。假设有一个merge有问题并且包含多个commit，被拒绝合并到主仓库。那么本地需要删除这个commit，然后重新提交。假设有三个commit A,B,C。需要删除B。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git rebase -i commit-A-ID <span class="hljs-comment">#需要删除的前一个commit的id</span><br></code></pre></td></tr></table></figure>
+
+<p>输出如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs textile">pick commit-B-ID message<br>pick commit-C-ID message<br></code></pre></td></tr></table></figure>
+
+<p>将B对应的pick改为drop保存退出即可。</p>
+<p>这里也可以采取拉新的分支，先将commit-C导出成patch，然后拉取一个分支到commit-A节点，然后在新的分支合并patch。代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git format-patch -1 commit_id <span class="hljs-comment">#-1是指只导出该commit的patch</span><br>git checkout -b newbranchname commit-A<br>git apply --check 0001-test.patch <span class="hljs-comment">#检测patch是否可以合并</span><br>git apply  0001-test.patch <span class="hljs-comment">#合并patch</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2、版本维护"><a href="#2、版本维护" class="headerlink" title="2、版本维护"></a>2、版本维护</h2><p>在大型项目中，需要对某一个节点设置一个版本，用于发布，就可以使用git tag相关指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">git tag <span class="hljs-comment">#显示所有tag</span><br>git show tagname <span class="hljs-comment">#显示某个tag的具体commit信息</span><br>git tag tagname <span class="hljs-comment">#给最新的commit打tag</span><br>git tag tagname commitid <span class="hljs-comment">#给指定commit打tag，比如遗漏了版本</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3、从版本库中删除文件"><a href="#3、从版本库中删除文件" class="headerlink" title="3、从版本库中删除文件"></a>3、从版本库中删除文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs git">git rm file #从版本库中删除文件并且删除本地文件<br>git rm file --cache #只从版本库中删除文件，但保留本地文件<br>git rm -r floder #从版本库中删除整个文件夹<br></code></pre></td></tr></table></figure>
+
+<h2 id="4、添加忽略文件"><a href="#4、添加忽略文件" class="headerlink" title="4、添加忽略文件"></a>4、添加忽略文件</h2><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>添加忽略文件是为了将开发中产生的一些中间文件排除在版本管理之外，方便其他人维护更新。忽略文件只能忽略尚未添加到版本管理中的文件和文件夹。</p>
+<h3 id="添加方法"><a href="#添加方法" class="headerlink" title="添加方法"></a>添加方法</h3><p>在项目根目录下打开gitbash，创建文件 touch .gitignore,然后编辑文件。</p>
+<h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ul>
+<li><p>空格不匹配任意文件，可作为分隔符，可用反斜杠转义</p>
+</li>
+<li><p>#开头的模式标识注释，可以使用反斜杠进行转义</p>
+</li>
+<li><p>! 开头的模式标识否定，该文件将会再次被包含，如果排除了该文件的父级目录，则使用 ! 也不会再次被包含。可以使用反斜杠进行转义</p>
+</li>
+<li><p>&#x2F; 结束的模式只匹配文件夹以及在该文件夹路径下的内容，但是不匹配该文件</p>
+</li>
+<li><p>&#x2F; 开始的模式匹配项目跟目录</p>
+</li>
+<li><p>如果一个模式不包含斜杠，则它匹配相对于当前 .gitignore 文件路径的内容，如果该模式不在 .gitignore 文件中，则相对于项目根目录</p>
+</li>
+<li><p>*匹配多级目录，可在开始，中间，结束</p>
+</li>
+<li><p>?通用匹配单个字符</p>
+</li>
+<li><p>[]通用匹配单个字符列表</p>
+</li>
+</ul>
+<h3 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a>常用示例</h3><ul>
+<li><p>忽略指定文件</p>
+<p>project.pro.user   这种方法会忽略根目录下的该文件，其他路径下的同名文件不会忽略</p>
+</li>
+</ul>
+<ul>
+<li><p>忽略特定后缀的文件</p>
+<p>*.o</p>
+</li>
+<li><p>忽略文件夹及文件夹下的所有内容</p>
+<p>build&#x2F;</p>
+</li>
+<li><p>忽略某一文件夹下的所有内容但是不忽略特定内容</p>
+<p>build&#x2F;</p>
+<p>!build&#x2F;temp&#x2F;</p>
+</li>
+</ul>
+<h2 id="5、导出补丁合并补丁"><a href="#5、导出补丁合并补丁" class="headerlink" title="5、导出补丁合并补丁"></a>5、导出补丁合并补丁</h2><p>有些场景我们并不能直接提交代码到远程仓库，只能通过补丁的形式，将自己修改的代码合并到仓库当中。有两种形式diff文件和patch文件，diff没有commit信息，而patch存在commit信息，一个commit对应一个patch。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#生成补丁的两种方法</span><br>git diff commitID &gt;test.diff <br>git format-patch commitID -n <span class="hljs-comment">#n是从该commit到第n个commit</span><br><span class="hljs-comment">#导入补丁</span><br>git apply test.diff<br>git apply test.patch<br></code></pre></td></tr></table></figure>
+
+<h2 id="6、合并其他分支的commit"><a href="#6、合并其他分支的commit" class="headerlink" title="6、合并其他分支的commit"></a>6、合并其他分支的commit</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git cherry-pick commitid -e //合并指定的commit,-e表示重新填写提交信息不带-e的话默认使用原始提交信息。<br>git cherry-pick master    //合并master分支最新的commit到当前分支，这里还有很多复杂的用法比如指定master分支的倒数第几个<br></code></pre></td></tr></table></figure>
+
+<h2 id="7、不同情况下新建分支"><a href="#7、不同情况下新建分支" class="headerlink" title="7、不同情况下新建分支"></a>7、不同情况下新建分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">git checkout -b name   //从当前分支最新提交新建一个分支<br>git branch -r          //查看上游分支<br>git checkout -b name upstream/branch   //从上游指定分支创建一个本地分支并切换<br>git checkout -b name commitid          //从指定的commit创建一个新分支<br>git branch name tagname                //从指定tag号创建一个新分支，需要手动切换到对应分支上<br></code></pre></td></tr></table></figure>
+
+<h2 id="8、查看代码提交信息"><a href="#8、查看代码提交信息" class="headerlink" title="8、查看代码提交信息"></a>8、查看代码提交信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git blame file   <span class="hljs-comment">#查看该文件每一行的提交信息</span><br>git blame -L 2,4 file <span class="hljs-comment">#查看文件的2-4行提交信息</span><br></code></pre></td></tr></table></figure>
+
+<p>结果如下图所示：</p>
+<p><img src="/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cblame.png" srcset="/img/loading.gif" lazyload alt=".."></p>
+<p>前面是commit-id，后面是提交者，时间以及具体代码段</p>
+<h2 id="9、查看某个commit所在分支"><a href="#9、查看某个commit所在分支" class="headerlink" title="9、查看某个commit所在分支"></a>9、查看某个commit所在分支</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -r --contains commitid<br></code></pre></td></tr></table></figure>
+
+<p>命令会列举出本地个远程仓库里面包含这个commit的所有分支</p>
+<h2 id="10、修改本地分支和远程分支映射关系"><a href="#10、修改本地分支和远程分支映射关系" class="headerlink" title="10、修改本地分支和远程分支映射关系"></a>10、修改本地分支和远程分支映射关系</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -vv   <span class="hljs-comment">#查看分支映射关系</span><br>git branch --set-upstream-to=upstream/master master  <span class="hljs-comment">#设置upstream/master 和本地master映射</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="11、查看修改"><a href="#11、查看修改" class="headerlink" title="11、查看修改"></a>11、查看修改</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs git">git diff #查看工作区修改<br>git diff --cached #查看暂存区修改<br>git diff HEAD #查看当前最新的版本提交修改<br></code></pre></td></tr></table></figure>
+
+<h2 id="12、重置代码"><a href="#12、重置代码" class="headerlink" title="12、重置代码"></a>12、重置代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs git">git reset HEAD~1 --soft   #将HEAD指向上一个commit,并且当前commit的修改仍然保留在暂存区。<br>git reset HEAD~1 --hard  #将HEAD指针指向上一个commit，并且会清空commit对应的修改，暂存区和工作区都不会保留。  <br>git reset HEAD~1 --mixed   #将HEAD指针指向上一个commit，会将commit对应的修改从版本里面去掉，但是在工作区保留该修改。<br></code></pre></td></tr></table></figure>
+
+<h2 id="13、gerrit使用"><a href="#13、gerrit使用" class="headerlink" title="13、gerrit使用"></a>13、gerrit使用</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs git">git fetch origin <br>git rebase origin/master   <br>#push之前先更新当前分支到最新<br>git push origin HEAD:refs/for/master <br></code></pre></td></tr></table></figure>
+
+<p>这里origin是指gerrit上游，如果仓库里面有多个上游需要注意。HEAD表示最前面的提交，所以如果当前存在多个未合并的提交，会把几个提交一起<br>推送到gerrit，然后会存在依赖关系，合并前面的才能继续合并后面的，所以如果同时开发多个功能最好单独切分支。refs&#x2F;for的作用表示合并前需要review，如果是refs&#x2F;heads就不用review。master表示你要推送的分支。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Git%E6%95%99%E7%A8%8B/" class="category-chain-item">Git教程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Git/">#Git</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Git使用教程</div>
+      <div>http://yoursite.com/2019/04/08/Git使用教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年4月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/16/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/04/02/MYSQL%E5%88%9B%E5%BB%BA%E5%A4%96%E9%94%AE/" title="MYSQL创建外键">
+                        <span class="hidden-mobile">MYSQL创建外键</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

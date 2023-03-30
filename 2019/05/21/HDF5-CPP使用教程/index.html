@@ -1,0 +1,691 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”&#x2F;“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDF5_CPP使用教程">
+<meta property="og:url" content="http://yoursite.com/2019/05/21/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="前言由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”&#x2F;“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cpro.png">
+<meta property="og:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cfirst.png">
+<meta property="og:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Csecond.png">
+<meta property="og:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cfourth.png">
+<meta property="og:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cthird.png">
+<meta property="article:published_time" content="2019-05-21T07:29:24.000Z">
+<meta property="article:modified_time" content="2019-05-22T03:51:11.246Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="Qt">
+<meta property="article:tag" content="HDF5">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://yoursite.com/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cpro.png">
+  
+  
+  
+  <title>HDF5_CPP使用教程 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HDF5_CPP使用教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-05-21 15:29" pubdate>
+          2019年5月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          78 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HDF5_CPP使用教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于工作原因接触到HDF5这种文件格式，这是一个无关平台的文件格式，提供多个语言的支持，有c，java，c++等。本人从事Qt，所以主要研究c++的库的使用方法。这个文件结构有点类似于一个完整的文件目录：顶层是根目录（”&#x2F;“）,然后可以添加新的目录，HDF5称之为Group，目录里面可以继续添加子目录，或者文件（DataSet）和属性（Attribute），这两种都可以通过数据空间（DataSpace）存储数据，数据类型可以是整形，浮点型，字符等。通过以上介绍大概就能知道这种文件的可扩展性很强。库文件可以从官网上直接下载对应的版本，但是只要vs的vc++编译的版本，如果使用mingw编译器需要编译源码，但是我尝试了一下，bug太多，最后放弃了，也没有必要浪费时间在库的编译上。从官网上下载的安装包安装之后，根目录下include目录是头文件，lib目录是静态链接库目录，其中hdf5.lib是c的，hdf5_cpp.lib是c++的库。</p>
+<h1 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h1><p>根据工作需要，我使用HDF5文件创建一个树形结构，然后显示到界面上，然后做一些简单的交互。</p>
+<h2 id="Pro文件配置"><a href="#Pro文件配置" class="headerlink" title="Pro文件配置"></a>Pro文件配置</h2><p><img src="/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cpro.png" srcset="/img/loading.gif" lazyload alt="HDF5-CPP使用教程\pro"></p>
+<p>H5_BUILD_AS_DYNAMIC_LIB是HDF5的一个预编译宏，不添加这个使用HDF5库会提示未定义的方法等错误。这个库在debug模式下也是经常崩溃，应该是这个库是release模式，所以在pro文件里面只配置了release模式。链接库我使用了c++的和c的，这是因为在后续的实践中发现，c的库函数有很多没有移植到c++中，只能采取c的函数进行替代。</p>
+<h2 id="创建HDF5文件"><a href="#创建HDF5文件" class="headerlink" title="创建HDF5文件"></a>创建HDF5文件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> RANK = <span class="hljs-number">2</span>; <span class="hljs-comment">//定义数组的维度</span><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> M = <span class="hljs-number">10</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">10</span>;<br><br><span class="hljs-comment">//准备要存储的数据</span><br><span class="hljs-type">char</span> *data = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[M*N];<br><span class="hljs-type">char</span> *tmp=<span class="hljs-literal">NULL</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i =<span class="hljs-number">0</span>; i&lt;M; ++i)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j =<span class="hljs-number">0</span>; j&lt;N; ++j)&#123;<br>        tmp = data + i*N +j;<br>        *tmp = <span class="hljs-number">80</span>+i+j;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">try</span><br>&#123;<br>    <span class="hljs-comment">// Turn off the auto-printing when failure occurs so that we can</span><br>    <span class="hljs-comment">// handle the errors appropriately</span><br><br>    Exception::<span class="hljs-built_in">dontPrint</span>();<br>    <span class="hljs-comment">//创建文件</span><br>    <span class="hljs-function">H5File <span class="hljs-title">file</span><span class="hljs-params">(filename, H5F_ACC_TRUNC)</span></span>;<br>    <span class="hljs-comment">//创建第一层 group section</span><br>    <span class="hljs-function">Group <span class="hljs-title">group_Section0</span><span class="hljs-params">(file.createGroup(<span class="hljs-string">&quot;Section0&quot;</span>))</span></span>;<br>    group_Section0.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;区域1&quot;</span>).<span class="hljs-built_in">toStdString</span>()); <span class="hljs-comment">//用来作为显示的名称</span><br><br>    <span class="hljs-function">Group <span class="hljs-title">group_Section1</span><span class="hljs-params">(file.createGroup(<span class="hljs-string">&quot;Section1&quot;</span>))</span></span>;<br>    group_Section1.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;区域2&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-comment">//创建第二层group run</span><br>    <span class="hljs-function">Group <span class="hljs-title">group_Run0</span><span class="hljs-params">(group_Section0.createGroup(<span class="hljs-string">&quot;Run0&quot;</span>))</span></span>;<br>    group_Run0.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;测试1&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Run1</span><span class="hljs-params">(group_Section0.createGroup(<span class="hljs-string">&quot;Run1&quot;</span>))</span></span>;<br>    group_Run1.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;测试2&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Run2</span><span class="hljs-params">(group_Section1.createGroup(<span class="hljs-string">&quot;Run0&quot;</span>))</span></span>;<br>    group_Run2.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;测试3&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Run3</span><span class="hljs-params">(group_Section1.createGroup(<span class="hljs-string">&quot;Run1&quot;</span>))</span></span>;<br>    group_Run3.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;测试4&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-comment">//创建第三层group timedata和spectrum</span><br>    <span class="hljs-function">Group <span class="hljs-title">group_Time0</span><span class="hljs-params">(group_Run0.createGroup(<span class="hljs-string">&quot;TimeData&quot;</span>))</span></span>;<br>    group_Time0.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;实时数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Spec0</span><span class="hljs-params">(group_Run0.createGroup(<span class="hljs-string">&quot;Spectrum&quot;</span>))</span></span>;<br>    group_Spec0.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;处理数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Time1</span><span class="hljs-params">(group_Run1.createGroup(<span class="hljs-string">&quot;TimeData&quot;</span>))</span></span>;<br>    group_Time1.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;实时数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Spec1</span><span class="hljs-params">(group_Run1.createGroup(<span class="hljs-string">&quot;Spectrum&quot;</span>))</span></span>;<br>    group_Spec1.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;处理数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Time2</span><span class="hljs-params">(group_Run2.createGroup(<span class="hljs-string">&quot;TimeData&quot;</span>))</span></span>;<br>    group_Time2.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;实时数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Spec2</span><span class="hljs-params">(group_Run2.createGroup(<span class="hljs-string">&quot;Spectrum&quot;</span>))</span></span>;<br>    group_Spec2.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;处理数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Time3</span><span class="hljs-params">(group_Run3.createGroup(<span class="hljs-string">&quot;TimeData&quot;</span>))</span></span>;<br>    group_Time3.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;实时数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    <span class="hljs-function">Group <span class="hljs-title">group_Spec3</span><span class="hljs-params">(group_Run3.createGroup(<span class="hljs-string">&quot;Spectrum&quot;</span>))</span></span>;<br>    group_Spec3.<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;处理数据&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br><br>    <span class="hljs-comment">//创建数据空间</span><br>    <span class="hljs-type">hsize_t</span> dims[RANK];               <span class="hljs-comment">// dataset dimensions</span><br>    dims[<span class="hljs-number">0</span>] = M;<br>    dims[<span class="hljs-number">1</span>] = N;<br>    DataSpace *dataspace = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataSpace</span> (RANK, dims);<br><br>    <span class="hljs-comment">//创建数据集，通道数据</span><br>    DataSet *dataset_Time = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataSet</span> (group_Time0.<span class="hljs-built_in">createDataSet</span>(<span class="hljs-string">&quot;Channel0&quot;</span>, PredType::NATIVE_CHAR, *dataspace));<br>    dataset_Time-&gt;<span class="hljs-built_in">setComment</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(<span class="hljs-string">&quot;通道1&quot;</span>).<span class="hljs-built_in">toStdString</span>());<br>    dataset_Time-&gt;<span class="hljs-built_in">write</span>(data, PredType::NATIVE_CHAR);<br><br>    <span class="hljs-comment">// 创建数据集属性空间.</span><br>    <span class="hljs-type">int</span> attr_data[<span class="hljs-number">2</span>] = &#123; <span class="hljs-number">100</span>, <span class="hljs-number">200</span>&#125;;<br>    <span class="hljs-type">hsize_t</span> attr_dims[<span class="hljs-number">1</span>] = &#123; <span class="hljs-number">2</span> &#125;;<br>    DataSpace attr_dataspace = <span class="hljs-built_in">DataSpace</span> (<span class="hljs-number">1</span>,attr_dims );<br><br>    <span class="hljs-comment">// 创建数据集的属性.</span><br>    Attribute attribute = group_Time0.<span class="hljs-built_in">createAttribute</span>( <span class="hljs-string">&quot;ATTR_NAME&quot;</span>, PredType::STD_I32BE, attr_dataspace);<br>    <span class="hljs-comment">// 写属性.</span><br>    attribute.<span class="hljs-built_in">write</span>( PredType::NATIVE_INT, attr_data);<br><br>    <span class="hljs-comment">// 关闭数据空间、数据集、group对象.</span><br>    <span class="hljs-keyword">delete</span> dataspace;<br>    <span class="hljs-keyword">delete</span> dataset_Time;<br>    <span class="hljs-keyword">delete</span> dataset_Spec;<br>    file.<span class="hljs-built_in">close</span>();<br>&#125;<br><br><span class="hljs-comment">// catch failure caused by the H5File operations</span><br><span class="hljs-built_in">catch</span>(FileIException error)<br>&#123;<br>    cout&lt;&lt;error.<span class="hljs-built_in">getDetailMsg</span>();<br><br>&#125;<br><span class="hljs-comment">// catch failure caused by the DataSpace operations</span><br><span class="hljs-built_in">catch</span>(DataSpaceIException error)<br>&#123;<br>    cout&lt;&lt;error.<span class="hljs-built_in">getDetailMsg</span>();<br><br>&#125;<br><span class="hljs-comment">// catch failure caused by the Group operations</span><br><span class="hljs-built_in">catch</span>(GroupIException error)<br>&#123;<br>    cout&lt;&lt;error.<span class="hljs-built_in">getDetailMsg</span>();<br><br>&#125;<br><span class="hljs-comment">// catch failure caused by the DataSet operations</span><br><span class="hljs-built_in">catch</span>(DataSetIException error)<br>&#123;<br>    cout&lt;&lt;error.<span class="hljs-built_in">getDetailMsg</span>();<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果如下：<img src="/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cfirst.png" srcset="/img/loading.gif" lazyload alt="HDF5-CPP使用教程\first"></p>
+<blockquote>
+<p>这是安装包里面的bin目录的h5dump程序，可以查看h5文件</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_RDWR    (H5CHECK H5OPEN 0x0001u)    <span class="hljs-comment">/*open for read and write    */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_TRUNC    (H5CHECK H5OPEN 0x0002u)    <span class="hljs-comment">/*overwrite existing files   */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_EXCL    (H5CHECK H5OPEN 0x0004u)    <span class="hljs-comment">/*fail if file already exists*/</span></span><br><span class="hljs-comment">/* <span class="hljs-doctag">NOTE:</span> 0x0008u was H5F_ACC_DEBUG, now deprecated */</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_CREAT    (H5CHECK H5OPEN 0x0010u)    <span class="hljs-comment">/*create non-existing files  */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_SWMR_WRITE    (H5CHECK 0x0020u) <span class="hljs-comment">/*indicate that this file is</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * open for writing in a</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * single-writer/multi-reader (SWMR)</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * scenario.  Note that the</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * process(es) opening the file</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * for reading must open the file</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * with RDONLY access, and use</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * the special &quot;SWMR_READ&quot; access</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * flag. */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_SWMR_READ    (H5CHECK 0x0040u) <span class="hljs-comment">/*indicate that this file is</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * open for reading in a</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * single-writer/multi-reader (SWMR)</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * scenario.  Note that the</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * process(es) opening the file</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * for SWMR reading must also</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * open the file with the RDONLY</span></span><br><span class="hljs-comment"><span class="hljs-meta">                                                 * flag.  */</span></span><br><br><span class="hljs-comment">/* Value passed to H5Pset_elink_acc_flags to cause flags to be taken from the</span><br><span class="hljs-comment"> * parent file. */</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> H5F_ACC_DEFAULT (H5CHECK H5OPEN 0xffffu)    <span class="hljs-comment">/*ignore setting on lapl     */</span></span><br></code></pre></td></tr></table></figure>
+
+<p>创建文件之后，文件默认会生成一个根目录，类型是Group，路径是“&#x2F;”。文件类可以创建Group，DataSet，Attribute，还可以设置comment用来存储一些简单信息。Group，DataSet也可以继续创建上述三种对象，而Attitude只能创建DataSet和Group。file.createGroup(“Section0”)这是使用的相对路径，相当于在根目录下创建Section0目录，所以其绝对路径为&#x2F;Section0，后续访问的时候也可以通过父目录使用相对目录访问它，也可以在任意目录使用绝对路径访问它，如果在非父目录使用相对路径访问，会引发异常。访问方法是openGroup,其他类型的对象创建和访问的规则也是如此。DataSpace是在创建DataSet和Attribute的时候事先创建的一个数据空间，用来告诉HDF5在存储数据时分配多大的内存空间。它有两个参数，第一个RANK代表维度，第二个参数代表每一个维度的长度。上述例子中就是创建一个二维的三行四列的空间。在创建DataSet和Attribute时还需要指定存储的数据类型，在写入数据（write）的时候也要指定一致的数据类型。数据类型的定义在头文件中有定义，请自行查看。file.close()就是关闭文件句柄，将缓存写入到硬盘中。如果此处不关闭文件句柄，可以调用flush将缓存写入到硬盘。</p>
+<h2 id="读取DataSet数据"><a href="#读取DataSet数据" class="headerlink" title="读取DataSet数据"></a>读取DataSet数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span>(!m_h5FileHandle.<span class="hljs-built_in">exist</span>(objname))  <span class="hljs-comment">//判断是否存在</span><br>    <span class="hljs-keyword">return</span>;<br>DataSet channelDataSet=m_h5FileHandle.<span class="hljs-built_in">openDataSet</span>(objName);<span class="hljs-comment">//打开数据集</span><br>DataType datatype= channelDataSet.<span class="hljs-built_in">getDataType</span>();<span class="hljs-comment">//获取数据类型</span><br><br>DataSpace dataSpace=  channelDataSet.<span class="hljs-built_in">getSpace</span>();<span class="hljs-comment">//获取数据空间</span><br><br><span class="hljs-type">int</span> rank=dataSpace.<span class="hljs-built_in">getSimpleExtentNdims</span>();<span class="hljs-comment">//获取维度</span><br><br><span class="hljs-type">hsize_t</span> *dims;<br><br>dataSpace.<span class="hljs-built_in">getSimpleExtentDims</span>(dims);<span class="hljs-comment">//获取每个维度对应的长度</span><br><br>cout&lt;&lt;*dims&lt;&lt;<span class="hljs-string">&quot;   &quot;</span>&lt;&lt;*(dims+<span class="hljs-number">1</span>)&lt;&lt;endl;<span class="hljs-comment">//假设此处rank=2，那么*dim就是行数，*（dim+1）就是列数</span><br><br><span class="hljs-type">hssize_t</span> sum= dataSpace.<span class="hljs-built_in">getSimpleExtentNpoints</span>();<span class="hljs-comment">//获取数据总大小 sum=（*dim）x *（dim+1）</span><br><br><span class="hljs-keyword">if</span>(datatype==PredType::NATIVE_CHAR)&#123;<br><br>     QByteArray dataBuffer;<br><br>     dataBuffer.<span class="hljs-built_in">resize</span>(sum);   <span class="hljs-comment">//创建对应大小的缓存空间</span><br><br>     <span class="hljs-built_in">memset</span>(dataBuffer.<span class="hljs-built_in">data</span>(),<span class="hljs-number">0</span>,sum);<br><br>     channelDataSet.<span class="hljs-built_in">read</span>(dataBuffer.<span class="hljs-built_in">data</span>(),datatype,dataSpace);<br><br>   &#125;<br>channelDataSet.<span class="hljs-built_in">close</span>();<span class="hljs-comment">//关闭数据集</span><br></code></pre></td></tr></table></figure>
+
+<p>此处是通过绝对路径来访问，访问之前使用exist来判断一下是否存在这个对象，如果访问不存在的对象，也会抛出异常。读取数据集的数据，首先需要获取数据的维度，以及每个维度对应的长度，然后动态创建数组，此处我为了简单，直接将数据全部存入到一个一维字符串数组里面（QByteArray），如果你获取了维度和维度对应的长度也可以根据这个来分割这个一维字符串数组。此处需要注意的是不管打开了Group还是其他对象，使用完了之后一定要close关闭，虽然局部变量释放的时候会自动关闭。</p>
+<h2 id="读写DataSet的子集"><a href="#读写DataSet的子集" class="headerlink" title="读写DataSet的子集"></a>读写DataSet的子集</h2><p>有时候可能需要向数据集的局部写入数据，或者读取数据集的部分。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// Specify size and shape of subset to write.</span><br><br><span class="hljs-type">hsize_t</span> offset[<span class="hljs-number">2</span>], count[<span class="hljs-number">2</span>], stride[<span class="hljs-number">2</span>], block[<span class="hljs-number">2</span>];<br><span class="hljs-type">hsize_t</span> dimsm[<span class="hljs-number">2</span>];<br><br><span class="hljs-type">int</span> RANK=<span class="hljs-number">2</span>;         <span class="hljs-comment">//子集维度</span><br><span class="hljs-type">int</span> DIM0_SUB=<span class="hljs-number">3</span>;     <span class="hljs-comment">//子集维度1长度</span><br><span class="hljs-type">int</span> DIM1_SUB=<span class="hljs-number">4</span>;     <span class="hljs-comment">//子集维度2长度</span><br>offset[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;      <span class="hljs-comment">//子集维度1偏移量</span><br>offset[<span class="hljs-number">1</span>] = <span class="hljs-number">2</span>;      <span class="hljs-comment">//维度2偏移量</span><br><br>count[<span class="hljs-number">0</span>]  = DIM0_SUB;<span class="hljs-comment">//维度1长度</span><br>count[<span class="hljs-number">1</span>]  = DIM1_SUB;<span class="hljs-comment">//维度2长度</span><br><span class="hljs-comment">//维度间隙，默认为1数据之间无间隙，=2的时候,写入的子集数据之间间隔为1，以此类推。当子集的数据下标超过总的维度长度，此设置就会无效</span><br><br>stride[<span class="hljs-number">0</span>] = <span class="hljs-number">2</span>;        <br>stride[<span class="hljs-number">1</span>] = <span class="hljs-number">2</span>;<br><br><br>block[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;        <span class="hljs-comment">//维度1块大小，暂时未发现这个设置的作用</span><br><br>block[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br><br>dimsm[<span class="hljs-number">0</span>] = DIM0_SUB;<br>dimsm[<span class="hljs-number">1</span>] = DIM1_SUB;<br><span class="hljs-comment">//写入子集的数据</span><br><br><span class="hljs-type">char</span> *wdata = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[DIM0_SUB*DIM1_SUB];<br><span class="hljs-type">char</span> *tmp=<span class="hljs-literal">NULL</span>;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i =<span class="hljs-number">0</span>; i&lt;DIM0_SUB; ++i)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j =<span class="hljs-number">0</span>; j&lt;DIM1_SUB; ++j)&#123;<br>        tmp = wdata + i*DIM1_SUB +j;<br>        *tmp = <span class="hljs-number">100</span>;<br>    &#125;<br>&#125;<br><span class="hljs-type">char</span> rdata[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>];<br><span class="hljs-function">H5File <span class="hljs-title">file</span><span class="hljs-params">(filename,H5F_ACC_RDWR)</span></span>;<br><span class="hljs-comment">//根据绝对路径打开数据集</span><br><br>DataSet dataset =file.<span class="hljs-built_in">openDataSet</span>(<span class="hljs-string">&quot;/Section0/Run0/TimeData/Channel0&quot;</span>);<br><br><span class="hljs-comment">//子集数据空间</span><br><span class="hljs-function">DataSpace <span class="hljs-title">memSpace</span><span class="hljs-params">(RANK, dimsm, <span class="hljs-literal">NULL</span>)</span></span>;<br><span class="hljs-comment">//原数据集空间</span><br>DataSpace dataSpace= dataset.<span class="hljs-built_in">getSpace</span>();<br><span class="hljs-comment">//H5S_SELECT_SET是用子集覆盖原来相同坐标的数据，还有其他选项，OR XOR AND 等选项，可以进入源码自行阅读</span><br><br><span class="hljs-comment">//设置超实验室</span><br>dataSpace.<span class="hljs-built_in">selectHyperslab</span>(H5S_SELECT_SET, count, offset, stride, block);<br><span class="hljs-comment">//写入子集</span><br><br>dataset.<span class="hljs-built_in">write</span>(wdata,PredType::NATIVE_CHAR,memSpace,dataSpace);<br><span class="hljs-comment">//读取子集</span><br><br>dataset.<span class="hljs-built_in">read</span>(rdata,PredType::NATIVE_CHAR,memSpace,dataSpace);<br>file.<span class="hljs-built_in">close</span>();<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;DIM0_SUB;i++)&#123;<br>    cout&lt;&lt;endl;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;DIM1_SUB;j++)<br><br>        cout&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;(rdata[i][j]);<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>不设置间隙stride[[0]]&#x3D;1;stride[[1]]&#x3D;1;结果如下：</p>
+<p><img src="/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Csecond.png" srcset="/img/loading.gif" lazyload alt="HDF5-CPP使用教程\second"></p>
+<p>设置间隙stride[[0]]&#x3D;2;stride[[1]]&#x3D;2;结果如下：</p>
+<p><img src="/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cfourth.png" srcset="/img/loading.gif" lazyload alt="HDF5-CPP使用教程\fourth"></p>
+<p>读取出来的子集结果:</p>
+<p><img src="/HDF5-CPP%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%5Cthird.png" srcset="/img/loading.gif" lazyload alt="HDF5-CPP使用教程\third"></p>
+<blockquote>
+<p>char字符’d‘转化为int就是100</p>
+</blockquote>
+<h2 id="写入数据时压缩处理"><a href="#写入数据时压缩处理" class="headerlink" title="写入数据时压缩处理"></a>写入数据时压缩处理</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//创建压缩空间</span><br><span class="hljs-type">hsize_t</span> chunk_dims[<span class="hljs-number">2</span>]=&#123;<span class="hljs-number">5</span>,<span class="hljs-number">10</span>&#125;;<br>DSetCreatPropList  *plist = <span class="hljs-keyword">new</span>  DSetCreatPropList;<br>plist-&gt;<span class="hljs-built_in">setChunk</span>(<span class="hljs-number">2</span>, chunk_dims);<br><span class="hljs-comment">//设置Deflate=6使用zlib压缩，注释掉则使用下列的szip</span><br>plist-&gt;<span class="hljs-built_in">setDeflate</span>(<span class="hljs-number">6</span>);<br><span class="hljs-comment">//        unsigned szip_options_mask = H5_SZIP_NN_OPTION_MASK;</span><br><span class="hljs-comment">//        unsigned szip_pixels_per_block = 16;</span><br><span class="hljs-comment">//        plist-&gt;setSzip(szip_options_mask, szip_pixels_per_block);</span><br><span class="hljs-comment">//创建数据集，通道数据</span><br>DataSet *dataset_Time = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataSet</span> (group_Time0.<span class="hljs-built_in">createDataSet</span>(<span class="hljs-string">&quot;Channel0&quot;</span>,       PredType::NATIVE_CHAR, *dataspace,*plist));<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个代码是替换创建HDF5文件里面创建数据集的过程，这个代码添加了压缩属性设置，支持zlib个szip两种压缩模式。读取数据集的时候和没有压缩一样即可。但是在使用过程中，发现压缩前和压缩后的文件大小并没有区别，这个问题后续再来研究。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/HDF5-CPP%E6%95%99%E7%A8%8B/" class="category-chain-item">HDF5_CPP教程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Qt/">#Qt</a>
+      
+        <a href="/tags/HDF5/">#HDF5</a>
+      
+        <a href="/tags/C/">#C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HDF5_CPP使用教程</div>
+      <div>http://yoursite.com/2019/05/21/HDF5-CPP使用教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/05/24/char%E6%95%B0%E7%BB%84%E7%9A%84%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/" title="char数组的数据显示">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">char数组的数据显示</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/05/15/Qt%E7%9A%84pro%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" title="Qt的pro配置详解">
+                        <span class="hidden-mobile">Qt的pro配置详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

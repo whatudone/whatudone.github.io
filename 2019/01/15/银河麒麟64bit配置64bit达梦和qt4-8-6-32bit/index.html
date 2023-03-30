@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本次使用银河麒麟64操作系统以及64位达梦数据库，但是由于Qt程序依赖32位的库，所以需要配置32位unixodbc连接达梦数据库。 安装达梦数据库64bit达梦数据库使用Java开发，所以依赖jdk，系统自带的是openjdk64bit，所以下载64bit的达梦镜像iso文件，直接解压缩。 123cd 解压缩文件夹chmod 777 DMINSTALL.&#x2F;DMINSTALL  这里推荐使用普通用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="银河麒麟64bit配置64bit达梦和qt4.8.6-32bit">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/%E9%93%B6%E6%B2%B3%E9%BA%92%E9%BA%9F64bit%E9%85%8D%E7%BD%AE64bit%E8%BE%BE%E6%A2%A6%E5%92%8Cqt4-8-6-32bit/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="本次使用银河麒麟64操作系统以及64位达梦数据库，但是由于Qt程序依赖32位的库，所以需要配置32位unixodbc连接达梦数据库。 安装达梦数据库64bit达梦数据库使用Java开发，所以依赖jdk，系统自带的是openjdk64bit，所以下载64bit的达梦镜像iso文件，直接解压缩。 123cd 解压缩文件夹chmod 777 DMINSTALL.&#x2F;DMINSTALL  这里推荐使用普通用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-15T01:44:13.000Z">
+<meta property="article:modified_time" content="2019-01-16T07:50:05.370Z">
+<meta property="article:author" content="还在输入">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>银河麒麟64bit配置64bit达梦和qt4.8.6-32bit - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="银河麒麟64bit配置64bit达梦和qt4.8.6-32bit"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-01-15 09:44" pubdate>
+          2019年1月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">银河麒麟64bit配置64bit达梦和qt4.8.6-32bit</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本次使用银河麒麟64操作系统以及64位达梦数据库，但是由于Qt程序依赖32位的库，所以需要配置32位unixodbc连接达梦数据库。</p>
+<h1 id="安装达梦数据库64bit"><a href="#安装达梦数据库64bit" class="headerlink" title="安装达梦数据库64bit"></a>安装达梦数据库64bit</h1><p>达梦数据库使用Java开发，所以依赖jdk，系统自带的是openjdk64bit，所以下载64bit的达梦镜像iso文件，直接解压缩。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cd</span> 解压缩文件夹<br>chmod <span class="hljs-number">777</span> DMINSTALL<br>./DMINSTALL<br></code></pre></td></tr></table></figure>
+
+<p>这里推荐使用普通用户安装，默认安装在&#x2F;home&#x2F;user&#x2F;dmdbms&#x2F;,如果采用root用户安装，那么安装路径会在&#x2F;opt&#x2F;dmdbms下，安装完成之后配置环境变量LD_LIBRARY_PATH，达梦数据库会自动创建一个dmdba的系统用户，密码默认和用户名一样，这个用户是用来管理达梦数据库的，达梦数据库安装是user和group都是使用它自己的，所以在你的账户是无法使用他的管理工具，但是对后续的配置没有影响。</p>
+<h1 id="安装达梦数据库32bit"><a href="#安装达梦数据库32bit" class="headerlink" title="安装达梦数据库32bit"></a>安装达梦数据库32bit</h1><h2 id="安装32bit的jdk"><a href="#安装32bit的jdk" class="headerlink" title="安装32bit的jdk"></a>安装32bit的jdk</h2><ol>
+<li><p>去官网下载32bit的jdk安装包</p>
+</li>
+<li><p>解压</p>
+</li>
+<li><p>配置环境变量 sudo vi &#x2F;etc&#x2F;profile</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">export JAVA_HOME=/usr/lib/jvm/jdk7<br>export JRE_HOME=<span class="hljs-variable">$</span>&#123;JAVA_HOME&#125;/jre<br>export CLASSPATH=.:<span class="hljs-variable">$</span>&#123;JAVA_HOME&#125;/lib:<span class="hljs-variable">$</span>&#123;JRE_HOME&#125;/lib<br>export PATH=<span class="hljs-variable">$</span>&#123;JAVA_HOME&#125;/bin:<span class="hljs-variable">$PATH</span><br></code></pre></td></tr></table></figure>
+
+<p>4.source &#x2F;etc&#x2F;profile生效</p>
+</li>
+</ol>
+<h2 id="配置默认jdk"><a href="#配置默认jdk" class="headerlink" title="配置默认jdk"></a>配置默认jdk</h2><p>一些linux环境可能存在默认的jdk配置，这时候需要我们进行默认jdk的配置（相当于同时保留32bit和64bit的jdk方便切换）。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo <span class="hljs-built_in">update-alternatives</span> <span class="hljs-literal">--config</span> java  <span class="hljs-comment">#查看当前java配置并选择</span><br>sudo <span class="hljs-built_in">update-alternatives</span> <span class="hljs-literal">--install</span> /usr/bin/java java /usr/lib/jvm/jdk7/bin/java <span class="hljs-number">300</span><br>sudo <span class="hljs-built_in">update-alternatives</span> <span class="hljs-literal">--install</span> /usr/bin/javac javac /usr/lib/jvm/jdk7/bin/javac <span class="hljs-number">300</span><br>sudo <span class="hljs-built_in">update-alternatives</span> <span class="hljs-literal">--config</span> java <span class="hljs-comment">#查看当前java配置并选择</span><br>java <span class="hljs-literal">-version</span>                    <span class="hljs-comment">#测试是否成功</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="安装32bit的达梦数据库"><a href="#安装32bit的达梦数据库" class="headerlink" title="安装32bit的达梦数据库"></a>安装32bit的达梦数据库</h2><p>类似于安装64bit，只不过在运行安装程序时虽然前面已经配置了32bit的jdk，但是还缺少32bit的libXtst.so.6</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo apt<span class="hljs-literal">-get</span> install libxtst<span class="hljs-literal">-dev</span>:i386 <span class="hljs-comment">#x小写</span><br></code></pre></td></tr></table></figure>
+
+<p>此时会提示libxi:i386依赖没有安装，所以强行安装libxi-dev:i386(会破坏系统某些库的依赖，导致系统的home按钮无法使用，但是有终端就ok了，不影响)。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo apt<span class="hljs-literal">-get</span> install libxi<span class="hljs-literal">-dev</span>:i386<br>sudo apt<span class="hljs-literal">-get</span> install libxtst<span class="hljs-literal">-dev</span>:i386<br></code></pre></td></tr></table></figure>
+
+<p>然后运行32bit的达梦数据库安装包，只安装驱动即可。安装完配置驱动库的环境变量。</p>
+<h1 id="安装系统32bit编译环境"><a href="#安装系统32bit编译环境" class="headerlink" title="安装系统32bit编译环境"></a>安装系统32bit编译环境</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo dpkg <span class="hljs-literal">--add-architecture</span> i386<br>sudo apt<span class="hljs-literal">-get</span> update<br>sudo apt<span class="hljs-literal">-get</span> dist<span class="hljs-literal">-upgrade</span> <br>sudo apt<span class="hljs-literal">-get</span> install gcc<span class="hljs-literal">-multilib</span> g++multilib<br></code></pre></td></tr></table></figure>
+
+<h1 id="安装unixodbc-32bit"><a href="#安装unixodbc-32bit" class="headerlink" title="安装unixodbc-32bit"></a>安装unixodbc-32bit</h1><ol>
+<li><p>去官网下载unixodbc 32bit的包</p>
+</li>
+<li><p>tar -zxvf unixodbc.tar.gz</p>
+</li>
+<li><pre><code class="powershell">cd 
+CFLAGS=-m32 LDFLAGS=-m32 CXXFLAGS=-m32 ./configure --prefix==/usr/local/unixODBC-32bit --includedir=/usr/include --libdir=/usr/lib -bindir=/usr/bin --sysconfdir=/etc
+
+make
+sudo make install
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs stata"><br>## 配置<span class="hljs-keyword">odbc</span>环境变量以及达梦数据库数据源<br><br>这里的-m32是指使用32bit的编译器，所以以后编译32bit的软件都可以参考此思路，本质就是使用gcc main.c -m32，但是这种集成化安装方式只能在configure 里面设置编译参数。因为前面的配置参数里面把<span class="hljs-keyword">odbc</span>的安装路径都设置到了系统的环境变量里面了，所以<span class="hljs-keyword">odbc</span>的环境变量就不需要设置了。<br><br>```powershell<br>odbcinst -j #查看<span class="hljs-keyword">odbc</span>的ini配置路径<br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ol>
+<p>配置达梦驱动</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo vi /etc/odbcinst.ini<br></code></pre></td></tr></table></figure>
+
+<p>内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[DM7]</span>   <br><br><span class="hljs-attr">Description</span> = dm odbc<br><span class="hljs-attr">Driver</span> = /opt/dmdbms/bin/libdodbc.so  <span class="hljs-comment">#此处是32bit的达梦驱动</span><br></code></pre></td></tr></table></figure>
+
+<p>配置达梦数据源</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo vi /etc/odbc.ini<br></code></pre></td></tr></table></figure>
+
+<p>内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[DM7]</span><br><br><span class="hljs-attr">Description</span> = dm7 dsn<br><span class="hljs-attr">Driver</span> = DM7<br><span class="hljs-attr">SERVER</span> =<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span><br><span class="hljs-attr">UID</span> = SYSDBA<br><span class="hljs-attr">PWD</span> = SYSDBA<br><span class="hljs-attr">TCP_PORT</span> = <span class="hljs-number">5236</span><br></code></pre></td></tr></table></figure>
+
+<p>测试是否成功</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">isql DM7 <span class="hljs-literal">-v</span>      <span class="hljs-comment">#如果失败-v会提示错误信息</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="编译32bit的libqsqlodbc-so驱动"><a href="#编译32bit的libqsqlodbc-so驱动" class="headerlink" title="编译32bit的libqsqlodbc.so驱动"></a>编译32bit的libqsqlodbc.so驱动</h1><p>32位qt的编译此处略过不谈。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cd</span> qt<span class="hljs-literal">-everywhere-qt4</span>.<span class="hljs-number">8.6</span>/src/plugins/sqldrivers/odbc<br>qmake    <span class="hljs-comment">#本来此处是依赖odbc的include和lib的，但是前面已经将odbc安装到系统路径，所以不需要添加INCLUDEPATH 和LIBS</span><br>make <br>sudo make install <span class="hljs-comment">#此处会自动将libqsqlodbc.so 拷贝到QTDIR的数据库驱动文件夹</span><br></code></pre></td></tr></table></figure>
+
+<p>##使用Qt代码测试连接</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QSqlDatabase db=QSqlDatabase::<span class="hljs-built_in">addDatabase</span>(<span class="hljs-string">&quot;QODBC&quot;</span>);<br>db.<span class="hljs-built_in">setDatabaseName</span>(<span class="hljs-string">&quot;DM7&quot;</span>);  #DM7就是前面配置的odbc数据源名称<br>db.<span class="hljs-built_in">setHostName</span>(<span class="hljs-string">&quot;localhost&quot;</span>);<br>db.<span class="hljs-built_in">setPort</span>(<span class="hljs-number">5236</span>);<br>db.<span class="hljs-built_in">setUserName</span>(<span class="hljs-string">&quot;SYSDBA&quot;</span>);<br>db.<span class="hljs-built_in">setPassword</span>(<span class="hljs-string">&quot;123456789&quot;</span>);<br><span class="hljs-keyword">if</span>(!db.<span class="hljs-built_in">open</span>())&#123;<br>    <span class="hljs-built_in">qDebug</span>()&lt;&lt;db.<span class="hljs-built_in">lastError</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>银河麒麟64bit配置64bit达梦和qt4.8.6-32bit</div>
+      <div>http://yoursite.com/2019/01/15/银河麒麟64bit配置64bit达梦和qt4-8-6-32bit/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年1月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/01/15/%E9%93%B6%E6%B2%B3%E9%BA%92%E9%BA%9F64bit%E7%BC%96%E8%AF%9132bit-Qt4-8-6/" title="银河麒麟64bit编译32bit-Qt4.8.6">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">银河麒麟64bit编译32bit-Qt4.8.6</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

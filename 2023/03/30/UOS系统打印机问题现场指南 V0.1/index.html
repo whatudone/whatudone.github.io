@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="UOS系统打印机问题现场指南 V0.1收集信息 拍摄打印机的型号名牌,很多时候大家只拍摄了厂家的log. 打印机的铭牌上一般有以下信息:  厂家的品牌Log 打印机的功能简单描述 打印机的具体型号 (非常重要) 打印机的输入电压范围 打印机的产地 打印机的具体生成厂家   收集 lsusb 命令输出,类似这样的: 1Bus 002 Device 002: ID 8087:0024 Intel Co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个骚年">
+<meta property="og:url" content="http://yoursite.com/2023/03/30/UOS%E7%B3%BB%E7%BB%9F%E6%89%93%E5%8D%B0%E6%9C%BA%E9%97%AE%E9%A2%98%E7%8E%B0%E5%9C%BA%E6%8C%87%E5%8D%97%20V0.1/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="UOS系统打印机问题现场指南 V0.1收集信息 拍摄打印机的型号名牌,很多时候大家只拍摄了厂家的log. 打印机的铭牌上一般有以下信息:  厂家的品牌Log 打印机的功能简单描述 打印机的具体型号 (非常重要) 打印机的输入电压范围 打印机的产地 打印机的具体生成厂家   收集 lsusb 命令输出,类似这样的: 1Bus 002 Device 002: ID 8087:0024 Intel Co">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-30T07:59:54.274Z">
+<meta property="article:modified_time" content="2020-12-11T05:06:25.626Z">
+<meta property="article:author" content="还在输入">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-30 15:59" pubdate>
+          2023年3月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          89 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="UOS系统打印机问题现场指南-V0-1"><a href="#UOS系统打印机问题现场指南-V0-1" class="headerlink" title="UOS系统打印机问题现场指南 V0.1"></a>UOS系统打印机问题现场指南 V0.1</h2><h3 id="收集信息"><a href="#收集信息" class="headerlink" title="收集信息"></a>收集信息</h3><ol>
+<li><p>拍摄打印机的型号名牌,很多时候大家只拍摄了厂家的log. 打印机的铭牌上一般有以下信息:</p>
+<ul>
+<li>厂家的品牌Log</li>
+<li>打印机的功能简单描述</li>
+<li>打印机的具体型号 (非常重要)</li>
+<li>打印机的输入电压范围</li>
+<li>打印机的产地</li>
+<li>打印机的具体生成厂家</li>
+</ul>
+</li>
+<li><p>收集 lsusb 命令输出,类似这样的:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Bus</span> <span class="hljs-number">002</span> Device <span class="hljs-number">002</span>: ID <span class="hljs-number">8087</span>:<span class="hljs-number">0024</span> Intel Corp. Integrated Rate Matching Hub Bus <span class="hljs-number">002</span> Device <span class="hljs-number">001</span>: ID <span class="hljs-number">1</span>d6b:<span class="hljs-number">0002</span> Linux Foundation <span class="hljs-number">2</span>.<span class="hljs-number">0</span> root hub Bus <span class="hljs-number">001</span> Device <span class="hljs-number">005</span>: ID <span class="hljs-number">04</span>f2:b2eb Chicony Electronics Co., Ltd  Bus <span class="hljs-number">001</span> Device <span class="hljs-number">004</span>: ID <span class="hljs-number">0</span>a5c:<span class="hljs-number">21</span>e6 Broadcom Corp. BCM20702 Bluetooth <span class="hljs-number">4</span>.<span class="hljs-number">0</span><span class="hljs-meta"> [ThinkPad] Bus 001 Device 007: ID 0000:0538   Bus 001 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching Hub Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>收集 usb_printerid &#x2F;dev&#x2F;usb&#x2F;lp0 输出.</p>
+<ul>
+<li><p>其中参数 &#x2F;dev&#x2F;usb&#x2F;lp0, 要看当时打印机是连接在哪个usb接口上,默认是&#x2F;dev&#x2F;usb&#x2F;lp0;</p>
+</li>
+<li><p>如果 usb_printerid 没有任何输出，就尝试把 &#x2F;dev&#x2F;usb&#x2F;lp0 改成lp1,lp2,lp3等等.</p>
+</li>
+<li><p>比如东芝的某个打印机: <code>MFG:TOSHIBA;CMD:T.32;MDL:e-STUDIO225;</code></p>
+</li>
+<li><p>惠普的某个打印机</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable constant_">MFG</span><span class="hljs-symbol">:Hewlett-Packard</span>;<span class="hljs-variable constant_">MDL</span><span class="hljs-symbol">:HP</span> <span class="hljs-title class_">LaserJet</span> <span class="hljs-title class_">Professional</span> <span class="hljs-variable constant_">M1136MFP</span>;<span class="hljs-variable constant_">CMD</span><span class="hljs-symbol">:ZJS</span>,<span class="hljs-variable constant_">HBS</span>,<span class="hljs-variable constant_">PJL</span>,<span class="hljs-variable constant_">ACL</span>,<span class="hljs-variable constant_">HTTP</span>;<span class="hljs-variable constant_">CLS</span><span class="hljs-symbol">:PRINTER</span>;<span class="hljs-variable constant_">DES</span><span class="hljs-symbol">:HP</span> <span class="hljs-title class_">LaserJet</span> <span class="hljs-title class_">Professional</span> <span class="hljs-variable constant_">M1136MFP</span>;<span class="hljs-variable constant_">FWVER</span><span class="hljs-symbol">:</span><span class="hljs-number">20140317</span>;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>收集 &#x2F;etc&#x2F;cups&#x2F;ppd 目录的所有ppd文件</p>
+<ul>
+<li>这个目录的每个ppd文件描述了一个打印机的能力和完成一次打印作业需要那些模块.</li>
+</ul>
+</li>
+<li><p>收集cups的debug日志,步骤如下:</p>
+<ul>
+<li>打开 &#x2F;etc&#x2F;cups&#x2F;cupsd.conf 文件,找到 <code>Loglevel warn</code> 这一行改成<code>Loglevel debug</code></li>
+<li>保存后，执行这个命令重启cups服务: <code>sudo /etc/init.d/cups restart．</code></li>
+<li>再次打印一次文件, cups就会记录详细的打印日志到这个文件 &#x2F;var&#x2F;log&#x2F;cups&#x2F;error_log</li>
+<li>另外还有 access_log 文件(记录提交给cups调度器的请求)和 page_log 文件(记录每页打印的情况).</li>
+</ul>
+</li>
+<li><p>把前面5步的列出信息或文件,再加上打印有问题的文档文件一起压缩一下发回来.</p>
+</li>
+</ol>
+<h3 id="cups-error-log-日志分析方法"><a href="#cups-error-log-日志分析方法" class="headerlink" title="cups error_log 日志分析方法"></a>cups error_log 日志分析方法</h3><h4 id="日志格式"><a href="#日志格式" class="headerlink" title="日志格式"></a>日志格式</h4><ol>
+<li>第1列是日志级别:<ul>
+<li>A - Alert message (LogLevel alert)</li>
+<li>C - Critical error message (LogLevel crit)</li>
+<li>D - Debugging message (LogLevel debug)</li>
+<li>d - Detailed debugging message (LogLevel debug2)</li>
+<li>E - Normal error message (LogLevel error)</li>
+<li>I - Informational message (LogLevel info)</li>
+<li>N - Notice message (LogLevel notice)</li>
+<li>W - Warning message (LogLevel warn)</li>
+<li>X - Emergency error message (LogLevel emerg)</li>
+</ul>
+</li>
+<li>第2列是日志时间和时区</li>
+<li>第3列是具体的日志内容</li>
+<li>更多, 阅读手册: man cupsd-logs</li>
+</ol>
+<h4 id="日志内容的前缀标签"><a href="#日志内容的前缀标签" class="headerlink" title="日志内容的前缀标签"></a>日志内容的前缀标签</h4><p>[Job N], 所有以它开头的日志都是cups进行第N次打印作业的调度的日志, 非常重要,包含了以下信息.</p>
+<ul>
+<li><p>设置的打印参数和环境变量:</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs prolog"><span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">0</span>]=<span class="hljs-string">&quot;Hewlett-Packard-HP-LaserJet-Professional-M1216nfh-MFP&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">1</span>]=<span class="hljs-string">&quot;45&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">2</span>]=<span class="hljs-string">&quot;deepin&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">3</span>]=<span class="hljs-string">&quot;安装.pdf&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">4</span>]=<span class="hljs-string">&quot;1&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">5</span>]=<span class="hljs-string">&quot;finishings=3 number-up=1 job-uuid=urn:uuid:5b4fd9f9-c4f2-3028-6aa5-971abb7f5c8e job-originating-host-name=localhost date-time-at-creation= date-time-at-processing= time-at-creation=1508295549 time-at-processing=1508295549 document-name-supplied=安装.pdf&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] argv[<span class="hljs-number">6</span>]=<span class="hljs-string">&quot;/var/spool/cups/d00045-001&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">0</span>]=<span class="hljs-string">&quot;CUPS_CACHEDIR=/var/cache/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">1</span>]=<span class="hljs-string">&quot;CUPS_DATADIR=/usr/share/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">2</span>]=<span class="hljs-string">&quot;CUPS_DOCROOT=/usr/share/cups/doc-root&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">3</span>]=<span class="hljs-string">&quot;CUPS_FONTPATH=/usr/share/cups/fonts&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">4</span>]=<span class="hljs-string">&quot;CUPS_REQUESTROOT=/var/spool/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">5</span>]=<span class="hljs-string">&quot;CUPS_SERVERBIN=/usr/lib/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">6</span>]=<span class="hljs-string">&quot;CUPS_SERVERROOT=/etc/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">7</span>]=<span class="hljs-string">&quot;CUPS_STATEDIR=/var/run/cups&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">8</span>]=<span class="hljs-string">&quot;HOME=/var/spool/cups/tmp&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">9</span>]=<span class="hljs-string">&quot;PATH=/usr/lib/cups/filter:/usr/bin:/usr/sbin:/bin:/usr/bin&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">10</span>]=<span class="hljs-string">&quot;SERVER_ADMIN=root@deepin-pc&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">11</span>]=<span class="hljs-string">&quot;SOFTWARE=CUPS/2.1.3&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">12</span>]=<span class="hljs-string">&quot;TMPDIR=/var/spool/cups/tmp&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">13</span>]=<span class="hljs-string">&quot;USER=root&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">14</span>]=<span class="hljs-string">&quot;CUPS_MAX_MESSAGE=2047&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">15</span>]=<span class="hljs-string">&quot;CUPS_SERVER=/var/run/cups/cups.sock&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">16</span>]=<span class="hljs-string">&quot;CUPS_ENCRYPTION=IfRequested&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">17</span>]=<span class="hljs-string">&quot;IPP_PORT=631&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">18</span>]=<span class="hljs-string">&quot;CHARSET=utf-8&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">19</span>]=<span class="hljs-string">&quot;LANG=zh_CN.UTF-8&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">20</span>]=<span class="hljs-string">&quot;PPD=/etc/cups/ppd/Hewlett-Packard-HP-LaserJet-Professional-M1216nfh-MFP.ppd&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">21</span>]=<span class="hljs-string">&quot;RIP_MAX_CACHE=128m&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">22</span>]=<span class="hljs-string">&quot;CONTENT_TYPE=application/pdf&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">23</span>]=<span class="hljs-string">&quot;DEVICE_URI=usb://HP/LaserJet%20Professional%20M1216nfh%20MFP?serial=000000000QJA1550PR1a&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">24</span>]=<span class="hljs-string">&quot;PRINTER_INFO=Hewlett-Packard HP LaserJet Professional M1216nfh MFP&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">25</span>]=<span class="hljs-string">&quot;PRINTER_LOCATION=deepin-pc&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">26</span>]=<span class="hljs-string">&quot;PRINTER=Hewlett-Packard-HP-LaserJet-Professional-M1216nfh-MFP&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">27</span>]=<span class="hljs-string">&quot;PRINTER_STATE_REASONS=none&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">28</span>]=<span class="hljs-string">&quot;CUPS_FILETYPE=document&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">29</span>]=<span class="hljs-string">&quot;FINAL_CONTENT_TYPE=application/vnd.cups-pdf&quot;</span>      <span class="hljs-symbol">D</span> [<span class="hljs-number">18</span>/<span class="hljs-symbol">Oct</span>/<span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">45</span>] envp[<span class="hljs-number">30</span>]=<span class="hljs-string">&quot;AUTH_I****&quot;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>需要哪些 filter:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] <span class="hljs-number">2</span> filters <span class="hljs-keyword">for</span> job:      D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] pdftopdf (application<span class="hljs-regexp">/pdf to application/</span>vnd.cups-pdf, cost <span class="hljs-number">66</span>)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>目标 backend :</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">I [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] Started filter <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/cups/</span>filter<span class="hljs-regexp">/pdftopdf (PID 12374)     I [18/Oct/2017:10:59:09 +0800] [Job 45] Started filter /u</span>sr<span class="hljs-regexp">/lib/</span>cups<span class="hljs-regexp">/filter/</span>foomatic-rip (PID <span class="hljs-number">12375</span>)     I [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">09</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] Started backend <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/cups/</span>backend/usb (PID <span class="hljs-number">12376</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="进行简单排查-举例"><a href="#进行简单排查-举例" class="headerlink" title="进行简单排查,举例"></a>进行简单排查,举例</h4><ul>
+<li><p>打开日志文件后先搜索 E 级别的日志, 优先排除:</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">E [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">18</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] Job stopped due to filter errors; please consult the error_log <span class="hljs-keyword">file</span> <span class="hljs-keyword">for</span> details.   E [<span class="hljs-number">30</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">08</span>:<span class="hljs-number">44</span>:<span class="hljs-number">06</span> +<span class="hljs-number">0800</span>] [cups-driverd] Bad driver information <span class="hljs-keyword">file</span> \\\\<span class="hljs-string">&quot;/usr/share/cups/model/uld-samsung/cms/CLP-360sc.cts\\\\&quot;</span>!  E [<span class="hljs-number">30</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">08</span>:<span class="hljs-number">44</span>:<span class="hljs-number">06</span> +<span class="hljs-number">0800</span>] [cups-driverd] Skipping \\\\<span class="hljs-string">&quot;/usr/share/ppd/uld-samsung\\\\&quot;</span>: loop detected!<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>对于惠普的hplip插件的打印机搜索 hplip 字符串, 日志可以看出hplip插件没有安装</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">11</span>:<span class="hljs-number">50</span>:<span class="hljs-number">07</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">50</span>] prnt<span class="hljs-regexp">/hpcups/</span>HPCupsFilter.cpp <span class="hljs-number">429</span>: HPCUPS: found Printer Language, it is - ljzjstream  D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">11</span>:<span class="hljs-number">50</span>:<span class="hljs-number">07</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">50</span>] STATE: +connecting-to-device  D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">11</span>:<span class="hljs-number">50</span>:<span class="hljs-number">07</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">50</span>] STATE: +hplip.plugin-error  D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">11</span>:<span class="hljs-number">50</span>:<span class="hljs-number">07</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">50</span>] prnt<span class="hljs-regexp">/hpcups/</span>HPCupsFilter.cpp <span class="hljs-number">486</span>: m_Job initialization failed with error = <span class="hljs-number">48</span>  D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">11</span>:<span class="hljs-number">50</span>:<span class="hljs-number">07</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">50</span>] prnt<span class="hljs-regexp">/hpcups/</span>HPCupsFilter.cpp <span class="hljs-number">579</span>: HPCUPS: processRasterData returned <span class="hljs-number">1</span>, calling closeFilter()<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>搜索 error 字符串, 这个日志看出,缺少libpopt库</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">D [<span class="hljs-number">26</span><span class="hljs-regexp">/Sep/</span><span class="hljs-number">2017</span>:<span class="hljs-number">15</span>:<span class="hljs-number">26</span>:<span class="hljs-number">21</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">28</span>] <span class="hljs-regexp">/usr/</span>bin/captfilter: error <span class="hljs-keyword">while</span> loading shared libraries: libpopt.so.<span class="hljs-number">0</span>: cannot open shared object <span class="hljs-keyword">file</span>: No such <span class="hljs-keyword">file</span> or directory<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>搜索 status 字符串, 这个日志显示 foomatic-rip运行不正常, 错误码9:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">D [<span class="hljs-number">18</span><span class="hljs-regexp">/Oct/</span><span class="hljs-number">2017</span>:<span class="hljs-number">10</span>:<span class="hljs-number">59</span>:<span class="hljs-number">10</span> +<span class="hljs-number">0800</span>] [Job <span class="hljs-number">45</span>] PID <span class="hljs-number">12375</span> (<span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/cups/</span>filter/foomatic-rip) stopped with status <span class="hljs-number">9</span>.<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>偶现错误，cups无法创建临时文件：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs prolog"><span class="hljs-symbol">D</span> [<span class="hljs-number">26</span>/<span class="hljs-symbol">Aug</span>/<span class="hljs-number">2020</span>:<span class="hljs-number">09</span>:<span class="hljs-number">56</span>:<span class="hljs-number">30</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">8</span>] envp[<span class="hljs-number">12</span>]=<span class="hljs-string">&quot;TMPDIR=/var/spool/cups/tmp&quot;</span><span class="hljs-symbol">D</span> [<span class="hljs-number">26</span>/<span class="hljs-symbol">Aug</span>/<span class="hljs-number">2020</span>:<span class="hljs-number">09</span>:<span class="hljs-number">56</span>:<span class="hljs-number">30</span> +<span class="hljs-number">0800</span>] [<span class="hljs-symbol">Job</span> <span class="hljs-number">8</span>] <span class="hljs-symbol">Set</span> job-printer-state-message to <span class="hljs-string">&quot;Can\&#x27;t create temporary file&quot;</span>, current level=<span class="hljs-symbol">ERROR</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>&amp;emsp;&amp;emsp;问题原因：cups是lp用户组，没有TMPDIR目录的写权限。通过getfacl &#x2F;var&#x2F;spool&#x2F;cups&#x2F;tmp可以查看权限问题。解决办法：</p>
+<p>&amp;emsp;&amp;emsp;sudo setfacl -m g:lp:rwx &#x2F;var&#x2F;spool&#x2F;cups&#x2F;tmp</p>
+<p>&amp;emsp;&amp;emsp;sudo setfacl -m d:group:lp:rwx &#x2F;var&#x2F;spool&#x2F;cups&#x2F;</p>
+<ul>
+<li><p>用户组权限问题：</p>
+<p>新版欧拉系统测试打印管理器，发现lpinfo -v可以发现直接的打印机，但是打印管理器自动发现没找到，有一个细节就是用户需要sudo才能执行该命令，但是正常的专业版是不需要的，所以应该是当前用户不在lp和lpadmin组，导致无法管理打印机。输入id命令查看当前用户所属组，发现确实用户默认没有lp和lpadmin组。所以手动添加组即可，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo usermod -a -G lp user   <span class="hljs-comment">#给user用户添加lp组sudo usermod -a -G lpadmin user #给user用户添加lpadmin组</span><br></code></pre></td></tr></table></figure>
+
+<p>&gt; 目前欧拉版和行业版基于centos，所有的打印机驱动没有适配，暂时需要手动下载安装驱动</p>
+</li>
+<li><p>filter权限问题</p>
+<p>安装print-scan这个驱动包，添加打印机打印，cups错误如下：</p>
+<p>正确的filter权限如下图：</p>
+<p>发现现场的filter的owner和group被修改成了非root，手动修改为root就好了，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo <span class="hljs-built_in">chown</span> root:root file<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>驱动正确安装但是无法打印</p>
+<p>在打印机管理器中安装了推荐的佳能驱动，添加打印机成功，但是无法打印，打印管理器日志提示filter错误，cups日志找到具体问题，提示 libcupsimage找不到。所以直接apt安装这个 libcupsimage2就可以解决。</p>
+</li>
+<li><p>天融信审计软件问题</p>
+<p>正常添加打印机后，无法打印，查看cups日志发现打印机的uri被串改，前缀多了个TDABACKEND0,导致后续的filter-backend流程错误。卸载或者升级该软件重新添加打印机即可。</p>
+</li>
+</ul>
+<h3 id="共享打印机常见问题"><a href="#共享打印机常见问题" class="headerlink" title="共享打印机常见问题"></a>共享打印机常见问题</h3><p>共享打印机的分为两个开关，设置里面的是总开关，打印机列表的右键菜单里面的共享是针对单个打印机，所以需要先在设置里面开启总开关（第一和第二项）。共享Linux打印机，通常使用ipp协议打印机，自动匹配的驱动是ipp everywhere无驱方案。共享windows打印机，需要先在windows开启lpd，然后选择对应的lpd协议打印机。smb协议打印机目前存在问题，尽量避免使用该协议打印机（一般正常情况不会出现，除非搜索不到别的协议打印机）。</p>
+<h3 id="三种添加打印机的区别"><a href="#三种添加打印机的区别" class="headerlink" title="三种添加打印机的区别"></a>三种添加打印机的区别</h3><ul>
+<li><p>自动查找</p>
+<p>自动查找可以发现同网段的网络打印机、同网段的其他用户共享的打印机和直连的USB打印机。</p>
+</li>
+<li><p>手动查找</p>
+<p>手动查找分为两种情况，一种是查找指定ip共享的打印机，一种是查找指定ip的打印机。直接连接指定ip的打印机，协议为socket，端口为9100，所以需要确保ip和端口可以正常访问。</p>
+</li>
+<li><p>URI添加</p>
+<p>这种情况是知道打印机的URI和对应的型号以及驱动，纯手动添加打印机，比如有些打印机的端口不是9100，查找不到，就可以使用这种方式添加打印机。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap ip   <span class="hljs-comment">#扫描开放的端口</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="云打印常见问题排查"><a href="#云打印常见问题排查" class="headerlink" title="云打印常见问题排查"></a>云打印常见问题排查</h2><ul>
+<li><p>服务器配置界面无法显示ip</p>
+<p>首先排查服务是否启动，在任务管理器当中查看DeepinCloudPrintService服务是否启动，没有启动就先进入程序安装目录，管理员启动cmd，执行CloudPrint.exe install,手动安装这个服务，查看是否存在错误，常见错误就是说DeepinCloudPrintService这个注册表项已经存在了，所以需要启动注册表编辑器搜索这个项，删掉这个对应的注册表就行，然后重新手动安装服务，或者重新安装这个安装包。</p>
+</li>
+<li><p>客户端能够连接服务器，但是打印任务一直暂停</p>
+<p>首先排查客户端后台服务是否启动，ps aux|grep cloud,看输出的结果里面damon和agent两个后台进程是否启动，目前由于dtk升级导致不兼容的问题，会导致agent这个进程无法启动，直接终端启动&#x2F;usr&#x2F;lib&#x2F;deepin-daemon&#x2F;deepin-cloud-print-agent,会报dtkwidget的无法找到符号的问题。这时候升级libdtkwidget5就行，升级完然后直接启动云打印客户端就可以自动启动agent后台程序，不需要重新启动系统。</p>
+</li>
+<li><p>勾选逐份导致打印出现多份的情况</p>
+<p>原因是5.2.0.0之前的版本，在客户端和服务端都处理了多份这个参数，所以导致打两份出现四份的情况。在5.2.0.0及之后的版本已经修复。</p>
+</li>
+<li><p>无法打印彩色文档</p>
+<p>原因是有两方面，一个是打印软件比如是wps，没有将color参数传递给cups，第二个原因是云打印客户端默认是gray（灰色模式），5.2.0.0及以后的版本修复这个问题。但是打印机也分不同的情况，有的打印机能够识别windows传递给打印机的色彩参数，有的打印机并不能识别这个参数，这种情况也会导致无法打印彩色（这种不属于云打印的问题）。</p>
+</li>
+<li><p>双面打印参数问题</p>
+<p>有的打印机本身支持双面打印，但是在windows上通过驱动读取的结果不正确，显示不支持。导致将打印能力传到客户端时，客户端根据错误的结果生成打印机ppd，然后打印软件比如wps等就没有了双面打印的选项，只有一个手动双面打印。解决办法就是手动修改ppd里面的内容，自己增加双面打印的选项。ppd路径在&#x2F;etc&#x2F;cups&#x2F;ppd&#x2F;目录下，文件名是打印机的名字，添加如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs textile">*OpenUI *Duplex/2-Sided Printing: PickOne<br>*OrderDependency: 10 AnySetup *Duplex<br>*DefaultDuplex: None<br>*Duplex None/Off (1-Sided): &quot;&lt;&lt;/Duplex false&gt;&gt;setpagedevice&quot;<br>*Duplex DuplexNoTumble/Long-Edge (Portrait): &quot;&lt;&lt;/Duplex true/Tumble false&gt;&gt;setpagedevice&quot;<br>*Duplex DuplexTumble/Short-Edge (Landscape): &quot;&lt;&lt;/Duplex true/Tumble true&gt;&gt;setpagedevice&quot;<br>*CloseUI: *Duplex<br></code></pre></td></tr></table></figure>
+
+<p>添加完如下图所示：</p>
+<p>wps打印属性添加完结果如下图所示：</p>
+<p>修改完需要重启cups服务，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl restart cups<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="云打印日志路径"><a href="#云打印日志路径" class="headerlink" title="云打印日志路径"></a>云打印日志路径</h2><ul>
+<li><p>客户端界面程序 ：~&#x2F;.cache&#x2F;uniontech&#x2F;deepin-cloud-print&#x2F;deepin-cloud-print.log</p>
+</li>
+<li><p>客户端dcp程序 ： &#x2F;var&#x2F;log&#x2F;cups&#x2F;dcp_log</p>
+</li>
+<li><p>服务端界面程序：%temp%&#x2F;deepin-cloud-print-config&#x2F;dcpc.log</p>
+</li>
+<li><p>服务端后台程序：安装目录的Logs&#x2F;cloud-print-server.log</p>
+</li>
+</ul>
+<blockquote>
+<p>1.1.1.1及之后版本服务端的日志都会放在安装目录的Logs目录</p>
+</blockquote>
+<h2 id="云打印缓存文件开关"><a href="#云打印缓存文件开关" class="headerlink" title="云打印缓存文件开关"></a>云打印缓存文件开关</h2><p>为了方便前端排查问题，云打印服务端（1.1.3）和客户端（5.2.1）新增保留缓存文件开关。</p>
+<ul>
+<li><p>服务端</p>
+<p>打开注册表，搜索DeepinCloudPrintServer，将IsCacheMode的值修改为1（默认是0表示不缓存），用完记得改回0。缓存目录在安装目录的Cache目录。截图如下：</p>
+</li>
+<li><p>客户端</p>
+<p>添加一个 &#x2F;usr&#x2F;share&#x2F;dcp&#x2F;dcp.conf 文件(原始不存在，用完记得删除)，缓存路径在&#x2F;var&#x2F;spool&#x2F;dcp&#x2F;SPOOL&#x2F;路径，具体文件名参考dcp日志最后输出的缓存文件名。</p>
+<p>内容如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[IsCacheMode]</span><br><span class="hljs-attr">Mode</span> = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://yoursite.com/2023/03/30/UOS系统打印机问题现场指南 V0.1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/30/%E6%89%93%E5%8D%B0%E6%9C%BA%E5%AE%89%E8%A3%85%E9%A9%B1%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/13/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="CMake学习笔记">
+                        <span class="hidden-mobile">CMake学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

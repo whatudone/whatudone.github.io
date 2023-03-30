@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SANE扫描仪驱动开发一、前言&amp;emsp;&amp;emsp;Linux下的扫描仪驱动类型主要是sane协议,其他的还有跨平台的twain协议，但是在Linux上比较少见。&amp;emsp;&amp;emsp;SANE全称Scanner Access Now Easy，是一个开源项目，项目地址http:&#x2F;&#x2F;www.sane-project.org&#x2F;source.html。项目总体分为两个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SANE扫描仪驱动开发">
+<meta property="og:url" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="SANE扫描仪驱动开发一、前言&amp;emsp;&amp;emsp;Linux下的扫描仪驱动类型主要是sane协议,其他的还有跨平台的twain协议，但是在Linux上比较少见。&amp;emsp;&amp;emsp;SANE全称Scanner Access Now Easy，是一个开源项目，项目地址http:&#x2F;&#x2F;www.sane-project.org&#x2F;source.html。项目总体分为两个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
+<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
+<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
+<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png">
+<meta property="article:published_time" content="2021-04-30T01:57:37.000Z">
+<meta property="article:modified_time" content="2021-05-01T05:06:12.731Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="SANE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
+  
+  
+  
+  <title>SANE扫描仪驱动开发 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SANE扫描仪驱动开发"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-04-30 09:57" pubdate>
+          2021年4月30日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SANE扫描仪驱动开发</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SANE扫描仪驱动开发"><a href="#SANE扫描仪驱动开发" class="headerlink" title="SANE扫描仪驱动开发"></a>SANE扫描仪驱动开发</h1><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>&amp;emsp;&amp;emsp;Linux下的扫描仪驱动类型主要是sane协议,其他的还有跨平台的twain协议，但是在Linux上比较少见。<br>&amp;emsp;&amp;emsp;SANE全称Scanner Access Now Easy，是一个开源项目，项目地址<a target="_blank" rel="noopener" href="http://www.sane-project.org/source.html">http://www.sane-project.org/source.html</a>。项目总体分为两个部分，sane-backends和sane-frontends。sane-backends包括backends(后端，也就是sane的驱动模块)，命令行工具scanimage，网络扫描守护进程（saned）和SANE_API。sane-frontends包含xscanimage和xcam两个图形化界面程序，和一个命令行扫描工具scanadf。分为两部分之后，开发者可以只需要关心需要实现的部分。比如驱动开发者只需要了解如何实现一个后端（backends）即可，而应用开发者只需要关注sane的API调用流程。下面重点介绍驱动开发部分，关于这些扫描工具可以查看帮助手册了解用法。</p>
+<h2 id="二、驱动框架流程详解"><a href="#二、驱动框架流程详解" class="headerlink" title="二、驱动框架流程详解"></a>二、驱动框架流程详解</h2><h3 id="2-1、整体流程"><a href="#2-1、整体流程" class="headerlink" title="2.1、整体流程"></a>2.1、整体流程</h3><p>&amp;emsp;&amp;emsp;想要开发sane的后端，首先要了解应用调用后端API的流程，整体流程图如下：</p>
+<p><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png" srcset="/img/loading.gif" lazyload alt="sane流程图"></p>
+<p>&amp;emsp;&amp;emsp;上述流程只是一般通用性扫描流程，不同扫描软件的实现可能会存在细微差异。</p>
+<h3 id="2-2、流程详解"><a href="#2-2、流程详解" class="headerlink" title="2.2、流程详解"></a>2.2、流程详解</h3><h4 id="2-2-1、sane-init"><a href="#2-2-1、sane-init" class="headerlink" title="2.2.1、sane_init"></a>2.2.1、sane_init</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_init</span><span class="hljs-params">(SANE_Int *version_code, SANE_Auth_Callback authorize)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;这是驱动的入口，主要作用在于初始化设备。一般每个厂商的驱动会配置一个配置文件放在&#x2F;etc&#x2F;sane.d目录。对于usb设备，里面会记录设备的挂载路径、VID（厂商ID）和PID（产品ID）。sane_init时就会读取这个配置文件做一些检查。认证这个可以根据需要定制这个回调函数，一般sane的驱动没有实现这个。</p>
+<blockquote>
+<p>sane的API返回值全部都是SANE_Status，所以在驱动开发时要注意每个细分的步骤都要返回对应的状态，这样扫描软件才能根据状态做出正确的判断。</p>
+</blockquote>
+<h4 id="2-2-2、sane-open"><a href="#2-2-2、sane-open" class="headerlink" title="2.2.2、sane_open"></a>2.2.2、sane_open</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_open</span> <span class="hljs-params">(SANE_String_Const name, SANE_Handle * h)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;此接口用于通过参数name建立与对应设备句柄的连接。遍历设备列表，根据name找到指定设备，并将此设备转换成句柄h。</p>
+<h4 id="2-2-3、sane-get-devices"><a href="#2-2-3、sane-get-devices" class="headerlink" title="2.2.3、sane_get_devices"></a>2.2.3、sane_get_devices</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_get_devices</span> <span class="hljs-params">(<span class="hljs-type">const</span> SANE_Device * **device_list, SANE_Bool local_only)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;应用调用这个接口获取这个驱动对应的设备列表，local_only参数表示仅获取本地设备，但是如果你的驱动没有提供远程设备，就可以忽略这个参数。设备的数量和设备对应的属性也是在sane_init阶段就可以确定。这里只用返回数据即可。</p>
+<h4 id="2-2-4、sane-get-option-descriptor"><a href="#2-2-4、sane-get-option-descriptor" class="headerlink" title="2.2.4、sane_get_option_descriptor"></a>2.2.4、sane_get_option_descriptor</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> SANE_Option_Descriptor *<br><span class="hljs-title function_">sane_get_option_descriptor</span> <span class="hljs-params">(SANE_Handle handle, SANE_Int option)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;应用通过handle告诉驱动对应的设备，然后option是对应的属性列表的下标，一般驱动会在设备结构体里面维护一个属性数组，记录设备的各种支持的属性，比如色彩模式、进纸模式和分辨率等。驱动会在这里返回对应设备的指定属性给扫描软件。扫描软件的获取逻辑是循环调用这个接口直到驱动返回NULL，表示属性全部返回。</p>
+<h4 id="2-2-5、sane-control-option"><a href="#2-2-5、sane-control-option" class="headerlink" title="2.2.5、sane_control_option"></a>2.2.5、sane_control_option</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_control_option</span> <span class="hljs-params">(SANE_Handle handle,</span><br><span class="hljs-params">                     SANE_Int option,</span><br><span class="hljs-params">                     SANE_Action action, <span class="hljs-type">void</span> *value, SANE_Int * info)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;这里是扫描软件获取属性默认值和设置属性值的入口。在前一个阶段软件已经获取到了支持的属性列表，这里就会获取默认值用于显示初始选项，用户后面更改属性的选项时也是通过这个入口。区分是设置还是获取属性就要通过action，action定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span></span><br><span class="hljs-class">  &#123;</span><br>    SANE_ACTION_GET_VALUE = <span class="hljs-number">0</span>,<br>    SANE_ACTION_SET_VALUE,<br>    SANE_ACTION_SET_AUTO<br>  &#125;<br>SANE_Action;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;从枚举值的命名方式就能很明显的知道每个action对应的意义。驱动在这里需要根据不同的action进入不同的逻辑。</p>
+<h4 id="2-2-6、sane-start"><a href="#2-2-6、sane-start" class="headerlink" title="2.2.6、sane_start"></a>2.2.6、sane_start</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_start</span> <span class="hljs-params">(SANE_Handle handle)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;这里是启动扫描的入口，根据handle映射到对应设备，然后根据前面设置的各种属性去从设备里面获取图像，缓存到内存中，并解析图片的信息。</p>
+<h4 id="2-2-7、sane-get-parameters"><a href="#2-2-7、sane-get-parameters" class="headerlink" title="2.2.7、sane_get_parameters"></a>2.2.7、sane_get_parameters</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_get_parameters</span> <span class="hljs-params">(SANE_Handle handle, SANE_Parameters * params)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;应用从这个接口获取上次sane_start阶段从设备那里获取的图片缓存的详细信息，params参数的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">  &#123;</span><br>    SANE_Frame format;<br>    SANE_Bool last_frame;<br>    SANE_Int bytes_per_line;<br>    SANE_Int pixels_per_line;<br>    SANE_Int lines;<br>    SANE_Int depth;<br>  &#125;<br>SANE_Parameters;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;params参数值取决于扫描时用户选择的参数，比如分辨率，色彩模式等。应用就是通过这些参数知道图片详细数据，然后对图片做对应的处理。</p>
+<h4 id="2-2-8、sane-read"><a href="#2-2-8、sane-read" class="headerlink" title="2.2.8、sane_read"></a>2.2.8、sane_read</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_read</span> <span class="hljs-params">(SANE_Handle handle, SANE_Byte * buf, SANE_Int max_len,</span><br><span class="hljs-params">       SANE_Int * len)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;当应用在上一个步骤获取到图片的信息之后，就会开始调用这个API读取缓存的图片数据，驱动需要在没有超出max_len的上限内存大小的情况下不断循环从上次偏移值的地方继续给buf缓存区写入数据。当数据全部发送完成之后，给应用返回SANE_STATUS_EOF的结束标志，应用就会结束本次扫描，这就完成一次基本的扫描流程。</p>
+<p>&amp;emsp;&amp;emsp;当然不同类型的扫描仪循环结束条件不同，一般ADF(Automatic Document Feeder)自动进纸类型，会一直重复sane_start-&gt;sane_get_parameters-&gt;sane_read这个流程，直到纸张全部扫描完成，最终在sane_start的给应用返回SANE_STATUS_NO_DOCS，这样应用就会停止循环。FLATBED平板进纸类型则是一次扫描只会扫描一张纸。</p>
+<h4 id="2-2-9、sane-cancle"><a href="#2-2-9、sane-cancle" class="headerlink" title="2.2.9、sane_cancle"></a>2.2.9、sane_cancle</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">sane_cancel</span><span class="hljs-params">(SANE_Handle handle)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;设置取消标志位为SANE_TRUE，在扫描的时候可以根据这个标志位做停止扫描和释放资源等操作。</p>
+<h4 id="2-2-10、sane-close"><a href="#2-2-10、sane-close" class="headerlink" title="2.2.10、sane_close"></a>2.2.10、sane_close</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">sane_close</span><span class="hljs-params">(SANE_Handle handle)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;关闭扫描仪设备的文件描述符，针对不同的类型（SCSI或USB等）扫描仪可以调用不同的方法。关闭之后释放结构体资源即可。</p>
+<h4 id="2-2-11、sane-exit"><a href="#2-2-11、sane-exit" class="headerlink" title="2.2.11、sane_exit"></a>2.2.11、sane_exit</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span><br><span class="hljs-title function_">sane_exit</span> <span class="hljs-params">(<span class="hljs-type">void</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;释放所有资源避免内存泄露等问题。</p>
+<h2 id="三、开发细则"><a href="#三、开发细则" class="headerlink" title="三、开发细则"></a>三、开发细则</h2><p>&amp;emsp;&amp;emsp;上述章节主要是讲解sane驱动的流程，以及每个流程需要实现的功能。但是实际开发的时候还是有很多细节需要注意，下面主要讲解开发中经常遇到的问题。</p>
+<h3 id="3-1、驱动配置"><a href="#3-1、驱动配置" class="headerlink" title="3.1、驱动配置"></a>3.1、驱动配置</h3><p>&amp;emsp;&amp;emsp;驱动开发完成以后，会生成一个动态链接库，那么SANE是如何加载你的驱动呢？在&#x2F;etc目录下有个sane.d文件夹，这是默认的用于存放SANE配置文件的位置，也可以通过SANE_CONFIG_DIR来设置一个指定的目录。&#x2F;etc&#x2F;sane.d&#x2F;dll.conf是用来指定SANE动态加载后端的配置文件，可以手动在某一行前面加#来屏蔽不希望被加载的后端。<br>&amp;emsp;&amp;emsp;第三方的后端文件也可以放在&#x2F;etc&#x2F;sane.d&#x2F;dll.d&#x2F;目录下，文件以后端名称命名。后端文件中写入我们自己实现的后端的名称，这样SANE就能动态加载到我们实现的后端了。  </p>
+<h3 id="3-2、开发包"><a href="#3-2、开发包" class="headerlink" title="3.2、开发包"></a>3.2、开发包</h3><p>&amp;emsp;&amp;emsp;在进行开发时，虽然安装了libsane-dev，但是其中只有sane.h和saneopts.h这两个头文件，还有很多其他头文件不在开发包里面，这个是这个SANE作者强制性要求的。所以如果需要其他的头文件，需要在官网下载项目，手动将SANE的一些头文件拷到项目中。  </p>
+<h3 id="3-3、扫描参数列表"><a href="#3-3、扫描参数列表" class="headerlink" title="3.3、扫描参数列表"></a>3.3、扫描参数列表</h3><p>&amp;emsp;&amp;emsp;扫描参数描述存在于后端的一个结构体中，这个结构体的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">  &#123;</span><br>    SANE_String_Const name;<br>    SANE_String_Const title;<br>    SANE_String_Const desc;<br>    SANE_Value_Type type;<br>    SANE_Unit unit;<br>    SANE_Int size;<br>    SANE_Int cap;<br><br>    SANE_Constraint_Type constraint_type;<br>    <span class="hljs-class"><span class="hljs-keyword">union</span></span><br><span class="hljs-class">      &#123;</span><br>    <span class="hljs-type">const</span> SANE_String_Const *string_list;<br>    <span class="hljs-type">const</span> SANE_Word *word_list;<br>    <span class="hljs-type">const</span> SANE_Range *range;<br>      &#125;<br>    constraint;<br>  &#125;<br>SANE_Option_Descriptor;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;下面的例子是已经实现的一个关于分辨率列表的属性结构体。通过此例子对此结构体的各项成员变量做一些说明。  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">static</span> <span class="hljs-type">const</span> SANE_Word s_RemoteScannerResolutionList[] = &#123;<br>    <span class="hljs-number">6</span>, <span class="hljs-number">75</span>, <span class="hljs-number">150</span>, <span class="hljs-number">300</span>, <span class="hljs-number">600</span>, <span class="hljs-number">1200</span>, <span class="hljs-number">2400</span><br>&#125;;<br><br>SANE_Option_Descriptor &#123;<br>    SANE_NAME_SCAN_RESOLUTION,<br>    SANE_TITLE_SCAN_RESOLUTION,<br>    SANE_DESC_SCAN_RESOLUTION,<br>    SANE_TYPE_INT,<br>    SANE_UNIT_DPI,<br>    <span class="hljs-keyword">sizeof</span>(SANE_Word),<br>    SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_AUTOMATIC,<br>    SANE_CONSTRAINT_WORD_LIST,<br>    &#123;<br>        (SANE_String_Const *)s_RemoteScannerResolutionList<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-3-1、name-amp-title-amp-desc"><a href="#3-3-1、name-amp-title-amp-desc" class="headerlink" title="3.3.1、name&amp;title&amp;desc"></a>3.3.1、name&amp;title&amp;desc</h4><p>&amp;emsp;&amp;emsp;这三个成员变量是对当前扫描参数的描述，类型都是字符串，只需要注意如果使用自定义的描述，title和desc要使用SANE_I18N()将描述字符串包起来即可。</p>
+<h4 id="3-3-2、type"><a href="#3-3-2、type" class="headerlink" title="3.3.2、type"></a>3.3.2、type</h4><p>&amp;emsp;&amp;emsp;type指定参数值的类型，共有以下几种类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span></span><br><span class="hljs-class">  &#123;</span><br>    SANE_TYPE_BOOL = <span class="hljs-number">0</span>,<br>    SANE_TYPE_INT,<br>    SANE_TYPE_FIXED,<br>    SANE_TYPE_STRING,<br>    SANE_TYPE_BUTTON,<br>    SANE_TYPE_GROUP<br>  &#125;<br>SANE_Value_Type;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;例子中使用的是SANE_TYPE_INT，表示参数值是int型的数据。</p>
+<h4 id="3-3-3、unit"><a href="#3-3-3、unit" class="headerlink" title="3.3.3、unit"></a>3.3.3、unit</h4><p>&amp;emsp;&amp;emsp;unit指定参数值的单位，共有以下几种类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span></span><br><span class="hljs-class">  &#123;</span><br>    SANE_UNIT_NONE = <span class="hljs-number">0</span>,<br>    SANE_UNIT_PIXEL,<br>    SANE_UNIT_BIT,        <br>    SANE_UNIT_MM,        <br>    SANE_UNIT_DPI,<br>    SANE_UNIT_PERCENT,<br>    SANE_UNIT_MICROSECOND<br>  &#125;<br>SANE_Unit;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;例子中使用的是SANE_UNIT_DPI，表示参数值的单位是dots&#x2F;inch，对应分辨率的单位。如果是色彩模式等无单位的属性值，则应选择SANE_UNIT_NONE。根据属性选择对应的单位即可。</p>
+<h4 id="3-3-4、size"><a href="#3-3-4、size" class="headerlink" title="3.3.4、size"></a>3.3.4、size</h4><p>&amp;emsp;&amp;emsp;size表示单个属性值的长度，需要注意的是，如果size设定的较短，属性值会被截断，导致扫描属性值在传输的时候出现异常。例子中选择的是分辨率，数据不会太大，size设置成8就够了；如果是字符串型的数据，则需要至少将size设置成列表中最长字符串的长度。</p>
+<h4 id="3-3-5、cap"><a href="#3-3-5、cap" class="headerlink" title="3.3.5、cap"></a>3.3.5、cap</h4><p>&amp;emsp;&amp;emsp;cap表示此属性支持的属性，共有以下几种类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C">SANE_CAP_SOFT_SELECT   <br>SANE_CAP_HARD_SELECT    <br>SANE_CAP_SOFT_DETECT    <br>SANE_CAP_EMULATED        <br>SANE_CAP_AUTOMATIC    <br>SANE_CAP_INACTIVE        <br>SANE_CAP_ADVANCED          <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>SANE_CAP_SOFT_SELECT<br>表示此属性可以通过sane_control_option()设置。</li>
+<li>SANE_CAP_HARD_SELECT<br>表示此属性可以通过硬件（例如拨动开关）设置。  </li>
+<li>SANE_CAP_SOFT_DETECT<br>表示此属性可以被软件探测到。  </li>
+<li>SANE_CAP_EMULATED<br>如果设置了此功能，则表示该设备不直接支持该选项，而是在后端中对其进行仿真。  </li>
+<li>SANE_CAP_AUTOMATIC<br>如果设置了此功能，则表示后端（或设备）能够自动选择合理的选项值。  </li>
+<li>SANE_CAP_INACTIVE<br>如果设置了此功能，则表示该选项当前未激活（例如，仅当另一个选项设置为其他值时，该选项才有意义）。  </li>
+<li>SANE_CAP_ADVANCED<br>如果设置了此功能，则表明该选项应被视为“高级用户选项”。前端通常以比常规选项不那么显眼的方式显示此类选项。</li>
+</ul>
+<p>&amp;emsp;&amp;emsp;例子中的分辨率列表希望实现的效果是能通过软件设置以及能自动选择正确的选项值，因此将cap设置成SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_AUTOMATIC。其他属性根据实际需要进行类似的设置即可。  </p>
+<h4 id="3-3-6、constraint-type"><a href="#3-3-6、constraint-type" class="headerlink" title="3.3.6、constraint_type"></a>3.3.6、constraint_type</h4><p>&amp;emsp;&amp;emsp;constraint_type指定属性描述列表的类型，共有以下几种类型。  </p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">enum</span><br>  &#123;<br>    SANE_CONSTRAINT_NONE = <span class="hljs-number">0</span>,<br>    SANE_CONSTRAINT_RANGE,<br>    SANE_CONSTRAINT_WORD_LIST,<br>    SANE_CONSTRAINT_STRING_LIST<br>  &#125;<br>SANE_Constraint_Type;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;例子中的分辨率列表是一个int型的数组，因此将constraint_type设置成SANE_CONSTRAINT_WORD_LIST。如果是色彩模式这种string型数组，则应该将constraint_type设置成SANE_CONSTRAINT_STRING_LIST。</p>
+<h4 id="3-3-7、constraint"><a href="#3-3-7、constraint" class="headerlink" title="3.3.7、constraint"></a>3.3.7、constraint</h4><p>&amp;emsp;&amp;emsp;constraint是属性描述的列表，即属性列表的数据。列表有三种类型，分别是int型列表、string型列表和范围型列表。</p>
+<ul>
+<li><p>int型列表<br>int型列表可以用来描述分辨率等属性，赋值方式如下所示。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs actionscript"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> SANE_Word resolutionList[] = &#123;<br>  <span class="hljs-number">8</span>, <span class="hljs-number">75</span>, <span class="hljs-number">150</span>, <span class="hljs-number">200</span>, <span class="hljs-number">240</span>， <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;resolutionList[0]表示列表中选项值的个数，显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="int型列表显示效果图"></p>
+</li>
+<li><p>string型列表<br>string型列表可以用来描述色彩模式、纸张尺寸、进纸方式等属性，赋值方式如下所示。  </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp">SANE_String_Const pageSizeList[] = &#123;<br>  <span class="hljs-string">&quot;A3&quot;</span>，<br>  <span class="hljs-string">&quot;A4&quot;</span>，<br>  <span class="hljs-string">&quot;B4&quot;</span>，<br>  <span class="hljs-string">&quot;A5&quot;</span>,<br>  <span class="hljs-string">&quot;B5&quot;</span>,<br>  <span class="hljs-string">&quot;A6&quot;</span>,<br>  <span class="hljs-string">&quot;B6&quot;</span>,<br>  <span class="hljs-literal">nullptr</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;pageSizeList列表中最后一项必须是nullptr，表示列表选项值结束，否则会发生异常。显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="string型列表显示效果图"></p>
+</li>
+<li><p>range型列表<br>range型列表可以用来描述对比度、亮度等属性，赋值方式如下所示。  </p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">SANE_Range resolutionRange = &#123;<br><span class="hljs-built_in">  50,</span><br><span class="hljs-built_in">  300,</span><br>  <span class="hljs-number">0</span><br>&#125;<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>&amp;emsp;&amp;emsp;resolutionRange第一项表示范围下限，第二项表示范围上限，第三项表示步进（0表示步进为1）。显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png" srcset="/img/loading.gif" lazyload alt="range型列表显示效果图"></p>
+</li>
+</ul>
+<h3 id="3-4、设备交互"><a href="#3-4、设备交互" class="headerlink" title="3.4、设备交互"></a>3.4、设备交互</h3><p>&amp;emsp;&amp;emsp;本小节重点介绍如何通过SANE提供的API和不同类型的设备进行交互。</p>
+<h4 id="3-4-1-、与USB扫描仪的交互"><a href="#3-4-1-、与USB扫描仪的交互" class="headerlink" title="3.4.1 、与USB扫描仪的交互"></a>3.4.1 、与USB扫描仪的交互</h4><h5 id="3-4-1-1、sane-init阶段"><a href="#3-4-1-1、sane-init阶段" class="headerlink" title="3.4.1.1、sane_init阶段"></a>3.4.1.1、sane_init阶段</h5><ul>
+<li>sanei_usb_init()<br>&amp;emsp;&amp;emsp;首先调用此接口，获取所有可用的usb设备。  </li>
+<li>sanei_config_open(const char *filename)<br>&amp;emsp;&amp;emsp;加载指定设备对应的配置文件配置文件。  </li>
+<li>sanei_config_read(char *str, int n, FILE *stream)<br>&amp;emsp;&amp;emsp;读取配置文件，获取设备的VID（厂商ID）和PID（产品ID）,跳过配置文件中的空行和以“#”开头的行，根据PID和VID对比获取本驱动支持的扫描设备列表。  </li>
+<li>sanei_usb_attach_matching_devices (const char *name,SANE_Status (*attach) (const char *dev))<br>&amp;emsp;&amp;emsp;将扫描仪的VID、PID、设备名绑定，以便后面直接使用设备名能够访问指定设备。</li>
+</ul>
+<h5 id="3-4-1-2、sane-open阶段"><a href="#3-4-1-2、sane-open阶段" class="headerlink" title="3.4.1.2、sane_open阶段"></a>3.4.1.2、sane_open阶段</h5><ul>
+<li>sanei_usb_open (SANE_String_Const devname, SANE_Int * dn)<br>&amp;emsp;&amp;emsp;根据sane_open传过来的设备名，传入此接口，打开指定设备，dn指向的是设备列表中该设备的下标。</li>
+</ul>
+<h5 id="3-4-1-3、sane-start阶段"><a href="#3-4-1-3、sane-start阶段" class="headerlink" title="3.4.1.3、sane_start阶段"></a>3.4.1.3、sane_start阶段</h5><ul>
+<li>sanei_usb_write_bulk (SANE_Int dn, const SANE_Byte * buffer, size_t * size)<br>&amp;emsp;&amp;emsp;在sane_start中重复调用这个接口，为指定的USB设备设置期望使用的扫描参数，size返回真实写入的长度。设置完所有参数后，再次调用这个接口，将buffer设置成对应的扫描指令，即可控制扫描仪开始扫描工作。</li>
+</ul>
+<h5 id="3-4-1-4-sane-close阶段"><a href="#3-4-1-4-sane-close阶段" class="headerlink" title="3.4.1.4 sane_close阶段"></a>3.4.1.4 sane_close阶段</h5><ul>
+<li>sanei_usb_close (SANE_Int dn)<br>&amp;emsp;&amp;emsp;传入的参数是设备列表中该设备的下标，根据此下标关闭指定的usb设备。</li>
+</ul>
+<h4 id="3-4-2、与SCSI扫描仪的交互"><a href="#3-4-2、与SCSI扫描仪的交互" class="headerlink" title="3.4.2、与SCSI扫描仪的交互"></a>3.4.2、与SCSI扫描仪的交互</h4><h5 id="3-4-2-1、sane-init阶段"><a href="#3-4-2-1、sane-init阶段" class="headerlink" title="3.4.2.1、sane_init阶段"></a>3.4.2.1、sane_init阶段</h5><ul>
+<li>sanei_config_open(const char *filename)<br>&amp;emsp;&amp;emsp;加载指定设备对应的配置文件配置文件。  </li>
+<li>sanei_config_read(char *str, int n, FILE *stream)<br>&amp;emsp;&amp;emsp;读取配置文件,跳过配置文件中的空行和以“#”开头的行。  </li>
+<li>sanei_usb_attach_matching_devices (const char *name,SANE_Status (*attach) (const char *dev))<br>&amp;emsp;&amp;emsp;将扫描仪的VID、PID、设备名绑定，以便后面直接使用设备名能够访问指定设备。</li>
+</ul>
+<h5 id="3-4-2-2、sane-open阶段"><a href="#3-4-2-2、sane-open阶段" class="headerlink" title="3.4.2.2、sane_open阶段"></a>3.4.2.2、sane_open阶段</h5><ul>
+<li>sanei_scsi_open (const char *dev, int *fdp, SANEI_SCSI_Sense_Handler handler, void *handler_arg)<br>&amp;emsp;&amp;emsp;根据sane_open传过来的设备名，打开一个指定的SCSI设备，并且返回设备的文件描述符。</li>
+</ul>
+<h5 id="3-4-2-3、sane-start阶段"><a href="#3-4-2-3、sane-start阶段" class="headerlink" title="3.4.2.3、sane_start阶段"></a>3.4.2.3、sane_start阶段</h5><ul>
+<li><p>sanei_scsi_cmd2 (int fd,const void *cmd, size_t cmd_size,const void *src, size_t src_size,void *dst, size_t * dst_size)  </p>
+<p>&amp;emsp;&amp;emsp;在sane_start中重复调用这个接口，为指定的SCSI设备设置期望使用的扫描参数。这个接口比较便捷，相当于同时调用了sanei_scsi_req_enter2()和sanei_scsi_req_wait()这两个接口。设置完所有参数后，再次调用这个接口，将cmd设置成对应的扫描指令，即可控制扫描仪开始扫描工作。</p>
+</li>
+</ul>
+<h5 id="3-4-2-4、sane-close阶段"><a href="#3-4-2-4、sane-close阶段" class="headerlink" title="3.4.2.4、sane_close阶段"></a>3.4.2.4、sane_close阶段</h5><ul>
+<li>sanei_usb_close (SANE_Int dn)<br>&amp;emsp;&amp;emsp;传入的参数是设备列表中该设备的下标，根据此下标关闭指定的SCSI设备。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/" class="category-chain-item">Linux驱动开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SANE/">#SANE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SANE扫描仪驱动开发</div>
+      <div>http://yoursite.com/2021/04/30/sane驱动开发/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年4月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/03/stl%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" title="stl常用算法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">stl常用算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/03/com%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BA%BF%E7%A8%8B%E9%97%AE%E9%A2%98/" title="com初始化线程问题">
+                        <span class="hidden-mobile">com初始化线程问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

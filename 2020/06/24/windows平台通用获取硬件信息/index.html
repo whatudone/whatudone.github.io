@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="windows平台通用获取硬件信息前言&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息： 1wmic diskdrive get model,serialnumber  但这种方法存在局限性，在xp上控制台无法交互，也就是说">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows平台通用获取硬件信息">
+<meta property="og:url" content="http://yoursite.com/2020/06/24/windows%E5%B9%B3%E5%8F%B0%E9%80%9A%E7%94%A8%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="windows平台通用获取硬件信息前言&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息： 1wmic diskdrive get model,serialnumber  但这种方法存在局限性，在xp上控制台无法交互，也就是说">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-24T03:21:49.000Z">
+<meta property="article:modified_time" content="2021-03-28T05:06:42.131Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="windows">
+<meta property="article:tag" content="wmi">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>windows平台通用获取硬件信息 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="windows平台通用获取硬件信息"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-06-24 11:21" pubdate>
+          2020年6月24日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          86 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">windows平台通用获取硬件信息</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="windows平台通用获取硬件信息"><a href="#windows平台通用获取硬件信息" class="headerlink" title="windows平台通用获取硬件信息"></a>windows平台通用获取硬件信息</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&amp;emsp;&amp;emsp; 本次项目需求之一是获取从xp到win10的所有系统版本的硬件信息。windows常用获取硬件信息的方法都是通过控制台执行wmic命令，然后解析输出获取对应的硬件信息，例如获取硬盘信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wmic diskdrive get model,serialnumber<br></code></pre></td></tr></table></figure>
+
+<p>但这种方法存在局限性，在xp上控制台无法交互，也就是说虽然wmic可以获取到结果，但是外部进程无法通过进程通信获取返回结果。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>&amp;emsp;&amp;emsp;通过msdn查询wmic相关信息，发现wmic也是调用wmi的com接口实现的，所以直接使用wmi的com接口就可以避免进程间通信，直接获取结果。为了使用方便，我简单封装了一下这个接口的调用，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">BOOL <span class="hljs-title">ManageWMIInterface</span><span class="hljs-params">(<span class="hljs-type">const</span> BSTR &amp;querySql, <span class="hljs-type">const</span> QList&lt;std::wstring&gt; ¶mList, QStringList &amp;resultList)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br>    HRESULT hres;<br>    <span class="hljs-comment">// Step 1:  初始化COM</span><br>    <span class="hljs-comment">//    hres = CoInitializeEx(0, COINIT_MULTITHREADED); //这种方式初始化错误</span><br>    hres = <span class="hljs-built_in">CoInitialize</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hres)) &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Failed to initialize COM library. Error code = 0x&quot;</span><br>                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// Program has failed.</span><br>    &#125;<br>    <span class="hljs-comment">// Step 2:  设置COM的安全认证级别</span><br><br>    <span class="hljs-comment">//在实际使用过程中，我发现如果这一步不注释掉的话，程序总是返回false，注释掉之后程序反而可以正常运行，原因未知</span><br><br>    <span class="hljs-comment">// Note: If you are using Windows 2000, you need to specify -</span><br>    <span class="hljs-comment">// the default authentication credentials for a user by using</span><br>    <span class="hljs-comment">// a SOLE_AUTHENTICATION_LIST structure in the pAuthList ----</span><br>    <span class="hljs-comment">// parameter of CoInitializeSecurity ------------------------</span><br>    <span class="hljs-comment">//    hres =  CoInitializeSecurity(</span><br>    <span class="hljs-comment">//                NULL,</span><br>    <span class="hljs-comment">//                -1,      // COM negotiates service</span><br>    <span class="hljs-comment">//                NULL,    // Authentication services</span><br>    <span class="hljs-comment">//                NULL,    // Reserved</span><br>    <span class="hljs-comment">//                RPC_C_AUTHN_LEVEL_DEFAULT,    // authentication</span><br>    <span class="hljs-comment">//                RPC_C_IMP_LEVEL_IMPERSONATE,  // Impersonation</span><br>    <span class="hljs-comment">//                NULL,             // Authentication info</span><br>    <span class="hljs-comment">//                EOAC_NONE,        // Additional capabilities</span><br>    <span class="hljs-comment">//                NULL              // Reserved</span><br>    <span class="hljs-comment">//            );</span><br><br>    <span class="hljs-comment">//    if (FAILED(hres)) &#123;</span><br>    <span class="hljs-comment">//        cout &lt;&lt; &quot;Failed to initialize security. Error code = 0x&quot;</span><br>    <span class="hljs-comment">//             &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;</span><br>    <span class="hljs-comment">//        CoUninitialize();</span><br>    <span class="hljs-comment">//        return false; // Program has failed.</span><br>    <span class="hljs-comment">//    &#125;</span><br><br>    <span class="hljs-comment">// Step 3:  获得WMI连接COM接口</span><br>    CLSID CLSID_WbemLocator = &#123;<span class="hljs-number">0x4590F811</span>, <span class="hljs-number">0x1D3A</span>, <span class="hljs-number">0x11D0</span>, &#123;<span class="hljs-number">0x89</span>, <span class="hljs-number">0x1F</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0xAA</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0x4B</span>, <span class="hljs-number">0x2E</span>, <span class="hljs-number">0x24</span>&#125;&#125;;<br>    IWbemLocator *pLoc = <span class="hljs-literal">nullptr</span>;<br>    hres = <span class="hljs-built_in">CoCreateInstance</span>(<br>               CLSID_WbemLocator,<br>               <span class="hljs-literal">nullptr</span>,<br>               CLSCTX_INPROC_SERVER,<br>               IID_IWbemLocator, (LPVOID *)&amp;pLoc);<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hres)) &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Failed to create IWbemLocator object.&quot;</span><br>                   &lt;&lt; <span class="hljs-string">&quot; Err code = 0x&quot;</span><br>                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;<br>        <span class="hljs-built_in">CoUninitialize</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// Program has failed.</span><br>    &#125;<br><br><br>    <span class="hljs-comment">// Step 4:  通过连接接口连接WMI的内核对象名&quot;ROOT//CIMV2&quot;</span><br>    IWbemServices *pSvc = <span class="hljs-literal">nullptr</span>;<br><br>    hres = pLoc-&gt;<span class="hljs-built_in">ConnectServer</span>(<br><br>               <span class="hljs-type">_bstr_t</span>(<span class="hljs-string">L&quot;ROOT\\CIMV2&quot;</span>), <span class="hljs-comment">// Object path of WMI namespace</span><br>               <span class="hljs-literal">NULL</span>, <span class="hljs-comment">// User name. nullptr = current user</span><br>               <span class="hljs-literal">NULL</span>, <span class="hljs-comment">// User password. nullptr = current</span><br>               <span class="hljs-number">0</span>, <span class="hljs-comment">// Locale. nullptr indicates current</span><br>               <span class="hljs-literal">NULL</span>, <span class="hljs-comment">// Security flags.</span><br>               <span class="hljs-number">0</span>, <span class="hljs-comment">// Authority (e.g. Kerberos)</span><br>               <span class="hljs-number">0</span>, <span class="hljs-comment">// Context object</span><br>               &amp;pSvc <span class="hljs-comment">// pointer to IWbemServices proxy</span><br>           );<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hres)) &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Could not connect. Error code = 0x&quot;</span><br>                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;<br>        pLoc-&gt;<span class="hljs-built_in">Release</span>();<br>        <span class="hljs-built_in">CoUninitialize</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// Program has failed.</span><br>    &#125;<br><br><br>    <span class="hljs-comment">// Step 5:  设置请求代理的安全级别</span><br>    hres = <span class="hljs-built_in">CoSetProxyBlanket</span>(<br>               pSvc, <span class="hljs-comment">// Indicates the proxy to set</span><br>               RPC_C_AUTHN_WINNT, <span class="hljs-comment">// RPC_C_AUTHN_xxx</span><br>               RPC_C_AUTHZ_NONE, <span class="hljs-comment">// RPC_C_AUTHZ_xxx</span><br>               <span class="hljs-literal">nullptr</span>, <span class="hljs-comment">// Server principal name</span><br>               RPC_C_AUTHN_LEVEL_CALL, <span class="hljs-comment">// RPC_C_AUTHN_LEVEL_xxx</span><br>               RPC_C_IMP_LEVEL_IMPERSONATE, <span class="hljs-comment">// RPC_C_IMP_LEVEL_xxx</span><br>               <span class="hljs-literal">nullptr</span>, <span class="hljs-comment">// client identity</span><br>               EOAC_NONE <span class="hljs-comment">// proxy capabilities</span><br>           );<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hres)) &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Could not set proxy blanket. Error code = 0x&quot;</span><br>                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;<br>        pSvc-&gt;<span class="hljs-built_in">Release</span>();<br>        pLoc-&gt;<span class="hljs-built_in">Release</span>();<br>        <span class="hljs-built_in">CoUninitialize</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// Program has failed.</span><br>    &#125;<br>    <span class="hljs-comment">// Step 6: 通过请求代理来向WMI发送请求----</span><br>    <span class="hljs-comment">// For example, get the name of the operating system</span><br>    IEnumWbemClassObject *pEnumerator = <span class="hljs-literal">nullptr</span>;<br>    BSTR wql = <span class="hljs-built_in">SysAllocString</span>(<span class="hljs-string">L&quot;WQL&quot;</span>);<br>    hres = pSvc-&gt;<span class="hljs-built_in">ExecQuery</span>(<br>               wql,<br><br><br>               querySql,<span class="hljs-comment">//只需要通过修改这里的查询语句，就可以实现对MAC地址等其他信息的查询</span><br>               WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,<br>               <span class="hljs-literal">nullptr</span>,<br>               &amp;pEnumerator);<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hres)) &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Query for Network Adapter Configuration failed.&quot;</span><br>                   &lt;&lt; <span class="hljs-string">&quot; Error code = 0x&quot;</span><br>                   &lt;&lt; hex &lt;&lt; hres &lt;&lt; endl;<br>        pSvc-&gt;<span class="hljs-built_in">Release</span>();<br>        pLoc-&gt;<span class="hljs-built_in">Release</span>();<br>        <span class="hljs-built_in">CoUninitialize</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">// Program has failed.</span><br>    &#125;<br>    <span class="hljs-comment">// Step 7:  循环枚举所有的结果对象</span><br><br>    IWbemClassObject *pclsObj = <span class="hljs-literal">nullptr</span>;<br>    ULONG uReturn = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">while</span> (pEnumerator) &#123;<br>        HRESULT hr = pEnumerator-&gt;<span class="hljs-built_in">Next</span>(WBEM_INFINITE, <span class="hljs-number">1</span>,<br>                                       &amp;pclsObj, &amp;uReturn);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> == uReturn) &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        foreach (std::wstring param, paramList) &#123;<br>            VARIANT vtProp;<br>            <span class="hljs-built_in">VariantInit</span>(&amp;vtProp);<br><br>            hr = pclsObj-&gt;<span class="hljs-built_in">Get</span>(param.<span class="hljs-built_in">data</span>(), <span class="hljs-number">0</span>, &amp;vtProp, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<span class="hljs-comment">//查询不同的硬件信息，除了修改上面的查询语句，这里的字段也要修改</span><br><br>            <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">FAILED</span>(hr)) &#123;<br>                <span class="hljs-keyword">if</span> (vtProp.bstrVal)<br>                    resultList.<span class="hljs-built_in">append</span>(QString::<span class="hljs-built_in">fromStdWString</span>(vtProp.bstrVal));<br>                <span class="hljs-keyword">else</span><br>                    resultList.<span class="hljs-built_in">append</span>(QString::<span class="hljs-built_in">fromStdWString</span>(<span class="hljs-string">L&quot;&quot;</span>));<br>            &#125;<br>            <span class="hljs-built_in">VariantClear</span>(&amp;vtProp);<br>        &#125;<br><br>    &#125;<span class="hljs-comment">//end while</span><br><br>    <span class="hljs-comment">// 释放资源</span><br>    <span class="hljs-keyword">if</span> (pSvc)<br>        pSvc-&gt;<span class="hljs-built_in">Release</span>();<br>    <span class="hljs-keyword">if</span> (pLoc)<br>        pLoc-&gt;<span class="hljs-built_in">Release</span>();<br>    <span class="hljs-keyword">if</span> (pEnumerator)<br>        pEnumerator-&gt;<span class="hljs-built_in">Release</span>();<br>    <span class="hljs-keyword">if</span> (pclsObj)<br>        pclsObj-&gt;<span class="hljs-built_in">Release</span>();<br>    <span class="hljs-built_in">CoUninitialize</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// Program successfully completed.</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>调用接口示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp">BSTR sql = <span class="hljs-built_in">SysAllocString</span>(<span class="hljs-string">L&quot;SELECT * FROM Win32_NetworkAdapter WHERE (MACAddress IS NOT NULL) AND ((PNPDeviceID LIKE &#x27;PCI%&#x27;) OR (PNPDeviceID LIKE &#x27;USB%&#x27;))&quot;</span>);<br>    QList&lt;std::wstring&gt; paramList = &#123;<span class="hljs-string">L&quot;name&quot;</span>, <span class="hljs-string">L&quot;macaddress&quot;</span>, <span class="hljs-string">L&quot;NetworkAddresses&quot;</span>&#125;;<br>    QList&lt; QStringList&gt;  resultList;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">ManageWMIInterface</span>(sql, paramList, resultList)) &#123;<br>        foreach (QStringList list, resultList) &#123;<br>            <span class="hljs-keyword">if</span> (list.<span class="hljs-built_in">count</span>() == <span class="hljs-number">3</span>) &#123;<br>                strAdapters.<span class="hljs-built_in">append</span>(list.<span class="hljs-built_in">at</span>(<span class="hljs-number">0</span>));<br>                strMACs.<span class="hljs-built_in">append</span>(list.<span class="hljs-built_in">at</span>(<span class="hljs-number">1</span>));<br>                strIPs.<span class="hljs-built_in">append</span>(<span class="hljs-string">&quot;&quot;</span>);<br>            &#125;<br>        &#125;<br><br>    &#125; <br></code></pre></td></tr></table></figure>
+
+<p>从使用方法不难发现，其实wmi的调用接口就是传入sql语句查询指定的硬件信息，通过sql的查询条件筛选出需要的数据，这里是为了查询出物理网卡信息，并去掉虚拟网卡。</p>
+<h2 id="mingw使用wmi的注意事项"><a href="#mingw使用wmi的注意事项" class="headerlink" title="mingw使用wmi的注意事项"></a>mingw使用wmi的注意事项</h2><h3 id="1、模块引入"><a href="#1、模块引入" class="headerlink" title="1、模块引入"></a>1、模块引入</h3><p>&amp;emsp;&amp;emsp;在Qt中使用com接口需要在工程中引入axcontainer模块，不然相关com接口无法通过编译，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">QT       += core gui network svg  xml axcontainer<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、CLSID-WbemLocator"><a href="#2、CLSID-WbemLocator" class="headerlink" title="2、CLSID_WbemLocator"></a>2、CLSID_WbemLocator</h3><p> &amp;emsp;&amp;emsp;在msvc编译器中这个对象的值已经通过宏定义取到了，但是在mingw中没有实现这个接口，导致编译不过，所以只能自己定义该对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">CLSID CLSID_WbemLocator = &#123;<span class="hljs-number">0x4590F811</span>, <span class="hljs-number">0x1D3A</span>, <span class="hljs-number">0x11D0</span>, &#123;<span class="hljs-number">0x89</span>, <span class="hljs-number">0x1F</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0xAA</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0x4B</span>, <span class="hljs-number">0x2E</span>, <span class="hljs-number">0x24</span>&#125;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>这个对象的值是从注册表中取得的，经查询所有版本的windows系统这个对象在注册表中的值都是固定的。</p>
+<h2 id="硬盘信息特例"><a href="#硬盘信息特例" class="headerlink" title="硬盘信息特例"></a>硬盘信息特例</h2><p>&amp;emsp;&amp;emsp;实际测试当中发现wmi在xp中无法获取硬盘的serialnumber，数据库中并没有这一列的信息。这里通过DeviceIoControl获取。经msdn查询，该接口支持xp及以上的系统。使用示例如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">char</span> *<span class="hljs-title">flipAndCodeBytes</span><span class="hljs-params">(<span class="hljs-type">int</span> iPos, <span class="hljs-type">int</span> iFlip, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *pcszStr, <span class="hljs-type">char</span> *pcszBuf)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> iI;<br>    <span class="hljs-type">int</span> iJ = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> iK = <span class="hljs-number">0</span>;<br><br>    pcszBuf [<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>    <span class="hljs-keyword">if</span> (iPos &lt;= <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> pcszBuf;<br><br>    <span class="hljs-keyword">if</span> (! iJ) &#123;<br>        <span class="hljs-type">char</span> cP = <span class="hljs-number">0</span>;<br>        <span class="hljs-comment">// First try to gather all characters representing hex digits only.</span><br>        iJ = <span class="hljs-number">1</span>;<br>        iK = <span class="hljs-number">0</span>;<br>        pcszBuf[iK] = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (iI = iPos; iJ &amp;&amp; !(pcszStr[iI] == <span class="hljs-string">&#x27;\0&#x27;</span>); ++iI) &#123;<br>            <span class="hljs-type">char</span> cC = <span class="hljs-built_in">tolower</span>(pcszStr[iI]);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isspace</span>(cC))<br>                cC = <span class="hljs-string">&#x27;0&#x27;</span>;<br>            ++cP;<br>            pcszBuf[iK] &lt;&lt;= <span class="hljs-number">4</span>;<br><br>            <span class="hljs-keyword">if</span> (cC &gt;= <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; cC &lt;= <span class="hljs-string">&#x27;9&#x27;</span>)<br>                pcszBuf[iK] |= (<span class="hljs-type">char</span>)(cC - <span class="hljs-string">&#x27;0&#x27;</span>);<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cC &gt;= <span class="hljs-string">&#x27;a&#x27;</span> &amp;&amp; cC &lt;= <span class="hljs-string">&#x27;f&#x27;</span>)<br>                pcszBuf[iK] |= (<span class="hljs-type">char</span>)(cC - <span class="hljs-string">&#x27;a&#x27;</span> + <span class="hljs-number">10</span>);<br>            <span class="hljs-keyword">else</span> &#123;<br>                iJ = <span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">if</span> (cP == <span class="hljs-number">2</span>) &#123;<br>                <span class="hljs-keyword">if</span> ((pcszBuf[iK] != <span class="hljs-string">&#x27;\0&#x27;</span>) &amp;&amp; ! <span class="hljs-built_in">isprint</span>(pcszBuf[iK])) &#123;<br>                    iJ = <span class="hljs-number">0</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>                ++iK;<br>                cP = <span class="hljs-number">0</span>;<br>                pcszBuf[iK] = <span class="hljs-number">0</span>;<br>            &#125;<br><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (! iJ) &#123;<br>        <span class="hljs-comment">// There are non-digit characters, gather them as is.</span><br>        iJ = <span class="hljs-number">1</span>;<br>        iK = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (iI = iPos; iJ &amp;&amp; (pcszStr[iI] != <span class="hljs-string">&#x27;\0&#x27;</span>); ++iI) &#123;<br>            <span class="hljs-type">char</span> cC = pcszStr[iI];<br><br>            <span class="hljs-keyword">if</span> (! <span class="hljs-built_in">isprint</span>(cC)) &#123;<br>                iJ = <span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            pcszBuf[iK++] = cC;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (! iJ) &#123;<br>        <span class="hljs-comment">// The characters are not there or are not printable.</span><br>        iK = <span class="hljs-number">0</span>;<br>    &#125;<br><br>    pcszBuf[iK] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>    <span class="hljs-keyword">if</span> (iFlip)<br>        <span class="hljs-comment">// Flip adjacent characters</span><br>        <span class="hljs-keyword">for</span> (iJ = <span class="hljs-number">0</span>; iJ &lt; iK; iJ += <span class="hljs-number">2</span>) &#123;<br>            <span class="hljs-type">char</span> t = pcszBuf[iJ];<br>            pcszBuf[iJ] = pcszBuf[iJ + <span class="hljs-number">1</span>];<br>            pcszBuf[iJ + <span class="hljs-number">1</span>] = t;<br>        &#125;<br><br>    <span class="hljs-comment">// Trim any beginning and end space</span><br>    iI = iJ = <span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">for</span> (iK = <span class="hljs-number">0</span>; (pcszBuf[iK] != <span class="hljs-string">&#x27;\0&#x27;</span>); ++iK) &#123;<br>        <span class="hljs-keyword">if</span> (! <span class="hljs-built_in">isspace</span>(pcszBuf[iK])) &#123;<br>            <span class="hljs-keyword">if</span> (iI &lt; <span class="hljs-number">0</span>)<br>                iI = iK;<br>            iJ = iK;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> ((iI &gt;= <span class="hljs-number">0</span>) &amp;&amp; (iJ &gt;= <span class="hljs-number">0</span>)) &#123;<br>        <span class="hljs-keyword">for</span> (iK = iI; (iK &lt;= iJ) &amp;&amp; (pcszBuf[iK] != <span class="hljs-string">&#x27;\0&#x27;</span>); ++iK)<br>            pcszBuf[iK - iI] = pcszBuf[iK];<br>        pcszBuf[iK - iI] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> pcszBuf;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">readPhysicalDriveSerialnumber</span><span class="hljs-params">(<span class="hljs-type">const</span> QStringList &amp;driveNameList, QStringList &amp;soList)</span></span><br><span class="hljs-function"></span><br><span class="hljs-function"></span>&#123;<br>    foreach (<span class="hljs-type">const</span> QString &amp;driveName, driveNameList) &#123;<br>        HANDLE hPhysicalDriveIOCTL = <span class="hljs-literal">nullptr</span>;<br><br>        <span class="hljs-comment">//  Windows NT, Windows 2000, Windows XP - admin rights not required</span><br>        hPhysicalDriveIOCTL = <span class="hljs-built_in">CreateFileA</span>(driveName.<span class="hljs-built_in">toStdString</span>().<span class="hljs-built_in">data</span>(), <span class="hljs-number">0</span>,<br>                                          FILE_SHARE_READ | FILE_SHARE_WRITE, <span class="hljs-literal">NULL</span>,<br>                                          OPEN_EXISTING, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>);<br>        <span class="hljs-keyword">if</span> (hPhysicalDriveIOCTL == INVALID_HANDLE_VALUE) &#123;<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;创建hPhysicalDriveIOCTL(%1)失败&quot;</span>).<span class="hljs-built_in">arg</span>(driveName);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            STORAGE_PROPERTY_QUERY query;<br>            DWORD dwBytesReturned = <span class="hljs-number">0</span>;<br>            <span class="hljs-type">char</span> cszBuffer [<span class="hljs-number">10000</span>];<br><br>            <span class="hljs-built_in">memset</span>((<span class="hljs-type">void</span> *) &amp; query, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(query));<br>            query.PropertyId = StorageDeviceProperty;<br>            query.QueryType = PropertyStandardQuery;<br><br>            <span class="hljs-built_in">memset</span>(cszBuffer, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(cszBuffer));<br><br>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">DeviceIoControl</span>(hPhysicalDriveIOCTL, IOCTL_STORAGE_QUERY_PROPERTY,<br>                                &amp; query,<br>                                <span class="hljs-built_in">sizeof</span>(query),<br>                                &amp; cszBuffer,<br>                                <span class="hljs-built_in">sizeof</span>(cszBuffer),<br>                                &amp; dwBytesReturned, <span class="hljs-literal">NULL</span>)) &#123;<br>                STORAGE_DEVICE_DESCRIPTOR *descrip = (STORAGE_DEVICE_DESCRIPTOR *) &amp; cszBuffer;<br>                <span class="hljs-type">char</span> cszSerialNumber [<span class="hljs-number">1000</span>];<br>                <span class="hljs-built_in">memset</span>(cszSerialNumber, <span class="hljs-number">0</span>, <span class="hljs-number">1000</span>);<br>                <span class="hljs-built_in">flipAndCodeBytes</span>(descrip -&gt; SerialNumberOffset,<br>                                 <span class="hljs-number">0</span>, cszBuffer, cszSerialNumber);<br>                soList.<span class="hljs-built_in">append</span>(QString::<span class="hljs-built_in">fromLocal8Bit</span>(cszSerialNumber));<br>                <span class="hljs-built_in">CloseHandle</span>(hPhysicalDriveIOCTL);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> soList.<span class="hljs-built_in">count</span>() &gt; <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里flipAndCodeBytes()是用来从所有结果cszBuffer中根据指定offset获取指定的数据。需要注意的是由于xp和win7的序列号原始数据是40位的hex数据，flipAndCodeBytes()返回的是转化过的字符串，但是因为大小端问题，需要转化，代码如下：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs gcode">QStri<span class="hljs-symbol">ng revertQString(const QString &amp;src)</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">&#123;</span><br><span class="hljs-symbol">    if (src.isEmpty())</span><br><span class="hljs-symbol">        return &quot;&quot;;</span><br><span class="hljs-symbol">    QString dest(src.count(), 0</span>);<br>    for <span class="hljs-comment">(int i = 0; i &lt; src.size()</span> - <span class="hljs-number">1</span>; i += <span class="hljs-number">2</span>) &#123;<br>        QChar temp = src[i];<br>        dest[i] = src[i + <span class="hljs-number">1</span>];<br>        dest[i + <span class="hljs-number">1</span>] = temp;<br>    &#125;<br>    <span class="hljs-comment">//奇数情况</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-comment">(src.count()</span> <span class="hljs-meta">%</span> <span class="hljs-number">2</span> == <span class="hljs-number">1</span>) &#123;<br>        dest[src.cou<span class="hljs-symbol">nt() - 1</span>] = src[src.cou<span class="hljs-symbol">nt() - 1</span>];<br>    &#125;<br>    retur<span class="hljs-symbol">n dest;</span><br><span class="hljs-symbol">&#125;</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">QStringList tempList;</span><br><span class="hljs-symbol">ret = readPhysicalDriveSerialnumber(driveNameList, tempList);</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">QString osVersion = QSysInfo::productVersion();</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">foreach (QString serial, tempList) &#123;</span><br><span class="hljs-symbol"></span><br><span class="hljs-symbol">        QByteArray buffer = serial.toLocal8</span>Bit<span class="hljs-comment">()</span>;<br>        <span class="hljs-comment">//xp win7 serialnumber是40位hex,readPhysicalDriveSerialnumber已经转为字符串，但需要转换大小端</span><br>        <span class="hljs-comment">//win8 win10是字符串格式</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-comment">(osVersion.contains(&quot;xp&quot;, Qt::CaseInsensitive)</span> || osVersio<span class="hljs-symbol">n.contains(&quot;7</span><span class="hljs-string">&quot;, Qt::CaseInsensitive)) &#123;</span><br><span class="hljs-string">            resultList.append(revertQString(serial));</span><br><span class="hljs-string">        &#125; else &#123;</span><br><span class="hljs-string">            resultList.append(serial);</span><br><span class="hljs-string">        &#125;</span><br><span class="hljs-string">    &#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&amp;emsp;&amp;emsp;使用wmi接口可以在xp及以上系统获取绝大部分硬件信息，只需要处理xp系统获取硬盘信息时，使用DeviceIoControl接口即可。注意wmware的虚拟机没有硬盘信息，根本无法获取，virtualbox虚拟机没有这个问题。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Windows-API/" class="category-chain-item">Windows API</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/windows/">#windows</a>
+      
+        <a href="/tags/wmi/">#wmi</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>windows平台通用获取硬件信息</div>
+      <div>http://yoursite.com/2020/06/24/windows平台通用获取硬件信息/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年6月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/22/%E4%BA%91%E6%89%93%E5%8D%B0%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B%E4%B8%8E%E7%BB%86%E8%8A%82/" title="云打印实现流程与细节">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">云打印实现流程与细节</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/29/%E8%A7%A3%E5%86%B3CryptoPP%E5%8A%A0%E5%AF%86%E5%BA%93%E5%9C%A8xp%E8%BF%90%E8%A1%8C%E7%9A%84bug/" title="解决CryptoPP加密库在xp运行的bug">
+                        <span class="hidden-mobile">解决CryptoPP加密库在xp运行的bug</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

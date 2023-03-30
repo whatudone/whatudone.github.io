@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在&#x2F;var&#x2F;log&#x2F;cups&#x2F;error.log。 问题1：临时目录权限问题反馈说某台打印机无法打印，查看打印日志的时候发现以下问题： 1234567891011121314151617181920212223242">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cups常用问题记录">
+<meta property="og:url" content="http://yoursite.com/2020/08/26/cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="概述cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在&#x2F;var&#x2F;log&#x2F;cups&#x2F;error.log。 问题1：临时目录权限问题反馈说某台打印机无法打印，查看打印日志的时候发现以下问题： 1234567891011121314151617181920212223242">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:\web-blog\blog\source_posts\cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95\err.jpg">
+<meta property="article:published_time" content="2020-08-26T06:04:31.000Z">
+<meta property="article:modified_time" content="2021-01-05T01:44:54.924Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="cups">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\web-blog\blog\source_posts\cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95\err.jpg">
+  
+  
+  
+  <title>cups常用问题记录 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="cups常用问题记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-08-26 14:04" pubdate>
+          2020年8月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">cups常用问题记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在&#x2F;var&#x2F;log&#x2F;cups&#x2F;error.log。</p>
+<h1 id="问题1：临时目录权限问题"><a href="#问题1：临时目录权限问题" class="headerlink" title="问题1：临时目录权限问题"></a>问题1：临时目录权限问题</h1><p>反馈说某台打印机无法打印，查看打印日志的时候发现以下问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs textile">D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[12]=&quot;TMPDIR=/var/spool/cups/tmp&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[13]=&quot;USER=root&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[14]=&quot;CUPS_MAX_MESSAGE=2047&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[15]=&quot;CUPS_SERVER=/run/cups/cups.sock&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[16]=&quot;CUPS_ENCRYPTION=IfRequested&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[17]=&quot;IPP_PORT=631&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[18]=&quot;CHARSET=utf-8&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[19]=&quot;LANG=zh_CN.UTF-8&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[20]=&quot;PPD=/etc/cups/ppd/HP-LaserJet-M1319f-MFP.ppd&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[21]=&quot;RIP_MAX_CACHE=128m&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[22]=&quot;CONTENT_TYPE=application/vnd.cups-pdf-banner&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[23]=&quot;DEVICE_URI=smb://workgroup/192.168.5.162/A912&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[24]=&quot;PRINTER_INFO=HP LaserJet M1319f MFP&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[25]=&quot;PRINTER_LOCATION=A912&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[26]=&quot;PRINTER=HP-LaserJet-M1319f-MFP&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[27]=&quot;PRINTER_STATE_REASONS=none&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[28]=&quot;CUPS_FILETYPE=document&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[29]=&quot;FINAL_CONTENT_TYPE=application/vnd.cups-pdf&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[30]=&quot;AUTH_I****&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[31]=&quot;AUTH_U****&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] envp[32]=&quot;AUTH_P****&quot;<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/bannertopdf (PID 12160)<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/pdftopdf (PID 12161)<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] Started filter /usr/lib/cups/filter/foomatic-rip (PID 12162)<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] Started backend /usr/lib/cups/backend/smb (PID 12163)<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] pdftopdf: Last filter determined by the PPD: foomatic-rip; FINAL_CONTENT_TYPE: application/vnd.cups-pdf =&gt; pdftopdf will log pages in page_log.<br>D [26/Aug/2020:09:56:30 +0800] [Job 8] Set job-printer-state-message to &quot;Can\&#x27;t create temporary file&quot;, current level=ERROR<br></code></pre></td></tr></table></figure>
+
+<p>从日志看这里是因为cups无法在TMPDIR目录创建临时文件，导致无法继续打印，所以先查看该目录的权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">getfacl /var/spool/cups/tmp<br></code></pre></td></tr></table></figure>
+
+<p>结果如下图</p>
+<p><img src="D:\web-blog\blog\source_posts\cups常用问题记录\err.jpg" srcset="/img/loading.gif" lazyload alt="error"></p>
+<p>从结果看group没有w写权限，通过执行下列命令修复</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo setfacl -m g:lp:rwx /var/spool/cups/tmp<br>sudo setfacl -m d:group:lp:rwx /var/spool/cups/<br></code></pre></td></tr></table></figure>
+
+<p>第一行是添加一个lp用户组，分配rwx权限，第二行是给上级目录添加lp用户组rwx权限，因为tmp目录是集成cups目录权限的，重启后cups调用mkdir创建tmp目录继承cups目录的权限，所以要修改上层cups目录的权限。</p>
+<h1 id="问题2：PPD文件异常"><a href="#问题2：PPD文件异常" class="headerlink" title="问题2：PPD文件异常"></a>问题2：PPD文件异常</h1><p>ppd文件是打印机能力的描述文件，如果ppd文件损坏，会导致cups无法正确解析打印机的各种属性。通过ipp请求获取打印机型号时，cups返回的是添加打印机时缓存的属性，这时候ppd损坏也可以返回正确值，但是cups重启后，重新加载ppd，这个时候就无法获取和ppd相关的属性。代码里面也要做出判断，比如std::map等容器直接使用没有的key会导致异常退出。</p>
+<h1 id="问题3：用户组权限问题"><a href="#问题3：用户组权限问题" class="headerlink" title="问题3：用户组权限问题"></a>问题3：用户组权限问题</h1><p>新版欧拉系统测试打印管理器，发现lpinfo -v可以发现直接的打印机，但是打印管理器自动发现没找到，有一个细节就是用户需要sudo才能执行该命令，但是正常的专业版是不需要的，所以应该是当前用户不在lp和lpadmin组，导致无法管理打印机。输入id命令查看当前用户所属组，发现确实用户默认没有lp和lpadmin组。所以手动添加组即可，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo usermod -a -G lp user   <span class="hljs-comment">#给user用户添加lp组</span><br>sudo usermod -a -G lpadmin user <span class="hljs-comment">#给user用户添加lpadmin组</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>目前欧拉版和行业版基于centos，所有的打印机驱动没有适配，暂时需要手动下载安装驱动</p>
+</blockquote>
+<h1 id="问题4：cups配置文件被破坏"><a href="#问题4：cups配置文件被破坏" class="headerlink" title="问题4：cups配置文件被破坏"></a>问题4：cups配置文件被破坏</h1><p>cups服务配置文件位于&#x2F;etc&#x2F;cups&#x2F;cupsd.conf，有时候配置文件被系统其他程序破坏，导致无法启动，可以重新安装cups-daemon服务，重新安装之后会初始化配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install cups-daemon --reinstall<br></code></pre></td></tr></table></figure>
+
+<p>不要卸载cups，这是两个包，而且重新安装不会卸载对应的强依赖，更加安全。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">linux学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/cups/">#cups</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>cups常用问题记录</div>
+      <div>http://yoursite.com/2020/08/26/cups常用问题记录/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年8月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/02/valgrind%E5%88%86%E6%9E%90%E8%AF%B4%E6%98%8E/" title="valgrind分析说明">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">valgrind分析说明</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/19/Windows10-vs2015%E7%BC%96%E8%AF%91thrift0-11-0/" title="Windows10-vs2015编译thrift0.11.0">
+                        <span class="hidden-mobile">Windows10-vs2015编译thrift0.11.0</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,728 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、查找进程1ps aux | grep nginx  grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80  3、查看进程占用cpu和内存1top -p 进程号  4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir &#x2F;home&#x2F;username&#x2F;SharedFloder #linux上的共享文件夹sudo chmod 777 &#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="http://yoursite.com/2019/04/16/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="1、查找进程1ps aux | grep nginx  grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80  3、查看进程占用cpu和内存1top -p 进程号  4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir &#x2F;home&#x2F;username&#x2F;SharedFloder #linux上的共享文件夹sudo chmod 777 &#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4\dpkg-error.png">
+<meta property="article:published_time" content="2019-04-16T08:18:37.000Z">
+<meta property="article:modified_time" content="2022-02-14T09:25:25.148Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="Linux命令">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4\dpkg-error.png">
+  
+  
+  
+  <title>Linux常用命令 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux常用命令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-04-16 16:18" pubdate>
+          2019年4月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux常用命令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="1、查找进程"><a href="#1、查找进程" class="headerlink" title="1、查找进程"></a>1、查找进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps aux | grep nginx<br></code></pre></td></tr></table></figure>
+
+<p>grep是过滤，其他命令里面的同理。</p>
+<h3 id="2、查看网络端口占用"><a href="#2、查看网络端口占用" class="headerlink" title="2、查看网络端口占用"></a>2、查看网络端口占用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">netstat -anp | grep 80<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、查看进程占用cpu和内存"><a href="#3、查看进程占用cpu和内存" class="headerlink" title="3、查看进程占用cpu和内存"></a>3、查看进程占用cpu和内存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">top -p 进程号<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、挂载u盘或共享文件夹"><a href="#4、挂载u盘或共享文件夹" class="headerlink" title="4、挂载u盘或共享文件夹"></a>4、挂载u盘或共享文件夹</h3><ul>
+<li><p>挂载共享文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> <span class="hljs-built_in">dir</span> /home/username/SharedFloder <span class="hljs-comment">#linux上的共享文件夹</span><br>sudo <span class="hljs-built_in">chmod</span> 777 /home/username/SharedFloder <span class="hljs-comment">#给目录读写执行权限</span><br>sudo mount -t vboxsf WinFloder /home/username/SharedFloder <span class="hljs-comment">#临时挂载</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>挂载u盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk -l <span class="hljs-comment">#查看u盘设备（假设为sdc1）</span><br><span class="hljs-built_in">mkdir</span> /mnt<br>mount /dev/sdc1 /mnt <br>umount /dev/sdc1 <span class="hljs-comment">#卸载u盘</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5、apt用法"><a href="#5、apt用法" class="headerlink" title="5、apt用法"></a>5、apt用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt-cache depends package <span class="hljs-comment">#查看包的依赖</span><br>apt-cache search package <span class="hljs-comment">#搜索包</span><br>apt rdepends package <span class="hljs-comment">#查看该包被哪些包依赖</span><br>apt build-dep package <span class="hljs-comment">#安装一个包对应编译依赖环境</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6、vim常用快捷键"><a href="#6、vim常用快捷键" class="headerlink" title="6、vim常用快捷键"></a>6、vim常用快捷键</h3><ol>
+<li><p>跳转指定行数       :n</p>
+</li>
+<li><p>跳转文件末尾       G</p>
+</li>
+<li><p>搜索文件内容       :&#x2F;content </p>
+</li>
+<li><p>查找下一个搜索到的内容     n</p>
+</li>
+<li><p>查找上一个搜索内容             N</p>
+</li>
+<li><p>剪切行                                        dd</p>
+</li>
+<li><p>粘贴                                        p</p>
+</li>
+<li><p>复制行                                    yy</p>
+</li>
+<li><p>复制指定内容       v进入可视化，选中指定内容，y复制</p>
+</li>
+<li><p>批量添加注释       ctrl+v进入块可视化，选中需要注释行，按大写I开始插入，在首行添加注释符号#或者&#x2F;&#x2F;，然后Esc，就会自动注释所有选中行</p>
+</li>
+<li><p>批量取消注释        ctrl+v进入块可视化，选中需要注释行（不需要选中最后一行）的注释符号，不要选中其他内容，就是选中第一列注释符号，按d删除，按esc退出</p>
+</li>
+<li><p>撤销操作       u</p>
+</li>
+<li><p>恢复上一步被撤销的操作         ctrl+r</p>
+</li>
+</ol>
+<h3 id="7、dpkg"><a href="#7、dpkg" class="headerlink" title="7、dpkg"></a>7、dpkg</h3><ol>
+<li><p>查看包的版本信息    </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dpkg -l package<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看包的文件            </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dpkg -L package<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看文件对应的包   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dpkg -S filename<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="8、xprop"><a href="#8、xprop" class="headerlink" title="8、xprop"></a>8、xprop</h3><ol>
+<li><p>查看窗口进程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">xprop           <span class="hljs-comment">#执行完之后点击窗口就会获取窗口信息</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="9、proc"><a href="#9、proc" class="headerlink" title="9、proc"></a>9、proc</h3><ol>
+<li><p>查看进程的命令行参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/ID/cmdline  <span class="hljs-comment">#ID是指进程id，Linux一切皆文件</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/ID/environ  <span class="hljs-comment">#Qt在Linux上很多bug就是因为环境变量导致的</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看进程的内存结构</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/ID/maps<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="10、GDB和SSH远程调试"><a href="#10、GDB和SSH远程调试" class="headerlink" title="10、GDB和SSH远程调试"></a>10、GDB和SSH远程调试</h3><p>代码在别人的机器上发生异常，这时候需要远程调试，首先需要连接对方机器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh user@host             <span class="hljs-comment">#不带图形界面</span><br>ssh -X user@host          <span class="hljs-comment">#可以启动带图形界面的程序</span><br></code></pre></td></tr></table></figure>
+
+<p>调试代码gdb：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">gdb program   <span class="hljs-comment">#启动gdb</span><br>run           <span class="hljs-comment">#启动程序</span><br>bt            <span class="hljs-comment">#打印当前堆栈</span><br></code></pre></td></tr></table></figure>
+
+<p>大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。</p>
+<h3 id="11、apt包管理冲突解决"><a href="#11、apt包管理冲突解决" class="headerlink" title="11、apt包管理冲突解决"></a>11、apt包管理冲突解决</h3><p>当安装一个包发生错误时，此时该包处于一种half-install(半安装)状态，如果继续使用apt安装或者卸载其他包时，dpkg会尝试继续处理上次为安装完成的包，导致后面的操作也会失败，截图示例如下：</p>
+<p><img src="D:\web-blog\blog\source_posts\Linux常用命令\dpkg-error.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是在卸载toshibaest2822am时，因为上次toshiba-est2822amf-cups没有安装完成所以继续安装，但是又有问题，解决办法就是去掉dpkg的包状态文件里面的关于toshiba-est2822amf-cups的整段信息，然后重新卸载toshibaest2822am即可。dpkg的包状态文件是&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;status。</p>
+<h3 id="12、readelf查看二进制信息"><a href="#12、readelf查看二进制信息" class="headerlink" title="12、readelf查看二进制信息"></a>12、readelf查看二进制信息</h3><p>file命名无法查询静态库的二进制信息，可以通过此命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">readelf -h *.a <br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux%E5%91%BD%E4%BB%A4/">#Linux命令</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux常用命令</div>
+      <div>http://yoursite.com/2019/04/16/Linux常用命令/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年4月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/" title="centos7安装docker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">centos7安装docker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/04/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" title="Git使用教程">
+                        <span class="hidden-mobile">Git使用教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

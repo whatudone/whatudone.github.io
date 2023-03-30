@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式 1、QQmlApplicationEngine123456789QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);QGuiApplication app(argc, a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QML两种启动方式及打开新窗口">
+<meta property="og:url" content="http://yoursite.com/2019/04/24/QML%E4%B8%A4%E7%A7%8D%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F%E5%8F%8A%E6%89%93%E5%BC%80%E6%96%B0%E7%AA%97%E5%8F%A3/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="前言这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式 1、QQmlApplicationEngine123456789QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);QGuiApplication app(argc, a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-24T02:39:44.000Z">
+<meta property="article:modified_time" content="2019-05-10T02:43:36.720Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="QML启动方式">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>QML两种启动方式及打开新窗口 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="QML两种启动方式及打开新窗口"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-04-24 10:39" pubdate>
+          2019年4月24日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">QML两种启动方式及打开新窗口</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是我的第一篇QML的笔记，记录一个最大的坑，每次修改了qml文件之后，重新清理一下，再编译，不然新的效果无法实现，误以为代码问题。qml程序启动有两种方式</p>
+<h3 id="1、QQmlApplicationEngine"><a href="#1、QQmlApplicationEngine" class="headerlink" title="1、QQmlApplicationEngine"></a>1、QQmlApplicationEngine</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QCoreApplication::<span class="hljs-built_in">setAttribute</span>(Qt::AA_EnableHighDpiScaling);<br><br><span class="hljs-function">QGuiApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>QQmlApplicationEngine engine;<br>engine.<span class="hljs-built_in">load</span>(<span class="hljs-built_in">QUrl</span>(<span class="hljs-built_in">QLatin1String</span>(<span class="hljs-string">&quot;qrc:/main.qml&quot;</span>)));<br><span class="hljs-keyword">if</span> (engine.<span class="hljs-built_in">rootObjects</span>().<span class="hljs-built_in">isEmpty</span>())<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br><span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br></code></pre></td></tr></table></figure>
+
+<p>这种启动方式是必须qml顶层元素为window或者ApplicationWindow</p>
+<h3 id="2、QQuickView"><a href="#2、QQuickView" class="headerlink" title="2、QQuickView"></a>2、QQuickView</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QCoreApplication::<span class="hljs-built_in">setAttribute</span>(Qt::AA_EnableHighDpiScaling);<br><br><span class="hljs-function">QGuiApplication <span class="hljs-title">app</span><span class="hljs-params">(argc, argv)</span></span>;<br><br>QQuickView viwer;<br>viwer.<span class="hljs-built_in">setSource</span>(<span class="hljs-built_in">QUrl</span>(<span class="hljs-string">&quot;qrc:/RListView.qml&quot;</span>));<br>viwer.<span class="hljs-built_in">setVisible</span>(<span class="hljs-literal">true</span>);<br>QQuickItem *rootItem = viwer.<span class="hljs-built_in">rootObject</span>();<br><br><span class="hljs-keyword">return</span> app.<span class="hljs-built_in">exec</span>();<br></code></pre></td></tr></table></figure>
+
+<p>这种启动方式，qml顶层可以是Item、Rectangle等，不需要是window。</p>
+<h1 id="启动一个新窗口"><a href="#启动一个新窗口" class="headerlink" title="启动一个新窗口"></a>启动一个新窗口</h1><p>要打开一个新的QML窗口，那么新的窗口顶层元素必须是Window或者ApplicationWindow等，代码示例如下。</p>
+<h3 id="当前窗口main-qml"><a href="#当前窗口main-qml" class="headerlink" title="当前窗口main.qml"></a>当前窗口main.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">window</span><br>&#123;<br>    <span class="hljs-attr">id</span>: inletSettingPanel<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;主窗口&quot;</span><br>    <span class="hljs-attr">minimumWidth</span>: <span class="hljs-number">270</span><br>    <span class="hljs-attr">minimumHeight</span>: <span class="hljs-number">660</span><br><br>    <span class="hljs-title class_">Button</span><br>    &#123;<br>        <span class="hljs-attr">x</span>: parent.<span class="hljs-property">x</span><br>        <span class="hljs-attr">y</span>: parent.<span class="hljs-property">y</span><br>        <span class="hljs-attr">width</span>: <span class="hljs-number">30</span><br>        <span class="hljs-attr">height</span>: <span class="hljs-number">15</span><br>        <span class="hljs-attr">activeFocusOnTab</span>: <span class="hljs-literal">false</span><br>        <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;打开新窗口&quot;</span><br><br>        <span class="hljs-comment">//可在此类中设置需要显示的窗口的大小等属性</span><br>        needShowWindow<br>        &#123;<br>            <span class="hljs-attr">id</span>: needShowWindowPanel<br>        &#125;<br><br>        <span class="hljs-attr">onClicked</span>:<br>        &#123;<br>            needShowWindowPanel.<span class="hljs-title function_">show</span>();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="新窗口-needShowWindow-qml"><a href="#新窗口-needShowWindow-qml" class="headerlink" title="新窗口 needShowWindow.qml"></a>新窗口 needShowWindow.qml</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Window</span> &#123;<br>    <span class="hljs-attr">id</span>: inletSettingPanel<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新窗口&quot;</span><br>    <span class="hljs-attr">minimumWidth</span>: <span class="hljs-number">270</span>; <span class="hljs-attr">minimumHeight</span>: <span class="hljs-number">660</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当新窗口的背景设置为透明之后，拖动窗口时会在主窗口重合的地方显示重影，当设置新的窗口为FramelessWindowHint时这个问题就解决了。但是这种写法有一个弊端，那就是新的窗口的父窗口是原来的主窗口，当主窗口关闭的时候就会一起关闭新窗口。要是想创建一个独立的窗口就需要下面的方法。</p>
+<h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">window</span><br>&#123;<br> <span class="hljs-attr">id</span>: inletSettingPanel<br> <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;主窗口&quot;</span><br> <span class="hljs-attr">minimumWidth</span>: <span class="hljs-number">270</span><br> <span class="hljs-attr">minimumHeight</span>: <span class="hljs-number">660</span><br> property variant <span class="hljs-attr">newWindow</span>: needShowWindow<br> &#123;<br>     <span class="hljs-attr">id</span>: needShowWindowPanel<br> &#125;<br> <span class="hljs-title class_">Button</span><br> &#123;<br> <span class="hljs-attr">x</span>: parent.<span class="hljs-property">x</span><br> <span class="hljs-attr">y</span>: parent.<span class="hljs-property">y</span><br> <span class="hljs-attr">width</span>: <span class="hljs-number">30</span><br> <span class="hljs-attr">height</span>: <span class="hljs-number">15</span><br> <span class="hljs-attr">activeFocusOnTab</span>: <span class="hljs-literal">false</span><br> <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;打开新窗口&quot;</span><br><br> <span class="hljs-attr">onClicked</span>:<br> &#123;<br>    newWindow.<span class="hljs-title function_">show</span>();<br> &#125;<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">window</span><br>&#123;<br> <span class="hljs-attr">id</span>: inletSettingPanel<br> <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;主窗口&quot;</span><br> <span class="hljs-attr">minimumWidth</span>: <span class="hljs-number">270</span><br> <span class="hljs-attr">minimumHeight</span>: <span class="hljs-number">660</span><br> property variant <span class="hljs-attr">newWindow</span>: <span class="hljs-title class_">Qt</span>.<span class="hljs-title function_">createComponent</span>(<span class="hljs-string">&quot;needShowWindow.qml&quot;</span>).<span class="hljs-title function_">createObject</span>()<br> <span class="hljs-title class_">Button</span><br> &#123;<br> <span class="hljs-attr">x</span>: parent.<span class="hljs-property">x</span><br> <span class="hljs-attr">y</span>: parent.<span class="hljs-property">y</span><br> <span class="hljs-attr">width</span>: <span class="hljs-number">30</span><br> <span class="hljs-attr">height</span>: <span class="hljs-number">15</span><br> <span class="hljs-attr">activeFocusOnTab</span>: <span class="hljs-literal">false</span><br> <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;打开新窗口&quot;</span><br>  <span class="hljs-attr">onClicked</span>:<br> &#123;<br> newWindow.<span class="hljs-title function_">show</span>();<br> &#125;<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过这种方式创建的新窗口独立原来的窗口，当主窗口关闭时如果新窗口没有关闭，那么不会结束程序，需要继续关闭新窗口才行。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/QML%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">QML学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QML%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F/">#QML启动方式</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>QML两种启动方式及打开新窗口</div>
+      <div>http://yoursite.com/2019/04/24/QML两种启动方式及打开新窗口/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年4月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/24/QML%E5%8A%A8%E7%94%BB%E6%8F%92%E5%80%BC%E6%A8%A1%E5%9E%8B/" title="QML动画插值模型">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QML动画插值模型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/04/18/Qt%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%89%A7%E8%A1%8C%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" title="Qt线程池执行事件循环">
+                        <span class="hidden-mobile">Qt线程池执行事件循环</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

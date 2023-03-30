@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="还在输入">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmake编译OsgEarth2.10.1-VS2017-64版">
+<meta property="og:url" content="http://yoursite.com/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/index.html">
+<meta property="og:site_name" content="一个骚年">
+<meta property="og:description" content="前言为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-6">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png">
+<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0047.png">
+<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0044.png">
+<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0045.png">
+<meta property="article:published_time" content="2019-06-17T00:22:56.000Z">
+<meta property="article:modified_time" content="2019-06-17T02:55:32.480Z">
+<meta property="article:author" content="还在输入">
+<meta property="article:tag" content="cmake">
+<meta property="article:tag" content="osgearth">
+<meta property="article:tag" content="osg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png">
+  
+  
+  
+  <title>cmake编译OsgEarth2.10.1-VS2017-64版 - 一个骚年</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="cmake编译OsgEarth2.10.1-VS2017-64版"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-06-17 08:22" pubdate>
+          2019年6月17日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">cmake编译OsgEarth2.10.1-VS2017-64版</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-64版本，所以我下载的<a target="_blank" rel="noopener" href="https://objexx.com/OpenSceneGraph.html">osg-3.6.3-vs2017-x64</a>这个版本还包含osgQt，debug和release都要下载。然后下载官方的第三方库，<a target="_blank" rel="noopener" href="http://www.openscenegraph.org/index.php/download-section/dependencies">thirdparty-vs2017-64</a>,里面有两个版本，下载Full package版本。为了后续编译的条理性，创建一个目录OSG，将osg的debug和release版本都解压到osg目录，将第三方库也解压到osg目录。然后在环境变量PATH里面添加osg的debug和release版本的bin目录，还有第三方库的bin目录。这是为了cmake在编译的时候可以自动检索到这些依赖库。</p>
+<h1 id="编译其他依赖"><a href="#编译其他依赖" class="headerlink" title="编译其他依赖"></a>编译其他依赖</h1><p>官网提供的第三方库包含了gdal等，但是osgearth还需要geos，protobuf,sqlite3，poco，rocksdb等。由于我刚开始初学，暂时用不到后面的扩展，这里我们只编译geos，sqlite3，poco,protobuf。这里统一使用cmake创建sln工程，这是为了更好的控制编译的参数。tool选择vs2017 x64(默认是选择win32，一定要修改)。</p>
+<blockquote>
+<p>这里要注意cmake的时候，build目录（生成的vs工程和后续编译的二进制的目录）一定要和install（自动安装的目录）分开，不能选择同一个目录。这个install目录由CMAKE_INSTALL_PREFIX参数控制，默认在c:&#x2F;Program Files(x86)</p>
+<p>目录，一定要选在其他目录，不然安装的时候由于没有权限导致无法安装。</p>
+</blockquote>
+<h2 id="编译geos-3-7-2"><a href="#编译geos-3-7-2" class="headerlink" title="编译geos-3.7.2"></a>编译geos-3.7.2</h2><p>这个过程没有什么曲折，cmake生成工程，vs编译安装即可。将安装完的bin，include，lib三个目录直接拷贝到第三方库的目录下即可，后续编译的依赖都需要拷贝到第三方库目录，方便统一设置环境变量。</p>
+<blockquote>
+<p>cmake的时候注意是不是编译的dll版（shared），osgearth貌似需要dll版的依赖库。后续编译的protobuf就遇到这个问题，最开始编译的是静态版，导致编译osgearth出现大量错误，将它编译成动态版之后sogearth就完美编译成功了。同时编译的时候注意是否有参数区分了debug和release编译的库名称，一般用d来表示debug版。这个参数是CMAKE_DEBUG_POSTFIX，可能Cmakelist.txt并没有配置这个参数，那么就需要手动添加，但是有可能配置了其他参数来替代它，比如protobuf就是使用PROTOBUF_DEBUG_POSTFIX，这两者作用是一致的，这时候就不要再添加了。在cmake-gui的上方有一个按钮名称为Add Entry ,操作如下图所示：</p>
+</blockquote>
+<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0046"></p>
+<h2 id="编译poco"><a href="#编译poco" class="headerlink" title="编译poco"></a>编译poco</h2><p>poco版本选择poco-1.9.0-all，记得选择all这个版本。其他和geos操作一致。</p>
+<blockquote>
+<p>在用vs编译的时候，选择<em><strong>生成-批生成</strong></em>。然后勾选ALL_BUILD的debug和release版，点击生成即可，这样就会编译debug和release两个版本，编译完成之后同样选择<em><strong>生成-批生成</strong></em>，去掉ALL_BUILD的勾选项，将INTSALL的debug和release勾选，点击生成，这样就会将编译好的库和头文件都拷贝到camke设置的安装目录，操作如下图：</p>
+</blockquote>
+<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0047.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047"></p>
+<h2 id="编译sqlite3"><a href="#编译sqlite3" class="headerlink" title="编译sqlite3"></a>编译sqlite3</h2><p>其实这已经不是编译了，官网上已经提供了编译好的二进制，这个dll可以同时在debug和release两个环境使用。我下载的是sqlite-amalgamation-3280000和sqlite-dll-win64-x64-3280000。解压，将sqlite3.h和sqlit3ext.h拷贝到第三方库的include目录。然后将解压出来的dll转化为lib。操作如下，先打开vs2017的x64 Native cmd窗口，然后cd进入到dll存在的目录，里面包含两个文件，sqlite3.dll和sqlite3.def。调用如下命令即可,就会生成sqlite3.lib和sqlite3.exp。</p>
+<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0044.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0044"></p>
+<h2 id="编译protobuf"><a href="#编译protobuf" class="headerlink" title="编译protobuf"></a>编译protobuf</h2><p>版本一定要选择3.8.0，这是osgearth的依赖要求，cmake的时候去掉protobuf-BUILD_TESTS的勾选，不然会报错，然后勾上protobuf_BUILD_SHARED_LIBS，编译动态版。然后在zlib的依赖文件在第三方库中已经有，选择即可。如下图所示：</p>
+<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0045.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0045"></p>
+<blockquote>
+<p>protobuf默认是编译静态版，后续osgearth编译的时候需要动态版，导致编译失败。编译这个的同时也解决了我一个问题，由于我总是使用gcc编译动态库，动态版就是.so，静态版就是.a。但是msvc的很多库就是编译要链接.lib文件，运行的时候需要.dll支持，不然无法运行。我搞不懂这个库到底是静态版还是动态版，通过这次百度才知道，这其实是一个动态版的库，那个.lib里面只是导出的定义，实现还是在.dll里面。msvc编译的库可以分为四种：1、MT(多线程静态release版)；2、MTd(多线程静态debug版)；3、MD(多线程动态release版)；4、MDd(多线程动态debug版)。这个可以在vs里面修改。右键工程–选择属性–c&#x2F;c++–代码生成-运行库。</p>
+</blockquote>
+<h1 id="编译osgEarth"><a href="#编译osgEarth" class="headerlink" title="编译osgEarth"></a>编译osgEarth</h1><p>osgearth选用2.10.1版本，前面配置完环境变量之后，configure的时候大部分依赖都会自动找到。这里需要修改一下未能正确配置的地方。1、PROTOBUF_USE_DLLS勾选上；2、THIRD_PARTY_DIR目录选择第三方库目录。3；libcurl库的debug版未找到，手动去第三方库目录添加。再检查一下，有没有漏下的地方。将生成的osgearth库拷贝到OSG目录，环境变量PATH添加该库的bin目录。</p>
+<h1 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h1><p>下载最新的osg数据，<a target="_blank" rel="noopener" href="http://www.openscenegraph.org/index.php/download-section/data">下载地址</a>下载最新的3.4.0即可，解压到OSG目录。然后将该目录重命名为data，将osgearth源码里面的data和tests拷贝到OSG目录下，添加环境变量OSG_FILE_PATH，值为OSG&#x2F;data目录。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/cmake/">#cmake</a>
+      
+        <a href="/tags/osgearth/">#osgearth</a>
+      
+        <a href="/tags/osg/">#osg</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>cmake编译OsgEarth2.10.1-VS2017-64版</div>
+      <div>http://yoursite.com/2019/06/17/cmake编译OsgEarth2-10-1-VS2017-64版/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>还在输入</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年6月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/23/QCoreApplication-quit-%E6%97%A0%E6%B3%95%E9%80%80%E5%87%BA%E7%A8%8B%E5%BA%8F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="QCoreApplication::quit()无法退出程序解决方法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">QCoreApplication::quit()无法退出程序解决方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/12/cpp%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/" title="cpp的深拷贝和浅拷贝">
+                        <span class="hidden-mobile">cpp的深拷贝和浅拷贝</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
