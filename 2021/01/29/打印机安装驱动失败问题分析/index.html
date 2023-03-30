@@ -16,21 +16,23 @@
   <meta name="author" content="还在输入">
   <meta name="keywords" content="">
   
-    <meta name="description" content="打印机安装驱动失败问题分析1、问题现象&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。 2、问题分析&amp;emsp;&amp;emsp;根据ui的提示“安装驱动失败”，应该是调用dbus安装包的接口异常，于是去代码定位到调用dbus安装包附近的代码，查找是否有记录">
+    <meta name="description" content="打印机应用安装驱动失败问题分析1、问题现象&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。 2、问题分析&amp;emsp;&amp;emsp;根据ui的提示“安装驱动失败”，应该是调用dbus安装包的接口异常，于是去代码定位到调用dbus安装包附近的代码，查找是否有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一个骚年">
-<meta property="og:url" content="http://yoursite.com/2023/03/30/%E6%89%93%E5%8D%B0%E6%9C%BA%E5%AE%89%E8%A3%85%E9%A9%B1%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="打印机应用安装驱动失败问题分析">
+<meta property="og:url" content="http://yoursite.com/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E5%AE%89%E8%A3%85%E9%A9%B1%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="一个骚年">
-<meta property="og:description" content="打印机安装驱动失败问题分析1、问题现象&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。 2、问题分析&amp;emsp;&amp;emsp;根据ui的提示“安装驱动失败”，应该是调用dbus安装包的接口异常，于是去代码定位到调用dbus安装包附近的代码，查找是否有记录">
+<meta property="og:description" content="打印机应用安装驱动失败问题分析1、问题现象&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。 2、问题分析&amp;emsp;&amp;emsp;根据ui的提示“安装驱动失败”，应该是调用dbus安装包的接口异常，于是去代码定位到调用dbus安装包附近的代码，查找是否有">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-03-30T07:59:54.296Z">
-<meta property="article:modified_time" content="2020-05-25T01:18:22.999Z">
+<meta property="article:published_time" content="2021-01-29T07:10:38.000Z">
+<meta property="article:modified_time" content="2023-03-30T08:29:29.752Z">
 <meta property="article:author" content="还在输入">
+<meta property="article:tag" content="Qt">
+<meta property="article:tag" content="deb">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>一个骚年</title>
+  <title>打印机应用安装驱动失败问题分析 - 一个骚年</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="打印机应用安装驱动失败问题分析"></span>
           
         </div>
 
@@ -207,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-03-30 15:59" pubdate>
-          2023年3月30日 下午
+        <time datetime="2021-01-29 15:10" pubdate>
+          2021年1月29日 下午
         </time>
       </span>
     
@@ -268,12 +270,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">打印机应用安装驱动失败问题分析</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="打印机安装驱动失败问题分析"><a href="#打印机安装驱动失败问题分析" class="headerlink" title="打印机安装驱动失败问题分析"></a>打印机安装驱动失败问题分析</h1><h2 id="1、问题现象"><a href="#1、问题现象" class="headerlink" title="1、问题现象"></a>1、问题现象</h2><p>&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。</p>
+                <h1 id="打印机应用安装驱动失败问题分析"><a href="#打印机应用安装驱动失败问题分析" class="headerlink" title="打印机应用安装驱动失败问题分析"></a>打印机应用安装驱动失败问题分析</h1><h2 id="1、问题现象"><a href="#1、问题现象" class="headerlink" title="1、问题现象"></a>1、问题现象</h2><p>&amp;emsp;&amp;emsp;打印机管理程序在0.4.9.3的版本下，升级到0.4.9.5的时候，出现打印机安装驱动失败，在故障排查的过程中也出现类似的无法安装的bug。</p>
 <h2 id="2、问题分析"><a href="#2、问题分析" class="headerlink" title="2、问题分析"></a>2、问题分析</h2><p>&amp;emsp;&amp;emsp;根据ui的提示“安装驱动失败”，应该是调用dbus安装包的接口异常，于是去代码定位到调用dbus安装包附近的代码，查找是否有记录对应的错误日志。代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QDBusReply&lt;QDBusObjectPath&gt; objPath = interface-&gt;<span class="hljs-built_in">call</span>(<span class="hljs-string">&quot;InstallPackage&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, m_installPackages.<span class="hljs-built_in">join</span>(<span class="hljs-string">&quot; &quot;</span>));<br><br>    <span class="hljs-keyword">if</span> (objPath.<span class="hljs-built_in">isValid</span>()) &#123;<br>        m_jobPath = objPath.<span class="hljs-built_in">value</span>().<span class="hljs-built_in">path</span>();<br>        <span class="hljs-keyword">if</span> (QDBusConnection::<span class="hljs-built_in">systemBus</span>().<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;com.deepin.lastore&quot;</span>,<br>                    m_jobPath,<br>                    <span class="hljs-string">&quot;org.freedesktop.DBus.Properties&quot;</span>,<br>                    <span class="hljs-string">&quot;PropertiesChanged&quot;</span>,<br>                    <span class="hljs-keyword">this</span>, <span class="hljs-built_in">SLOT</span>(<span class="hljs-built_in">propertyChanged</span>(QDBusMessage)))) &#123;<br>            <span class="hljs-built_in">qDebug</span>() &lt;&lt; <span class="hljs-string">&quot;Start install &quot;</span> &lt;&lt; m_installPackages;<br>            <span class="hljs-keyword">return</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;Connect dbus signal failed&quot;</span>;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;DBus error: &quot;</span> &lt;&lt; objPath.<span class="hljs-built_in">error</span>().<span class="hljs-built_in">message</span>();<br>    &#125;<br>&amp;emsp;<br></code></pre></td></tr></table></figure>
 
@@ -291,7 +293,7 @@
 <p>&amp;emsp;&amp;emsp;dde-printer重启代码如下：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handler</span><span class="hljs-params">(<span class="hljs-type">int</span> signo)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">//默认终止的自定义信号，此处作为重启通知</span><br>    <span class="hljs-keyword">if</span> (signo == SIGUSR1) &#123;<br>        <span class="hljs-type">pid_t</span> pid = <span class="hljs-built_in">getpid</span>();<br>        QProcess process;<br>        QString cmd = <span class="hljs-built_in">QString</span>(<span class="hljs-string">&quot;dde-printer -m 1 -r %1&quot;</span>).<span class="hljs-built_in">arg</span>(pid);<br>        process.<span class="hljs-built_in">startDetached</span>(cmd);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 绑定SIGUSR1信号</span><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">signal</span>(SIGUSR1, handler) == SIG_ERR) <br>&#123;<br>    <span class="hljs-built_in">qWarning</span>(<span class="hljs-string">&quot;Can&#x27;t set handler for SIGUSR1\n&quot;</span>);<br>&#125;<br><span class="hljs-keyword">if</span> (!DGuiApplicationHelper::<span class="hljs-built_in">setSingleInstance</span>(<span class="hljs-string">&quot;dde-printer&quot;</span>)) &#123;<br>        <span class="hljs-keyword">if</span> (qApp-&gt;<span class="hljs-built_in">arguments</span>().<span class="hljs-built_in">contains</span>(<span class="hljs-string">&quot;-r&quot;</span>)) &#123;<br>            <span class="hljs-comment">//重启模式先kill原始进程</span><br>            QString originPid = qApp-&gt;<span class="hljs-built_in">arguments</span>().<span class="hljs-built_in">at</span>(<span class="hljs-number">4</span>).<span class="hljs-built_in">toLocal8Bit</span>();<br>            QProcess process;<br>            QString cmd = <span class="hljs-string">&quot;kill&quot;</span>;<br>            QStringList args;<br>            args &lt;&lt; <span class="hljs-string">&quot;-9&quot;</span> &lt;&lt; originPid;<br>            process.<span class="hljs-built_in">start</span>(cmd, args);<br>            process.<span class="hljs-built_in">waitForFinished</span>();<br>            <span class="hljs-built_in">qInfo</span>() &lt;&lt; <span class="hljs-string">&quot;kill origin process &quot;</span> &lt;&lt; originPid;<br>            <span class="hljs-keyword">if</span> (!DGuiApplicationHelper::<span class="hljs-built_in">setSingleInstance</span>(<span class="hljs-string">&quot;dde-printer&quot;</span>)) &#123;<br>                <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;restart process failed&quot;</span>;<br>                <span class="hljs-keyword">return</span> <span class="hljs-number">-3</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-built_in">qInfo</span>() &lt;&lt; <span class="hljs-string">&quot;restart process success&quot;</span>;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-built_in">qWarning</span>() &lt;&lt; <span class="hljs-string">&quot;dde-printer is running&quot;</span>;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-2</span>;<br>        &#125;<br><br>    &#125;<br><br><br></code></pre></td></tr></table></figure>
 
-<h1 id="5、小结"><a href="#5、小结" class="headerlink" title="5、小结"></a>5、小结</h1><p>&amp;emsp;&amp;emsp;对于后台自启程序，在更新时一定要注意重启的问题，因为更新会改变二进制，或者其它配置配置程序，需要重启才能生效。</p>
+<h2 id="5、小结"><a href="#5、小结" class="headerlink" title="5、小结"></a>5、小结</h2><p>&amp;emsp;&amp;emsp;对于后台自启程序，在更新时一定要注意重启的问题，因为更新会改变二进制，或者其它配置配置程序，需要重启才能生效。</p>
 
                 
               </div>
@@ -300,6 +302,36 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/cups/" class="category-chain-item">cups</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Qt/">#Qt</a>
+      
+        <a href="/tags/deb/">#deb</a>
+      
+    </div>
   
 </div>
 
@@ -309,8 +341,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://yoursite.com/2023/03/30/打印机安装驱动失败问题分析/</div>
+      <div>打印机应用安装驱动失败问题分析</div>
+      <div>http://yoursite.com/2021/01/29/打印机安装驱动失败问题分析/</div>
     </div>
     <div class="license-meta">
       
@@ -322,7 +354,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年3月30日</div>
+          <div>2021年1月29日</div>
         </div>
       
       
@@ -354,12 +386,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2021/01/29/UOS%E7%B3%BB%E7%BB%9F%E6%89%93%E5%8D%B0%E6%9C%BA%E9%97%AE%E9%A2%98%E7%8E%B0%E5%9C%BA%E6%8C%87%E5%8D%97%20V0.1/" title="UOS系统打印机问题现场指南 V0.1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">UOS系统打印机问题现场指南 V0.1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/30/UOS%E7%B3%BB%E7%BB%9F%E6%89%93%E5%8D%B0%E6%9C%BA%E9%97%AE%E9%A2%98%E7%8E%B0%E5%9C%BA%E6%8C%87%E5%8D%97%20V0.1/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/" title="打印机耗材研究">
+                        <span class="hidden-mobile">打印机耗材研究</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
