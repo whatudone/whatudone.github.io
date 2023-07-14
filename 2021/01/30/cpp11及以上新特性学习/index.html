@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="1、c++111.1、尾返回类型123auto add(int a,int b) -&gt; int &amp;#123;    return a+b;&amp;#125;  auto在c++11中无法直接作为返回类型，需要使用尾返回类型，在c++14中可以直接使用auto，而不用尾返回类型。这种写法很累赘，因为一般用法在于使用匿名lambda函数时需要返回值，可以这么使用。 1.2、默认模板类型12345tem">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0%5Csign.png">
+<meta property="og:image" content="http://yoursite.com/2021/01/30/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0/sign.png">
 <meta property="article:published_time" content="2021-01-30T05:41:29.000Z">
-<meta property="article:modified_time" content="2023-04-07T09:12:38.925Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.226Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="c++11">
 <meta property="article:tag" content="c++14">
 <meta property="article:tag" content="c++17">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0%5Csign.png">
+<meta name="twitter:image" content="http://yoursite.com/2021/01/30/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0/sign.png">
   
   
   
@@ -395,7 +395,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    std::shared_ptr&lt;B&gt; pointer;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    std::shared_ptr&lt;A&gt; pointer;<br>    <span class="hljs-comment">//std::weak_ptr&lt;A&gt; pointer; 解决办法</span><br><br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    std::shared_ptr&lt;A&gt; ptr_a = std::<span class="hljs-built_in">make_shared</span>&lt;A&gt;();<br>    std::shared_ptr&lt;B&gt; ptr_b = std::<span class="hljs-built_in">make_shared</span>&lt;B&gt;();<br>    ptr_a-&gt;pointer = b;<br>    ptr_b-&gt;pointer = a;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>前后引用关系如下图：</p>
-<p><img src="/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0%5Csign.png" srcset="/img/loading.gif" lazyload alt=".."></p>
+<p><img src="/2021/01/30/cpp11%E5%8F%8A%E4%BB%A5%E4%B8%8A%E6%96%B0%E7%89%B9%E6%80%A7%E5%AD%A6%E4%B9%A0/sign.png" srcset="/img/loading.gif" lazyload></p>
 <p>将B中对于A的引用改为std::weak_ptr之后，ptr_a和ptr_b释放时会断掉1和2的引用，随后A因为引用计数为0先释放，然后B接着释放。</p>
 </li>
 </ul>

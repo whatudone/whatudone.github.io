@@ -23,18 +23,17 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="前言为了搭建这个osg加osgearth的开发环境，前前后后折腾了好久，中途用vcpkg自动编译了一个版本，但是实践证明osg没问题，但是osgearth有bug，应该是编译的依赖库的问题。所以只能自己手动编译，编译osgearth的前提是编译好osg和它的第三方依赖库。osg官网已经提供了各个版本的编译好的sdk，所以就省了这一个环节（osg本身的编译时间太长）。因为我要编译的是vs2017-6">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png">
-<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0047.png">
-<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0044.png">
-<meta property="og:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0045.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0046.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0044.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0045.png">
 <meta property="article:published_time" content="2019-06-17T00:22:56.000Z">
-<meta property="article:modified_time" content="2019-06-17T02:55:32.480Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.215Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="cmake">
 <meta property="article:tag" content="osgearth">
 <meta property="article:tag" content="osg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0046.png">
   
   
   
@@ -227,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          2.8k 字
         
       </span>
     
@@ -238,7 +237,7 @@
         
         
         
-          23 分钟
+          24 分钟
         
       </span>
     
@@ -291,16 +290,16 @@
 <blockquote>
 <p>cmake的时候注意是不是编译的dll版（shared），osgearth貌似需要dll版的依赖库。后续编译的protobuf就遇到这个问题，最开始编译的是静态版，导致编译osgearth出现大量错误，将它编译成动态版之后sogearth就完美编译成功了。同时编译的时候注意是否有参数区分了debug和release编译的库名称，一般用d来表示debug版。这个参数是CMAKE_DEBUG_POSTFIX，可能Cmakelist.txt并没有配置这个参数，那么就需要手动添加，但是有可能配置了其他参数来替代它，比如protobuf就是使用PROTOBUF_DEBUG_POSTFIX，这两者作用是一致的，这时候就不要再添加了。在cmake-gui的上方有一个按钮名称为Add Entry ,操作如下图所示：</p>
 </blockquote>
-<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0046.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0046"></p>
+<p><img src="/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0046.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="编译poco"><a href="#编译poco" class="headerlink" title="编译poco"></a>编译poco</h2><p>poco版本选择poco-1.9.0-all，记得选择all这个版本。其他和geos操作一致。</p>
 <blockquote>
 <p>在用vs编译的时候，选择<em><strong>生成-批生成</strong></em>。然后勾选ALL_BUILD的debug和release版，点击生成即可，这样就会编译debug和release两个版本，编译完成之后同样选择<em><strong>生成-批生成</strong></em>，去掉ALL_BUILD的勾选项，将INTSALL的debug和release勾选，点击生成，这样就会将编译好的库和头文件都拷贝到camke设置的安装目录，操作如下图：</p>
 </blockquote>
-<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0047.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047"></p>
+<p>cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047](cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0047.png)</p>
 <h2 id="编译sqlite3"><a href="#编译sqlite3" class="headerlink" title="编译sqlite3"></a>编译sqlite3</h2><p>其实这已经不是编译了，官网上已经提供了编译好的二进制，这个dll可以同时在debug和release两个环境使用。我下载的是sqlite-amalgamation-3280000和sqlite-dll-win64-x64-3280000。解压，将sqlite3.h和sqlit3ext.h拷贝到第三方库的include目录。然后将解压出来的dll转化为lib。操作如下，先打开vs2017的x64 Native cmd窗口，然后cd进入到dll存在的目录，里面包含两个文件，sqlite3.dll和sqlite3.def。调用如下命令即可,就会生成sqlite3.lib和sqlite3.exp。</p>
-<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0044.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0044"></p>
+<p><img src="/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0044.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="编译protobuf"><a href="#编译protobuf" class="headerlink" title="编译protobuf"></a>编译protobuf</h2><p>版本一定要选择3.8.0，这是osgearth的依赖要求，cmake的时候去掉protobuf-BUILD_TESTS的勾选，不然会报错，然后勾上protobuf_BUILD_SHARED_LIBS，编译动态版。然后在zlib的依赖文件在第三方库中已经有，选择即可。如下图所示：</p>
-<p><img src="/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88%5CIMG_0045.png" srcset="/img/loading.gif" lazyload alt="cmake编译OsgEarth2-10-1-VS2017-64版\IMG_0045"></p>
+<p><img src="/2019/06/17/cmake%E7%BC%96%E8%AF%91OsgEarth2-10-1-VS2017-64%E7%89%88/IMG_0045.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>protobuf默认是编译静态版，后续osgearth编译的时候需要动态版，导致编译失败。编译这个的同时也解决了我一个问题，由于我总是使用gcc编译动态库，动态版就是.so，静态版就是.a。但是msvc的很多库就是编译要链接.lib文件，运行的时候需要.dll支持，不然无法运行。我搞不懂这个库到底是静态版还是动态版，通过这次百度才知道，这其实是一个动态版的库，那个.lib里面只是导出的定义，实现还是在.dll里面。msvc编译的库可以分为四种：1、MT(多线程静态release版)；2、MTd(多线程静态debug版)；3、MD(多线程动态release版)；4、MDd(多线程动态debug版)。这个可以在vs里面修改。右键工程–选择属性–c&#x2F;c++–代码生成-运行库。</p>
 </blockquote>

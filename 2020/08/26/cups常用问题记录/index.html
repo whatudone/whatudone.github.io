@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="概述cups作为Linux和mac的基础打印服务，在解决问题的时候，首先排除一些人为的问题，然后可以通过查看cups的错误日志解决问题，日志目录在&#x2F;var&#x2F;log&#x2F;cups&#x2F;error.log。 问题1：临时目录权限问题反馈说某台打印机无法打印，查看打印日志的时候发现以下问题： 1234567891011121314151617181920212223242">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="d:\web-blog\blog\source_posts\cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95\err.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/08/26/cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/err.jpg">
 <meta property="article:published_time" content="2020-08-26T06:04:31.000Z">
-<meta property="article:modified_time" content="2021-01-05T01:44:54.924Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.222Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="cups">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="d:\web-blog\blog\source_posts\cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95\err.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/26/cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/err.jpg">
   
   
   
@@ -284,7 +284,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">getfacl /var/spool/cups/tmp<br></code></pre></td></tr></table></figure>
 
 <p>结果如下图</p>
-<p><img src="D:\web-blog\blog\source_posts\cups常用问题记录\err.jpg" srcset="/img/loading.gif" lazyload alt="error"></p>
+<p><img src="/2020/08/26/cups%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/err.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>从结果看group没有w写权限，通过执行下列命令修复</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo setfacl -m g:lp:rwx /var/spool/cups/tmp<br>sudo setfacl -m d:group:lp:rwx /var/spool/cups/<br></code></pre></td></tr></table></figure>
 

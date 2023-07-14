@@ -23,21 +23,21 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="使用c或者c++开发php扩展的目的在于，利用c和c++的高效性提高性能，毕竟php只是一个脚本语言。php的msyqli等扩展就是一个例子，可以从其中了解php扩展的大概框架。 准备工作 下载相应的php源码  编译需要的库文件   开发扩展1.创建扩展项目进入php源码的ext目录,生成一个名为test的扩展项目 1.&#x2F;ext_skel --extname&#x3D;test  2.编辑配置文件进入t">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig1.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig2.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig3.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig4.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig5.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig6.png">
-<meta property="og:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig7.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config1.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config2.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config3.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config4.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config5.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config6.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config7.png">
 <meta property="article:published_time" content="2019-03-19T01:45:00.000Z">
-<meta property="article:modified_time" content="2019-03-19T06:15:23.728Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.222Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="PHP扩展">
 <meta property="article:tag" content="c">
 <meta property="article:tag" content="c++">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config1.png">
   
   
   
@@ -296,19 +296,19 @@
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">./ext_skel <span class="hljs-literal">--extname</span>=test<br></code></pre></td></tr></table></figure>
 
 <h2 id="2-编辑配置文件"><a href="#2-编辑配置文件" class="headerlink" title="2.编辑配置文件"></a>2.编辑配置文件</h2><p>进入test目录，里面存在一个config.m4和test.c。config.m4文件是扩展项目的编译配置文件，类似于Qt的pro文件。打开config.m4文件。打开其中三行的注释，dnl就是改行的注释删除即可：</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig1.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config1"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config1.png" srcset="/img/loading.gif" lazyload></p>
 <p>这三句话的意思就是在编译安装php的时候可以开启test扩展的支持。然后配置扩展依赖的的动态库或者静态库。示例如下：</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig2.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config2"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config2.png" srcset="/img/loading.gif" lazyload></p>
 <p>PHP_ADD_INCLUDE添加编译的头文件搜索路径。PHP_ADD_LIBRARY按照我的理解就是添加系统库路径下的库文件，比如&#x2F;usr&#x2F;lib路径。PHP_ADD_LIBRARY_PATH就是添加指定路径的第三方库。PHP_REQUIRE_CXX()指定c++编译,没有的话就是按照c编译。PHP_NEW_EXTENSION就是配置文件的关键，创建指定的扩展。第一个参数是扩展名，第二个参数是扩展用到的实现源码（不包含.h，可以包含多个，中间用空格隔开，例如 test1.cpp test2.cpp）。此处默认生成应该是wy_analyze.c，由于我的项目需要使用c++，所以我改成了.cpp，对应的文件的名称也应该改为.cpp。</p>
 <h2 id="3-编写wy-analyze-cpp"><a href="#3-编写wy-analyze-cpp" class="headerlink" title="3.编写wy_analyze.cpp"></a>3.编写wy_analyze.cpp</h2><p>首先使用extern “C” {}包含该文件自动添加的.h头文件，如下：</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig3.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config3"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config3.png" srcset="/img/loading.gif" lazyload></p>
 <p>添加函数定义，参考自动生成的例子</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig4.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config4"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config4.png" srcset="/img/loading.gif" lazyload></p>
 <p>confirm_wy_analyze_compiled是php自动生成的测试函数（后续完成之后可以去掉），我们可以参照这个例子编写我们自己的函数，后面两个就是我定义的函数，类似于头文件的定义。</p>
 <p>完成函数实现</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig5.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config5"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config5.png" srcset="/img/loading.gif" lazyload></p>
 <p>我们以测试参考例子来简单说明。arg是函数的传入参数，arg_len是参数长度，zend_parse_parameters是php校验函数参数的一个方法，第一个参数 ZEND_NUM_ARGS()表示参数的个数，第三个参数”s”表示只有一个字符串参数，如果是函数是两个字符串变量，那么这个参数声明和校验如下：</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig6.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config6"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config6.png" srcset="/img/loading.gif" lazyload></p>
 <p>其他类型的参数的格式请参考其他资料，这里就不详细说明了。</p>
 <h2 id="4-编译安装扩展"><a href="#4-编译安装扩展" class="headerlink" title="4.编译安装扩展"></a>4.编译安装扩展</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">cd</span> php/ext/your_extdir<br>phpize<br>./configure <span class="hljs-literal">--with-php-config</span>=php<span class="hljs-literal">-config</span><br>make <br>sudo make install <br></code></pre></td></tr></table></figure>
 
@@ -316,7 +316,7 @@
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">phpize <span class="hljs-literal">--clean</span> <span class="hljs-comment">#清除所有配置和编译产生的文件</span><br>make clean <span class="hljs-comment">#清除编译产生的文件，不需要重新configure</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="5-修改php-ini添加扩展信息"><a href="#5-修改php-ini添加扩展信息" class="headerlink" title="5.修改php.ini添加扩展信息"></a>5.修改php.ini添加扩展信息</h2><p>如果找不到php.ini的路径可以php-config 查看。在php.ini里面添加如下信息</p>
-<p><img src="/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F%5Cconfig7.png" srcset="/img/loading.gif" lazyload alt="PHP扩展开发之c与c-两种模式\config7"></p>
+<p><img src="/2019/03/19/PHP%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8Bc%E4%B8%8Ec-%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F/config7.png" srcset="/img/loading.gif" lazyload></p>
 <p>同理添加php的自带扩展，只需要取消该扩展的注释即可。然后重启php就会生效。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">sudo service nginx restart<br>sudo service php<span class="hljs-literal">-fpm</span> restart<br></code></pre></td></tr></table></figure>
 

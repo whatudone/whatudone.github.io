@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="QtCreator调试无法获取当前变量值bug状态如下：  这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可 1set solib-search-path  &#x2F;usr&#x2F;local&#x2F;Trolltech&#x2F;Qt-4.8.6-64&#x2F;lib&#x2F;  如下图所示：  添加后">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB.png">
-<meta property="og:image" content="http://yoursite.com/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB1.png">
-<meta property="og:image" content="http://yoursite.com/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB2.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB1.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB2.png">
 <meta property="article:published_time" content="2019-03-05T09:02:22.000Z">
-<meta property="article:modified_time" content="2019-07-23T03:05:22.098Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.220Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="Qt,GDB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB.png">
   
   
   
@@ -279,14 +279,14 @@
               <div class="markdown-body">
                 
                 <h1 id="QtCreator调试无法获取当前变量值"><a href="#QtCreator调试无法获取当前变量值" class="headerlink" title="QtCreator调试无法获取当前变量值"></a>QtCreator调试无法获取当前变量值</h1><p>bug状态如下：</p>
-<p><img src="/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB.png" srcset="/img/loading.gif" lazyload alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB"></p>
+<p><img src="/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB.png" srcset="/img/loading.gif" lazyload></p>
 <p>这个原因是因为gdb没有获取到Qt的lib的路径，所以需要告诉gdb。在QtCreator的工具里面就可以设置调试器GDB，在额外的启动命令里面添加一条命令,后面的路径设置为你自己的目录即可</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">set</span> solib<span class="hljs-literal">-search-path</span>  /usr/local/Trolltech/Qt<span class="hljs-literal">-4</span>.<span class="hljs-number">8.6</span><span class="hljs-literal">-64</span>/lib/<br></code></pre></td></tr></table></figure>
 
 <p>如下图所示：</p>
-<p><img src="/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB1.png" srcset="/img/loading.gif" lazyload alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB1"></p>
+<p><img src="/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB1.png" srcset="/img/loading.gif" lazyload></p>
 <p>添加后成功的状态图如下：</p>
-<p><img src="/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%5CQt_GDB2.png" srcset="/img/loading.gif" lazyload alt="QtCreator在Linux下断点调试无法访问变量的值\Qt_GDB2"></p>
+<p><img src="/2019/03/05/QtCreator%E5%9C%A8Linux%E4%B8%8B%E6%96%AD%E7%82%B9%E8%B0%83%E8%AF%95%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC/Qt_GDB2.png" srcset="/img/loading.gif" lazyload></p>
 <h1 id="QtCreator无法调试"><a href="#QtCreator无法调试" class="headerlink" title="QtCreator无法调试"></a>QtCreator无法调试</h1><p>有一种情况，当调试的时候gdb提示GDB:Failed to set controlling terminal。解决办法是在项目-&gt;Run 勾选 Run in terminal。</p>
 
                 

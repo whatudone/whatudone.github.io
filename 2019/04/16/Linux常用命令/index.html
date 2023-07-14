@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="1、查找进程1ps aux | grep nginx  grep是过滤，其他命令里面的同理。 2、查看网络端口占用1netstat -anp | grep 80  3、查看进程占用cpu和内存1top -p 进程号  4、挂载u盘或共享文件夹 挂载共享文件夹 123mkdir dir &#x2F;home&#x2F;username&#x2F;SharedFloder #linux上的共享文件夹sudo chmod 777 &#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4\dpkg-error.png">
+<meta property="og:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/dpkg-error.png">
 <meta property="article:published_time" content="2019-04-16T08:18:37.000Z">
-<meta property="article:modified_time" content="2022-02-14T09:25:25.148Z">
+<meta property="article:modified_time" content="2023-07-14T01:51:21.222Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="Linux命令">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4\dpkg-error.png">
+<meta name="twitter:image" content="d:\web-blog\blog\source_posts\Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/dpkg-error.png">
   
   
   
@@ -352,7 +352,7 @@
 
 <p>大多情况下，发布的程序都是没有调试信息的，也就是看不到具体异常在哪里发生，这时候可以安装程序对应的dbgsym包，这是程序打包时一起产生的调试信息包。</p>
 <h3 id="11、apt包管理冲突解决"><a href="#11、apt包管理冲突解决" class="headerlink" title="11、apt包管理冲突解决"></a>11、apt包管理冲突解决</h3><p>当安装一个包发生错误时，此时该包处于一种half-install(半安装)状态，如果继续使用apt安装或者卸载其他包时，dpkg会尝试继续处理上次为安装完成的包，导致后面的操作也会失败，截图示例如下：</p>
-<p><img src="D:\web-blog\blog\source_posts\Linux常用命令\dpkg-error.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="D:\web-blog\blog\source_posts\Linux常用命令/dpkg-error.png" srcset="/img/loading.gif" lazyload></p>
 <p>上图是在卸载toshibaest2822am时，因为上次toshiba-est2822amf-cups没有安装完成所以继续安装，但是又有问题，解决办法就是去掉dpkg的包状态文件里面的关于toshiba-est2822amf-cups的整段信息，然后重新卸载toshibaest2822am即可。dpkg的包状态文件是&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;status。</p>
 <h3 id="12、readelf查看二进制信息"><a href="#12、readelf查看二进制信息" class="headerlink" title="12、readelf查看二进制信息"></a>12、readelf查看二进制信息</h3><p>file命名无法查询静态库的二进制信息，可以通过此命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">readelf -h *.a <br></code></pre></td></tr></table></figure>

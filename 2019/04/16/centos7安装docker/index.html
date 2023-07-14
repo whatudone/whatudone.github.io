@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="前提docker运行要求 centos 7 （64-bit） centos 6.5（64-bit）或更高版本 内核要求高于3.10，使用如下命令查看 1uname -r  安装dockerdocker分为社区版（ce）和企业按(ee),安装之前先卸载旧版本 1sudo yum remove docker*  安装必要的系统工具1sudo yum install -y yum-utils devic">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/centos7%E5%AE%89%E8%A3%85docker%5Csearch.png">
-<meta property="og:image" content="http://yoursite.com/centos7%E5%AE%89%E8%A3%85docker%5Cdocker_ps.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/search.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/docker_ps.png">
 <meta property="article:published_time" content="2019-04-16T08:29:19.000Z">
-<meta property="article:modified_time" content="2019-04-16T09:26:44.807Z">
+<meta property="article:modified_time" content="2023-07-14T01:30:04.722Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="centos7">
 <meta property="article:tag" content="docker安装">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/centos7%E5%AE%89%E8%A3%85docker%5Csearch.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/search.png">
   
   
   
@@ -302,7 +302,7 @@
 <p>提示client和server端表示成功。</p>
 <h1 id="安装nginx-镜像"><a href="#安装nginx-镜像" class="headerlink" title="安装nginx 镜像"></a>安装nginx 镜像</h1><h2 id="搜索镜像"><a href="#搜索镜像" class="headerlink" title="搜索镜像"></a>搜索镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker search nginx<br></code></pre></td></tr></table></figure>
 
-<p><img src="/centos7%E5%AE%89%E8%A3%85docker%5Csearch.png" srcset="/img/loading.gif" lazyload alt="centos7安装docker\search"></p>
+<p><img src="/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/search.png" srcset="/img/loading.gif" lazyload></p>
 <p>第一nginx没有组名，表示是官方的，其他带有组名</p>
 <h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo docker pull  nginx<br></code></pre></td></tr></table></figure>
 
@@ -310,7 +310,7 @@
 
 <h2 id="查看docker运行的容器"><a href="#查看docker运行的容器" class="headerlink" title="查看docker运行的容器"></a>查看docker运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker ps<br></code></pre></td></tr></table></figure>
 
-<p><img src="/centos7%E5%AE%89%E8%A3%85docker%5Cdocker_ps.png" srcset="/img/loading.gif" lazyload alt="centos7安装docker\search"></p>
+<p><img src="/2019/04/16/centos7%E5%AE%89%E8%A3%85docker/docker_ps.png" srcset="/img/loading.gif" lazyload></p>
 <p>一个docker容器相当于一个完整的Linux系统，只不过这个系统里面只存在nginx。同理可以运行多个nginx的容器，只要映射到不同的端口即可。</p>
 <h2 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo docker stop container_ID<br></code></pre></td></tr></table></figure>
 
