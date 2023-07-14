@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="SANE扫描仪驱动开发一、前言&amp;emsp;&amp;emsp;Linux下的扫描仪驱动类型主要是sane协议,其他的还有跨平台的twain协议，但是在Linux上比较少见。&amp;emsp;&amp;emsp;SANE全称Scanner Access Now Easy，是一个开源项目，项目地址http:&#x2F;&#x2F;www.sane-project.org&#x2F;source.html。项目总体分为两个">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
-<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
-<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
-<meta property="og:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png">
 <meta property="article:published_time" content="2021-04-30T01:57:37.000Z">
 <meta property="article:modified_time" content="2021-05-01T05:06:12.731Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="SANE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
+<meta name="twitter:image" content="http://yoursite.com/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png">
   
   
   
@@ -281,7 +281,7 @@
                 
                 <h1 id="SANE扫描仪驱动开发"><a href="#SANE扫描仪驱动开发" class="headerlink" title="SANE扫描仪驱动开发"></a>SANE扫描仪驱动开发</h1><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>&amp;emsp;&amp;emsp;Linux下的扫描仪驱动类型主要是sane协议,其他的还有跨平台的twain协议，但是在Linux上比较少见。<br>&amp;emsp;&amp;emsp;SANE全称Scanner Access Now Easy，是一个开源项目，项目地址<a target="_blank" rel="noopener" href="http://www.sane-project.org/source.html">http://www.sane-project.org/source.html</a>。项目总体分为两个部分，sane-backends和sane-frontends。sane-backends包括backends(后端，也就是sane的驱动模块)，命令行工具scanimage，网络扫描守护进程（saned）和SANE_API。sane-frontends包含xscanimage和xcam两个图形化界面程序，和一个命令行扫描工具scanadf。分为两部分之后，开发者可以只需要关心需要实现的部分。比如驱动开发者只需要了解如何实现一个后端（backends）即可，而应用开发者只需要关注sane的API调用流程。下面重点介绍驱动开发部分，关于这些扫描工具可以查看帮助手册了解用法。</p>
 <h2 id="二、驱动框架流程详解"><a href="#二、驱动框架流程详解" class="headerlink" title="二、驱动框架流程详解"></a>二、驱动框架流程详解</h2><h3 id="2-1、整体流程"><a href="#2-1、整体流程" class="headerlink" title="2.1、整体流程"></a>2.1、整体流程</h3><p>&amp;emsp;&amp;emsp;想要开发sane的后端，首先要了解应用调用后端API的流程，整体流程图如下：</p>
-<p><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png" srcset="/img/loading.gif" lazyload alt="sane流程图"></p>
+<p><img src="/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/process.png" srcset="/img/loading.gif" lazyload alt="sane流程图"></p>
 <p>&amp;emsp;&amp;emsp;上述流程只是一般通用性扫描流程，不同扫描软件的实现可能会存在细微差异。</p>
 <h3 id="2-2、流程详解"><a href="#2-2、流程详解" class="headerlink" title="2.2、流程详解"></a>2.2、流程详解</h3><h4 id="2-2-1、sane-init"><a href="#2-2-1、sane-init" class="headerlink" title="2.2.1、sane_init"></a>2.2.1、sane_init</h4><p>&amp;emsp;&amp;emsp;原型如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">SANE_Status<br><span class="hljs-title function_">sane_init</span><span class="hljs-params">(SANE_Int *version_code, SANE_Auth_Callback authorize)</span><br></code></pre></td></tr></table></figure>
@@ -378,17 +378,17 @@
 <li><p>int型列表<br>int型列表可以用来描述分辨率等属性，赋值方式如下所示。</p>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs actionscript"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> SANE_Word resolutionList[] = &#123;<br>  <span class="hljs-number">8</span>, <span class="hljs-number">75</span>, <span class="hljs-number">150</span>, <span class="hljs-number">200</span>, <span class="hljs-number">240</span>， <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 
-<p>&amp;emsp;&amp;emsp;resolutionList[0]表示列表中选项值的个数，显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="int型列表显示效果图"></p>
+<p>&amp;emsp;&amp;emsp;resolutionList[0]表示列表中选项值的个数，显示效果如下图。<br><img src="/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="int型列表显示效果图"></p>
 </li>
 <li><p>string型列表<br>string型列表可以用来描述色彩模式、纸张尺寸、进纸方式等属性，赋值方式如下所示。  </p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs cpp">SANE_String_Const pageSizeList[] = &#123;<br>  <span class="hljs-string">&quot;A3&quot;</span>，<br>  <span class="hljs-string">&quot;A4&quot;</span>，<br>  <span class="hljs-string">&quot;B4&quot;</span>，<br>  <span class="hljs-string">&quot;A5&quot;</span>,<br>  <span class="hljs-string">&quot;B5&quot;</span>,<br>  <span class="hljs-string">&quot;A6&quot;</span>,<br>  <span class="hljs-string">&quot;B6&quot;</span>,<br>  <span class="hljs-literal">nullptr</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 
-<p>&amp;emsp;&amp;emsp;pageSizeList列表中最后一项必须是nullptr，表示列表选项值结束，否则会发生异常。显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="string型列表显示效果图"></p>
+<p>&amp;emsp;&amp;emsp;pageSizeList列表中最后一项必须是nullptr，表示列表选项值结束，否则会发生异常。显示效果如下图。<br><img src="/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/intlist.png" srcset="/img/loading.gif" lazyload alt="string型列表显示效果图"></p>
 </li>
 <li><p>range型列表<br>range型列表可以用来描述对比度、亮度等属性，赋值方式如下所示。  </p>
 <figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">SANE_Range resolutionRange = &#123;<br><span class="hljs-built_in">  50,</span><br><span class="hljs-built_in">  300,</span><br>  <span class="hljs-number">0</span><br>&#125;<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 
-<p>&amp;emsp;&amp;emsp;resolutionRange第一项表示范围下限，第二项表示范围上限，第三项表示步进（0表示步进为1）。显示效果如下图。<br><img src="/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png" srcset="/img/loading.gif" lazyload alt="range型列表显示效果图"></p>
+<p>&amp;emsp;&amp;emsp;resolutionRange第一项表示范围下限，第二项表示范围上限，第三项表示步进（0表示步进为1）。显示效果如下图。<br><img src="/2021/04/30/sane%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/rangelist.png" srcset="/img/loading.gif" lazyload alt="range型列表显示效果图"></p>
 </li>
 </ul>
 <h3 id="3-4、设备交互"><a href="#3-4、设备交互" class="headerlink" title="3.4、设备交互"></a>3.4、设备交互</h3><p>&amp;emsp;&amp;emsp;本小节重点介绍如何通过SANE提供的API和不同类型的设备进行交互。</p>

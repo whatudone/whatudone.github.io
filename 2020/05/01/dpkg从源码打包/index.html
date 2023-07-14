@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="一个骚年">
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;在刚接触Linux软件开发时，在软件开发完成之后都面临一个问题，那就是如何发布？开始我才用最原始的方法，使用压缩包。但是这种模式就很局限，毕竟很难把所有的库依赖都找全。后来使用dpkg打包，这样就跟安装包一样，能够自定义安装的位置，并且检查库依赖是否齐全。下面开始介绍步骤。  1、创建一个简单项目&amp;emsp;&amp;emsp;新建一个简单项目，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png">
+<meta property="og:image" content="http://yoursite.com/2020/05/01/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png">
 <meta property="article:published_time" content="2020-05-01T13:06:12.000Z">
 <meta property="article:modified_time" content="2020-05-06T06:09:42.903Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="dpkg">
 <meta property="article:tag" content="debian">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://yoursite.com/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/01/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png">
   
   
   
@@ -285,7 +285,7 @@
 <h1 id="3、创建打包文件"><a href="#3、创建打包文件" class="headerlink" title="3、创建打包文件"></a>3、创建打包文件</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dh_make -e emailaddress -f ../hello_1.0.orig.tar.gz <span class="hljs-comment">#指定邮箱和源码</span><br></code></pre></td></tr></table></figure>
 
 <p>&amp;emsp;&amp;emsp;此时会在当前文件夹下生成一个的debian目录，目录里面最重要的是control文件，这个是控制打包的依赖，版本号等各种设置，下面就是我的一个简单示例：</p>
-<p><img src="/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2020/05/01/dpkg%E4%BB%8E%E6%BA%90%E7%A0%81%E6%89%93%E5%8C%85/control.png" srcset="/img/loading.gif" lazyload></p>
 <p>&amp;emsp;&amp;emsp;同时记得把changelog里面的版本号修改和上图一致。</p>
 <h1 id="4、打包"><a href="#4、打包" class="headerlink" title="4、打包"></a>4、打包</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dpkg-buildpackage<br></code></pre></td></tr></table></figure>
 
