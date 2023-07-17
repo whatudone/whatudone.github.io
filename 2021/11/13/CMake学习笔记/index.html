@@ -24,7 +24,7 @@
 <meta property="og:description" content="1、总结&amp;emsp;&amp;emsp;CMake和Qt自带的QMake对比，本身都是用于构建的工具，CMake更加通用，而且就功能来说更加丰富。CMake已经可以看成是一门专门的语言了，具有比较完善的自定义流程控制能力。对于现代CMake与经典CMake,现代CMake核心是面向对象，这个对象通常指的是编译的可执行程序或者库，也可以是用户自己创建的target。从API变化来看，最直观的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-11-13T08:46:43.000Z">
-<meta property="article:modified_time" content="2023-03-30T09:26:18.567Z">
+<meta property="article:modified_time" content="2023-07-17T09:21:58.784Z">
 <meta property="article:author" content="还在输入">
 <meta property="article:tag" content="CMake">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          846 字
+          2.7k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          8 分钟
+          23 分钟
         
       </span>
     
@@ -275,7 +275,14 @@
               <div class="markdown-body">
                 
                 <h1 id="1、总结"><a href="#1、总结" class="headerlink" title="1、总结"></a>1、总结</h1><p>&amp;emsp;&amp;emsp;CMake和Qt自带的QMake对比，本身都是用于构建的工具，CMake更加通用，而且就功能来说更加丰富。CMake已经可以看成是一门专门的语言了，具有比较完善的自定义流程控制能力。对于现代CMake与经典CMake,现代CMake核心是面向对象，这个对象通常指的是编译的可执行程序或者库，也可以是用户自己创建的target。从API变化来看，最直观的就是在前面增加了一个target，表示该设置仅针对该target生效，所有属性设置围绕该对象。例如可以针对不同编译对象设置不同的编译搜索头文件路径。这样在大型工程中可以优化头文件路径搜索时间，加速编译。</p>
-<h1 id="2、细节用法整理"><a href="#2、细节用法整理" class="headerlink" title="2、细节用法整理"></a>2、细节用法整理</h1><h2 id="2-1、CMake生成vs工程去掉控制台界面"><a href="#2-1、CMake生成vs工程去掉控制台界面" class="headerlink" title="2.1、CMake生成vs工程去掉控制台界面"></a>2.1、CMake生成vs工程去掉控制台界面</h2><p>&amp;emsp;&amp;emsp;在使用CMake生成vs工程（Qt GUI）,启动之后会先启动一个控制台，非常不雅观，这个配置如果是是在qmake的pro中配置，只需要将CONFIG中的console选项去掉即可。在CMake中可以在有如下两种方式解决：</p>
+<h1 id="2、细节用法整理"><a href="#2、细节用法整理" class="headerlink" title="2、细节用法整理"></a>2、细节用法整理</h1><h2 id="2-1、工程目录结构组织"><a href="#2-1、工程目录结构组织" class="headerlink" title="2.1、工程目录结构组织"></a>2.1、工程目录结构组织</h2><p>&amp;emsp;&amp;emsp;在工程目录管理上，QMake和CMake很相似，比如多工程这种解决方案级别的工程，QMake提供了SUBDIRS这个关键字用于添加二级工程目录，而CMake则提供add_subdirectory。在三级目录管理上，QMake提供了pri文件，用于组织子目录中的源码，上级工程文件中就可以通过include(xxx.pri)引入此目录中的源码。CMake中则可以采取类似的做法，在每级目录中新建一个子CMakeLists.txt,然后通过add_subdirectory把子目录包含进去，但是子目录中的CMakeLists.txt只负责组织源码，需要上层工程将组织好的源码变量拼接到对应的变量中，然后通过指令用指定存储源码列表的变量生成具体的target(库或者可执行程序)。下面介绍一个最基本的工程构建目录结构。</p>
+<h3 id="2-1-1、最顶层的多工程管理工程文件"><a href="#2-1-1、最顶层的多工程管理工程文件" class="headerlink" title="2.1.1、最顶层的多工程管理工程文件"></a>2.1.1、最顶层的多工程管理工程文件</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.5</span>)<br><span class="hljs-keyword">project</span>(<span class="hljs-keyword">test</span> LANGUAGES CXX)<br><br><span class="hljs-keyword">add_subdirectory</span>(A)<br><span class="hljs-keyword">add_subdirectory</span>(B)<br><br><span class="hljs-keyword">add_dependencies</span>(A B)<br></code></pre></td></tr></table></figure>
+<h3 id="2-1-2、二级工程目录工程文件"><a href="#2-1-2、二级工程目录工程文件" class="headerlink" title="2.1.2、二级工程目录工程文件"></a>2.1.2、二级工程目录工程文件</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.5</span>)<br><span class="hljs-keyword">project</span>(A LANGUAGES CXX)<br><br><span class="hljs-keyword">file</span>(GLOB SRC_FILES <span class="hljs-variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/main.cpp)<br><span class="hljs-keyword">file</span>(GLOB HEADER_FILES <span class="hljs-variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/<span class="hljs-keyword">test</span>.h)<br><span class="hljs-comment">#拼接子目录中的源码</span><br><span class="hljs-keyword">list</span>(APPEND SRC_FILES <span class="hljs-variable">$&#123;A1_SRC_FILES&#125;</span>  <span class="hljs-variable">$&#123;A2_SRC_FILES&#125;</span>)<br><span class="hljs-keyword">list</span>(APPEND HEADER_FILES <span class="hljs-variable">$&#123;A1_HEADER_FILES&#125;</span> <span class="hljs-variable">$&#123;A2_HEADER_FILES&#125;</span>)<br><br><span class="hljs-keyword">add_executable</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span><br>  <span class="hljs-variable">$&#123;SRC_FILES&#125;</span><br>  <span class="hljs-variable">$&#123;HEADER_FILES&#125;</span><br>)<br><br><span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;PROJECT_NAME&#125;</span> PRIVATE B)<br><br><span class="hljs-keyword">add_subdirectory</span>(A1)<br><span class="hljs-keyword">add_subdirectory</span>(A2)<br></code></pre></td></tr></table></figure>
+<h3 id="2-1-3、三级源码子目录-A1-工程文件"><a href="#2-1-3、三级源码子目录-A1-工程文件" class="headerlink" title="2.1.3、三级源码子目录(A1)工程文件"></a>2.1.3、三级源码子目录(A1)工程文件</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">file</span>(GLOB A1_SRC_FILES <span class="hljs-variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/test1.cpp)<br><span class="hljs-keyword">file</span>(GLOB A1_HEADER_FILES <span class="hljs-variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/test1.h)<br><br><span class="hljs-comment">#将源码变量暴露给上层目录，注意默认情况下，上层工程是无法获取下级工程中定义的变量，需要使用set(xxx PARENT_SCOPE)暴露给上层目录，且仅限上层目录，再往上的工程就无法获取这个变量了。</span><br><span class="hljs-keyword">set</span>(A1_SRC_FILES <span class="hljs-variable">$&#123;A1_SRC_FILES&#125;</span> PARENT_SCOPE)<br><span class="hljs-keyword">set</span>(A1_HEADER_FILES <span class="hljs-variable">$&#123;A1_HEADER_FILES&#125;</span> PARENT_SCOPE)<br></code></pre></td></tr></table></figure>
+<p>&amp;emsp;&amp;emsp;这个简单工程介绍了一个最常用的目录结构，一个大工程，包含两个子工程，一个是可执行主工程（A）,一个是动态库或静态库（B）。A工程依赖B工程产生的库文件，通过顶层工程指定了依赖关系之后，就会先编译B工程，再编译A工程。这里我这种组织源码的方法有些繁琐，但是优点是可以每层目录精确控制源码的引入。可以在复杂环境下，比如跨平台工程，在不同情况下引入不同平台的代码进行编译。有一种比较偷懒的做法如下:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">file</span>(GLOB_RECURSE SRC_FILES <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span> *.cpp)<br></code></pre></td></tr></table></figure>
+<p>这种用法会递归扫描所有的目录，然后将所有后缀为cpp的源码全部添加到SRC_FILES变量中，如果是练习项目可以采取这种做法节约时间。</p>
+<h2 id="2-2、CMake生成vs工程去掉控制台界面"><a href="#2-2、CMake生成vs工程去掉控制台界面" class="headerlink" title="2.2、CMake生成vs工程去掉控制台界面"></a>2.2、CMake生成vs工程去掉控制台界面</h2><p>&amp;emsp;&amp;emsp;在使用CMake生成vs工程（Qt GUI）,启动之后会先启动一个控制台，非常不雅观，这个配置如果是是在qmake的pro中配置，只需要将CONFIG中的console选项去掉即可。在CMake中可以在有如下两种方式解决：</p>
 <ul>
 <li><p>add_executable</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">add_executable</span>(&lt;name&gt; [WIN32] [MACOSX_BUNDLE]               [EXCLUDE_FROM_ALL]               source1 source2 ... sourceN)<br></code></pre></td></tr></table></figure></li>
