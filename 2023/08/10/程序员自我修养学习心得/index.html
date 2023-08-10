@@ -16,23 +16,22 @@
   <meta name="author" content="还在输入">
   <meta name="keywords" content="">
   
-    <meta name="description" content="向日葵连接远程Linux机器终端无法启动gui程序原因是远程连接无法找到显示设备，或者没有权限连接xserver。 12345xauth list #查看显示设备export DISPLAY&#x3D;:0.0 #设置显示服务器的连接参数环境变量xhost + #允许所有人访问X serverxhost - #不允许所有人访问x server，仅限当前用户   DISPLAY的格式为host:A:B，hos">
+    <meta name="description" content="一、总结读了这本书到四分之一之后，发现有一句话关于Linux名言非常适合这本书，“一切皆为文件”，没有什么玄学概念，有的只是你没有接触过的规则和智慧结晶。程序从编译到运行这个过程中，有各种各样的标准和规则相互配合。 二、模糊概念整理2.1、dll（so）为什么叫动态共享库我最早的理解是一个dll可以被多个进程同事使用，彼此之间内存隔离，互不干扰。其实还有一层深意，目标文件中的.text程序段，在被">
 <meta property="og:type" content="article">
-<meta property="og:title" content="向日葵连接远程机器无法通过终端启动gui程序">
-<meta property="og:url" content="http://yoursite.com/2021/01/05/%E5%90%91%E6%97%A5%E8%91%B5%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%9C%BA%E5%99%A8%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E7%BB%88%E7%AB%AF%E5%90%AF%E5%8A%A8gui%E7%A8%8B%E5%BA%8F/index.html">
+<meta property="og:title" content="《程序员自我修养》学习心得">
+<meta property="og:url" content="http://yoursite.com/2023/08/10/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/index.html">
 <meta property="og:site_name" content="一个骚年">
-<meta property="og:description" content="向日葵连接远程Linux机器终端无法启动gui程序原因是远程连接无法找到显示设备，或者没有权限连接xserver。 12345xauth list #查看显示设备export DISPLAY&#x3D;:0.0 #设置显示服务器的连接参数环境变量xhost + #允许所有人访问X serverxhost - #不允许所有人访问x server，仅限当前用户   DISPLAY的格式为host:A:B，hos">
+<meta property="og:description" content="一、总结读了这本书到四分之一之后，发现有一句话关于Linux名言非常适合这本书，“一切皆为文件”，没有什么玄学概念，有的只是你没有接触过的规则和智慧结晶。程序从编译到运行这个过程中，有各种各样的标准和规则相互配合。 二、模糊概念整理2.1、dll（so）为什么叫动态共享库我最早的理解是一个dll可以被多个进程同事使用，彼此之间内存隔离，互不干扰。其实还有一层深意，目标文件中的.text程序段，在被">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-01-05T01:46:29.000Z">
-<meta property="article:modified_time" content="2021-01-05T02:08:52.512Z">
+<meta property="article:published_time" content="2023-08-10T01:55:40.000Z">
+<meta property="article:modified_time" content="2023-08-10T02:38:26.817Z">
 <meta property="article:author" content="还在输入">
-<meta property="article:tag" content="向日葵">
-<meta property="article:tag" content="终端">
+<meta property="article:tag" content="编译链接">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>向日葵连接远程机器无法通过终端启动gui程序 - 一个骚年</title>
+  <title>《程序员自我修养》学习心得 - 一个骚年</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="向日葵连接远程机器无法通过终端启动gui程序"></span>
+            <span id="subtitle" data-typed-text="《程序员自我修养》学习心得"></span>
           
         </div>
 
@@ -209,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-01-05 09:46" pubdate>
-          2021年1月5日 上午
+        <time datetime="2023-08-10 09:55" pubdate>
+          2023年8月10日 上午
         </time>
       </span>
     
@@ -221,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          327 字
+          706 字
         
       </span>
     
@@ -232,7 +231,7 @@
         
         
         
-          3 分钟
+          6 分钟
         
       </span>
     
@@ -270,17 +269,15 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">向日葵连接远程机器无法通过终端启动gui程序</h1>
+            <h1 style="display: none">《程序员自我修养》学习心得</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="向日葵连接远程Linux机器终端无法启动gui程序"><a href="#向日葵连接远程Linux机器终端无法启动gui程序" class="headerlink" title="向日葵连接远程Linux机器终端无法启动gui程序"></a>向日葵连接远程Linux机器终端无法启动gui程序</h2><p>原因是远程连接无法找到显示设备，或者没有权限连接xserver。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">xauth list #查看显示设备<br>export DISPLAY=:0.0 #设置显示服务器的连接参数环境变量<br>xhost + #允许所有人访问X server<br><br>xhost - #不允许所有人访问x server，仅限当前用户<br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p>DISPLAY的格式为host:A:B，host为空表示连接到本机的xserver服务器，A表示连接xserver的不同方式，如果以unix socket连接，0表示&#x2F;tmp&#x2F;.X11-unix&#x2F;X0，如果以socket连接，0表示连接到6000端口（A&#x3D;port-6000）。B一般为0。</p>
-</blockquote>
+                <h1 id="一、总结"><a href="#一、总结" class="headerlink" title="一、总结"></a>一、总结</h1><p>读了这本书到四分之一之后，发现有一句话关于Linux名言非常适合这本书，“一切皆为文件”，没有什么玄学概念，有的只是你没有接触过的规则和智慧结晶。程序从编译到运行这个过程中，有各种各样的标准和规则相互配合。</p>
+<h1 id="二、模糊概念整理"><a href="#二、模糊概念整理" class="headerlink" title="二、模糊概念整理"></a>二、模糊概念整理</h1><h2 id="2-1、dll（so）为什么叫动态共享库"><a href="#2-1、dll（so）为什么叫动态共享库" class="headerlink" title="2.1、dll（so）为什么叫动态共享库"></a>2.1、dll（so）为什么叫动态共享库</h2><p>我最早的理解是一个dll可以被多个进程同事使用，彼此之间内存隔离，互不干扰。其实还有一层深意，目标文件中的.text程序段，在被一个进程加载然后写入到内存中之后，其他同样使用这个dll的进程，操作系统不会重复的将这个dll的.text程序段放进内存，因为他是只读的，不会被修改，可以被所有进程共享使用。从操作系统的角度来看，比如微软的底层vcruntime.dll这种c&#x2F;c++底层运行库，大部分应用程序都需要用到，这就给操作系统节省了大量内存。</p>
+<h2 id="2-2、符号"><a href="#2-2、符号" class="headerlink" title="2.2、符号"></a>2.2、符号</h2><p>符号包含很多东西，不单单是变量名称和函数名称，文件名称和段名都是符号，对应有个符号值，就是表示这些符号的存储地址，当然不是物理内存地址，而是虚拟内存地址。每个编译单元(.o、.obj)都有一个符号表，对于编译单元内部的符号，在编译时会分配好虚拟内存地址，但是对于引用其他编译单元中的符号，比如使用了标准库中的一个接口，此时这个符号不需要只需要给他一个默认值，比如0，等到链接的时候，才给这个引用的符号分配对应的虚拟内存地址。</p>
+<h2 id="2-3、调试信息"><a href="#2-3、调试信息" class="headerlink" title="2.3、调试信息"></a>2.3、调试信息</h2><p>在windows上使用msvc编译器，在调试模式下会生成pdb调试符号，但是在Linux上，使用编译选项-g，此时并没有产生额外的调试文件，它的调试信息直接集成到了目标文件中，在目标文件中多了许多debug段,就是调试信息保存的位置。</p>
 
                 
               </div>
@@ -299,7 +296,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Linux%E8%BF%90%E7%BB%B4/" class="category-chain-item">Linux运维</a>
+  <a href="/categories/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/" class="category-chain-item">编译链接</a>
   
   
 
@@ -314,9 +311,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%90%91%E6%97%A5%E8%91%B5/">#向日葵</a>
-      
-        <a href="/tags/%E7%BB%88%E7%AB%AF/">#终端</a>
+        <a href="/tags/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/">#编译链接</a>
       
     </div>
   
@@ -328,8 +323,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>向日葵连接远程机器无法通过终端启动gui程序</div>
-      <div>http://yoursite.com/2021/01/05/向日葵连接远程机器无法通过终端启动gui程序/</div>
+      <div>《程序员自我修养》学习心得</div>
+      <div>http://yoursite.com/2023/08/10/程序员自我修养学习心得/</div>
     </div>
     <div class="license-meta">
       
@@ -341,7 +336,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2021年1月5日</div>
+          <div>2023年8月10日</div>
         </div>
       
       
@@ -373,18 +368,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/" title="打印机耗材研究">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">打印机耗材研究</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/04/cups%E9%80%9A%E8%BF%87lpd%E4%BD%BF%E7%94%A8windows%E6%89%93%E5%8D%B0%E6%9C%BA/" title="Windows和Linux互相共享打印机">
-                        <span class="hidden-mobile">Windows和Linux互相共享打印机</span>
+                      <a href="/2021/11/13/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="CMake学习笔记">
+                        <span class="hidden-mobile">CMake学习笔记</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

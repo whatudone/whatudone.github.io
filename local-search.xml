@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>《程序员自我修养》学习心得</title>
+    <link href="/2023/08/10/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/"/>
+    <url>/2023/08/10/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="一、总结"><a href="#一、总结" class="headerlink" title="一、总结"></a>一、总结</h1><p>读了这本书到四分之一之后，发现有一句话关于Linux名言非常适合这本书，“一切皆为文件”，没有什么玄学概念，有的只是你没有接触过的规则和智慧结晶。程序从编译到运行这个过程中，有各种各样的标准和规则相互配合。</p><h1 id="二、模糊概念整理"><a href="#二、模糊概念整理" class="headerlink" title="二、模糊概念整理"></a>二、模糊概念整理</h1><h2 id="2-1、dll（so）为什么叫动态共享库"><a href="#2-1、dll（so）为什么叫动态共享库" class="headerlink" title="2.1、dll（so）为什么叫动态共享库"></a>2.1、dll（so）为什么叫动态共享库</h2><p>我最早的理解是一个dll可以被多个进程同事使用，彼此之间内存隔离，互不干扰。其实还有一层深意，目标文件中的.text程序段，在被一个进程加载然后写入到内存中之后，其他同样使用这个dll的进程，操作系统不会重复的将这个dll的.text程序段放进内存，因为他是只读的，不会被修改，可以被所有进程共享使用。从操作系统的角度来看，比如微软的底层vcruntime.dll这种c&#x2F;c++底层运行库，大部分应用程序都需要用到，这就给操作系统节省了大量内存。</p><h2 id="2-2、符号"><a href="#2-2、符号" class="headerlink" title="2.2、符号"></a>2.2、符号</h2><p>符号包含很多东西，不单单是变量名称和函数名称，文件名称和段名都是符号，对应有个符号值，就是表示这些符号的存储地址，当然不是物理内存地址，而是虚拟内存地址。每个编译单元(.o、.obj)都有一个符号表，对于编译单元内部的符号，在编译时会分配好虚拟内存地址，但是对于引用其他编译单元中的符号，比如使用了标准库中的一个接口，此时这个符号不需要只需要给他一个默认值，比如0，等到链接的时候，才给这个引用的符号分配对应的虚拟内存地址。</p><h2 id="2-3、调试信息"><a href="#2-3、调试信息" class="headerlink" title="2.3、调试信息"></a>2.3、调试信息</h2><p>在windows上使用msvc编译器，在调试模式下会生成pdb调试符号，但是在Linux上，使用编译选项-g，此时并没有产生额外的调试文件，它的调试信息直接集成到了目标文件中，在目标文件中多了许多debug段,就是调试信息保存的位置。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编译链接</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>编译链接</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CMake学习笔记</title>
     <link href="/2021/11/13/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <url>/2021/11/13/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
@@ -466,33 +491,6 @@
   
   
   <entry>
-    <title>打印机耗材研究</title>
-    <link href="/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/"/>
-    <url>/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/</url>
-    
-    <content type="html"><![CDATA[<h1 id="cups耗材信息"><a href="#cups耗材信息" class="headerlink" title="cups耗材信息"></a>cups耗材信息</h1><h2 id="1、cups的定义"><a href="#1、cups的定义" class="headerlink" title="1、cups的定义"></a>1、cups的定义</h2><p>查询打印机耗材信息涉及到CUPS command file format (application&#x2F;vnd.cups-command)，它是一种特殊的和打印机交互的文件格式，用于向打印机下发指定命令。支持这种功能的打印机会在ppd中添加一个描述字段</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs textile">*cupsCommands: &quot;AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus&quot;<br></code></pre></td></tr></table></figure><p>上述描述字段就包含了四种常用的命令，耗材信息就需要使用ReportLevels。通过打印测试页会把指令下发到打印机，打印机会返回耗材marker-*相关的信息到打印机属性中。这种方式不会产生真正的打印任务。</p><h2 id="2、应用处理流程"><a href="#2、应用处理流程" class="headerlink" title="2、应用处理流程"></a>2、应用处理流程</h2><ul><li><p>根据打印机类型进行不同操作，网络socket协议的打印机使用snmp直接获取，好处是不需要下发指令，可以直接获取到耗材信息。usb打印机采用ReportLevel方式。</p></li><li><p>usb打印机先需要从打印机属性中读取printer-type属性，判断是否支持操作command，具体通过是否包含CUPS_PRINTER_COMMANDS值为准</p></li><li><p>然后判断printer-commands属性中是否包含ReportLevels</p></li><li><p>写入如下内容到临时文件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs textile">#CUPS-COMMAND<br>ReportLevels<br></code></pre></td></tr></table></figure></li><li><p>通过发送打印测试任务下发指令，格式如下</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">format</span> = &quot;application/vnd.cups-command&quot;<br>cups.printTestPage (printer.name,<br><br>                    <span class="hljs-keyword">format</span>=<span class="hljs-keyword">format</span>,<br><br>                    file=tmpfile.name,<br><br>                    <span class="hljs-keyword">user</span>=cups.getUser ())<br></code></pre></td></tr></table></figure></li><li><p>监听cups的特殊消息，触发更新指定打印机属性的操作（包含耗材）</p><ul><li><p>添加打印机</p></li><li><p>on_state_reason_added</p></li><li><p>on_state_reason_removed</p></li></ul></li></ul><h2 id="3、打印管理耗材逻辑优化"><a href="#3、打印管理耗材逻辑优化" class="headerlink" title="3、打印管理耗材逻辑优化"></a>3、打印管理耗材逻辑优化</h2><p>有了这个基础之后就不需要在线程中定时查询所有打印机的耗材信息，只需要在初始化的时候读取一次，然后用户打开耗材界面才下发ReportLevels指令去更新耗材信息，耗材界面获取更新的数据刷新即可。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>cups</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>cups</tag>
-      
-      <tag>耗材</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>打印机应用安装驱动失败问题分析</title>
     <link href="/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E5%AE%89%E8%A3%85%E9%A9%B1%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/"/>
     <url>/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E5%AE%89%E8%A3%85%E9%A9%B1%E5%8A%A8%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/</url>
@@ -512,6 +510,33 @@
       <tag>Qt</tag>
       
       <tag>deb</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>打印机耗材研究</title>
+    <link href="/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/"/>
+    <url>/2021/01/29/%E6%89%93%E5%8D%B0%E6%9C%BA%E8%80%97%E6%9D%90%E7%A0%94%E7%A9%B6/</url>
+    
+    <content type="html"><![CDATA[<h1 id="cups耗材信息"><a href="#cups耗材信息" class="headerlink" title="cups耗材信息"></a>cups耗材信息</h1><h2 id="1、cups的定义"><a href="#1、cups的定义" class="headerlink" title="1、cups的定义"></a>1、cups的定义</h2><p>查询打印机耗材信息涉及到CUPS command file format (application&#x2F;vnd.cups-command)，它是一种特殊的和打印机交互的文件格式，用于向打印机下发指定命令。支持这种功能的打印机会在ppd中添加一个描述字段</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs textile">*cupsCommands: &quot;AutoConfigure Clean PrintSelfTestPage ReportLevels ReportStatus&quot;<br></code></pre></td></tr></table></figure><p>上述描述字段就包含了四种常用的命令，耗材信息就需要使用ReportLevels。通过打印测试页会把指令下发到打印机，打印机会返回耗材marker-*相关的信息到打印机属性中。这种方式不会产生真正的打印任务。</p><h2 id="2、应用处理流程"><a href="#2、应用处理流程" class="headerlink" title="2、应用处理流程"></a>2、应用处理流程</h2><ul><li><p>根据打印机类型进行不同操作，网络socket协议的打印机使用snmp直接获取，好处是不需要下发指令，可以直接获取到耗材信息。usb打印机采用ReportLevel方式。</p></li><li><p>usb打印机先需要从打印机属性中读取printer-type属性，判断是否支持操作command，具体通过是否包含CUPS_PRINTER_COMMANDS值为准</p></li><li><p>然后判断printer-commands属性中是否包含ReportLevels</p></li><li><p>写入如下内容到临时文件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs textile">#CUPS-COMMAND<br>ReportLevels<br></code></pre></td></tr></table></figure></li><li><p>通过发送打印测试任务下发指令，格式如下</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">format</span> = &quot;application/vnd.cups-command&quot;<br>cups.printTestPage (printer.name,<br><br>                    <span class="hljs-keyword">format</span>=<span class="hljs-keyword">format</span>,<br><br>                    file=tmpfile.name,<br><br>                    <span class="hljs-keyword">user</span>=cups.getUser ())<br></code></pre></td></tr></table></figure></li><li><p>监听cups的特殊消息，触发更新指定打印机属性的操作（包含耗材）</p><ul><li><p>添加打印机</p></li><li><p>on_state_reason_added</p></li><li><p>on_state_reason_removed</p></li></ul></li></ul><h2 id="3、打印管理耗材逻辑优化"><a href="#3、打印管理耗材逻辑优化" class="headerlink" title="3、打印管理耗材逻辑优化"></a>3、打印管理耗材逻辑优化</h2><p>有了这个基础之后就不需要在线程中定时查询所有打印机的耗材信息，只需要在初始化的时候读取一次，然后用户打开耗材界面才下发ReportLevels指令去更新耗材信息，耗材界面获取更新的数据刷新即可。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>cups</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>cups</tag>
+      
+      <tag>耗材</tag>
       
     </tags>
     
@@ -1142,7 +1167,7 @@
     <link href="/2019/05/05/Qt%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
     <url>/2019/05/05/Qt%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
     
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p><h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“&#x2F;”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p><h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p><h1 id="3、QtCreator"><a href="#3、QtCreator" class="headerlink" title="3、QtCreator"></a>3、QtCreator</h1><h2 id="3-1、项目名称"><a href="#3-1、项目名称" class="headerlink" title="3.1、项目名称"></a>3.1、项目名称</h2><p>如果项目的target名称包含installer这种字符串，会导致编译出来的exe自动提升为管理员权限，导致QtCreator无法启动编译完的程序。并且运行结束后，会提示没有正确安装程序。此bug在win10上出现，win7没有。</p><h1 id="4、Qt接口"><a href="#4、Qt接口" class="headerlink" title="4、Qt接口"></a>4、Qt接口</h1><h2 id="4-1、QByteArray"><a href="#4-1、QByteArray" class="headerlink" title="4.1、QByteArray"></a>4.1、QByteArray</h2><p>先上一段bug代码</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QByteArray buffer=<span class="hljs-string">&quot;test&quot;</span>;<br><br>buffer.<span class="hljs-built_in">resize</span>(<span class="hljs-number">1024</span>);<br>QByteArray out = QCryptographicHash::<span class="hljs-built_in">hash</span>(buffer, QCryptographicHash::Md5);<br></code></pre></td></tr></table></figure><p>这个代码在我的开发机器上没有问题，每次加密出来的内容正确，但是在其他机器上运行出现bug，每次加密完的东西都不一样。这里我对resize这个接口没有仔细查看文档，文档已经说明resize只会分配空间，但是不会初始化，也就是说这地方是个未定义行为，导致结果不可预测。（其实c++的容器都是这样，以后需谨记）。</p><p>再上另外一段错误代码</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>]=<span class="hljs-string">&quot;test&quot;</span>;   <span class="hljs-comment">//要求buffer的长度固定为1024</span><br>QByteArray out = QCryptographicHash::<span class="hljs-built_in">hash</span>(buffer, QCryptographicHash::Md5);<br></code></pre></td></tr></table></figure><p>这里看似没有问题，但是结果仍然不正确，是因为hash的接口参数列表，第一个参数是const  QByteArray  &amp;data，也就是说char []传入进去会导致一个默认的类型转换，转换的结果就是丢失了原本填充的\0，只保留了test字符，导致加密之前的原始内容长度变了，所以结果也变了。所以在char[]转QByteArray的时候注意一定要明确长度。</p><h2 id="4-2、Qt-Tool"><a href="#4-2、Qt-Tool" class="headerlink" title="4.2、Qt::Tool"></a>4.2、Qt::Tool</h2><p>&amp;emsp;&amp;emsp;这是一个窗口属性，如果一个顶层窗口并且是最后一个窗口设置了这个属性，会导致关闭这个窗口时，进程并不会自动退出，也就是没有结束qApp的事件循环。并且windows的任务栏也没有该进程的图标。</p><h1 id="5、信号槽"><a href="#5、信号槽" class="headerlink" title="5、信号槽"></a>5、信号槽</h1><h2 id="5-1、槽函数命名"><a href="#5-1、槽函数命名" class="headerlink" title="5.1、槽函数命名"></a>5.1、槽函数命名</h2><p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots: void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p><h1 id="6、OpenSSL"><a href="#6、OpenSSL" class="headerlink" title="6、OpenSSL"></a>6、OpenSSL</h1><p>&amp;emsp;&amp;emsp;Qt的网络库如果需要使用https或者其他依赖OpenSSL的协议，一般直接引入相关代码会报无法找到相关接口实现的bug，因为sdk的bin目录里面默认没有加入OpenSSL的两个dll，以前都是手动编译对应的版本，特别是mingw，后来发现在Tools&#x2F;mingwxxx_xx&#x2F;opt&#x2F;bin目录以及存在该库文件，只需要拷贝到mingw的qt sdk的bin目录即可。</p><h1 id="7、Qt程序发布与环境变量"><a href="#7、Qt程序发布与环境变量" class="headerlink" title="7、Qt程序发布与环境变量"></a>7、Qt程序发布与环境变量</h1><p>&amp;emsp;&amp;emsp;在windows平台开发Qt，在发布程序的时候，常规做法是打开二进制对应kit的命令行工具，然后执行windeployqt.exe target.exe，此时会将Qt程序所需要的依赖全部拷贝到当前目录下。如果你使用了其他不匹配的版本上对应的windeployqt,会导致拷贝过去的依赖版本不一致，然后启动失败。<br>&amp;emsp;&amp;emsp;拷贝完成之后，目录如下图：<br><img src="/2019/05/05/Qt%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/deploy.png"><br>&amp;emsp;&amp;emsp;这些依赖主要分为两种，一种是强依赖，是在编译的过程中通过编译指令引入的，比如Qt5Core.dll,如果这些库缺失那么程序直接无法启动。还有些依赖，比如分布在这些二级目录platforms目录下的qwindows.dll,这是一种插件，程序启动的时候会去指定目录下加载这些插件，如果关键插件丢失，程序也会启动失败。有些不影响启动的插件确实则不会影响程序的启动，只是会导致对应的功能不正常，比如imageformats中，有各种格式图片的解析插件，去掉其中一项只会影响对应的格式图片的加载解析功能。<br>&amp;emsp;&amp;emsp;这里存在一个问题，为什么Qt程序能够自动找到这些插件的路径？原理就是通过环境变量。QT_PLUGIN_PATH这个环境变量就是用于指定所有插件的加载总入口目录，还有些细分的环境变量用于控制不同类型的插件目录，QT_QPA_PLATFORM_PATH，这个插件用于控制查找平台插件目录。一般在windows上开发的时候不需要考虑这些环境变量，但是在Linux上需要自己部署软件的启动环境的时候，比如写一个shell脚本一键启动Qt程序，就可以在shell中配置各种临时环境变量，这样就不需要手动永久修改系统的环境变量。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇博客记录的是写Qt时遇到的各种小坑，仅此记录一下。</p><h1 id="1、资源文件"><a href="#1、资源文件" class="headerlink" title="1、资源文件"></a>1、资源文件</h1><h2 id="1-1、路径"><a href="#1-1、路径" class="headerlink" title="1.1、路径"></a>1.1、路径</h2><p>在添加资源文件时，先添加前缀，一般使用“&#x2F;”，比较方便。然后添加文件，添加的文件的路径一定要在.qrc文件的同层目录或者下层目录，不能在qrc文件的上层目录，不然无法识别路径。并且文件的路径不能包含中文和空格。</p><h1 id="2、QML"><a href="#2、QML" class="headerlink" title="2、QML"></a>2、QML</h1><h2 id="2-1、QML添加图标"><a href="#2-1、QML添加图标" class="headerlink" title="2.1、QML添加图标"></a>2.1、QML添加图标</h2><p>在QML中使用Button时，添加icon无法直接使用icon属性，而是使用icon.source来指定图片的url。但是处理完的图片会变成黑色，不知道是否还需要设置其他属性。暂时用Image解决问题。</p><h1 id="3、QtCreator"><a href="#3、QtCreator" class="headerlink" title="3、QtCreator"></a>3、QtCreator</h1><h2 id="3-1、项目名称"><a href="#3-1、项目名称" class="headerlink" title="3.1、项目名称"></a>3.1、项目名称</h2><p>如果项目的target名称包含installer这种字符串，会导致编译出来的exe自动提升为管理员权限，导致QtCreator无法启动编译完的程序。并且运行结束后，会提示没有正确安装程序。此bug在win10上出现，win7没有。</p><h1 id="4、Qt接口"><a href="#4、Qt接口" class="headerlink" title="4、Qt接口"></a>4、Qt接口</h1><h2 id="4-1、QByteArray"><a href="#4-1、QByteArray" class="headerlink" title="4.1、QByteArray"></a>4.1、QByteArray</h2><p>先上一段bug代码</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp">QByteArray buffer=<span class="hljs-string">&quot;test&quot;</span>;<br><br>buffer.<span class="hljs-built_in">resize</span>(<span class="hljs-number">1024</span>);<br>QByteArray out = QCryptographicHash::<span class="hljs-built_in">hash</span>(buffer, QCryptographicHash::Md5);<br></code></pre></td></tr></table></figure><p>这个代码在我的开发机器上没有问题，每次加密出来的内容正确，但是在其他机器上运行出现bug，每次加密完的东西都不一样。这里我对resize这个接口没有仔细查看文档，文档已经说明resize只会分配空间，但是不会初始化，也就是说这地方是个未定义行为，导致结果不可预测。（其实c++的容器都是这样，以后需谨记）。</p><p>再上另外一段错误代码</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">char</span> buffer[<span class="hljs-number">1024</span>]=<span class="hljs-string">&quot;test&quot;</span>;   <span class="hljs-comment">//要求buffer的长度固定为1024</span><br>QByteArray out = QCryptographicHash::<span class="hljs-built_in">hash</span>(buffer, QCryptographicHash::Md5);<br></code></pre></td></tr></table></figure><p>这里看似没有问题，但是结果仍然不正确，是因为hash的接口参数列表，第一个参数是const  QByteArray  &amp;data，也就是说char []传入进去会导致一个默认的类型转换，转换的结果就是丢失了原本填充的\0，只保留了test字符，导致加密之前的原始内容长度变了，所以结果也变了。所以在char[]转QByteArray的时候注意一定要明确长度。</p><h2 id="4-2、Qt-Tool"><a href="#4-2、Qt-Tool" class="headerlink" title="4.2、Qt::Tool"></a>4.2、Qt::Tool</h2><p>&amp;emsp;&amp;emsp;这是一个窗口属性，如果一个顶层窗口并且是最后一个窗口设置了这个属性，会导致关闭这个窗口时，进程并不会自动退出，也就是没有结束qApp的事件循环。并且windows的任务栏也没有该进程的图标。</p><h2 id="4-3、QMenu"><a href="#4-3、QMenu" class="headerlink" title="4.3、QMenu"></a>4.3、QMenu</h2><p>&amp;emsp;&amp;emsp;QMainWindow上的菜单栏，假如想隐藏其中某个Menu(包含多个Action),有一些注意事项：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">ui.menu-&gt;<span class="hljs-built_in">setVisible</span>(<span class="hljs-literal">false</span>);<span class="hljs-comment">//无效代码</span><br>ui.mene-&gt;<span class="hljs-built_in">menuAction</span>()-&gt;<span class="hljs-built_in">setVisible</span>(<span class="hljs-literal">false</span>);<span class="hljs-comment">//正确代码</span><br></code></pre></td></tr></table></figure><h1 id="5、信号槽"><a href="#5、信号槽" class="headerlink" title="5、信号槽"></a>5、信号槽</h1><h2 id="5-1、槽函数命名"><a href="#5-1、槽函数命名" class="headerlink" title="5.1、槽函数命名"></a>5.1、槽函数命名</h2><p>代码遇到这个警告：QMetaObject::connectSlotsByName: No matching signal for on_text_finished(QString)，但是槽函数还是执行了。代码里面我使用了一个自定义信号 text(QString) ，然后使用了显式连接connect(this,&amp;MainWindow::text,this,&amp;MainWindow::on_text_finished);之所以会报错，这是因为当我们使用on_控件名称_信号名这种格式写槽函数时，Qt的connectSlotsByName函数会默认去查找finished这个信号，然后连接这个槽函数，但是这里没有定义这个信号。我们使用ui时，转到槽这个功能会自动生成对应格式的槽函数，然后connectSlotsByName函数就会按照对应关系隐式去连接槽和信号。比如：private slots: void on_action_triggered();在moc的时候就会自动去查找action这个控件的triggered信号，然后连接这个槽函数。所以我们自定义的槽函数不要按照Qt自动生成的格式来写。</p><h1 id="6、OpenSSL"><a href="#6、OpenSSL" class="headerlink" title="6、OpenSSL"></a>6、OpenSSL</h1><p>&amp;emsp;&amp;emsp;Qt的网络库如果需要使用https或者其他依赖OpenSSL的协议，一般直接引入相关代码会报无法找到相关接口实现的bug，因为sdk的bin目录里面默认没有加入OpenSSL的两个dll，以前都是手动编译对应的版本，特别是mingw，后来发现在Tools&#x2F;mingwxxx_xx&#x2F;opt&#x2F;bin目录以及存在该库文件，只需要拷贝到mingw的qt sdk的bin目录即可。</p><h1 id="7、Qt程序发布与环境变量"><a href="#7、Qt程序发布与环境变量" class="headerlink" title="7、Qt程序发布与环境变量"></a>7、Qt程序发布与环境变量</h1><p>&amp;emsp;&amp;emsp;在windows平台开发Qt，在发布程序的时候，常规做法是打开二进制对应kit的命令行工具，然后执行windeployqt.exe target.exe，此时会将Qt程序所需要的依赖全部拷贝到当前目录下。如果你使用了其他不匹配的版本上对应的windeployqt,会导致拷贝过去的依赖版本不一致，然后启动失败。<br>&amp;emsp;&amp;emsp;拷贝完成之后，目录如下图：<br><img src="/2019/05/05/Qt%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/deploy.png"><br>&amp;emsp;&amp;emsp;这些依赖主要分为两种，一种是强依赖，是在编译的过程中通过编译指令引入的，比如Qt5Core.dll,如果这些库缺失那么程序直接无法启动。还有些依赖，比如分布在这些二级目录platforms目录下的qwindows.dll,这是一种插件，程序启动的时候会去指定目录下加载这些插件，如果关键插件丢失，程序也会启动失败。有些不影响启动的插件确实则不会影响程序的启动，只是会导致对应的功能不正常，比如imageformats中，有各种格式图片的解析插件，去掉其中一项只会影响对应的格式图片的加载解析功能。<br>&amp;emsp;&amp;emsp;这里存在一个问题，为什么Qt程序能够自动找到这些插件的路径？原理就是通过环境变量。QT_PLUGIN_PATH这个环境变量就是用于指定所有插件的加载总入口目录，还有些细分的环境变量用于控制不同类型的插件目录，QT_QPA_PLATFORM_PATH，这个插件用于控制查找平台插件目录。一般在windows上开发的时候不需要考虑这些环境变量，但是在Linux上需要自己部署软件的启动环境的时候，比如写一个shell脚本一键启动Qt程序，就可以在shell中配置各种临时环境变量，这样就不需要手动永久修改系统的环境变量。</p>]]></content>
     
     
     <categories>
